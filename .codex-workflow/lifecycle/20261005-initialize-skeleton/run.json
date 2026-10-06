@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20261005-initialize-skeleton",
+  "task_type": "new_project",
+  "profile": "high",
+  "stage": "deliver",
+  "scope": { "paths": ["."] },
+  "acceptance": [
+    { "id": "AC-001", "criterion": "All requested packages and contracts import successfully", "evidence": [{ "kind": "test", "ref": ".codex-workflow/lifecycle/20261005-initialize-skeleton/evidence/test-suite.txt", "result": "passed" }] },
+    { "id": "AC-002", "criterion": "FastAPI starts and exposes exactly the six requested research routes", "evidence": [{ "kind": "manual", "ref": ".codex-workflow/lifecycle/20261005-initialize-skeleton/evidence/runtime.txt", "result": "passed" }] },
+    { "id": "AC-003", "criterion": "SQLite metadata creates the four requested tables", "evidence": [{ "kind": "test", "ref": ".codex-workflow/lifecycle/20261005-initialize-skeleton/evidence/test-suite.txt", "result": "passed" }] },
+    { "id": "AC-004", "criterion": "Runtime and adapter skeletons honor concurrency and browser-use boundaries", "evidence": [{ "kind": "test", "ref": ".codex-workflow/lifecycle/20261005-initialize-skeleton/evidence/test-suite.txt", "result": "passed" }, { "kind": "inspection", "ref": ".codex-workflow/lifecycle/20261005-initialize-skeleton/evidence/scope.txt", "result": "passed" }] },
+    { "id": "AC-005", "criterion": "The browser-use checkout remains unchanged", "evidence": [{ "kind": "inspection", "ref": ".codex-workflow/lifecycle/20261005-initialize-skeleton/evidence/scope.txt", "result": "passed" }] }
+  ],
+  "work_items": [
+    { "id": "WI-001", "owner": "root", "paths": ["pyproject.toml", "backend"], "depends_on": [], "acceptance_ids": ["AC-001", "AC-002", "AC-003"], "parallel_group": null, "status": "done" },
+    { "id": "WI-002", "owner": "root", "paths": ["adaptive_agent", "benchmark"], "depends_on": [], "acceptance_ids": ["AC-001", "AC-004"], "parallel_group": null, "status": "done" },
+    { "id": "WI-003", "owner": "root", "paths": ["tests"], "depends_on": ["WI-001", "WI-002"], "acceptance_ids": ["AC-001", "AC-002", "AC-003", "AC-004", "AC-005"], "parallel_group": null, "status": "done" }
+  ],
+  "artifacts": {
+    "brief": ".codex-workflow/lifecycle/20261005-initialize-skeleton/brief.md",
+    "architecture": ".codex-workflow/lifecycle/20261005-initialize-skeleton/architecture.md",
+    "plan": ".codex-workflow/lifecycle/20261005-initialize-skeleton/plan.md",
+    "verification": ".codex-workflow/lifecycle/20261005-initialize-skeleton/verification.md",
+    "review": ".codex-workflow/lifecycle/20261005-initialize-skeleton/review.md",
+    "delivery": ".codex-workflow/lifecycle/20261005-initialize-skeleton/delivery.md"
+  },
+  "history": [
+    { "stage": "intake", "at": "2026-10-05T14:30:00Z" },
+    { "stage": "design", "at": "2026-10-05T14:35:00Z" },
+    { "stage": "plan", "at": "2026-10-05T14:40:00Z" },
+    { "stage": "implement", "at": "2026-10-05T14:45:00Z" },
+    { "stage": "verify", "at": "2026-10-05T15:15:00Z" },
+    { "stage": "review", "at": "2026-10-05T15:20:00Z" },
+    { "stage": "deliver", "at": "2026-10-05T15:25:00Z" },
+    { "stage": "implement", "at": "2026-10-06T05:20:00Z" },
+    { "stage": "verify", "at": "2026-10-06T05:34:00Z" },
+    { "stage": "review", "at": "2026-10-06T05:36:00Z" },
+    { "stage": "deliver", "at": "2026-10-06T05:37:01Z" }
+  ]
+}

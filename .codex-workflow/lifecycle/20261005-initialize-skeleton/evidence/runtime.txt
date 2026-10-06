@@ -1,0 +1,13 @@
+Command: .\.venv\Scripts\python.exe -m uvicorn backend.main:app --host 127.0.0.1 --port 8766
+Result: passed
+
+Observed OpenAPI operations:
+GET /api/research
+GET /api/research/{task_id}
+GET /api/research/{task_id}/events
+GET /api/research/{task_id}/traces
+POST /api/research
+POST /api/research/{task_id}/cancel
+
+GET /api/research returned HTTP 200 with [].
+The test server process was stopped after validation.

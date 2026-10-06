@@ -1,0 +1,14 @@
+Forbidden V1 stack/import scan across adaptive_agent, backend, benchmark, tests,
+pyproject.toml, and .env.example returned no matches.
+
+browser-use imports are limited to the integration boundary and manual baseline:
+adaptive_agent/adapters/browser_use_adapter.py: from browser_use import BrowserSession
+benchmark/manual_browser_use_smoke.py: from browser_use import Agent, ChatOpenAI
+
+The two local files previously inside the submodule were migrated to parent-owned
+locations: the baseline smoke script is under benchmark, and applicable rules
+are in the root AGENTS.md.
+
+Upstream checkout status after migration: clean.
+Upstream checkout commit: 7be96ed8bafa8dfe1eef228b59cf5c884b8b2431.
+Parent gitlink commit: 7be96ed8bafa8dfe1eef228b59cf5c884b8b2431.
