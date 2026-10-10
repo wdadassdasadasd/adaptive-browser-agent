@@ -1,6 +1,7 @@
 import pytest
 from pydantic import ValidationError
 
+from adaptive_agent.llm.deepseek import DeepSeekClient
 from backend.config import Settings
 
 
@@ -22,3 +23,14 @@ def test_blank_credentials_are_treated_as_missing() -> None:
 
     assert settings.deepseek_api_key is None
     assert settings.github_token is None
+
+
+@pytest.mark.asyncio
+async def test_default_deepseek_model_matches_current_provider_name() -> None:
+    settings = Settings(_env_file=None)
+    provider = DeepSeekClient(None)
+    try:
+        assert settings.deepseek_model == "deepseek-flash"
+        assert provider.model == settings.deepseek_model
+    finally:
+        await provider.aclose()

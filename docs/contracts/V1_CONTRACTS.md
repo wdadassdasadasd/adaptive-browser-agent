@@ -130,6 +130,23 @@ AgentLoop checks the remaining task budget before permitting a provider retry,
 and performs bounded re-observe/replan after an evaluated failure. No semantic
 error or insufficient-info result is retried as the same action.
 
+D2 provider interface: `complete(prompt)` returns `LLMCompletion(text,
+prompt_tokens, completion_tokens)`; `complete_structured(prompt, schema)`
+returns `StructuredCompletion(value, prompt_tokens, completion_tokens)` after
+Pydantic validation. Usage sums the provider-reported values for successful
+initial and repair responses; structured failure carries usage already
+reported by the provider. A repair request has its own single temporary
+technical retry. Missing usage is a provider response failure, never an
+estimated zero. `PlannerService.initialize(goal)` returns subgoals for a
+`subgoals_initialized` event; `next_step(state, observation, context="")`
+returns one validated decision without modifying ResearchState.
+
+The D2 provider uses `deepseek-flash` by default; `DEEPSEEK_MODEL` may override
+it. `LLMError.kind` is `configuration | technical | rejected |
+invalid_response | structured`; cancellation propagates as
+`asyncio.CancelledError`. Structured requests include the Pydantic JSON schema
+in both the initial request and the single repair request.
+
 ## HTTP, SSE, and security
 
 The six routes in the Spec are the entire V1 public API. `POST /api/research`

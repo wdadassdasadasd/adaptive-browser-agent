@@ -41,7 +41,7 @@ class Settings(BaseSettings):
         default=5, ge=3, le=5, validation_alias="RECENT_TRACE_COUNT"
     )
     deepseek_model: str = Field(
-        default="deepseek-chat", validation_alias="DEEPSEEK_MODEL"
+        default="deepseek-flash", validation_alias="DEEPSEEK_MODEL"
     )
 
 

@@ -29,7 +29,7 @@ failure reason. Missing usage data is `null`/Unverified, never zero.
 ## Arms and fairness
 
 1. **Baseline:** unmodified checked-out browser-use `Agent` with its
-   `ChatDeepSeek(model="deepseek-chat")` and standard browser tools.
+   `ChatDeepSeek(model="deepseek-flash")` and standard browser tools.
 2. **Adaptive full system:** V1 Agent with browser and GitHub API tools.
 3. **Adaptive browser-only mechanism:** same V1 Agent with GitHub tool disabled
    by the benchmark harness; this arm is compared with Baseline to discuss

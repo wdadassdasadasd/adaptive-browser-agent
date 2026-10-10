@@ -83,11 +83,13 @@ One `PlannerService` exposes these conceptual operations:
 
 ```text
 initialize(goal)
-next_step(state, context)
+next_step(state, observation, context="")
 ```
 
-`initialize` produces high-level subgoals. `next_step` dynamically selects the
-next action from current state and observation. `PlanDecision` must carry:
+`initialize` produces high-level subgoals for a `subgoals_initialized` event.
+`next_step` dynamically selects the next action from current state and browser
+observation; optional context carries a bounded history summary. `PlanDecision`
+must carry:
 
 ```text
 subgoal_id

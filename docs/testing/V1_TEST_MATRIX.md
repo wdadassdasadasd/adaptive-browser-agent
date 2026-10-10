@@ -16,9 +16,9 @@ names the artifact or command output required before a row can be verified.
 
 | Requirement / authority | Target behavior | Owner / task | Layer and external observable pass condition | Evidence target; present status |
 | --- | --- | --- | --- | --- |
-| R01 / Spec §§7,14,17; Contracts State/Events | Serializable ResearchState, legal `AgentEvent -> StateReducer -> ResearchState`, one terminal transition and no runtime objects | `adaptive_agent/state.py`, `events.py`, `state_reducer.py`; T02,T03 | A,B: JSON round trip, invalid transition rejected, duplicate step/fact not applied, terminal state immutable | D1 model/event and lifecycle reducer assertions passed in `test_state.py` and `test_state_reducer.py`; `step_evaluated` aggregation and duplicate fact/step application remain D2, so full R01 is not yet verified. |
-| R02 / Spec §§5–6; Contracts Domain | Planner initializes high-level subgoals, selects one next action from current observation/state, never emits an up-front script | `planner.py`, planner prompt; T05 | A,B: changing observed evidence changes next PlanDecision and subgoal selection without fixed action sequence | `tests/unit/test_planner.py`, Planner→Router integration; target only |
-| R03 / Spec §11; Contracts retries | DeepSeek via httpx with timeout, usage, one temporary retry and one separate structured-output repair | `llm/deepseek.py`; T04 | A: fake transport shows bounded 200/timeout/429/5xx/invalid JSON attempts, exact usage and safe failure; no key in outputs | `tests/unit/test_deepseek.py`; target only |
+| R01 / Spec §§7,14,17; Contracts State/Events | Serializable ResearchState, legal `AgentEvent -> StateReducer -> ResearchState`, one terminal transition and no runtime objects | `adaptive_agent/state.py`, `events.py`, `state_reducer.py`; T02,T03 | A,B: JSON round trip, invalid transition rejected, duplicate step/fact not applied, terminal state immutable | D2 recheck passed: reducer tests cover step aggregation, source matching, dedup, normalized history, once-only usage, progress, terminal protection, non-pending initialization and inconsistent tool-result rejection. D2 component chain passed; full AgentLoop integration remains unverified. |
+| R02 / Spec §§5–6; Contracts Domain | Planner initializes high-level subgoals, selects one next action from current observation/state, never emits an up-front script | `planner.py`, planner prompt; T05 | A,B: changing observed evidence changes next PlanDecision and subgoal selection without fixed action sequence | D2 recheck passed: state/observation changes alter the decision; invalid action parameters and repository targets fail, valid `owner/repo` passes. Planner→Router integration remains D3 and unverified. |
+| R03 / Spec §11; Contracts retries | DeepSeek via httpx with timeout, usage, one temporary retry and one separate structured-output repair | `llm/deepseek.py`; T04 | A: fake transport shows bounded 200/timeout/429/5xx/invalid JSON attempts, exact usage and safe failure; no key in outputs | D2 recheck passed: schema-bearing requests, known/missing usage, timeout/429/5xx, exact initial/repair attempts, typed failure, cancellation, redaction and close are fake-transport tested. Authenticated provider call unverified: no key. |
 | R04 / Spec §9; Contracts Browser | Seven actions, light/deep observation, stale/semantic element resolution, owned BrowserSession | `adapters/browser_use_adapter.py`; T01 | A,C: fake seven-action dispatch and failures; controlled Chromium start→navigate→observe→extract→close and failure cleanup | D1 fake seven-action paths and controlled five-stage Chromium smoke passed; fake startup and action failure cleanup passed. Click/input/scroll/back/wait are not individually real-browser verified. |
 | R05 / Spec §10; Contracts Tools | GitHub REST search/get/releases and strict browser/GitHub routing, no arbitrary API host | `tools/github_tool.py`, `router.py`; T06 | A,B: each valid action yields normalized result; unknown action rejected; fake 404/429/5xx observed without extra calls | `tests/unit/test_github_tool.py`, `test_tool_router.py`; target only |
 | R06 / Spec §§12–13; Contracts Tools/State | Technical, semantic, insufficient information distinguished; normalized URL/query dedup; bounded summary | `evaluator.py`, `context_manager.py`, router; T06,T08,T09 | A,B: technical failure skips semantic call, duplicate causes no tool call, last five traces and 12k current view bound prompt | evaluator/context/router tests and ToolResult→Evaluator→Reducer integration; target only |
@@ -166,3 +166,52 @@ With read-only access to the nested Git metadata,
 and `rev-parse HEAD` matched the tracked gitlink `7be96ed8`. This is new
 evidence; the earlier D1 and predevelopment reports correctly recorded that
 their restricted checks could not certify the submodule at that time.
+
+## Historical D2 offline exit evidence (2026-10-10, Windows)
+
+The restricted sandbox blocked `uv` interpreter queries and asyncio loop
+startup. These commands were run in the approved regular execution environment
+against the earlier D2 working tree after formatting. They precede the
+independent recheck below. A live credential or public research task was not
+used.
+
+| Command | Exit | Historical result |
+| --- | ---: | --- |
+| `uv run --offline --locked pytest -q tests/unit/test_state_reducer.py tests/unit/test_deepseek.py tests/unit/test_planner.py` | 0 | 67 passed; reducer aggregation, provider fake-transport paths and dynamic Planner checks. |
+| `uv run --offline --locked pytest -q` | 0 | 135 passed, 1 opt-in browser test deselected. |
+| `uv lock --check --offline` | 0 | Resolved 282 packages. |
+| `uv run --offline --locked ruff check adaptive_agent backend benchmark tests` | 0 | All checks passed. |
+| `uv run --offline --locked ruff format --check adaptive_agent backend benchmark tests` | 0 | 56 files already formatted. |
+| `uv run --offline --locked python -m compileall -q adaptive_agent backend benchmark tests` | 0 | No error output. |
+| `git -c submodule.recurse=false diff --check --ignore-submodules=all` | 0 | No whitespace errors; LF→CRLF advisories only. |
+
+The first D2 static gate reported three Ruff errors and seven files requiring
+formatting. Safe import correction and formatting were applied only to D2
+files; all six commands above were rerun afterward. The D2 evidence is offline
+unit/fake-backed verification, not D7 real research acceptance or benchmark
+evidence.
+
+## D2 scoped recheck evidence (2026-10-10, Windows)
+
+The earlier 67/135 counts above are historical D2 handoff results, not the
+final recheck. The following commands were rerun after scoped fixes in the
+approved regular execution environment because the restricted sandbox denied
+`uv` interpreter access. The full stage record and traceability table are in
+`docs/audits/D2_ACCEPTANCE_2026-10-10.md`.
+
+| Command | Exit | Actual result |
+| --- | ---: | --- |
+| `.venv/Scripts/python.exe -m pytest -q tests/unit/test_state_reducer.py tests/unit/test_deepseek.py tests/unit/test_planner.py tests/unit/test_config.py tests/integration/test_d2_component_flow.py` | 0 | 88 passed. |
+| `uv run --isolated --python 3.12 --offline --locked pytest -q` | 0 | 154 passed, 1 browser test deselected. |
+| `uv run --isolated --python 3.13 --offline --locked pytest -q` | 0 | 154 passed, 1 browser test deselected. |
+| `uv run --python 3.12 --offline --locked pytest -q tests/smoke/test_app.py tests/integration/test_d2_component_flow.py` | 0 | 3 passed; API placeholder behavior and D2 component chain only. |
+| `uv lock --check --offline` | 0 | Resolved 282 packages. |
+| `.venv/Scripts/ruff.exe check adaptive_agent backend benchmark tests` | 0 | All checks passed. |
+| `.venv/Scripts/ruff.exe format --check adaptive_agent backend benchmark tests` | 0 | 57 files already formatted. |
+| `.venv/Scripts/python.exe -m compileall -q adaptive_agent backend benchmark tests` | 0 | No errors. |
+| `uv build --offline --wheel` | 0 | Built `adaptive_browser_agent-0.1.0-py3-none-any.whl`. |
+| `git -c submodule.recurse=false diff --check --ignore-submodules=all` | 0 | No whitespace errors; line-ending advisories only. |
+
+Python type checking is not configured; `frontend/package.json`, API
+integration tests and E2E tests are absent. No DeepSeek key or `.env` was
+available, so an authenticated request was not run. These gaps are not passes.

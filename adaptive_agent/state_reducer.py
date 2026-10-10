@@ -1,8 +1,9 @@
-"""Pure D1 state transitions; evaluated-step aggregation is assigned to D2."""
+"""Pure transitions from validated AgentEvents to serializable research state."""
 
 from typing import Any, Literal
+from urllib.parse import urlsplit, urlunsplit
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from adaptive_agent.events import AgentEvent
 from adaptive_agent.state import (
@@ -15,6 +16,7 @@ from adaptive_agent.state import (
     ResearchStatus,
     SourceUrl,
     Subgoal,
+    SubgoalStatus,
 )
 
 TERMINAL_STATUSES = {
@@ -37,6 +39,12 @@ class _ToolResultPayload(BaseModel):
     error_message: str | None = None
     metadata: dict[str, Any] = Field(default_factory=dict)
 
+    @model_validator(mode="after")
+    def validate_outcome(self) -> "_ToolResultPayload":
+        if self.success != (self.error_type == EvaluationErrorType.NONE):
+            raise ValueError("tool result success and error_type disagree")
+        return self
+
 
 class _StepEvaluatedPayload(BaseModel):
     model_config = ConfigDict(extra="forbid")
@@ -48,8 +56,19 @@ class _StepEvaluatedPayload(BaseModel):
     completion_tokens: int = Field(ge=0, strict=True)
 
 
+def _normalized_url(value: str) -> str:
+    parts = urlsplit(value)
+    return urlunsplit(
+        (parts.scheme.lower(), parts.netloc.lower(), parts.path, parts.query, "")
+    )
+
+
+def _normalized_query(value: str) -> str:
+    return " ".join(value.casefold().split())
+
+
 class StateReducer:
-    """Apply D1 lifecycle events without mutating the input snapshot."""
+    """Apply validated events without mutating the input snapshot."""
 
     def reduce(self, state: ResearchState, event: AgentEvent) -> ResearchState:
         if event.task_id != state.task_id:
@@ -104,6 +123,8 @@ class StateReducer:
             subgoals = [Subgoal.model_validate(item) for item in raw_subgoals]
             if len({item.id for item in subgoals}) != len(subgoals):
                 raise ValueError("subgoal IDs must be unique")
+            if any(item.status != SubgoalStatus.PENDING for item in subgoals):
+                raise ValueError("initial subgoals must be pending")
             return self._next_state(
                 state, subgoals=subgoals, updated_at=event.timestamp
             )
@@ -143,9 +164,101 @@ class StateReducer:
                 raise ValueError("step_evaluated requires running state")
             if state.step >= state.max_steps:
                 raise ValueError("step_evaluated exceeds max_steps")
-            _StepEvaluatedPayload.model_validate(event.payload)
-            raise NotImplementedError(
-                "D2 must aggregate step_evaluated facts, usage, progress, and steps"
+            payload = _StepEvaluatedPayload.model_validate(event.payload)
+            decision = payload.decision
+            result = payload.tool_result
+            evaluation = payload.evaluation
+            selected = next(
+                (item for item in state.subgoals if item.id == decision.subgoal_id),
+                None,
+            )
+            if selected is None or selected.status in {
+                SubgoalStatus.COMPLETED,
+                SubgoalStatus.FAILED,
+            }:
+                raise ValueError("decision requires an existing unfinished subgoal")
+            if result.tool != decision.tool or result.action != decision.action:
+                raise ValueError("tool result action must match decision")
+            if evaluation.success and not result.success:
+                raise ValueError(
+                    "successful evaluation requires successful tool result"
+                )
+            if evaluation.facts and (not result.success or not evaluation.success):
+                raise ValueError("facts require successful tool evaluation")
+
+            observed_url = (
+                _normalized_url(result.source_url) if result.source_url else None
+            )
+            facts = list(state.facts)
+            fact_keys = {
+                (_normalized_url(item.source_url), _normalized_query(item.content))
+                for item in facts
+            }
+            for fact in evaluation.facts:
+                if (
+                    observed_url is None
+                    or _normalized_url(fact.source_url) != observed_url
+                ):
+                    raise ValueError("fact source must match an observed tool source")
+                if fact.subgoal_id not in {None, decision.subgoal_id}:
+                    raise ValueError("fact subgoal must match selected subgoal")
+                key = (
+                    _normalized_url(fact.source_url),
+                    _normalized_query(fact.content),
+                )
+                if key not in fact_keys:
+                    facts.append(fact)
+                    fact_keys.add(key)
+
+            subgoals = [item.model_copy(deep=True) for item in state.subgoals]
+            for item in subgoals:
+                if item.id == decision.subgoal_id:
+                    item.status = (
+                        SubgoalStatus.COMPLETED
+                        if evaluation.subgoal_completed
+                        else SubgoalStatus.IN_PROGRESS
+                    )
+            visited = list(
+                dict.fromkeys(_normalized_url(url) for url in state.visited_urls)
+            )
+            if result.success and observed_url and observed_url not in visited:
+                visited.append(observed_url)
+            searches = list(
+                dict.fromkeys(
+                    _normalized_query(query) for query in state.search_history
+                )
+            )
+            if (
+                decision.tool == "github"
+                and decision.action == "search_repositories"
+                and decision.target
+            ):
+                query = _normalized_query(decision.target)
+                if query and query not in searches:
+                    searches.append(query)
+
+            progress = len(facts) > len(state.facts) or (
+                evaluation.subgoal_completed
+                and selected.status != SubgoalStatus.COMPLETED
+            )
+            no_progress = (
+                0
+                if progress
+                else state.consecutive_no_progress_replans
+                + int(evaluation.should_replan)
+            )
+            return self._next_state(
+                state,
+                step=state.step + 1,
+                subgoals=subgoals,
+                facts=facts,
+                visited_urls=visited,
+                search_history=searches,
+                current_subgoal_id=decision.subgoal_id,
+                prompt_tokens=state.prompt_tokens + payload.prompt_tokens,
+                completion_tokens=state.completion_tokens + payload.completion_tokens,
+                consecutive_no_progress_replans=no_progress,
+                updated_at=event.timestamp,
             )
 
         raise ValueError("unsupported event type")

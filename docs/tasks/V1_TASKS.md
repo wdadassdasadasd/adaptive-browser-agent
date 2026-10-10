@@ -25,9 +25,9 @@ uv environment. Later-day test paths remain targets until their tasks begin.
 | --- | --- | --- | --- | --- |
 | T01 / D1 / P0 / 1h | Frozen contract; `adaptive_agent/adapters/browser_use_adapter.py`, `tests/unit/test_browser_use_adapter.py`, `tests/smoke/test_browser_use_adapter.py` | Recheck the existing Day 01 adapter against gitlink `7be96ed8`; no rewrite. Seven actions dispatch through checked-out APIs; session closes on success/failure. Real smoke requires only start, navigate, observe, extract, close. | `uv run --offline --locked pytest -q tests/unit/test_browser_use_adapter.py`; `uv run --locked pytest -q -m browser tests/smoke/test_browser_use_adapter.py`. Record real page URL/title/text and closed session. | Status: `verified` for the narrow D1 scope. Local upstream APIs were checked; current fake seven-action coverage and controlled five-stage Chromium smoke passed. Click/input/scroll/back/wait were not individually browser verified; submodule cleanliness remains unverified. |
 | T02 / D1 / P0 / 4h | Spec/Contracts; `adaptive_agent/state.py`, `adaptive_agent/events.py`, `tests/unit/test_state.py` | Implement approved queued/partial statuses, subgoal criteria, fact/report/event fields and Pydantic invariants together; state remains JSON serializable and free of runtime objects. | `uv run --offline --locked pytest -q tests/unit/test_state.py`; valid/invalid models and JSON round trip have literal assertions. | Status: `verified` for D1. Fields and validations passed; direct TaskManager test and new ORM task default migrated. URL shape does not prove tool-observed provenance; existing database rows were not rewritten. |
-| T03 / D1–D2 / P0 / 3h | T02; `adaptive_agent/state_reducer.py`, `tests/unit/test_state_reducer.py` | Pure `(ResearchState, AgentEvent) -> ResearchState`; reject wrong task, invalid/duplicate steps and terminal mutation; apply facts and usage once. | `uv run --offline --locked pytest -q tests/unit/test_state_reducer.py`; state transitions and serialized result match explicit fixtures. | Status: `in_progress`. D1 lifecycle transitions, payload validation, terminal immutability and explicit step rejection passed. D2 must implement and test step increment, subgoal update, validated facts, URL/query history, token usage and consecutive no-progress counting. |
-| T04 / D2 / P0 / 5h | T02; `adaptive_agent/llm/base.py`, `adaptive_agent/llm/deepseek.py`, `tests/unit/test_deepseek.py` | `httpx.AsyncClient` DeepSeek request, timeout, usage, one temporary technical retry, one separate schema-repair request and close; no extra retry owner. | `uv run --offline --locked pytest -q tests/unit/test_deepseek.py`; fake transport proves 200, timeout, 429/5xx, malformed JSON, exact bounded attempts, redaction. | Provider contract/API discrepancy: isolate as a provider failure and do not weaken parsing. Status: `not_started`. |
-| T05 / D2–D3 / P0 / 4h | T02,T04; `adaptive_agent/planner.py`, `adaptive_agent/prompts/planner.py`, `tests/unit/test_planner.py` | Initialize measurable subgoals, then choose exactly one action using current state and observation; no up-front script. | `uv run --offline --locked pytest -q tests/unit/test_planner.py`; changed state/observation changes the next decision; bad output fails safely. | Prompt instability: keep deterministic schema and record failure, not fixed action fallback. Status: `in_progress` (skeleton). |
+| T03 / D1–D2 / P0 / 3h | T02; `adaptive_agent/state_reducer.py`, `tests/unit/test_state_reducer.py` | Pure `(ResearchState, AgentEvent) -> ResearchState`; reject wrong task, invalid/duplicate steps and terminal mutation; apply facts and usage once. | `uv run --offline --locked pytest -q tests/unit/test_state_reducer.py`; state transitions and serialized result match explicit fixtures. | Status: `verified` for D2 reducer scope. Consecutive step, selected subgoal, observed-source facts, normalized history, usage and no-progress assertions passed in the D2 67-test targeted run. |
+| T04 / D2 / P0 / 5h | T02; `adaptive_agent/llm/base.py`, `adaptive_agent/llm/deepseek.py`, `tests/unit/test_deepseek.py` | `httpx.AsyncClient` DeepSeek request, timeout, usage, one temporary technical retry, one separate schema-repair request and close; no extra retry owner. | `uv run --offline --locked pytest -q tests/unit/test_deepseek.py`; fake transport proves 200, timeout, 429/5xx, malformed JSON, exact bounded attempts, redaction. | Status: `verified` for offline fake-transport scope. Real authenticated DeepSeek behavior remains unverified and is not a D2 live-run gate. |
+| T05 / D2–D3 / P0 / 4h | T02,T04; `adaptive_agent/planner.py`, `adaptive_agent/prompts/planner.py`, `tests/unit/test_planner.py` | Initialize measurable subgoals, then choose exactly one action using current state and observation; no up-front script. | `uv run --offline --locked pytest -q tests/unit/test_planner.py`; changed state/observation changes the next decision; bad output fails safely. | Status: `verified` for D2 Planner scope. State and observation changes produce different decisions; invalid action and completed subgoal fail safely. Planner→Router integration remains D3. |
 | T06 / D3 / P0 / 5h | T01,T02; `adaptive_agent/tools/router.py`, `adaptive_agent/tools/github_tool.py`, router/GitHub tests | Strictly route seven browser and three GitHub actions; normalize ToolResult, suppress equivalent URL/query before calls, use fixed GitHub REST host. | `uv run --offline --locked pytest -q tests/unit/test_tool_router.py tests/unit/test_github_tool.py`; fake endpoints show dispatch, no-call duplicates, 404/429/5xx and invalid action errors. | Rate limit or source ambiguity: surface structured result for replan; no tool-local retry loop. Status: `in_progress` (router skeleton). |
 | T08 / D3–D4 / P0 / 4h | T02,T04,T06; `adaptive_agent/evaluator.py`, `adaptive_agent/prompts/evaluator.py`, evaluator tests | Technical evaluation precedes optional semantic LLM comparison; distinguish `none`, `technical`, `semantic`, `insufficient_info`; validate sources. | `uv run --offline --locked pytest -q tests/unit/test_evaluator.py`; technical error avoids semantic call, unsupported fact excluded. | Uncertain evidence: return insufficient information and replan; no benchmark LLM judge. Status: `not_started`. |
 | T09 / D3 / P0 / 2h | T02,T03; `adaptive_agent/context_manager.py`, context tests | Deterministic history summary, last five traces and 12,000-character bounded current view with visible truncation. | `uv run --offline --locked pytest -q tests/unit/test_context_manager.py`; long synthetic history does not grow the prompt unboundedly. | Lost context: retain source and avoid-repeat summary, surface truncation. Status: `not_started`. |
@@ -87,6 +87,57 @@ normalized visited URL/search query updates, once-only token accumulation,
 and increment/reset of `consecutive_no_progress_replans`. D2 must prove
 duplicate events cannot apply the same fact or usage twice. The D1 URL
 validator establishes shape, not tool-observed provenance.
+
+## D2 outcome (2026-10-10)
+
+**Historical D2 handoff before the independent recheck:** T03 reducer aggregation,
+T04 fake-backed DeepSeek requests and T05 dynamic Planner decisions are
+implemented and verified at their D2 boundaries. New tests were observed
+failing before implementation (T03: four failures; T04: missing provider
+result interface; T05: four constructor failures). After fixes and formatting,
+the D2 targeted command passed **67 tests** and the full offline suite passed
+**135 tests with one opt-in browser test deselected**. The lock, Ruff check,
+Ruff format check and compileall commands each exited 0; exact commands are in
+`docs/testing/V1_TEST_MATRIX.md`.
+
+The restricted Windows sandbox denied `uv` interpreter queries and hung while
+creating an asyncio event loop. The same required `uv` commands completed in
+the approved regular execution environment. No authenticated DeepSeek call,
+real research task, Planner→Router integration, or browser smoke is claimed by
+this D2 evidence. D3–D7 work retains its planned status.
+
+## D2 recheck and repair (2026-10-10)
+
+**D2 module: Pass for the bounded D2 exit criteria after repair.** The recheck
+used the actual `00a425c2` working-tree diff, not the earlier ledger result.
+T03 now rejects non-pending initialization and inconsistent tool outcomes;
+T04 now sends its JSON schema, exposes machine-readable failure kinds, and
+defaults to the currently documented `deepseek-flash` model; T05 rejects
+parameterized `go_back` and malformed GitHub repository targets. Every defect
+was reproduced by a failing regression test before its fix. The D2 component
+chain test covers provider parsing → Planner → Reducer with simulated tool
+evidence and owned HTTP client closure. The final Python 3.12 targeted suite
+passed **86 tests**; full offline suites passed **152 tests with one opt-in
+browser test deselected** on both Python 3.12 and 3.13. Static checks and wheel
+build passed; exact commands and stage evidence are in
+`docs/audits/D2_ACCEPTANCE_2026-10-10.md`.
+
+No DeepSeek key or `.env` was available, so an authenticated request was not
+run. The Agent Loop and research API remain placeholders; complete V1 business
+acceptance is **not ready**. Independent review could not be claimed because
+the effective parent permission mode is writable and a separate read-only
+reviewer was not verifiable; the main agent completed the scoped line-evidence
+review. D3–D7 work retains its planned status.
+
+The final D2 acceptance pass found two more boundary defects: Planner allowed
+`element_index=0` with a semantic click target, and an injected DeepSeek HTTP
+client without `base_url` could not resolve the request path. Both were
+reproduced with failing tests and repaired. The `.env.example` model setting
+was also aligned with the runtime default. Final scoped tests passed **88**;
+the full offline suite passed **154** with one opt-in browser test deselected on
+both Python 3.12 and 3.13. The lock check, Ruff checks, compileall and wheel
+build exited 0. See `docs/audits/D2_ACCEPTANCE_2026-10-10.md` for commands and
+scope limits.
 
 ## Daily exit gates and capacity
 
