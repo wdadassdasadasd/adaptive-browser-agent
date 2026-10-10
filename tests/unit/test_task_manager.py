@@ -30,7 +30,12 @@ async def test_task_manager_limits_concurrency() -> None:
 @pytest.mark.asyncio
 async def test_task_manager_publishes_and_cancels() -> None:
     manager = TaskManager(max_concurrent_tasks=1)
-    event = AgentEvent(type="step", task_id="task-1", message="queued")
+    event = AgentEvent(
+        event_type="task_queued",
+        task_id="task-1",
+        message="queued",
+        payload={"goal": "Research"},
+    )
     await manager.publish(event)
 
     assert await manager.event_queue("task-1").get() == event
@@ -47,4 +52,28 @@ async def test_task_manager_publishes_and_cancels() -> None:
     assert manager.cancel("task-1") is True
     assert await task == "cancelled"
     await asyncio.sleep(0)
+    assert manager.active_task_count == 0
+
+
+@pytest.mark.asyncio
+async def test_failed_task_releases_concurrency_slot() -> None:
+    manager = TaskManager(max_concurrent_tasks=1)
+    started: list[str] = []
+
+    async def fail(cancellation_event: asyncio.Event) -> None:
+        started.append("first")
+        raise RuntimeError("worker failed")
+
+    async def succeed(cancellation_event: asyncio.Event) -> str:
+        started.append("second")
+        return "done"
+
+    first = manager.submit("first", fail)
+    second = manager.submit("second", succeed)
+
+    with pytest.raises(RuntimeError, match="worker failed"):
+        await first
+    assert await second == "done"
+    assert started == ["first", "second"]
+    await manager.shutdown()
     assert manager.active_task_count == 0

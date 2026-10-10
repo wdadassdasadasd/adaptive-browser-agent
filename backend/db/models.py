@@ -20,7 +20,7 @@ class ResearchTaskModel(Base):
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_uuid)
     goal: Mapped[str] = mapped_column(Text, nullable=False)
     status: Mapped[str] = mapped_column(
-        String(32), nullable=False, default="pending", index=True
+        String(32), nullable=False, default="queued", index=True
     )
     error_message: Mapped[str | None] = mapped_column(Text, nullable=True)
     created_at: Mapped[datetime] = mapped_column(

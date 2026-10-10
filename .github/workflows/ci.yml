@@ -1,0 +1,46 @@
+name: V1 offline checks
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.12", "3.13"]
+    env:
+      UV_PYTHON: ${{ matrix.python-version }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          submodules: recursive
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python-version }}
+      - uses: astral-sh/setup-uv@v10.2.0
+        with:
+          version: "0.11.28"
+      - name: Install locked dependencies
+        run: uv sync --locked --dev
+      - name: Check lock and configuration
+        run: |
+          uv lock --check --offline
+          uv run --offline --locked python -c "from backend.config import Settings; Settings(_env_file=None)"
+      - name: Ruff
+        run: |
+          uv run --offline --locked ruff check adaptive_agent backend benchmark tests
+          uv run --offline --locked ruff format --check adaptive_agent backend benchmark tests
+      - name: Compile Python
+        run: uv run --offline --locked python -m compileall -q adaptive_agent backend benchmark tests
+      - name: Offline tests
+        run: uv run --offline --locked pytest -q
+
+# The required frontend type-check/build job is added with T14 when
+# frontend/package.json and its lockfile exist. Until then it is unverified.

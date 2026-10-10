@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "run_id": "20261008-v1-day01",
+  "task_type": "existing_project",
+  "profile": "high",
+  "stage": "deliver",
+  "scope": { "paths": ["docs", "adaptive_agent/adapters/browser_use_adapter.py", "tests", ".github", "README.md", "pyproject.toml", ".gitignore"] },
+  "acceptance": [
+    { "id": "AC-001", "criterion": "Evidence-backed readiness audit and seven-day preparation documents exist", "evidence": [{ "kind": "inspection", "ref": ".codex-workflow/lifecycle/20261008-v1-day01/evidence/day01.txt", "result": "passed" }] },
+    { "id": "AC-002", "criterion": "BrowserUseAdapter controlled five-stage browser smoke and offline regressions pass", "evidence": [{ "kind": "test", "ref": ".codex-workflow/lifecycle/20261008-v1-day01/evidence/day01.txt", "result": "passed" }] }
+  ],
+  "work_items": [
+    { "id": "WI-001", "owner": "root", "paths": ["docs", ".github", "README.md", "pyproject.toml", ".gitignore"], "depends_on": [], "acceptance_ids": ["AC-001"], "parallel_group": null, "status": "done" },
+    { "id": "WI-002", "owner": "root", "paths": ["adaptive_agent/adapters/browser_use_adapter.py", "tests"], "depends_on": ["WI-001"], "acceptance_ids": ["AC-002"], "parallel_group": null, "status": "done" }
+  ],
+  "artifacts": {
+    "brief": ".codex-workflow/lifecycle/20261008-v1-day01/brief.md",
+    "architecture": "docs/contracts/V1_CONTRACTS.md",
+    "plan": "docs/tasks/V1_TASKS.md",
+    "verification": ".codex-workflow/lifecycle/20261008-v1-day01/verification.md",
+    "review": ".codex-workflow/lifecycle/20261008-v1-day01/review.md",
+    "delivery": ".codex-workflow/lifecycle/20261008-v1-day01/delivery.md"
+  },
+  "history": [
+    { "stage": "intake", "at": "2026-10-08T15:48:44Z" },
+    { "stage": "design", "at": "2026-10-08T15:48:45Z" },
+    { "stage": "plan", "at": "2026-10-08T15:48:46Z" },
+    { "stage": "implement", "at": "2026-10-08T15:48:47Z" },
+    { "stage": "verify", "at": "2026-10-08T15:48:48Z" },
+    { "stage": "review", "at": "2026-10-08T15:48:49Z" },
+    { "stage": "deliver", "at": "2026-10-08T15:48:50Z" }
+  ]
+}

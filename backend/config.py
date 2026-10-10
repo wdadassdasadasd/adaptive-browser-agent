@@ -2,7 +2,7 @@
 
 from functools import lru_cache
 
-from pydantic import Field, SecretStr
+from pydantic import Field, SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -20,6 +20,15 @@ class Settings(BaseSettings):
     github_token: SecretStr | None = Field(
         default=None, validation_alias="GITHUB_TOKEN"
     )
+
+    @field_validator("deepseek_api_key", "github_token", mode="before")
+    @classmethod
+    def blank_credential_is_missing(cls, value: object) -> object:
+        raw = value.get_secret_value() if isinstance(value, SecretStr) else value
+        if isinstance(raw, str) and not raw.strip():
+            return None
+        return value
+
     database_url: str = Field(
         default="sqlite+aiosqlite:///./data/adaptive_agent.db",
         validation_alias="DATABASE_URL",

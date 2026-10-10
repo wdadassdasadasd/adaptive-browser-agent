@@ -1,0 +1,11 @@
+2026-10-08, Windows workspace D:\adaptive-browser-agent
+Initial git status: main...origin/main, clean; no preexisting changes.
+Baseline: uv run --offline --frozen pytest -q -> 13 passed.
+Final: uv lock --check --offline -> exit 0, Resolved 282 packages.
+Final: uv run --offline --frozen pytest -q -> exit 0, 18 passed, 1 deselected in 2.48s.
+Focused: uv run --offline --frozen pytest -q tests/unit/test_browser_use_adapter.py -> exit 0, 6 passed in 1.46s.
+Final: uv run --offline --frozen pytest -q -m browser tests/smoke/test_browser_use_adapter.py -> exit 0, 1 passed in 3.71s.
+Final: .venv\Scripts\python.exe -m ruff check adaptive_agent backend benchmark tests -> exit 0, All checks passed.
+Final: .venv\Scripts\python.exe -m ruff format --check adaptive_agent backend benchmark tests -> exit 0, 53 files already formatted.
+Final: git diff --check --ignore-submodules=all -> exit 0; only CRLF conversion warnings.
+Not run: remote GitHub Actions, frontend build, live model/GitHub calls, benchmark, end-to-end V1 tasks.

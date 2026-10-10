@@ -35,3 +35,5 @@ packages = ["adaptive_agent", "backend", "benchmark"]
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
+addopts = "-m 'not browser'"
+markers = ["browser: opt-in test that launches a real local Chromium browser"]

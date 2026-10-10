@@ -11,3 +11,14 @@ def test_recent_trace_count_defaults_to_bounded_v1_window() -> None:
 
     with pytest.raises(ValidationError):
         Settings(_env_file=None, RECENT_TRACE_COUNT=10)
+
+
+def test_blank_credentials_are_treated_as_missing() -> None:
+    settings = Settings(
+        _env_file=None,
+        DEEPSEEK_API_KEY=" \t ",
+        GITHUB_TOKEN="",
+    )
+
+    assert settings.deepseek_api_key is None
+    assert settings.github_token is None

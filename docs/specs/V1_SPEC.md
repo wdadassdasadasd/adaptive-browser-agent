@@ -90,24 +90,30 @@ next_step(state, context)
 next action from current state and observation. `PlanDecision` must carry:
 
 ```text
-subgoal
+subgoal_id
 reasoning
 tool
 action
 target
+element_index
+value
 expected_result
 ```
 
-Browser actions may additionally carry `element_index` and `value`. V1 tool
-identifiers are `browser` and `github`.
+`element_index` and `value` are optional. V1 tool identifiers are `browser`
+and `github`.
 
 ## 7. ResearchState
 
 The minimum state contains task identity, goal, subgoals, current subgoal,
 visited URLs, search history, collected facts, step usage and limit,
-prompt/completion token metrics, and a cancellation flag.
+prompt/completion token metrics, consecutive no-progress replans, and a
+cancellation flag. A new task starts in
+`queued`; final states include `partial`. Stop reason and business completion
+level are separate from the public task status.
 
-Each subgoal contains `id`, `description`, `priority`, and `status`.
+Each subgoal contains `id`, `description`, observable
+`completion_criteria`, `priority`, and `status`.
 `depends_on` may be retained as a future-facing field, but V1 does not schedule
 a dependency DAG.
 
@@ -171,8 +177,11 @@ success and only when an LLM judgment is needed to compare the actual result
 with the expected result.
 
 `EvaluationResult` carries `success`, `reason`, `subgoal_completed`,
-`should_replan`, `new_facts`, and `error_type`. `error_type` is one of `none`,
+`should_replan`, `facts`, and `error_type`. `error_type` is one of `none`,
 `technical`, `semantic`, or `insufficient_info`.
+
+Runtime LLM semantic evaluation is allowed after technical validation. The
+LLM-as-Judge prohibition applies to benchmark scoring only.
 
 ## 13. ContextManager
 
@@ -191,7 +200,8 @@ Important state transitions use:
 AgentEvent -> StateReducer -> ResearchState
 ```
 
-V1 uses one generic event model carrying event type, task ID, optional step,
+V1 uses one generic event model carrying `event_id`, `event_type`, task ID,
+0-based step (default 0),
 timestamp, optional message, and payload. The same event stream may feed state
 updates, trace, persistence, SSE, and benchmark metrics. V1 does not introduce a
 class hierarchy for every event type.
@@ -203,7 +213,17 @@ cancellation, and an explicitly requested target count being reached.
 
 Soft stops include completion of required subgoals, sufficient information
 coverage, and no meaningful remaining research gap. The Agent must not search
-indefinitely.
+indefinitely. All retry and replan paths must be bounded. The AgentLoop owns
+step, elapsed-time, token, cancellation, and non-progress stops. The provider
+owns one retry for a temporary technical request failure and one separate
+structured-output repair attempt. Semantic and insufficient-information
+outcomes return to observation and planning rather than repeating an action.
+The V1 defaults are 30 steps, 900 seconds, 40,000 prompt plus completion
+tokens, and five consecutive replans without progress. Context retains at most
+five recent traces and a 12,000-character current view/summary. These values
+were frozen on 2026-10-09 for implementation and acceptance; they do not claim
+the current skeleton enforces them. Detailed semantics are in
+`docs/contracts/V1_CONTRACTS.md`.
 
 ## 16. Reporter
 
@@ -211,7 +231,9 @@ Research iterations collect structured facts rather than continually rewriting
 the final report. After the task stops, the Reporter transforms ResearchState,
 facts, and sources into a general-purpose `ResearchReport` with at least title,
 summary, findings, comparison, recommendation, sources, and a Markdown
-representation. The report schema is not GitHub-specific.
+representation. The report schema is not GitHub-specific. Findings carry
+`name`, `description`, `attributes`, and `source_urls`; material claims must
+be supported by collected facts and sources.
 
 ## 17. Runtime and TaskManager
 
@@ -221,7 +243,11 @@ lightweight async runtime executes long tasks using `asyncio.create_task`,
 research tasks.
 
 Each task has isolated runtime resources. V1 supports soft cancellation. It does
-not support distributed queues, resumable workers, Celery, or Redis.
+not support distributed queues, resumable workers, Celery, or Redis. States are
+`queued`, `running`, `completed`, `partial`, `failed`, and `cancelled`. A task
+may move from `queued` to `running`, and from either nonterminal state to a
+terminal state. Terminal states are immutable. After restart, unfinished
+in-process tasks are finalized from persisted evidence without resuming.
 
 ## 18. Persistence
 
@@ -247,7 +273,9 @@ POST /api/research/{task_id}/cancel
 ```
 
 The events endpoint uses Server-Sent Events. V1 does not expose separate CRUD
-APIs for facts, sources, or steps.
+APIs for facts, sources, or steps. The fixed routes' request/response, errors,
+idempotent cancellation, persisted SSE replay, disconnect, terminal close,
+and cleanup semantics are in `docs/contracts/V1_CONTRACTS.md`.
 
 ## 20. Frontend
 
@@ -266,7 +294,9 @@ model, task, and approximate step budget constant where practical.
 V1 records completion rate, average steps, duplicate URLs, token usage, latency,
 and result coverage. Coverage is scored deterministically against predefined
 expected fields; V1 does not use LLM-as-Judge. Report improvement percentages
-only after measuring a real baseline.
+only after measuring a real baseline. Report the full-system comparison with
+GitHub API access separately from a browser-only tool-controlled comparison.
+Do not attribute tool advantages to planning or replanning.
 
 ## 22. Acceptance scenarios
 
@@ -308,3 +338,19 @@ V1 is complete when all of the following are true:
 
 Unstable external sites or networks must be reported separately from project
 logic failures; external failures are never evidence of a passing run.
+
+## 25. V1 contract and security clarification (2026-10-08)
+
+`docs/contracts/V1_CONTRACTS.md` records the approved target models and
+error/stop semantics. This clarification supersedes the skeleton names
+`pending`, AgentEvent `type`, `new_facts`, and Finding `title`/`content`.
+Models, consumers, storage mappings, and tests must change together; this
+document does not claim that the target is already implemented.
+
+Webpage text is untrusted task data and cannot override Agent instructions.
+Credentials must never enter reports, logs, persisted traces, or SSE payloads.
+Browser navigation must reject non-HTTP(S) schemes and local/private targets
+and check final URLs after redirects. Research facts require source validation.
+Browser sessions and HTTP clients must close on success, failure, and cancel.
+Until redirect and network isolation are independently verified, V1 is a
+trusted localhost demo and is not approved for public deployment.
