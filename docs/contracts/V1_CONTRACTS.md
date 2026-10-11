@@ -25,6 +25,9 @@ Status, completion level, and stop reason answer different questions:
 
 There is no `interrupted` status and no checkpoint resume. A `partial` report
 states what is known and what remains unresolved; `failed` may have no report.
+When all subgoals are complete but an explicit target count remains unmet,
+`insufficient_info` is the stop reason (`partial` with sourced facts, otherwise
+`failed`). A reached hard limit keeps its specific reason.
 TaskManager owns slot acquisition, cancellation signals, and cleanup; AgentLoop
 owns progress and stop decisions; Persistence owns atomic storage. A subgoal
 becomes `in_progress` on selection, `completed` only on validated evaluation,
@@ -36,11 +39,11 @@ and releases the semaphore.
 
 ### Limits
 
-`max_steps=30` and the last 5 trace events are **Source Confirmed current
-defaults** in `adaptive_agent/state.py` and `backend/config.py`. The following
-are **Frozen V1 defaults (2026-10-09), not yet implemented**: 900 seconds
-wall time per task; 40,000 total prompt plus completion tokens; at most five
-consecutive replans without a new sourced fact or completed subgoal. Progress
+`max_steps=30` and the last 5 trace events are current defaults in
+`adaptive_agent/state.py` and `backend/config.py`. D4 AgentLoop enforces the
+frozen defaults of 900 seconds wall time, 40,000 provider-reported prompt plus
+completion tokens, and at most five consecutive replans without a new sourced
+fact or completed subgoal. Progress
 resets the `consecutive_no_progress_replans` state counter. Every loop also
 checks step count, time,
 token usage, and cancellation. Context assembly retains at most five recent
@@ -59,7 +62,7 @@ session, or SSE connection.
 | --- | --- |
 | ResearchState | `task_id: str`, `goal: str`, `status` (default `queued`), `step: int` (default 0), `max_steps: int` (default 30), `subgoals: list[Subgoal]`, `facts: list[ResearchFact]`, `visited_urls: list[str]`, `search_history: list[str]`, `current_subgoal_id: str | None`, `prompt_tokens: int`, `completion_tokens: int`, `consecutive_no_progress_replans: int` (default 0), `cancellation_requested: bool`, `stop_reason: str | None`, `completion_level: none|partial|full`, `created_at`, `updated_at`. `step <= max_steps`; current subgoal ID must refer to an existing subgoal. |
 | Subgoal | `id: str`, `description: str`, `completion_criteria: str`, `priority: int`, `status: pending|in_progress|completed|failed`, optional `failure_reason`. Criteria describe observable evidence, not a fixed action script. |
-| ResearchFact | Existing `id`, optional `subgoal_id`, nonempty `content`, `source_url`, `source_title`, optional `evidence` and `confidence`, `created_at`. A material fact must carry a public HTTP(S) source URL actually observed by a tool. |
+| ResearchFact | Existing `id`, optional `subgoal_id`, nonempty `content`, `source_url`, `source_title`, optional `evidence`, `confidence`, `subject`, and `subject_kind` (`project|change`), `created_at`. A material fact must carry a public HTTP(S) source URL actually observed by a tool. A counted subject must match a complete name in observed evidence. |
 | PlanDecision | `subgoal_id`, `reasoning`, `tool`, `action`, optional `target`, optional `element_index`, optional `value`, `expected_result`. `subgoal_id` must exist and be unfinished. Exactly one primary action is selected per iteration. |
 | EvaluationResult | `success`, nonempty `reason`, `subgoal_completed`, `should_replan`, `facts: list[ResearchFact]`, `error_type: none|technical|semantic|insufficient_info`. `success=true` requires `error_type=none`; `success=false` requires non-`none`, `subgoal_completed=false`, and `should_replan=true`. Facts are admitted only after source validation. Invalid combinations fail Pydantic validation and become a bounded structured-output failure, not state mutation. |
 | Finding | `name`, `description`, `attributes: dict[str,str]`, `source_urls: list[str]`, optional `supporting_fact_ids: list[str]`. Each material claim maps to collected fact IDs and source URLs. |
@@ -109,10 +112,10 @@ before the first action), UTC `timestamp`, optional `message`, and JSON
 | --- | --- | --- |
 | `task_queued` | `goal` | Confirms initial queued state. |
 | `task_started` | empty | `queued -> running`. |
-| `subgoals_initialized` | `subgoals` | Sets initial subgoals once. |
+| `subgoals_initialized` | `subgoals`; optional nonnegative `prompt_tokens`, `completion_tokens` | Sets initial subgoals once and records provider usage from initialization. |
 | `step_evaluated` | JSON objects `decision`, `tool_result`, `evaluation`; nonnegative integer `prompt_tokens` and `completion_tokens` | Event `step` equals the current state step (first action 0); reducer increments the step once and updates subgoal, URLs/queries, validated facts, usage, and `consecutive_no_progress_replans`. |
 | `cancel_requested` | empty | Sets cancellation flag; terminal transition remains separate. |
-| `task_finished` | `status`, `completion_level`, `stop_reason`, optional `report` | Applies one terminal transition. |
+| `task_finished` | `status`, `completion_level`, `stop_reason`; optional `report` and nonnegative `prompt_tokens`, `completion_tokens` | Applies one terminal transition and records provider usage not attached to a step, including report generation. |
 
 StateReducer is pure and deterministic: `(ResearchState, AgentEvent) ->
 ResearchState`. It rejects wrong task IDs, repeated step numbers, invalid

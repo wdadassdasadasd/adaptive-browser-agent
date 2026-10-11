@@ -1,6 +1,7 @@
 """Fake-transport coverage for the DeepSeek provider boundary."""
 
 import asyncio
+import json
 
 import httpx
 import pytest
@@ -72,6 +73,82 @@ async def test_plain_completion_returns_text_and_actual_usage() -> None:
         3,
         1,
     )
+    await provider.aclose()
+
+
+@pytest.mark.asyncio
+async def test_budgeted_structured_call_caps_generated_tokens() -> None:
+    bodies: list[dict] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        bodies.append(json.loads(request.content))
+        return response('{"name":"FastAPI"}', 20, 5)
+
+    provider = DeepSeekClient("key", transport=httpx.MockTransport(handler))
+
+    result = await provider.complete_structured_budgeted("Return JSON", Answer, 2000)
+
+    assert result.value.name == "FastAPI"
+    assert len(bodies) == 1
+    assert 1 <= bodies[0]["max_tokens"] < 2000
+    assert bodies[0]["max_tokens"] + result.prompt_tokens < 2000
+    await provider.aclose()
+
+
+@pytest.mark.asyncio
+async def test_budgeted_chinese_prompt_uses_utf8_request_size() -> None:
+    bodies: list[dict] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        bodies.append(json.loads(request.content))
+        return response('{"name":"FastAPI"}', 20, 5)
+
+    provider = DeepSeekClient("key", transport=httpx.MockTransport(handler))
+
+    result = await provider.complete_structured_budgeted("项目" * 4000, Answer, 40_000)
+
+    assert result.value.name == "FastAPI"
+    assert len(bodies) == 1
+    assert 0 < bodies[0]["max_tokens"]
+    assert bodies[0]["max_tokens"] + result.prompt_tokens < 40_000
+    await provider.aclose()
+
+
+@pytest.mark.asyncio
+async def test_budgeted_prompt_too_large_makes_no_request() -> None:
+    calls = 0
+
+    def handler(_: httpx.Request) -> httpx.Response:
+        nonlocal calls
+        calls += 1
+        return response("unexpected")
+
+    provider = DeepSeekClient("key", transport=httpx.MockTransport(handler))
+
+    with pytest.raises(LLMError) as caught:
+        await provider.complete_structured_budgeted("Long prompt" * 100, Answer, 10)
+
+    assert caught.value.kind == "budget"
+    assert calls == 0
+    await provider.aclose()
+
+
+@pytest.mark.asyncio
+async def test_budgeted_repair_uses_smaller_remaining_allowance() -> None:
+    bodies: list[dict] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        bodies.append(json.loads(request.content))
+        return response("{}" if len(bodies) == 1 else '{"name":"FastAPI"}', 8, 4)
+
+    provider = DeepSeekClient("key", transport=httpx.MockTransport(handler))
+
+    result = await provider.complete_structured_budgeted("Return JSON", Answer, 5000)
+
+    assert result.value.name == "FastAPI"
+    assert (result.prompt_tokens, result.completion_tokens) == (16, 8)
+    assert len(bodies) == 2
+    assert bodies[1]["max_tokens"] < bodies[0]["max_tokens"]
     await provider.aclose()
 
 

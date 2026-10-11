@@ -4,6 +4,7 @@ import json
 from collections.abc import Mapping
 from typing import Any
 
+from adaptive_agent.goal_count import subject_in_evidence
 from adaptive_agent.llm.base import BaseLLMClient, LLMError
 from adaptive_agent.normalization import normalize_url
 from adaptive_agent.prompts.evaluator import EVALUATOR_SYSTEM_PROMPT
@@ -113,7 +114,9 @@ class EvaluatorService:
         )
         try:
             completion = await self.llm.complete_structured(prompt, EvaluationResult)
-        except LLMError:
+        except LLMError as exc:
+            if exc.kind == "budget":
+                raise
             return self._failure("Semantic evaluation unavailable", "technical")
         evaluation = EvaluationResult.model_validate(completion.value)
         if not evaluation.success:
@@ -125,6 +128,11 @@ class EvaluatorService:
                 or not fact.evidence
                 or fact.evidence not in result.content
                 or fact.subgoal_id not in {None, decision.subgoal_id}
+                or (
+                    fact.subject is not None
+                    and not subject_in_evidence(fact.subject, fact.evidence)
+                )
+                or (fact.subject_kind is not None and fact.subject is None)
             ):
                 return self._failure(
                     "Fact lacks observed source evidence", "insufficient_info"

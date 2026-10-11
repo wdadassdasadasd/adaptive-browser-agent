@@ -362,6 +362,30 @@ def test_evaluated_step_merges_sourced_facts_usage_and_normalized_history() -> N
     assert state.model_dump() == initial
 
 
+def test_evaluated_step_rejects_reused_fact_id_for_different_evidence() -> None:
+    prior = ResearchFact(
+        id="f1",
+        content="First sourced claim",
+        source_url="https://example.com/page",
+        source_title="Documentation",
+        subgoal_id="s1",
+    )
+    conflicting = prior.model_copy(update={"content": "Different sourced claim"})
+    state = ResearchState(
+        goal="Research", status="running", subgoals=[subgoal()], facts=[prior]
+    )
+
+    with pytest.raises(ValueError, match="fact ID"):
+        StateReducer().reduce(
+            state,
+            event(
+                state,
+                "step_evaluated",
+                evaluated_payload(facts=[conflicting]),
+            ),
+        )
+
+
 def test_evaluated_step_counts_only_no_progress_replans_and_deduplicates_queries() -> (
     None
 ):

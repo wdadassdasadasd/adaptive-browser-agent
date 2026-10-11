@@ -122,8 +122,10 @@ a dependency DAG.
 ## 8. ResearchFact
 
 Every fact stores at least `content`, `source_url`, and `source_title`.
-`evidence` and `confidence` may be reserved for later use. Every material final
-conclusion must be traceable to a source.
+`evidence` and `confidence` may be reserved for later use. For explicit
+quantity goals, an admitted fact may also identify a `subject` and
+`subject_kind`; the subject must be present as a complete name in the observed
+evidence. Every material final conclusion must be traceable to a source.
 
 ## 9. BrowserUseAdapter
 
@@ -223,9 +225,18 @@ outcomes return to observation and planning rather than repeating an action.
 The V1 defaults are 30 steps, 900 seconds, 40,000 prompt plus completion
 tokens, and five consecutive replans without progress. Context retains at most
 five recent traces and a 12,000-character current view/summary. These values
-were frozen on 2026-10-09 for implementation and acceptance; they do not claim
-the current skeleton enforces them. Detailed semantics are in
+were frozen on 2026-10-09 for implementation and acceptance. D4 AgentLoop
+enforces the limits at the Agent domain boundary. Detailed semantics are in
 `docs/contracts/V1_CONTRACTS.md`.
+
+D4 recognizes common explicit Chinese and English quantities tied to researched
+projects or changes. Distinct validated subjects of the requested kind count;
+facts or URLs alone do not. Ambiguous quantities do not trigger an early stop.
+Completion of every initialized observable subgoal with sourced facts is the
+V1 sufficient-information stop when no explicit target count remains unmet.
+If every subgoal is complete but an explicit count is still unmet, the Agent
+stops with `insufficient_info` rather than requesting an action for a completed
+subgoal; an already reached hard limit retains its own stop reason.
 
 ## 16. Reporter
 
@@ -236,6 +247,12 @@ summary, findings, comparison, recommendation, sources, and a Markdown
 representation. The report schema is not GitHub-specific. Findings carry
 `name`, `description`, `attributes`, and `source_urls`; material claims must
 be supported by collected facts and sources.
+
+The D4 Reporter may ask the provider to group and order verified fact IDs, but
+its final factual text is rendered from the admitted facts. An invalid or
+unavailable model draft falls back to deterministic grouping. A partial or
+failed report names the stop reason and unresolved subgoals without inventing
+missing conclusions.
 
 ## 17. Runtime and TaskManager
 

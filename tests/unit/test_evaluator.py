@@ -177,6 +177,71 @@ async def test_supported_fact_can_complete_subgoal() -> None:
 
 
 @pytest.mark.asyncio
+async def test_counted_subject_must_appear_in_observed_evidence() -> None:
+    fact = ResearchFact(
+        content="FastAPI version 1.0",
+        source_url="https://fastapi.tiangolo.com/",
+        source_title="FastAPI",
+        evidence="FastAPI version 1.0",
+        subject="Flask",
+        subject_kind="project",
+    )
+    llm = FakeLLM(
+        EvaluationResult(
+            success=True, reason="Found it", subgoal_completed=True, facts=[fact]
+        )
+    )
+
+    actual = await EvaluatorService(llm).evaluate(state(), decision(), result(), {})
+
+    assert actual.error_type == "insufficient_info"
+    assert actual.facts == []
+
+
+@pytest.mark.asyncio
+async def test_uncounted_subject_must_also_appear_in_observed_evidence() -> None:
+    fact = ResearchFact(
+        content="FastAPI version 1.0",
+        source_url="https://fastapi.tiangolo.com/",
+        source_title="FastAPI",
+        evidence="FastAPI version 1.0",
+        subject="Flask",
+    )
+    llm = FakeLLM(
+        EvaluationResult(
+            success=True, reason="Found it", subgoal_completed=True, facts=[fact]
+        )
+    )
+
+    actual = await EvaluatorService(llm).evaluate(state(), decision(), result(), {})
+
+    assert actual.error_type == "insufficient_info"
+    assert actual.facts == []
+
+
+@pytest.mark.asyncio
+async def test_counted_subject_prefix_is_not_observed_name() -> None:
+    fact = ResearchFact(
+        content="FastAPI2 version 1.0",
+        source_url="https://fastapi.tiangolo.com/",
+        source_title="FastAPI",
+        evidence="FastAPI2 version 1.0",
+        subject="FastAPI",
+        subject_kind="project",
+    )
+    llm = FakeLLM(
+        EvaluationResult(
+            success=True, reason="Found it", subgoal_completed=True, facts=[fact]
+        )
+    )
+
+    actual = await EvaluatorService(llm).evaluate(state(), decision(), result(), {})
+
+    assert actual.error_type == "insufficient_info"
+    assert actual.facts == []
+
+
+@pytest.mark.asyncio
 async def test_empty_github_search_is_insufficient_without_model_call() -> None:
     llm = FakeLLM(EvaluationResult(success=True, reason="unused"))
     selected = PlanDecision(

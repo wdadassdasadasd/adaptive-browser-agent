@@ -113,6 +113,8 @@ class ResearchFact(StrictModel):
     content: NonEmptyText
     source_url: SourceUrl
     source_title: NonEmptyText
+    subject: NonEmptyText | None = None
+    subject_kind: Literal["project", "change"] | None = None
     evidence: str | None = None
     confidence: float | None = Field(default=None, ge=0, le=1)
     created_at: UtcDateTime = Field(default_factory=utc_now)

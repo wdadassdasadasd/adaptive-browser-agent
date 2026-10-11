@@ -7,7 +7,7 @@ from pydantic import BaseModel
 
 T = TypeVar("T", bound=BaseModel)
 LLMFailureKind = Literal[
-    "configuration", "technical", "rejected", "invalid_response", "structured"
+    "configuration", "technical", "rejected", "invalid_response", "structured", "budget"
 ]
 
 

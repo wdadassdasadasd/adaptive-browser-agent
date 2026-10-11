@@ -37,11 +37,25 @@ class DeepSeekClient:
     async def complete_structured(
         self, prompt: str, schema: type[T]
     ) -> StructuredCompletion[T]:
+        return await self._complete_structured(prompt, schema, None)
+
+    async def complete_structured_budgeted(
+        self, prompt: str, schema: type[T], remaining_tokens: int
+    ) -> StructuredCompletion[T]:
+        """Bound output from the conservative remaining task-token allowance."""
+
+        return await self._complete_structured(prompt, schema, remaining_tokens)
+
+    async def _complete_structured(
+        self, prompt: str, schema: type[T], remaining_tokens: int | None
+    ) -> StructuredCompletion[T]:
         schema_prompt = (
             f"{prompt}\n\nReturn JSON matching this schema:\n"
             f"{json.dumps(schema.model_json_schema(), ensure_ascii=False)}"
         )
-        first = await self._request(schema_prompt, structured=True)
+        first = await self._request(
+            schema_prompt, structured=True, remaining_tokens=remaining_tokens
+        )
         adapter = TypeAdapter(schema)
         try:
             value = adapter.validate_json(first.text)
@@ -52,7 +66,15 @@ class DeepSeekClient:
                 f"{first.text[:4000]}"
             )
             try:
-                repair = await self._request(repair_prompt, structured=True)
+                repair = await self._request(
+                    repair_prompt,
+                    structured=True,
+                    remaining_tokens=(
+                        remaining_tokens - first.prompt_tokens - first.completion_tokens
+                        if remaining_tokens is not None
+                        else None
+                    ),
+                )
             except LLMError as exc:
                 raise LLMError(
                     "structured repair request failed",
@@ -74,7 +96,13 @@ class DeepSeekClient:
             return StructuredCompletion(value, prompt_tokens, completion_tokens)
         return StructuredCompletion(value, first.prompt_tokens, first.completion_tokens)
 
-    async def _request(self, prompt: str, *, structured: bool) -> LLMCompletion:
+    async def _request(
+        self,
+        prompt: str,
+        *,
+        structured: bool,
+        remaining_tokens: int | None = None,
+    ) -> LLMCompletion:
         if not self.api_key:
             raise LLMError(
                 "DEEPSEEK_API_KEY is required for DeepSeek requests",
@@ -95,6 +123,16 @@ class DeepSeekClient:
         }
         if structured:
             body["response_format"] = {"type": "json_object"}
+        if remaining_tokens is not None:
+            # Use UTF-8 bytes without ASCII escapes as a conservative prompt
+            # bound; JSON escaping would reject ordinary Chinese context.
+            prompt_bound = (
+                len(json.dumps(body, ensure_ascii=False).encode("utf-8")) + 128
+            )
+            output_allowance = remaining_tokens - prompt_bound
+            if output_allowance < 1:
+                raise LLMError("remaining token budget is too small", kind="budget")
+            body["max_tokens"] = output_allowance
         for attempt in range(2):
             try:
                 response = await self.client.post(
