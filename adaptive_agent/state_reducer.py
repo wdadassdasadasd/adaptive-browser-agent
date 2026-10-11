@@ -1,22 +1,22 @@
 """Pure transitions from validated AgentEvents to serializable research state."""
 
-from typing import Any, Literal
-from urllib.parse import urlsplit, urlunsplit
+from typing import Any
 
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field
 
 from adaptive_agent.events import AgentEvent
+from adaptive_agent.normalization import normalize_query as _normalized_query
+from adaptive_agent.normalization import normalize_url as _normalized_url
 from adaptive_agent.state import (
     EvaluationErrorType,
     EvaluationResult,
-    NonEmptyText,
     PlanDecision,
     ResearchReport,
     ResearchState,
     ResearchStatus,
-    SourceUrl,
     Subgoal,
     SubgoalStatus,
+    ToolResult,
 )
 
 TERMINAL_STATUSES = {
@@ -27,44 +27,14 @@ TERMINAL_STATUSES = {
 }
 
 
-class _ToolResultPayload(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-
-    tool: Literal["browser", "github"]
-    action: NonEmptyText
-    success: bool
-    content: str
-    source_url: SourceUrl | None = None
-    error_type: EvaluationErrorType
-    error_message: str | None = None
-    metadata: dict[str, Any] = Field(default_factory=dict)
-
-    @model_validator(mode="after")
-    def validate_outcome(self) -> "_ToolResultPayload":
-        if self.success != (self.error_type == EvaluationErrorType.NONE):
-            raise ValueError("tool result success and error_type disagree")
-        return self
-
-
 class _StepEvaluatedPayload(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     decision: PlanDecision
-    tool_result: _ToolResultPayload
+    tool_result: ToolResult
     evaluation: EvaluationResult
     prompt_tokens: int = Field(ge=0, strict=True)
     completion_tokens: int = Field(ge=0, strict=True)
-
-
-def _normalized_url(value: str) -> str:
-    parts = urlsplit(value)
-    return urlunsplit(
-        (parts.scheme.lower(), parts.netloc.lower(), parts.path, parts.query, "")
-    )
-
-
-def _normalized_query(value: str) -> str:
-    return " ".join(value.casefold().split())
 
 
 class StateReducer:
@@ -232,6 +202,7 @@ class StateReducer:
                 decision.tool == "github"
                 and decision.action == "search_repositories"
                 and decision.target
+                and result.error_type != EvaluationErrorType.TECHNICAL
             ):
                 query = _normalized_query(decision.target)
                 if query and query not in searches:

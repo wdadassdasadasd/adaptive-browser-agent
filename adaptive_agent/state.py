@@ -3,7 +3,7 @@
 from datetime import UTC, datetime
 from enum import StrEnum
 from ipaddress import ip_address
-from typing import Annotated, Literal
+from typing import Annotated, Any, Literal
 from urllib.parse import urlsplit
 from uuid import uuid4
 
@@ -160,6 +160,25 @@ class PlanDecision(StrictModel):
     element_index: int | None = Field(default=None, ge=0)
     value: str | None = None
     expected_result: NonEmptyText
+
+
+class ToolResult(StrictModel):
+    """Serializable outcome shared by both tool paths and the reducer."""
+
+    tool: Literal["browser", "github"]
+    action: NonEmptyText
+    success: bool
+    content: str = Field(max_length=12000)
+    source_url: SourceUrl | None = None
+    error_type: EvaluationErrorType = EvaluationErrorType.NONE
+    error_message: str | None = None
+    metadata: dict[str, Any] = Field(default_factory=dict)
+
+    @model_validator(mode="after")
+    def validate_outcome(self) -> "ToolResult":
+        if self.success != (self.error_type == EvaluationErrorType.NONE):
+            raise ValueError("tool result success and error_type disagree")
+        return self
 
 
 class EvaluationResult(StrictModel):

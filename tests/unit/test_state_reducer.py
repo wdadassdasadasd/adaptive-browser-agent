@@ -397,6 +397,26 @@ def test_evaluated_step_counts_only_no_progress_replans_and_deduplicates_queries
     assert third.consecutive_no_progress_replans == 2
 
 
+def test_technical_search_failure_does_not_block_a_later_retry() -> None:
+    state = ResearchState(goal="Research", status="running", subgoals=[subgoal()])
+    failed = evaluated_payload(
+        source_url=None,
+        success=False,
+        replan=True,
+        action="search_repositories",
+        target="  FastAPI  ",
+    )
+    failed["decision"]["tool"] = "github"
+    failed["tool_result"]["tool"] = "github"
+    failed["tool_result"]["error_type"] = "technical"
+    failed["evaluation"]["error_type"] = "technical"
+
+    after_failure = StateReducer().reduce(state, event(state, "step_evaluated", failed))
+
+    assert after_failure.search_history == []
+    assert after_failure.consecutive_no_progress_replans == 1
+
+
 def test_evaluated_step_rejects_unobserved_fact_and_mismatched_action() -> None:
     state = ResearchState(goal="Research", status="running", subgoals=[subgoal()])
     unsupported = ResearchFact(

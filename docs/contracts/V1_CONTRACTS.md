@@ -87,6 +87,8 @@ or ambiguous element is a semantic failure. Duplicate URLs or
 normalized queries are semantic no-op results that trigger a different plan.
 URL normalization lowercases scheme/host and removes fragments while retaining
 path and query; query normalization trims/collapses whitespace and case-folds.
+Search queries that failed for a technical reason do not enter the deduplication
+history, so a later AgentLoop-owned bounded retry remains possible.
 
 BrowserAction is the validated subset of PlanDecision fields. A
 BrowserObservation contains `url`, `title`, bounded DOM text, model-visible

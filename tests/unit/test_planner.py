@@ -2,6 +2,7 @@
 
 import pytest
 
+from adaptive_agent.context_manager import ContextManager
 from adaptive_agent.llm.base import StructuredCompletion
 from adaptive_agent.planner import PlannerService
 from adaptive_agent.state import ResearchState, Subgoal
@@ -100,6 +101,51 @@ async def test_next_step_changes_when_state_or_observation_changes() -> None:
 
 
 @pytest.mark.asyncio
+async def test_planner_uses_bounded_context_without_reexpanding_history() -> None:
+    llm = FakeLLM()
+    state = ResearchState(
+        goal="Research",
+        status="running",
+        subgoals=[
+            Subgoal(
+                id="s1", description="Find docs", completion_criteria="Sourced page"
+            )
+        ],
+        search_history=["old clue " + "z" * 50000],
+    )
+    observation = {"title": "Search results", "text": "q" * 50000}
+    context = await ContextManager(5).build(state, observation, [])
+    await PlannerService(llm).next_step(state, observation, context)
+    assert len(llm.prompts[-1]) < 13000
+    assert "TRUNCATED" in llm.prompts[-1]
+
+
+@pytest.mark.asyncio
+async def test_supplied_history_keeps_current_state_and_observation() -> None:
+    llm = FakeLLM()
+    state = ResearchState(
+        goal="Research",
+        status="running",
+        step=2,
+        subgoals=[
+            Subgoal(
+                id="s1", description="Find docs", completion_criteria="Sourced page"
+            )
+        ],
+    )
+
+    await PlannerService(llm).next_step(
+        state, {"title": "Current documentation"}, "Earlier GitHub search failed"
+    )
+
+    prompt = llm.prompts[-1]
+    assert '"step": 2' in prompt
+    assert '"title": "Current documentation"' in prompt
+    assert "Earlier GitHub search failed" in prompt
+    assert len(prompt) < 13000
+
+
+@pytest.mark.asyncio
 async def test_next_step_rejects_invalid_model_action_without_fallback() -> None:
     llm = FakeLLM()
     llm.invalid_action = True
@@ -151,6 +197,22 @@ async def test_next_step_rejects_missing_or_completed_subgoal() -> None:
             "target": "https://example.com/x",
         },
         {"tool": "github", "action": "list_releases", "target": "owner/repo/extra"},
+        {
+            "tool": "github",
+            "action": "get_repository",
+            "target": "fastapi/fastapi",
+            "value": "unused",
+        },
+        {
+            "tool": "browser",
+            "action": "navigate",
+            "target": "https://example.com/",
+            "value": "unused",
+        },
+        {"action": "click", "target": "Search", "value": "unused"},
+        {"action": "extract", "target": "Question", "element_index": 1},
+        {"action": "wait", "target": "unexpected", "value": "1"},
+        {"action": "scroll", "target": "down", "value": "unused"},
     ],
 )
 async def test_next_step_rejects_invalid_action_parameters(

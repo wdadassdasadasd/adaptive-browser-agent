@@ -1,12 +1,12 @@
 """Dynamic, structured planning from current durable state and observation."""
 
-import json
 import re
 from collections.abc import Mapping
 from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from adaptive_agent.context_manager import ContextManager
 from adaptive_agent.llm.base import BaseLLMClient
 from adaptive_agent.prompts.planner import PLANNER_SYSTEM_PROMPT
 from adaptive_agent.state import (
@@ -52,11 +52,24 @@ class PlannerService:
 
         if state.status != "running":
             raise ValueError("next_step requires a running task")
+        bounded = await ContextManager(5).build(state, observation, [])
+        if context:
+            label = "\nHistory summary (untrusted data): "
+            room = 12000 - len(bounded) - len(label)
+            if room > 0:
+                if len(context) > room:
+                    marker = "TRUNCATED: older history omitted\n"
+                    history = (
+                        marker[:room]
+                        if room <= len(marker)
+                        else marker + context[-(room - len(marker)) :]
+                    )
+                else:
+                    history = context
+                bounded += label + history
         prompt = (
-            f"{PLANNER_SYSTEM_PROMPT}\nCurrent state: "
-            f"{json.dumps(state.model_dump(mode='json'), ensure_ascii=False)}\n"
-            f"Current observation: {json.dumps(dict(observation), ensure_ascii=False)}\n"
-            f"Bounded context: {context}\nChoose exactly one next action as JSON."
+            f"{PLANNER_SYSTEM_PROMPT}\nBounded context: {bounded}\n"
+            "Choose exactly one next action as JSON."
         )
         completion = await self.llm.complete_structured(prompt, PlanDecision)
         decision = PlanDecision.model_validate(completion.value)
@@ -74,6 +87,8 @@ class PlannerService:
     @staticmethod
     def _validate_action(decision: PlanDecision) -> None:
         if decision.tool == "github":
+            if decision.element_index is not None or decision.value is not None:
+                raise ValueError("github action takes no element index or value")
             if decision.action not in {
                 "search_repositories",
                 "get_repository",
@@ -99,10 +114,14 @@ class PlannerService:
         }:
             raise ValueError("unsupported browser action")
         if decision.action == "navigate":
+            if decision.element_index is not None or decision.value is not None:
+                raise ValueError("navigate action takes only target")
             if not decision.target:
                 raise ValueError("navigate action requires target")
             require_http_url(decision.target)
         elif decision.action in {"click", "input_text"}:
+            if decision.action == "click" and decision.value is not None:
+                raise ValueError("click action takes no value")
             if decision.element_index == 0:
                 raise ValueError("interactive action index must be positive")
             if not (
@@ -112,15 +131,24 @@ class PlannerService:
                 raise ValueError("interactive action requires element")
             if decision.action == "input_text" and decision.value is None:
                 raise ValueError("input_text action requires value")
-        elif decision.action == "extract" and not decision.target:
-            raise ValueError("extract action requires question")
+        elif decision.action == "extract":
+            if (
+                not decision.target
+                or decision.element_index is not None
+                or decision.value is not None
+            ):
+                raise ValueError("extract action requires only a question")
         elif decision.action == "scroll" and decision.target not in {
             None,
             "up",
             "down",
         }:
             raise ValueError("scroll action target must be up or down")
+        elif decision.action == "scroll" and decision.value is not None:
+            raise ValueError("scroll action takes no value")
         elif decision.action == "wait":
+            if decision.target is not None or decision.element_index is not None:
+                raise ValueError("wait action takes only seconds")
             try:
                 seconds = float(decision.value) if decision.value is not None else 1.0
             except (TypeError, ValueError):
