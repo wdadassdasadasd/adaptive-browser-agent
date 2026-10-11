@@ -80,7 +80,12 @@ class StateReducer:
             )
 
         if event.event_type == "subgoals_initialized":
-            self._expect_keys(event.payload, {"subgoals"})
+            self._expect_keys(
+                event.payload,
+                {"subgoals"},
+                {"prompt_tokens", "completion_tokens"},
+            )
+            usage = self._usage(event.payload)
             if (
                 state.status != ResearchStatus.RUNNING
                 or state.step != 0
@@ -96,7 +101,11 @@ class StateReducer:
             if any(item.status != SubgoalStatus.PENDING for item in subgoals):
                 raise ValueError("initial subgoals must be pending")
             return self._next_state(
-                state, subgoals=subgoals, updated_at=event.timestamp
+                state,
+                subgoals=subgoals,
+                prompt_tokens=state.prompt_tokens + usage[0],
+                completion_tokens=state.completion_tokens + usage[1],
+                updated_at=event.timestamp,
             )
 
         if event.event_type == "cancel_requested":
@@ -109,8 +118,9 @@ class StateReducer:
             self._expect_keys(
                 event.payload,
                 {"status", "completion_level", "stop_reason"},
-                {"report"},
+                {"report", "prompt_tokens", "completion_tokens"},
             )
+            usage = self._usage(event.payload)
             status = ResearchStatus(event.payload["status"])
             level = event.payload["completion_level"]
             reason = event.payload["stop_reason"]
@@ -121,11 +131,20 @@ class StateReducer:
                 if report.task_id != state.task_id or report.goal != state.goal:
                     raise ValueError("terminal report must match the task")
             self._validate_terminal(state, status, level, reason)
+            subgoals = [item.model_copy(deep=True) for item in state.subgoals]
+            if status != ResearchStatus.COMPLETED:
+                for item in subgoals:
+                    if item.status != SubgoalStatus.COMPLETED:
+                        item.status = SubgoalStatus.FAILED
+                        item.failure_reason = reason
             return self._next_state(
                 state,
                 status=status,
                 completion_level=level,
                 stop_reason=reason,
+                subgoals=subgoals,
+                prompt_tokens=state.prompt_tokens + usage[0],
+                completion_tokens=state.completion_tokens + usage[1],
                 updated_at=event.timestamp,
             )
 
@@ -164,6 +183,13 @@ class StateReducer:
                 (_normalized_url(item.source_url), _normalized_query(item.content))
                 for item in facts
             }
+            fact_ids = {
+                item.id: (
+                    _normalized_url(item.source_url),
+                    _normalized_query(item.content),
+                )
+                for item in facts
+            }
             for fact in evaluation.facts:
                 if (
                     observed_url is None
@@ -176,9 +202,12 @@ class StateReducer:
                     _normalized_url(fact.source_url),
                     _normalized_query(fact.content),
                 )
+                if fact.id in fact_ids and fact_ids[fact.id] != key:
+                    raise ValueError("fact ID already identifies different evidence")
                 if key not in fact_keys:
                     facts.append(fact)
                     fact_keys.add(key)
+                    fact_ids[fact.id] = key
 
             subgoals = [item.model_copy(deep=True) for item in state.subgoals]
             for item in subgoals:
@@ -241,6 +270,14 @@ class StateReducer:
         keys = set(payload)
         if not required <= keys or keys - required - (optional or set()):
             raise ValueError("invalid event payload fields")
+
+    @staticmethod
+    def _usage(payload: dict[str, Any]) -> tuple[int, int]:
+        prompt = payload.get("prompt_tokens", 0)
+        completion = payload.get("completion_tokens", 0)
+        if any(type(value) is not int or value < 0 for value in (prompt, completion)):
+            raise ValueError("usage counters must be nonnegative integers")
+        return prompt, completion
 
     @staticmethod
     def _validate_terminal(
