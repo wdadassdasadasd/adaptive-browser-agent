@@ -129,6 +129,7 @@ class AgentLoop:
         *,
         cancellation: asyncio.Event | None = None,
         task_id: str | None = None,
+        on_event: Callable[[AgentEvent], Awaitable[None]] | None = None,
     ) -> AgentRunResult:
         """Execute one bounded research task and return its terminal evidence."""
 
@@ -151,7 +152,9 @@ class AgentLoop:
         previous_failed_action: tuple[object, ...] | None = None
         stop_reason: str | None = None
 
-        def emit(event_type: str, payload: dict[str, object] | None = None) -> None:
+        async def emit(
+            event_type: str, payload: dict[str, object] | None = None
+        ) -> None:
             nonlocal state
             event = AgentEvent(
                 task_id=state.task_id,
@@ -159,7 +162,10 @@ class AgentLoop:
                 step=state.step,
                 payload=payload or {},
             )
-            state = self.reducer.reduce(state, event)
+            next_state = self.reducer.reduce(state, event)
+            if on_event is not None:
+                await on_event(event)
+            state = next_state
             events.append(event)
 
         def usage_delta() -> dict[str, int]:
@@ -224,11 +230,11 @@ class AgentLoop:
                     cancel_waiter.cancel()
 
         try:
-            emit("task_started")
+            await emit("task_started")
             stop_reason = limit_reason()
             if stop_reason is None:
                 subgoals = await bounded(planner.initialize(goal))
-                emit(
+                await emit(
                     "subgoals_initialized",
                     {
                         "subgoals": [item.model_dump(mode="json") for item in subgoals],
@@ -293,7 +299,7 @@ class AgentLoop:
                 evaluation = await bounded(
                     evaluator.evaluate(state, decision, result, observation)
                 )
-                emit(
+                await emit(
                     "step_evaluated",
                     {
                         "decision": decision.model_dump(mode="json"),
@@ -320,13 +326,13 @@ class AgentLoop:
                     "error_type": result.error_type,
                 }
             if stop_reason == "user_cancelled" and not state.cancellation_requested:
-                emit("cancel_requested")
+                await emit("cancel_requested")
         except TimeoutError:
             stop_reason = "time_limit"
         except asyncio.CancelledError:
             stop_reason = "user_cancelled"
             if not state.cancellation_requested:
-                emit("cancel_requested")
+                await emit("cancel_requested")
         except LLMError as exc:
             stop_reason = "token_budget" if exc.kind == "budget" else "execution_error"
         except Exception:  # noqa: BLE001 - turn unhandled execution errors into a terminal result
@@ -443,8 +449,8 @@ class AgentLoop:
             )
             report = await ReporterService().generate(provisional)
         if stop_reason == "user_cancelled" and not state.cancellation_requested:
-            emit("cancel_requested")
-        emit(
+            await emit("cancel_requested")
+        await emit(
             "task_finished",
             {
                 "status": status,

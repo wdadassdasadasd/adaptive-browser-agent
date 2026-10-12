@@ -188,6 +188,20 @@ async def test_completed_loop_has_one_terminal_event_sourced_report_and_usage() 
 
 
 @pytest.mark.asyncio
+async def test_event_callback_receives_progress_before_loop_returns() -> None:
+    seen: list[str] = []
+
+    async def on_event(event) -> None:
+        seen.append(event.event_type)
+
+    result = await make_loop(FakeProvider(), FakeGithub(), FakeBrowser()).run(
+        "Research FastAPI", on_event=on_event
+    )
+    assert seen == [event.event_type for event in result.events]
+    assert "step_evaluated" in seen
+
+
+@pytest.mark.asyncio
 async def test_completed_subgoal_does_not_override_unmet_explicit_count() -> None:
     provider, github, browser = FakeProvider(), FakeGithub(), FakeBrowser()
 

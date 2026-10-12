@@ -1,9 +1,20 @@
 from fastapi.testclient import TestClient
 
-from backend.main import app
+from backend.config import Settings
+from backend.main import create_app
 
 
-def test_app_starts_and_registers_only_requested_research_routes() -> None:
+def _app(tmp_path):
+    return create_app(
+        Settings(
+            _env_file=None,
+            DATABASE_URL=f"sqlite+aiosqlite:///{tmp_path / 'smoke.db'}",
+            DEEPSEEK_API_KEY=None,
+        )
+    )
+
+
+def test_app_starts_and_registers_only_requested_research_routes(tmp_path) -> None:
     expected_paths = {
         "/api/research",
         "/api/research/{task_id}",
@@ -12,7 +23,7 @@ def test_app_starts_and_registers_only_requested_research_routes() -> None:
         "/api/research/{task_id}/cancel",
     }
 
-    with TestClient(app) as client:
+    with TestClient(_app(tmp_path)) as client:
         schema = client.get("/openapi.json").json()
 
     research_paths = {
@@ -30,17 +41,13 @@ def test_app_starts_and_registers_only_requested_research_routes() -> None:
     )
 
 
-def test_placeholder_api_contracts_are_truthful() -> None:
-    with TestClient(app) as client:
+def test_unconfigured_provider_and_unknown_tasks_are_truthful(tmp_path) -> None:
+    with TestClient(_app(tmp_path)) as client:
         assert client.get("/api/research").json() == []
         assert (
-            client.post("/api/research", json={"goal": "Research"}).status_code == 501
+            client.post("/api/research", json={"goal": "Research"}).status_code == 503
         )
-        assert client.get("/api/research/task-1").status_code == 501
-        assert client.get("/api/research/task-1/traces").json() == []
-        assert client.post("/api/research/task-1/cancel").status_code == 501
-
-        response = client.get("/api/research/task-1/events")
-        assert response.status_code == 200
-        assert response.headers["content-type"].startswith("text/event-stream")
-        assert response.content == b""
+        assert client.get("/api/research/task-1").status_code == 404
+        assert client.get("/api/research/task-1/traces").status_code == 404
+        assert client.post("/api/research/task-1/cancel").status_code == 404
+        assert client.get("/api/research/task-1/events").status_code == 404

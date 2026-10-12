@@ -66,6 +66,8 @@ class ResearchFactModel(Base):
     content: Mapped[str] = mapped_column(Text, nullable=False)
     source_url: Mapped[str] = mapped_column(Text, nullable=False)
     source_title: Mapped[str] = mapped_column(Text, nullable=False)
+    subject: Mapped[str | None] = mapped_column(Text, nullable=True)
+    subject_kind: Mapped[str | None] = mapped_column(String(32), nullable=True)
     evidence: Mapped[str | None] = mapped_column(Text, nullable=True)
     confidence: Mapped[float | None] = mapped_column(Float, nullable=True)
     created_at: Mapped[datetime] = mapped_column(

@@ -1,9 +1,11 @@
 """Research API transport schemas."""
 
 from datetime import datetime
-from typing import Any
+from typing import Annotated, Any
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, StringConstraints
+
+from adaptive_agent.state import ResearchReport
 
 
 class ApiModel(BaseModel):
@@ -11,7 +13,9 @@ class ApiModel(BaseModel):
 
 
 class ResearchCreateRequest(ApiModel):
-    goal: str = Field(min_length=1)
+    goal: Annotated[
+        str, StringConstraints(strip_whitespace=True, min_length=1, max_length=4000)
+    ]
 
 
 class ResearchTaskResponse(ApiModel):
@@ -21,6 +25,9 @@ class ResearchTaskResponse(ApiModel):
     error_message: str | None = None
     created_at: datetime
     updated_at: datetime
+    completion_level: str | None = None
+    stop_reason: str | None = None
+    report: ResearchReport | None = None
 
 
 class AgentTraceResponse(ApiModel):
