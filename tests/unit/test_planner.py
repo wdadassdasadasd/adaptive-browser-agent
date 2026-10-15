@@ -57,6 +57,27 @@ class FakeLLM:
 
 
 @pytest.mark.asyncio
+async def test_browser_only_prompt_leaves_github_mistake_for_router_replan() -> None:
+    llm = FakeLLM()
+    llm.decision_overrides = {
+        "tool": "github",
+        "action": "search_repositories",
+        "target": "fastapi",
+    }
+    planner = PlannerService(llm, browser_only=True)
+    state = ResearchState(
+        goal="Research",
+        status="running",
+        subgoals=[
+            Subgoal(id="s1", description="Find docs", completion_criteria="source")
+        ],
+    )
+    decision = await planner.next_step(state, {})
+    assert decision.tool == "github"
+    assert "Only browser actions" in llm.prompts[-1]
+
+
+@pytest.mark.asyncio
 async def test_initialize_returns_observable_subgoals_without_mutating_state() -> None:
     llm = FakeLLM()
     subgoals = await PlannerService(llm).initialize("Find project docs")

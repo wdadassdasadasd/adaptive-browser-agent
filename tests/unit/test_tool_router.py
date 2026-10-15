@@ -51,6 +51,17 @@ class FakeGitHub:
 
 
 @pytest.mark.asyncio
+async def test_browser_only_rejects_github_before_dispatch() -> None:
+    browser, github = FakeBrowser(), FakeGitHub()
+    result = await ToolRouter(browser, github, browser_only=True).execute(
+        decision("github", "search_repositories", "fastapi"),
+        ResearchState(goal="research"),
+    )
+    assert result.error_type == "semantic"
+    assert browser.calls == github.calls == []
+
+
+@pytest.mark.asyncio
 @pytest.mark.parametrize(
     ("action", "target", "index", "value"),
     [

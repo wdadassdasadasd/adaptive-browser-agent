@@ -1,0 +1,93 @@
+export type TaskStatus = 'queued' | 'running' | 'completed' | 'partial' | 'failed' | 'cancelled'
+
+export interface Finding {
+  name: string
+  description: string
+  attributes: Record<string, string>
+  source_urls: string[]
+}
+
+export interface ResearchReport {
+  task_id: string
+  goal: string
+  title: string
+  summary: string
+  findings: Finding[]
+  comparison: string
+  recommendation: string
+  sources: string[]
+  markdown: string
+  generated_at: string
+}
+
+export interface ResearchTask {
+  id: string
+  goal: string
+  status: TaskStatus
+  error_message: string | null
+  created_at: string
+  updated_at: string
+  completion_level: string | null
+  stop_reason: string | null
+  report: ResearchReport | null
+}
+
+export interface AgentEvent {
+  event_id: string
+  task_id: string
+  event_type: string
+  step: number
+  timestamp: string
+  message: string
+  payload: Record<string, unknown>
+}
+
+export class ApiError extends Error {
+  constructor(public readonly status: number, message: string) {
+    super(message)
+  }
+}
+
+async function request<T>(path: string, init?: RequestInit): Promise<T> {
+  let response: Response
+  try {
+    response = await fetch(`/api/research${path}`, init)
+  } catch {
+    throw new ApiError(0, '无法连接本地 API，请检查后端服务和网络连接。')
+  }
+  if (!response.ok) {
+    if (response.status === 503) throw new ApiError(503, '未配置 DeepSeek 密钥，暂时无法启动研究任务。')
+    if (response.status === 404) throw new ApiError(404, '任务不存在，可能已被删除。')
+    if (response.status === 422) throw new ApiError(422, '研究目标无效，请输入不超过 4000 字的具体目标。')
+    if (response.status >= 500) throw new ApiError(response.status, `本地 API 暂时不可用，请检查后端服务（HTTP ${response.status}）。`)
+    throw new ApiError(response.status, `请求失败（HTTP ${response.status}）。`)
+  }
+  return response.json() as Promise<T>
+}
+
+export const researchApi = {
+  list: () => request<ResearchTask[]>(''),
+  get: (id: string) => request<ResearchTask>(`/${encodeURIComponent(id)}`),
+  traces: (id: string) => request<AgentEvent[]>(`/${encodeURIComponent(id)}/traces`),
+  create: (goal: string) => request<ResearchTask>('', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ goal }),
+  }),
+  cancel: (id: string) => request<{ task_id: string; cancelled: boolean }>(`/${encodeURIComponent(id)}/cancel`, { method: 'POST' }),
+}
+
+export function eventUrl(id: string): string {
+  return `/api/research/${encodeURIComponent(id)}/events`
+}
+
+export function safeSourceUrl(value: string): string | undefined {
+  try {
+    const url = new URL(value)
+    return (url.protocol === 'http:' || url.protocol === 'https:') && !url.username && !url.password
+      ? url.href
+      : undefined
+  } catch {
+    return undefined
+  }
+}

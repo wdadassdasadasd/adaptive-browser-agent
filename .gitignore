@@ -13,3 +13,6 @@ dist/
 data/*.db
 data/*.db-*
 data/benchmark/
+frontend/node_modules/
+frontend/dist/
+.playwright-mcp/

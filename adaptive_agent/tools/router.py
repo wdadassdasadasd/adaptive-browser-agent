@@ -25,13 +25,22 @@ GITHUB_ACTIONS = {"search_repositories", "get_repository", "list_releases"}
 
 
 class ToolRouter:
-    def __init__(self, browser: BrowserUseAdapter, github: GitHubTool) -> None:
+    def __init__(
+        self,
+        browser: BrowserUseAdapter,
+        github: GitHubTool,
+        *,
+        browser_only: bool = False,
+    ) -> None:
         self.browser = browser
         self.github = github
+        self.browser_only = browser_only
 
     async def execute(self, decision: PlanDecision, state: ResearchState) -> ToolResult:
         """Return one safe result; invalid or repeated requests never reach a tool."""
 
+        if self.browser_only and decision.tool == "github":
+            return self._replan(decision, "GitHub disabled for browser-only benchmark")
         if decision.tool == "browser":
             if decision.action not in BROWSER_ACTIONS:
                 return self._replan(decision, "Unsupported browser action")

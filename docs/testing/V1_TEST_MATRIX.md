@@ -1,9 +1,9 @@
 # V1 requirement, test and acceptance matrix
 
-Revised 2026-10-12 after D5. `docs/specs/V1_SPEC.md` is the product authority;
+Revised 2026-10-14 for D6. `docs/specs/V1_SPEC.md` is the product authority;
 `docs/contracts/V1_CONTRACTS.md` supplies the approved target fields and
 failure semantics. **Target** evidence paths below are not passed tests.
-Current source still has no D6 Vue app or complete benchmark runner. The
+The D6 Vue app and benchmark runner have local fake-backed evidence. The
 2026-10-08 Day 01 record reports 18 offline
 tests and one five-stage Chromium smoke; these are historical, not D1 results.
 Never turn a planned row green from a different layer's result.
@@ -27,9 +27,27 @@ names the artifact or command output required before a row can be verified.
 | R09 / Spec §17; Contracts Runtime | Prompt task ID, max two active tasks, queued/running cancel, failure observation, slot/subscriber/resource cleanup | `runtime/task_manager.py`; T11 | A,B: third task waits, cancellation during action reaches one terminal event, failure releases slot, disconnect removes only subscriber | Current D5 recheck passed: two running/one queued in real local HTTP; tests prove distinct Agent instances, isolated cancel, exception terminalization, slot reuse and shutdown recovery as `server_restart`. See current D5 matrix. |
 | R10 / Spec §18; Contracts Persistence | SQLite writes task/step/fact/trace; atomic terminal status/event; rollback; restart finalization, timeline/report reconstruction | `backend/services/persistence.py`, `backend/db/`; T12 | B: injected write failure leaves neither half-write; fresh app instance returns persisted timeline/report and finalizes unfinished row without resume | Current D5 recheck passed: atomic terminal/rollback, both fact deduplication entry points, report over 64 KB, restart reconstruction and old-schema rejection verified; original database hash unchanged. |
 | R11 / Spec §19; Contracts HTTP/SSE | Exactly six routes with 202/200/404/422/503, cancel semantics, ordered persisted replay then live multi-subscriber SSE, disconnect and terminal close | `backend/api/research.py`, schemas, main; T13 | B: HTTP response fields and ordered event IDs match persisted rows; slow client reconnects; task continues after one disconnect | Current D5 recheck passed: real localhost HTTP/SSE path gives specified codes, matching ordered event IDs, disconnect/reconnect and restart; regression closes cancellation, disconnect/SQLite and concurrent terminal response races. Controlled source is simulated; live provider research remains unverified. |
-| R12 / Spec §20; Contracts HTTP | Vue goal, Start, Cancel, status, timeline, sourced report, recent tasks through six routes only | `frontend/`; T14 | B/manual UI: type-check/build pass; user can start, see event/report, cancel and reload recent task; no token in browser payload | `npm run type-check --prefix frontend`, build and demo record; app absent |
+| R12 / Spec §20; Contracts HTTP | Vue goal, Start, Cancel, status, timeline, sourced report, recent tasks through six routes only | `frontend/`; T14 | B/manual UI: locked install/type-check/test/build pass; user can start, see event/report, cancel and reload recent task; no token in browser payload | 2026-10-14 受控 UI 路径、20 个交互测试、部分报告未完成事项、排队到运行轮询同步、初次轨迹失败仍建立 SSE、生命周期事件不误记动作步号、初次加载竞态、断线、终态详情失败有界重试、创建任务立即选中及手动刷新重连有本次证据；真实提供方研究留 D7。见 D6 复核记录。 |
 | R13 / Spec §22 and Done when | Three to five public, unauthenticated candidate/comparison/change tasks complete reliably | Agent, API, UI; T07,T13,T14 | D: each run records goal, task ID, final state, steps, sources, report, failure reason, browser/client cleanup | `docs/audits/V1_DELIVERY_REPORT.md` plus raw redacted run records; unverified |
-| R14 / Spec §21; Benchmark Protocol | Same DeepSeek model/cases/budgets, raw records, deterministic coverage; full-system and browser-only comparisons separate | `benchmark/`; T15 | E: 18 runs for B01–B03 × three arms × two repeats, each with raw status/metrics; no unmeasured improvement percentage | `data/benchmark/` redacted JSON and delivery report; protocol only |
+| R14 / Spec §21; Benchmark Protocol | Same DeepSeek model/cases/budgets, raw records, deterministic coverage; full-system and browser-only comparisons separate | `benchmark/`; T15 | E: 18 runs for B01–B03 × three arms × two repeats, each with raw status/metrics; no unmeasured improvement percentage | 2026-10-15 基准定向 85 passed，受控伪造 18 条记录三组各 6、两次失败保留且脱敏；B02 文档首页及 B03 未完成段不作具体字段来源、GitLab issue 不作第二项目、B03 声称最新版对齐 tag、任务标题排除及页面秘密均有回归。大写 HTTPS URL 也从 JSON 记录中脱敏，baseline 超时步骤后的 URL、adaptive 时限前已完成动作和浏览器事件均计入访问及步骤。baseline 保持上游默认配置、自评单列，预算阈值跳过后续 judge；30 步耗尽或未执行 done 均记失败。主仓库和上游工作区内容 SHA-256 入记录，版本预检可记录浏览器版本或显式报 unverified；真实 18 次和来源核对留 D7。Baseline token parity 是 mismatched。 |
+
+## Current D6 local evidence (2026-10-15)
+
+The current controlled fake-provider browser path covered creation, sourced
+report, keyboard start, cancellation, refresh recovery, 404/422/503, API proxy
+outage, SSE interruption and automatic `server_restart` recovery. The API used
+isolated `.pytest_cache/d6-recheck-live/demo.db`; no D7 public success or real
+benchmark result is inferred. The 18-attempt controlled run kept all redacted
+JSON files, including two failures. Failure-first regressions cover source
+attribution, duplicate scoring, budget boundaries, secret redaction, SSE
+recovery and task selection races. The benchmark suite passed **85 tests**;
+the frontend passed **20 tests**. The latest
+Python 3.12/3.13 offline suites each passed **383 tests with one opt-in browser
+test deselected** after the twenty-fifth review fixes. All twenty-five completed full reviews
+ran with effective `sandbox: read-only`; a scoped read-only review of the final
+two repairs found no blocking issue. Local D6 acceptance passed.
+Exact outputs and user-path IDs are
+in `docs/audits/D6_ACCEPTANCE_2026-10-12.md`.
 
 ## Current D5 recheck (2026-10-12)
 
@@ -91,7 +109,7 @@ format --check adaptive_agent backend benchmark tests`, and `uv run --offline
 Real Chromium: `uv run --locked pytest -q -m browser
 tests/smoke/test_browser_use_adapter.py`. Frontend after T14:
 `npm ci --prefix frontend`, `npm run type-check --prefix frontend`,
-`npm run build --prefix frontend`. D/E require their run manifests and raw
+`npm run test --prefix frontend`, `npm run build --prefix frontend`. D/E require their run manifests and raw
 records, not a pytest count. Reports must label each as **current passed**,
 **current failed**, **historical passed**, **source confirmed**, **planned**, or
 **unverified with reason**.

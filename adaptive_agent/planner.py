@@ -33,8 +33,9 @@ class InitialSubgoals(BaseModel):
 
 
 class PlannerService:
-    def __init__(self, llm: BaseLLMClient) -> None:
+    def __init__(self, llm: BaseLLMClient, *, browser_only: bool = False) -> None:
         self.llm = llm
+        self.browser_only = browser_only
 
     async def initialize(self, goal: str) -> list[Subgoal]:
         """Propose high-level subgoals for a later reducer event."""
@@ -67,8 +68,13 @@ class PlannerService:
                 else:
                     history = context
                 bounded += label + history
+        tool_constraint = (
+            "Only browser actions are available; never select GitHub.\n"
+            if self.browser_only
+            else ""
+        )
         prompt = (
-            f"{PLANNER_SYSTEM_PROMPT}\nBounded context: {bounded}\n"
+            f"{PLANNER_SYSTEM_PROMPT}\n{tool_constraint}Bounded context: {bounded}\n"
             "Choose exactly one next action as JSON."
         )
         completion = await self.llm.complete_structured(prompt, PlanDecision)

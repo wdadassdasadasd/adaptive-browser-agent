@@ -171,6 +171,22 @@ def make_loop(
 
 
 @pytest.mark.asyncio
+async def test_browser_only_github_mistake_replans_without_calling_github() -> None:
+    provider, github, browser = FakeProvider(tool="github"), FakeGithub(), FakeBrowser()
+    loop = AgentLoop(
+        provider,
+        ToolRouter(browser, github, browser_only=True),
+        browser_only=True,
+        max_no_progress=2,
+    )
+    result = await loop.run("Research browser-use release")
+    assert github.calls == 0
+    assert result.state.stop_reason == "no_progress"
+    assert result.state.status != "completed"
+    assert [event.event_type for event in result.events].count("step_evaluated") == 2
+
+
+@pytest.mark.asyncio
 async def test_completed_loop_has_one_terminal_event_sourced_report_and_usage() -> None:
     provider, github, browser = FakeProvider(), FakeGithub(), FakeBrowser()
 
@@ -622,6 +638,33 @@ async def test_time_limit_after_initialization_prevents_next_action() -> None:
     assert (result.state.status, result.state.stop_reason) == ("failed", "time_limit")
     assert provider.calls == ["InitialSubgoals"]
     assert github.calls == 0
+
+
+@pytest.mark.asyncio
+async def test_time_limit_after_completed_tool_retains_pending_result() -> None:
+    current = [0.0]
+
+    class ExpiringGithub(FakeGithub):
+        async def execute(self, action: str, target: str | None, value: str | None):
+            result = await super().execute(action, target, value)
+            current[0] = 900.0
+            return result
+
+    provider, github, browser = FakeProvider(), ExpiringGithub(), FakeBrowser()
+    result = await make_loop(provider, github, browser, clock=lambda: current[0]).run(
+        "Research FastAPI"
+    )
+
+    assert (result.state.status, result.state.stop_reason, result.state.step) == (
+        "failed",
+        "time_limit",
+        0,
+    )
+    assert github.calls == 1
+    assert result.pending_tool_result is not None
+    assert result.pending_tool_result.source_url == (
+        "https://api.github.com/repos/fastapi/fastapi"
+    )
 
 
 @pytest.mark.asyncio

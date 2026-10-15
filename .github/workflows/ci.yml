@@ -42,5 +42,20 @@ jobs:
       - name: Offline tests
         run: uv run --offline --locked pytest -q
 
-# The required frontend type-check/build job is added with T14 when
-# frontend/package.json and its lockfile exist. Until then it is unverified.
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install locked frontend dependencies
+        run: npm ci --prefix frontend
+      - name: Type-check frontend
+        run: npm run type-check --prefix frontend
+      - name: Build frontend
+        run: npm run build --prefix frontend
+      - name: Frontend interaction tests
+        run: npm run test --prefix frontend

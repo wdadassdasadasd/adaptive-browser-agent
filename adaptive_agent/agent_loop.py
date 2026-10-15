@@ -37,6 +37,7 @@ class AgentRunResult:
     state: ResearchState
     report: ResearchReport | None
     events: tuple[AgentEvent, ...]
+    pending_tool_result: ToolResult | None = None
 
 
 class _MeteredProvider:
@@ -102,6 +103,7 @@ class AgentLoop:
         max_no_progress: int = 5,
         cleanup_timeout: float = 5,
         clock: Callable[[], float] = monotonic,
+        browser_only: bool = False,
     ) -> None:
         if (
             max_steps < 1
@@ -121,6 +123,7 @@ class AgentLoop:
         self.max_no_progress = max_no_progress
         self.cleanup_timeout = cleanup_timeout
         self.clock = clock
+        self.browser_only = browser_only
         self._used = False
 
     async def run(
@@ -143,7 +146,7 @@ class AgentLoop:
         )
         events: list[AgentEvent] = []
         meter = _MeteredProvider(self.provider, self.max_tokens)
-        planner = PlannerService(meter)
+        planner = PlannerService(meter, browser_only=self.browser_only)
         evaluator = EvaluatorService(meter)
         reporter = ReporterService(meter)
         started = self.clock()
@@ -229,6 +232,7 @@ class AgentLoop:
                 if cancel_waiter is not None:
                     cancel_waiter.cancel()
 
+        pending_tool_result: ToolResult | None = None
         try:
             await emit("task_started")
             stop_reason = limit_reason()
@@ -286,6 +290,7 @@ class AgentLoop:
                         await bounded(self.tool_router.browser.start_session())
                         browser_started = True
                     result = await bounded(self.tool_router.execute(decision, state))
+                    pending_tool_result = result
                     if (
                         result.error_type == EvaluationErrorType.TECHNICAL
                         and limit_reason() is None
@@ -293,6 +298,9 @@ class AgentLoop:
                         result = await bounded(
                             self.tool_router.execute(decision, state)
                         )
+                        pending_tool_result = result
+                if signature == previous_failed_action:
+                    pending_tool_result = result
                 stop_reason = limit_reason()
                 if stop_reason is not None:
                     break
@@ -308,6 +316,7 @@ class AgentLoop:
                         **usage_delta(),
                     },
                 )
+                pending_tool_result = None
                 previous_failed_action = (
                     signature
                     if not evaluation.success
@@ -460,7 +469,12 @@ class AgentLoop:
                 **usage_delta(),
             },
         )
-        return AgentRunResult(state=state, report=report, events=tuple(events))
+        return AgentRunResult(
+            state=state,
+            report=report,
+            events=tuple(events),
+            pending_tool_result=pending_tool_result,
+        )
 
     @staticmethod
     def _terminal_outcome(reason: str, has_facts: bool) -> tuple[ResearchStatus, str]:
