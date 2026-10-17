@@ -177,6 +177,122 @@ async def test_supported_fact_can_complete_subgoal() -> None:
 
 
 @pytest.mark.asyncio
+async def test_one_unattributed_fact_does_not_discard_valid_sourced_fact() -> None:
+    valid = ResearchFact(
+        content="Selenium repository",
+        source_url="https://api.github.com/repos/SeleniumHQ/selenium",
+        source_title="GitHub repository API",
+        evidence='"full_name":"SeleniumHQ/selenium"',
+        subject="SeleniumHQ/selenium",
+        subject_kind="project",
+    )
+    invalid = ResearchFact(
+        content="Apache License 2.0",
+        source_url=valid.source_url,
+        source_title=valid.source_title,
+        evidence='"license":{"name":"Apache License 2.0"}',
+        subject="OtherOrg/other",
+        subject_kind="project",
+    )
+    llm = FakeLLM(
+        EvaluationResult(
+            success=True,
+            reason="Repository found",
+            subgoal_completed=True,
+            facts=[valid, invalid],
+        )
+    )
+    tool_result = ToolResult(
+        tool="github",
+        action="get_repository",
+        success=True,
+        content=(
+            '{"full_name":"SeleniumHQ/selenium",'
+            '"license":{"name":"Apache License 2.0"}}'
+        ),
+        source_url=valid.source_url,
+    )
+    selected = PlanDecision(
+        subgoal_id="s1",
+        reasoning="Inspect repository",
+        tool="github",
+        action="get_repository",
+        target="SeleniumHQ/selenium",
+        expected_result="Official repository details",
+    )
+
+    actual = await EvaluatorService(llm).evaluate(state(), selected, tool_result, {})
+
+    assert actual.success
+    assert actual.facts == [valid]
+    assert actual.subgoal_completed is False
+    assert actual.should_replan is True
+
+
+@pytest.mark.asyncio
+async def test_official_repository_release_url_anchors_subject_for_change_fact() -> (
+    None
+):
+    source = "https://github.com/browser-use/browser-use/releases/tag/0.13.11"
+    fact = ResearchFact(
+        content="Release 0.13.11 adds a toolset",
+        source_url=source,
+        source_title="browser-use release",
+        evidence="This release includes Browser Use toolsets for Claude",
+        subject="browser-use/browser-use",
+        subject_kind="project",
+    )
+    llm = FakeLLM(
+        EvaluationResult(success=True, reason="Official release evidence", facts=[fact])
+    )
+    selected = PlanDecision(
+        subgoal_id="s1",
+        reasoning="Read release notes",
+        tool="browser",
+        action="extract",
+        target="What changed?",
+        expected_result="Changes from release page",
+    )
+    extracted = ToolResult(
+        tool="browser",
+        action="extract",
+        success=True,
+        content="This release includes Browser Use toolsets for Claude",
+        source_url=source,
+    )
+
+    actual = await EvaluatorService(llm).evaluate(state(), selected, extracted, {})
+
+    assert actual.success and actual.facts == [fact]
+
+
+@pytest.mark.asyncio
+async def test_repository_url_does_not_anchor_change_subject() -> None:
+    source = "https://github.com/browser-use/browser-use/releases/tag/0.13.11"
+    fact = ResearchFact(
+        content="Release 0.13.11 adds a toolset",
+        source_url=source,
+        source_title="browser-use release",
+        evidence="This release includes Browser Use toolsets for Claude",
+        subject="browser-use/browser-use",
+        subject_kind="change",
+    )
+    llm = FakeLLM(EvaluationResult(success=True, reason="Found change", facts=[fact]))
+    extracted = ToolResult(
+        tool="browser",
+        action="extract",
+        success=True,
+        content="This release includes Browser Use toolsets for Claude",
+        source_url=source,
+    )
+
+    actual = await EvaluatorService(llm).evaluate(state(), decision(), extracted, {})
+
+    assert actual.error_type == "insufficient_info"
+    assert actual.facts == []
+
+
+@pytest.mark.asyncio
 async def test_counted_subject_must_appear_in_observed_evidence() -> None:
     fact = ResearchFact(
         content="FastAPI version 1.0",

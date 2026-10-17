@@ -1,0 +1,86 @@
+{
+  "case": "B01",
+  "arm": "adaptive-full",
+  "repetition": 2,
+  "protocol_version": "V1-D7-r12",
+  "task": "Find two publicly documented Python browser-automation projects suitable for researching web pages. For each, give its name, official repository URL, license, and documented installation command. Cite official sources.",
+  "prompt_sha256": "19ea1b4649f9ae465a31cd302882d12f1b072338e1884d2b37df3395abbfd730",
+  "model": "deepseek-flash",
+  "git_revisions": {
+    "project": "7385fcf5e8cbb194c04b18f5aaba9f070a6c243f",
+    "project_dirty": true,
+    "project_worktree_sha256": "1f98ac965d2a5f4e44332f514334418e91c8b58e94e97bf61954e2dd10d8f1cb",
+    "browser_use_gitlink": "7be96ed8bafa8dfe1eef228b59cf5c884b8b2431",
+    "browser_use_actual_head": "7be96ed8bafa8dfe1eef228b59cf5c884b8b2431"
+  },
+  "browser_use_version": "0.13.10",
+  "environment": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.13",
+    "browser": "Chrome/155.0.8059.80",
+    "network": "unverified"
+  },
+  "started_at": "2026-10-16T15:30:52.153154+00:00",
+  "ended_at": "2026-10-16T15:32:32.498567+00:00",
+  "duration_seconds": 99.875,
+  "status": "failed",
+  "answer": "# Research report: Find two publicly documented Python browser-automation projects suitable for researching web pages. For each, give its name, official repository URL, license, and documented installation command. Cite official sources.\n\nInsufficient evidence; stop reason: token_budget (the model usage limit was reached).\n\n## Findings\nNo verified findings.\n\n## Comparison\nInsufficient evidence for a supported comparison.\n\n## Recommendation\nInsufficient evidence for a supported recommendation.\n\n## Unknown or unfinished\n- Identify two distinct publicly documented Python browser-automation projects suitable for researching web pages (e.g., navigating, fetching, and extracting content from live pages), and record for each the project name and its official repository URL.\n- Establish the license of each of the two selected projects from official sources, capturing the exact license identifier as published by the project.\n- Establish the documented installation command for each project, as published in that project's own official installation instructions.\n- Requested 2 project(s); verified 0.\n\n## Sources\n- No verified sources.",
+  "source_urls": [
+    "https://api.github.com/search/repositories",
+    "https://api.github.com/repos/SeleniumHQ/selenium",
+    "https://api.github.com/repos/microsoft/playwright-python",
+    "https://pypi.org"
+  ],
+  "trace": [
+    {
+      "step": 1,
+      "tool": "github",
+      "action": "search_repositories",
+      "error_type": "none",
+      "success": true
+    },
+    {
+      "step": 2,
+      "tool": "github",
+      "action": "get_repository",
+      "error_type": "none",
+      "success": true
+    },
+    {
+      "step": 3,
+      "tool": "github",
+      "action": "get_repository",
+      "error_type": "none",
+      "success": true
+    },
+    {
+      "step": 4,
+      "tool": "browser",
+      "action": "navigate",
+      "error_type": "none",
+      "success": true
+    }
+  ],
+  "steps": 4,
+  "prompt_tokens": 18286,
+  "completion_tokens": 10883,
+  "duplicate_urls": 0,
+  "score_fields": {
+    "project_1_name": false,
+    "project_1_repository": false,
+    "project_1_license": false,
+    "project_1_install": false,
+    "project_1_source": false,
+    "project_2_name": false,
+    "project_2_repository": false,
+    "project_2_license": false,
+    "project_2_install": false,
+    "project_2_source": false
+  },
+  "coverage": 0.0,
+  "manual_contradiction_note": "none",
+  "failure_reason": "token_budget",
+  "upstream_success": null,
+  "budget_parity": "verified",
+  "run_id": "20261016T152251931497Z-3de75ed5-B01-adaptive-full-r2"
+}

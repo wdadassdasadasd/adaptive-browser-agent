@@ -17,7 +17,7 @@ Status, completion level, and stop reason answer different questions:
 
 | Situation | API status | Completion level | Stop reason |
 | --- | --- | --- | --- |
-| Required subgoals / explicit target count satisfied with sourced evidence | `completed` | `full` | `goal_satisfied` / `target_count` |
+| Required subgoals completed with sourced evidence, and explicit target count met when present | `completed` | `full` | `goal_satisfied` / `target_count` |
 | Budget, time, replan exhaustion, insufficient information, or recoverable failure with usable sourced facts | `partial` | `partial` | Specific limiting reason |
 | Same stop with no usable sourced fact, or unhandled execution error | `failed` | `none` | Specific failure reason |
 | User requested cancellation, including while queued | `cancelled` | `partial` if facts exist, else `none` | `user_cancelled` |
@@ -28,6 +28,8 @@ states what is known and what remains unresolved; `failed` may have no report.
 When all subgoals are complete but an explicit target count remains unmet,
 `insufficient_info` is the stop reason (`partial` with sourced facts, otherwise
 `failed`). A reached hard limit keeps its specific reason.
+An explicit count reached while another required subgoal remains unfinished is
+not a completion; the loop continues within its bounded limits.
 TaskManager owns slot acquisition, cancellation signals, and cleanup; AgentLoop
 owns progress and stop decisions; Persistence owns atomic storage. A subgoal
 becomes `in_progress` on selection, `completed` only on validated evaluation,
@@ -62,7 +64,7 @@ session, or SSE connection.
 | --- | --- |
 | ResearchState | `task_id: str`, `goal: str`, `status` (default `queued`), `step: int` (default 0), `max_steps: int` (default 30), `subgoals: list[Subgoal]`, `facts: list[ResearchFact]`, `visited_urls: list[str]`, `search_history: list[str]`, `current_subgoal_id: str | None`, `prompt_tokens: int`, `completion_tokens: int`, `consecutive_no_progress_replans: int` (default 0), `cancellation_requested: bool`, `stop_reason: str | None`, `completion_level: none|partial|full`, `created_at`, `updated_at`. `step <= max_steps`; current subgoal ID must refer to an existing subgoal. |
 | Subgoal | `id: str`, `description: str`, `completion_criteria: str`, `priority: int`, `status: pending|in_progress|completed|failed`, optional `failure_reason`. Criteria describe observable evidence, not a fixed action script. |
-| ResearchFact | Existing `id`, optional `subgoal_id`, nonempty `content`, `source_url`, `source_title`, optional `evidence`, `confidence`, `subject`, and `subject_kind` (`project|change`), `created_at`. A material fact must carry a public HTTP(S) source URL actually observed by a tool. A counted subject must match a complete name in observed evidence. |
+| ResearchFact | Existing `id`, optional `subgoal_id`, nonempty `content`, `source_url`, `source_title`, optional `evidence`, `confidence`, `subject`, and `subject_kind` (`project|change`), `created_at`. A material fact must carry a public HTTP(S) source URL actually observed by a tool. A counted subject must match a complete name in its verbatim evidence, or the exact owner/repository identity in an observed official GitHub repository or release URL. Search-result URLs do not anchor a repository identity. |
 | PlanDecision | `subgoal_id`, `reasoning`, `tool`, `action`, optional `target`, optional `element_index`, optional `value`, `expected_result`. `subgoal_id` must exist and be unfinished. Exactly one primary action is selected per iteration. |
 | EvaluationResult | `success`, nonempty `reason`, `subgoal_completed`, `should_replan`, `facts: list[ResearchFact]`, `error_type: none|technical|semantic|insufficient_info`. `success=true` requires `error_type=none`; `success=false` requires non-`none`, `subgoal_completed=false`, and `should_replan=true`. Facts are admitted only after source validation. Invalid combinations fail Pydantic validation and become a bounded structured-output failure, not state mutation. |
 | Finding | `name`, `description`, `attributes: dict[str,str]`, `source_urls: list[str]`, optional `supporting_fact_ids: list[str]`. Each material claim maps to collected fact IDs and source URLs. |

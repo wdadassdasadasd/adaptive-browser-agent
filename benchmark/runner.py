@@ -21,6 +21,7 @@ from benchmark.metrics import duplicate_url_count, score_answer, urls_in
 
 ARMS = ("baseline", "adaptive-full", "adaptive-browser-only")
 MODEL = "deepseek-flash"
+PROTOCOL_VERSION = "V1-D7-r12"
 _PUBLIC_SOURCE_HOSTS = {
     "github.com",
     "gitlab.com",
@@ -343,6 +344,7 @@ async def attempt(
         "case": case,
         "arm": arm,
         "repetition": repetition,
+        "protocol_version": PROTOCOL_VERSION,
         "task": task,
         "prompt_sha256": hashlib.sha256(task.encode()).hexdigest(),
         "model": MODEL,
@@ -393,47 +395,72 @@ def save_record(record: dict[str, Any], directory: Path) -> Path:
     return path
 
 
+def _summarize_rows(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    failures: dict[str, int] = {}
+    for row in rows:
+        if row["status"] != "completed":
+            reason = row.get("failure_reason") or "unspecified"
+            failures[reason] = failures.get(reason, 0) + 1
+    return {
+        "attempts": len(rows),
+        "completion_rate": mean(
+            row["status"] == "completed"
+            and row["coverage"] == 1
+            and row["manual_contradiction_note"] == "none"
+            for row in rows
+        )
+        if rows and all(row["manual_contradiction_note"] is not None for row in rows)
+        else None,
+        "provisional_full_coverage_rate": mean(
+            row["status"] == "completed" and row["coverage"] == 1 for row in rows
+        )
+        if rows
+        else None,
+        "mean_steps": mean(row["steps"] for row in rows) if rows else None,
+        "mean_duplicate_urls": mean(row["duplicate_urls"] for row in rows)
+        if rows
+        else None,
+        "mean_duration_seconds": mean(row["duration_seconds"] for row in rows)
+        if rows
+        else None,
+        "mean_coverage": mean(row["coverage"] for row in rows) if rows else None,
+        "mean_prompt_tokens": mean(row["prompt_tokens"] for row in rows)
+        if rows and all(row["prompt_tokens"] is not None for row in rows)
+        else None,
+        "mean_completion_tokens": mean(row["completion_tokens"] for row in rows)
+        if rows and all(row["completion_tokens"] is not None for row in rows)
+        else None,
+        "budget_parity": "verified"
+        if rows and all(row["budget_parity"] == "verified" for row in rows)
+        else "mismatched",
+        "missing_values": {
+            field: sum(row[field] is None for row in rows)
+            for field in ("prompt_tokens", "completion_tokens")
+        },
+        "failure_categories": failures,
+    }
+
+
 def summarize(records: list[dict[str, Any]]) -> dict[str, Any]:
     """Keep full-system and mechanism comparisons distinct and uncertainty visible."""
-    arms = {}
-    for arm in ARMS:
-        rows = [row for row in records if row["arm"] == arm]
-        arms[arm] = {
-            "attempts": len(rows),
-            "completion_rate": mean(
-                row["status"] == "completed"
-                and row["coverage"] == 1
-                and row["manual_contradiction_note"] == "none"
-                for row in rows
+    versions = {row.get("protocol_version", "unknown") for row in records}
+    arms = {
+        arm: _summarize_rows([row for row in records if row["arm"] == arm])
+        for arm in ARMS
+    }
+    by_case = {
+        case: {
+            arm: _summarize_rows(
+                [row for row in records if row["case"] == case and row["arm"] == arm]
             )
-            if rows
-            and all(row["manual_contradiction_note"] is not None for row in rows)
-            else None,
-            "provisional_full_coverage_rate": mean(
-                row["status"] == "completed" and row["coverage"] == 1 for row in rows
-            )
-            if rows
-            else None,
-            "mean_steps": mean(row["steps"] for row in rows) if rows else None,
-            "mean_duplicate_urls": mean(row["duplicate_urls"] for row in rows)
-            if rows
-            else None,
-            "mean_duration_seconds": mean(row["duration_seconds"] for row in rows)
-            if rows
-            else None,
-            "mean_coverage": mean(row["coverage"] for row in rows) if rows else None,
-            "mean_prompt_tokens": mean(row["prompt_tokens"] for row in rows)
-            if rows and all(row["prompt_tokens"] is not None for row in rows)
-            else None,
-            "mean_completion_tokens": mean(row["completion_tokens"] for row in rows)
-            if rows and all(row["completion_tokens"] is not None for row in rows)
-            else None,
-            "budget_parity": "verified"
-            if rows and all(row["budget_parity"] == "verified" for row in rows)
-            else "mismatched",
+            for arm in ARMS
         }
+        for case in CASES
+    }
     return {
         "arms": arms,
+        "by_case": by_case,
+        "protocol_version": next(iter(versions)) if len(versions) == 1 else "mixed",
         "comparisons": {
             "full_system_vs_baseline": ["adaptive-full", "baseline"],
             "browser_only_vs_baseline": ["adaptive-browser-only", "baseline"],
@@ -442,7 +469,9 @@ def summarize(records: list[dict[str, Any]]) -> dict[str, Any]:
             (row["case"], row["arm"], row["repetition"]) for row in records
         }
         == set(schedule(tuple(CASES), ARMS, 2))
-        and len(records) == 18,
+        and len(records) == 18
+        and len(versions) == 1
+        and "unknown" not in versions,
         "controlled_advantage_claim_allowed": False,
     }
 
@@ -504,6 +533,7 @@ async def _run_live(
     paths = []
     for case, arm, repetition in planned:
         record = await attempt(case, arm, repetition, environment=environment)
+        record["run_id"] = f"{run_id}-{case}-{arm}-r{repetition}"
         path = save_record(record, run_dir)
         records.append(record)
         paths.append(path.name)

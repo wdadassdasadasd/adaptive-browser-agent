@@ -4,7 +4,10 @@ import json
 from collections.abc import Mapping
 from typing import Any
 
-from adaptive_agent.goal_count import subject_in_evidence
+from adaptive_agent.goal_count import (
+    subject_in_evidence,
+    subject_matches_repository_url,
+)
 from adaptive_agent.llm.base import BaseLLMClient, LLMError
 from adaptive_agent.normalization import normalize_url
 from adaptive_agent.prompts.evaluator import EVALUATOR_SYSTEM_PROMPT
@@ -121,22 +124,36 @@ class EvaluatorService:
         evaluation = EvaluationResult.model_validate(completion.value)
         if not evaluation.success:
             return evaluation.model_copy(update={"facts": []})
-        for fact in evaluation.facts:
-            if (
-                not result.source_url
-                or normalize_url(fact.source_url) != normalize_url(result.source_url)
-                or not fact.evidence
-                or fact.evidence not in result.content
-                or fact.subgoal_id not in {None, decision.subgoal_id}
+        supported = [
+            fact
+            for fact in evaluation.facts
+            if result.source_url
+            and normalize_url(fact.source_url) == normalize_url(result.source_url)
+            and fact.evidence
+            and fact.evidence in result.content
+            and fact.subgoal_id in {None, decision.subgoal_id}
+            and (
+                fact.subject is None
+                or subject_in_evidence(fact.subject, fact.evidence)
                 or (
-                    fact.subject is not None
-                    and not subject_in_evidence(fact.subject, fact.evidence)
+                    fact.subject_kind == "project"
+                    and subject_matches_repository_url(fact.subject, result.source_url)
                 )
-                or (fact.subject_kind is not None and fact.subject is None)
-            ):
-                return self._failure(
-                    "Fact lacks observed source evidence", "insufficient_info"
-                )
+            )
+            and (fact.subject_kind is None or fact.subject is not None)
+        ]
+        if evaluation.facts and not supported:
+            return self._failure(
+                "Fact lacks observed source evidence", "insufficient_info"
+            )
+        if len(supported) != len(evaluation.facts):
+            return evaluation.model_copy(
+                update={
+                    "facts": supported,
+                    "subgoal_completed": False,
+                    "should_replan": True,
+                }
+            )
         if evaluation.subgoal_completed and not evaluation.facts:
             return self._failure("Completion lacks a sourced fact", "insufficient_info")
         return evaluation

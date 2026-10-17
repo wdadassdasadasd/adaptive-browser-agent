@@ -1,8 +1,90 @@
 # V1 benchmark protocol
 
+Protocol revision: **V1-D7-r12 (2026-10-16)**. Before any formal D7 benchmark
+attempt, a real B01 UI diagnostic failed after subgoal initialization because
+the Planner requested unsupported actions (`browser/search` and a malformed
+GitHub repository target). The Planner prompt now enumerates the existing
+tool actions and target forms, and one bounded correction handles an invalid
+action contract. Real acceptance also exposed all-or-nothing fact rejection,
+release facts whose subject is anchored by an official repository URL, and a
+premature target-count stop; those Adaptive behaviors were corrected before
+the formal batch. The initialization prompt now keeps 1–3 high-level,
+tool-agnostic evidence subgoals after real runs showed over-specific
+browser-display criteria. This changes Adaptive internals, so the revision is
+explicit; the three fixed case prompts, Expected Fields,
+scoring rules, arms, and budgets below are unchanged. The failed UI diagnostic
+and bounded direct diagnostics are not benchmark attempts. Formal comparisons
+must use one code fingerprint and this revision across all three arms. The
+first real r3 batch is retained as a historical failed batch: its raw JSON
+omitted an explicit per-attempt `run_id`, which r4 adds before saving each
+record. This identifier change does not alter the prompts, scoring or Agent
+behavior; r4 received a separate complete three-arm batch. The r4 batch
+exposed a project-count inconsistency: Evaluator admitted an exact official
+repository URL as identity evidence, while the quantity check ignored it.
+r5 shares that identity rule between both components and receives another
+complete three-arm batch. The r4 batch also showed a browser kill exceeding
+the previous five-second cleanup allowance; r5 allows 20 seconds and awaits
+the cancelled close briefly before returning a bounded failure. Historical
+r3/r4 records remain untouched. A scoped read-only review of r5 found that a
+GitHub non-repository route could anchor a project name and that a `change`
+fact could incorrectly use the project-only URL identity exception. r6 limits
+that exception to recognized repository/release routes and project facts; it
+requires a complete new three-arm batch. Historical r5 records also remain
+untouched. A second scoped read-only review found that other GitHub site
+namespaces (`sponsors`, `apps`, `issues`, `pulls`) could still be mistaken for
+repository owners. r7 excludes these and other reserved site routes
+case-insensitively, with failure-first tests. Fixed case prompts, Expected
+Fields, scoring rules, budgets, and arms remained unchanged through r7. The
+DeepSeek account returned HTTP 402 `Insufficient Balance` during r6. After
+balance was restored, r7 ran all 18 real attempts. Manual inspection found
+that B03 full-r1 received publication-date credit for the previous version's
+date, although the latest version's date was absent. r8 changes only that
+scoring attribution: a publication date must belong to the claimed release
+version. The fixed prompts, Expected Fields, arms, and budgets are unchanged.
+The r7 records and their original scoring fields remain preserved; a complete
+new three-arm r8 batch is required before comparing the corrected rule. The
+r8 batch exposed another scoring false positive: a release title containing
+"fixes" counted as a change even when no release-note change was stated.
+r9 excludes quoted release titles from change extraction. The original r8
+records and scores remain preserved; r9 requires a complete new three-arm
+batch. The complete r9 batch then exposed a B01 attribution error: an
+uncited Selenium license sentence in a comparison paragraph inherited the
+next candidate's repository URL. r10 starts a new attribution block at an
+explicit repository subject, so that sentence cannot score the next license.
+The r9 raw records and original scores remain preserved; r10 receives a new
+complete three-arm batch. Fixed prompts, Expected Fields, arms, and budgets
+remain unchanged. An independent effective read-only review of the r10 staged
+diff found two more scoring false positives: a bulleted repository subject did
+not cut off the previous candidate's uncited license, and an unquoted release
+title with change verbs counted as two release-note changes. r11 extends the
+candidate boundary to bulleted/numbered subjects and excludes unquoted release
+titles from change extraction. Both findings were reproduced by failing tests
+before the fix. The r10 records, manual checks, and original scores are
+preserved; r11 requires a new complete three-arm batch. Fixed case text,
+Expected Fields, arms, and budgets are unchanged.
+
+The complete r11 batch exposed one more B03 scoring false positive: its
+GitHub page title appeared once as a Findings heading and again in the
+Comparison section, so one actual described change scored as two. r12 excludes
+version-prefixed GitHub page titles from change extraction. A failure-first
+test reproduces the r11 answer. A scoped read-only pre-batch review also found
+that `+` candidate bullets could inherit a previous license, unquoted titles
+with semicolons could count as release-note changes, and valid changes in
+Comparison or a version-prefixed change heading could be missed. Four more
+failure-first tests cover those cases; r12 accepts all Markdown candidate
+bullets, excludes the whole unquoted title sentence, and counts distinct
+change claims in the answer while skipping only GitHub page titles. The r11
+raw records, manual checks, and original scores stay intact; r12 requires
+another complete three-arm batch. Fixed case text, Expected Fields, arms, and
+budgets are unchanged. A final scoped read-only review found that a genuine
+version-prefixed change ending in `· GitHub SSO` was also being skipped; its
+failure-first regression tightened the page-title exclusion to lines ending
+exactly in `· GitHub` before the r12 batch.
+
 Status: D6 runner, deterministic scorer, and redacted records implemented
-(2026-10-12); no 18-run real result exists. Do not report an improvement
-percentage before the real runs and raw data exist.
+(2026-10-12). Real r3/r4/r5/r6/r7/r8/r9/r10/r11 batches are retained as D7 attempts; r12 is the
+current code revision. Report only actual measured results and do not
+infer an improvement from failed or budget-mismatched runs.
 
 ## Fixed cases and Expected Fields
 
@@ -54,7 +136,8 @@ budget-mismatched and avoid a controlled-mechanism claim.
 
 ## Run record and reporting
 
-Save one redacted JSON record per run under `data/benchmark/` containing case
+Save one redacted JSON record per run under `data/benchmark/` containing a
+unique per-attempt `run_id`, case
 and arm IDs, repetition, exact task/prompt hash, model, source git commits and
 project and checked-out browser-use working-tree dirty flag/content SHA-256,
 environment and browser versions, UTC start/end, status, redacted answer, observed

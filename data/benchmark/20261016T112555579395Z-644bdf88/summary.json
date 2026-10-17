@@ -1,0 +1,281 @@
+{
+  "arms": {
+    "baseline": {
+      "attempts": 6,
+      "completion_rate": 0,
+      "provisional_full_coverage_rate": 0,
+      "mean_steps": 6,
+      "mean_duplicate_urls": 0,
+      "mean_duration_seconds": 25.507666666667017,
+      "mean_coverage": 0.0,
+      "mean_prompt_tokens": null,
+      "mean_completion_tokens": null,
+      "budget_parity": "mismatched",
+      "missing_values": {
+        "prompt_tokens": 6,
+        "completion_tokens": 6
+      },
+      "failure_categories": {
+        "upstream_unfinished": 6
+      }
+    },
+    "adaptive-full": {
+      "attempts": 6,
+      "completion_rate": 0,
+      "provisional_full_coverage_rate": 0,
+      "mean_steps": 4.166666666666667,
+      "mean_duplicate_urls": 0,
+      "mean_duration_seconds": 57.666666666666664,
+      "mean_coverage": 0.26666666666666666,
+      "mean_prompt_tokens": 22150.333333333332,
+      "mean_completion_tokens": 5828,
+      "budget_parity": "verified",
+      "missing_values": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0
+      },
+      "failure_categories": {
+        "token_budget": 5,
+        "no_progress": 1
+      }
+    },
+    "adaptive-browser-only": {
+      "attempts": 6,
+      "completion_rate": 0,
+      "provisional_full_coverage_rate": 0,
+      "mean_steps": 3.6666666666666665,
+      "mean_duplicate_urls": 0,
+      "mean_duration_seconds": 49.46083333333081,
+      "mean_coverage": 0.0,
+      "mean_prompt_tokens": 21419.166666666668,
+      "mean_completion_tokens": 3332.1666666666665,
+      "budget_parity": "verified",
+      "missing_values": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0
+      },
+      "failure_categories": {
+        "token_budget": 4,
+        "no_progress": 1,
+        "execution_error": 1
+      }
+    }
+  },
+  "by_case": {
+    "B01": {
+      "baseline": {
+        "attempts": 2,
+        "completion_rate": 0,
+        "provisional_full_coverage_rate": 0,
+        "mean_steps": 6,
+        "mean_duplicate_urls": 0,
+        "mean_duration_seconds": 28.695000000006985,
+        "mean_coverage": 0.0,
+        "mean_prompt_tokens": null,
+        "mean_completion_tokens": null,
+        "budget_parity": "mismatched",
+        "missing_values": {
+          "prompt_tokens": 2,
+          "completion_tokens": 2
+        },
+        "failure_categories": {
+          "upstream_unfinished": 2
+        }
+      },
+      "adaptive-full": {
+        "attempts": 2,
+        "completion_rate": 0,
+        "provisional_full_coverage_rate": 0,
+        "mean_steps": 4.5,
+        "mean_duplicate_urls": 0,
+        "mean_duration_seconds": 65.72649999998976,
+        "mean_coverage": 0.2,
+        "mean_prompt_tokens": 21343,
+        "mean_completion_tokens": 6832,
+        "budget_parity": "verified",
+        "missing_values": {
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        "failure_categories": {
+          "token_budget": 2
+        }
+      },
+      "adaptive-browser-only": {
+        "attempts": 2,
+        "completion_rate": 0,
+        "provisional_full_coverage_rate": 0,
+        "mean_steps": 5,
+        "mean_duplicate_urls": 0,
+        "mean_duration_seconds": 59.78900000000431,
+        "mean_coverage": 0.0,
+        "mean_prompt_tokens": 21633,
+        "mean_completion_tokens": 3620,
+        "budget_parity": "verified",
+        "missing_values": {
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        "failure_categories": {
+          "token_budget": 1,
+          "no_progress": 1
+        }
+      }
+    },
+    "B02": {
+      "baseline": {
+        "attempts": 2,
+        "completion_rate": 0,
+        "provisional_full_coverage_rate": 0,
+        "mean_steps": 6,
+        "mean_duplicate_urls": 0,
+        "mean_duration_seconds": 23.859499999991385,
+        "mean_coverage": 0.0,
+        "mean_prompt_tokens": null,
+        "mean_completion_tokens": null,
+        "budget_parity": "mismatched",
+        "missing_values": {
+          "prompt_tokens": 2,
+          "completion_tokens": 2
+        },
+        "failure_categories": {
+          "upstream_unfinished": 2
+        }
+      },
+      "adaptive-full": {
+        "attempts": 2,
+        "completion_rate": 0,
+        "provisional_full_coverage_rate": 0,
+        "mean_steps": 4,
+        "mean_duplicate_urls": 0,
+        "mean_duration_seconds": 48.9375,
+        "mean_coverage": 0.0,
+        "mean_prompt_tokens": 22544,
+        "mean_completion_tokens": 4297,
+        "budget_parity": "verified",
+        "missing_values": {
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        "failure_categories": {
+          "token_budget": 1,
+          "no_progress": 1
+        }
+      },
+      "adaptive-browser-only": {
+        "attempts": 2,
+        "completion_rate": 0,
+        "provisional_full_coverage_rate": 0,
+        "mean_steps": 2,
+        "mean_duplicate_urls": 0,
+        "mean_duration_seconds": 38.74199999999837,
+        "mean_coverage": 0.0,
+        "mean_prompt_tokens": 18427,
+        "mean_completion_tokens": 2220.5,
+        "budget_parity": "verified",
+        "missing_values": {
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        "failure_categories": {
+          "execution_error": 1,
+          "token_budget": 1
+        }
+      }
+    },
+    "B03": {
+      "baseline": {
+        "attempts": 2,
+        "completion_rate": 0,
+        "provisional_full_coverage_rate": 0,
+        "mean_steps": 6,
+        "mean_duplicate_urls": 0,
+        "mean_duration_seconds": 23.968500000002678,
+        "mean_coverage": 0.0,
+        "mean_prompt_tokens": null,
+        "mean_completion_tokens": null,
+        "budget_parity": "mismatched",
+        "missing_values": {
+          "prompt_tokens": 2,
+          "completion_tokens": 2
+        },
+        "failure_categories": {
+          "upstream_unfinished": 2
+        }
+      },
+      "adaptive-full": {
+        "attempts": 2,
+        "completion_rate": 0,
+        "provisional_full_coverage_rate": 0,
+        "mean_steps": 4,
+        "mean_duplicate_urls": 0,
+        "mean_duration_seconds": 58.336000000010245,
+        "mean_coverage": 0.6000000000000001,
+        "mean_prompt_tokens": 22564,
+        "mean_completion_tokens": 6355,
+        "budget_parity": "verified",
+        "missing_values": {
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        "failure_categories": {
+          "token_budget": 2
+        }
+      },
+      "adaptive-browser-only": {
+        "attempts": 2,
+        "completion_rate": 0,
+        "provisional_full_coverage_rate": 0,
+        "mean_steps": 4,
+        "mean_duplicate_urls": 0,
+        "mean_duration_seconds": 49.851499999989755,
+        "mean_coverage": 0.0,
+        "mean_prompt_tokens": 24197.5,
+        "mean_completion_tokens": 4156,
+        "budget_parity": "verified",
+        "missing_values": {
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        "failure_categories": {
+          "token_budget": 2
+        }
+      }
+    }
+  },
+  "protocol_version": "V1-D7-r11",
+  "comparisons": {
+    "full_system_vs_baseline": [
+      "adaptive-full",
+      "baseline"
+    ],
+    "browser_only_vs_baseline": [
+      "adaptive-browser-only",
+      "baseline"
+    ]
+  },
+  "protocol_complete": true,
+  "controlled_advantage_claim_allowed": false,
+  "smoke_only": false,
+  "raw_records": [
+    "B01_adaptive-browser-only_r1.json",
+    "B01_adaptive-browser-only_r2.json",
+    "B01_adaptive-full_r1.json",
+    "B01_adaptive-full_r2.json",
+    "B01_baseline_r1.json",
+    "B01_baseline_r2.json",
+    "B02_adaptive-browser-only_r1.json",
+    "B02_adaptive-browser-only_r2.json",
+    "B02_adaptive-full_r1.json",
+    "B02_adaptive-full_r2.json",
+    "B02_baseline_r1.json",
+    "B02_baseline_r2.json",
+    "B03_adaptive-browser-only_r1.json",
+    "B03_adaptive-browser-only_r2.json",
+    "B03_adaptive-full_r1.json",
+    "B03_adaptive-full_r2.json",
+    "B03_baseline_r1.json",
+    "B03_baseline_r2.json"
+  ],
+  "run_id": "20261016T112555579395Z-644bdf88"
+}

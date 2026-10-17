@@ -1,0 +1,77 @@
+{
+  "case": "B01",
+  "arm": "baseline",
+  "repetition": 1,
+  "protocol_version": "V1-D7-r10",
+  "task": "Find two publicly documented Python browser-automation projects suitable for researching web pages. For each, give its name, official repository URL, license, and documented installation command. Cite official sources.",
+  "prompt_sha256": "19ea1b4649f9ae465a31cd302882d12f1b072338e1884d2b37df3395abbfd730",
+  "model": "deepseek-flash",
+  "git_revisions": {
+    "project": "7385fcf5e8cbb194c04b18f5aaba9f070a6c243f",
+    "project_dirty": true,
+    "project_worktree_sha256": "b9be058a38e457f44c32a0809d6c2370222c1ecaf30c974a2d949e2fef46d3c2",
+    "browser_use_gitlink": "7be96ed8bafa8dfe1eef228b59cf5c884b8b2431",
+    "browser_use_actual_head": "7be96ed8bafa8dfe1eef228b59cf5c884b8b2431"
+  },
+  "browser_use_version": "0.13.10",
+  "environment": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.13",
+    "browser": "Chrome/155.0.8059.80",
+    "network": "unverified"
+  },
+  "started_at": "2026-10-16T09:54:14.837312+00:00",
+  "ended_at": "2026-10-16T09:54:42.438205+00:00",
+  "duration_seconds": 27.20299999997951,
+  "status": "failed",
+  "answer": "",
+  "source_urls": [],
+  "trace": [
+    {
+      "step": 1,
+      "actions": []
+    },
+    {
+      "step": 2,
+      "actions": []
+    },
+    {
+      "step": 3,
+      "actions": []
+    },
+    {
+      "step": 4,
+      "actions": []
+    },
+    {
+      "step": 5,
+      "actions": []
+    },
+    {
+      "step": 6,
+      "actions": []
+    }
+  ],
+  "steps": 6,
+  "prompt_tokens": null,
+  "completion_tokens": null,
+  "duplicate_urls": 0,
+  "score_fields": {
+    "project_1_name": false,
+    "project_1_repository": false,
+    "project_1_license": false,
+    "project_1_install": false,
+    "project_1_source": false,
+    "project_2_name": false,
+    "project_2_repository": false,
+    "project_2_license": false,
+    "project_2_install": false,
+    "project_2_source": false
+  },
+  "coverage": 0.0,
+  "manual_contradiction_note": "none",
+  "failure_reason": "upstream_unfinished",
+  "upstream_success": null,
+  "budget_parity": "mismatched",
+  "run_id": "20261016T095412146304Z-a520c9ce-B01-baseline-r1"
+}

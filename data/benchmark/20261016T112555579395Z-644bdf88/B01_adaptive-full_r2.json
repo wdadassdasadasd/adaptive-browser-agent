@@ -1,0 +1,93 @@
+{
+  "case": "B01",
+  "arm": "adaptive-full",
+  "repetition": 2,
+  "protocol_version": "V1-D7-r11",
+  "task": "Find two publicly documented Python browser-automation projects suitable for researching web pages. For each, give its name, official repository URL, license, and documented installation command. Cite official sources.",
+  "prompt_sha256": "19ea1b4649f9ae465a31cd302882d12f1b072338e1884d2b37df3395abbfd730",
+  "model": "deepseek-flash",
+  "git_revisions": {
+    "project": "7385fcf5e8cbb194c04b18f5aaba9f070a6c243f",
+    "project_dirty": true,
+    "project_worktree_sha256": "5c4aa039fdc7c00b94988d765ca5d9cf8c83f40dbaec495ed8f039f5e1cf1477",
+    "browser_use_gitlink": "7be96ed8bafa8dfe1eef228b59cf5c884b8b2431",
+    "browser_use_actual_head": "7be96ed8bafa8dfe1eef228b59cf5c884b8b2431"
+  },
+  "browser_use_version": "0.13.10",
+  "environment": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.13",
+    "browser": "Chrome/155.0.8059.80",
+    "network": "unverified"
+  },
+  "started_at": "2026-10-16T11:32:53.007141+00:00",
+  "ended_at": "2026-10-16T11:33:58.964286+00:00",
+  "duration_seconds": 65.42199999999139,
+  "status": "partial",
+  "answer": "# Research report: Find two publicly documented Python browser-automation projects suitable for researching web pages. For each, give its name, official repository URL, license, and documented installation command. Cite official sources.\n\n2 sourced fact(s) collected; stop reason: token_budget (the model usage limit was reached).\n\n## Findings\n### microsoft/playwright-python\nmicrosoft/playwright-python is a Python project whose official repository is https://github.com/microsoft/playwright-python, described as 'Python version of the Playwright testing and automation library.' (language: Python).\nmicrosoft/playwright-python is licensed under Apache License 2.0 (SPDX id Apache-2.0), matching the expected license.\n- Source: https://api.github.com/repos/microsoft/playwright-python\n\n## Comparison\nInsufficient evidence for a supported comparison.\n\n## Recommendation\nInsufficient evidence for a supported recommendation.\n\n## Unknown or unfinished\n- Identify two publicly documented Python browser-automation projects suitable for researching web pages (e.g., Playwright for Python, Selenium, Splinter, Helium, MechanicalSoup, Requests-HTML), selecting those with an official repository and official documentation.\n- For each of the two identified projects, collect the license and the documented installation command from official sources (official docs or the repository's own files/labels).\n- Verify cross-field completeness: every one of the four required output fields (name, official repository URL, license, installation command) is present for both projects and traceable to an official source.\n- Requested 2 project(s); verified 1.\n\n## Sources\n- https://api.github.com/repos/microsoft/playwright-python",
+  "source_urls": [
+    "https://api.github.com/repos/microsoft/playwright-python",
+    "https://api.github.com/repos/SeleniumHQ/selenium",
+    "https://www.selenium.dev",
+    "https://github.com/microsoft/playwright-python"
+  ],
+  "trace": [
+    {
+      "step": 1,
+      "tool": "github",
+      "action": "get_repository",
+      "error_type": "none",
+      "success": true
+    },
+    {
+      "step": 2,
+      "tool": "github",
+      "action": "get_repository",
+      "error_type": "none",
+      "success": true
+    },
+    {
+      "step": 3,
+      "tool": "browser",
+      "action": "navigate",
+      "error_type": "none",
+      "success": true
+    },
+    {
+      "step": 4,
+      "tool": "browser",
+      "action": "click",
+      "error_type": "none",
+      "success": true
+    },
+    {
+      "step": 5,
+      "tool": "browser",
+      "action": "extract",
+      "error_type": "none",
+      "success": true
+    }
+  ],
+  "steps": 5,
+  "prompt_tokens": 21191,
+  "completion_tokens": 6291,
+  "duplicate_urls": 0,
+  "score_fields": {
+    "project_1_name": true,
+    "project_1_repository": true,
+    "project_1_license": true,
+    "project_1_install": false,
+    "project_1_source": true,
+    "project_2_name": false,
+    "project_2_repository": false,
+    "project_2_license": false,
+    "project_2_install": false,
+    "project_2_source": false
+  },
+  "coverage": 0.4,
+  "manual_contradiction_note": "none",
+  "failure_reason": "token_budget",
+  "upstream_success": null,
+  "budget_parity": "verified",
+  "run_id": "20261016T112555579395Z-644bdf88-B01-adaptive-full-r2"
+}

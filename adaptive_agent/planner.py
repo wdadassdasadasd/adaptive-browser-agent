@@ -8,7 +8,7 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from adaptive_agent.context_manager import ContextManager
 from adaptive_agent.llm.base import BaseLLMClient
-from adaptive_agent.prompts.planner import PLANNER_SYSTEM_PROMPT
+from adaptive_agent.prompts.planner import PLANNER_ACTION_GUIDE, PLANNER_SYSTEM_PROMPT
 from adaptive_agent.state import (
     PlanDecision,
     ResearchState,
@@ -21,7 +21,7 @@ from adaptive_agent.state import (
 class InitialSubgoals(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    subgoals: list[Subgoal] = Field(min_length=1)
+    subgoals: list[Subgoal] = Field(min_length=1, max_length=3)
 
     @model_validator(mode="after")
     def validate_subgoals(self) -> "InitialSubgoals":
@@ -42,7 +42,13 @@ class PlannerService:
 
         if not goal.strip():
             raise ValueError("goal must be nonempty")
-        prompt = f"{PLANNER_SYSTEM_PROMPT}\nCreate high-level subgoals with observable completion_criteria for goal: {goal}"
+        prompt = (
+            f"{PLANNER_SYSTEM_PROMPT}\nCreate 1-3 high-level evidence subgoals "
+            "with observable completion_criteria for all requested output fields. "
+            "Each criterion requires sourced facts, not a required tool or rendered page. "
+            "Do not make final report writing a subgoal. "
+            f"Goal: {goal}"
+        )
         completion = await self.llm.complete_structured(prompt, InitialSubgoals)
         return InitialSubgoals.model_validate(completion.value).subgoals
 
@@ -74,21 +80,33 @@ class PlannerService:
             else ""
         )
         prompt = (
-            f"{PLANNER_SYSTEM_PROMPT}\n{tool_constraint}Bounded context: {bounded}\n"
+            f"{PLANNER_SYSTEM_PROMPT}\n{PLANNER_ACTION_GUIDE}\n"
+            f"{tool_constraint}Bounded context: {bounded}\n"
             "Choose exactly one next action as JSON."
         )
-        completion = await self.llm.complete_structured(prompt, PlanDecision)
-        decision = PlanDecision.model_validate(completion.value)
-        selected = next(
-            (item for item in state.subgoals if item.id == decision.subgoal_id), None
-        )
-        if selected is None or selected.status in {
-            SubgoalStatus.COMPLETED,
-            SubgoalStatus.FAILED,
-        }:
-            raise ValueError("decision requires an unfinished subgoal")
-        self._validate_action(decision)
-        return decision
+        for attempt in range(2):
+            completion = await self.llm.complete_structured(prompt, PlanDecision)
+            decision = PlanDecision.model_validate(completion.value)
+            try:
+                selected = next(
+                    (item for item in state.subgoals if item.id == decision.subgoal_id),
+                    None,
+                )
+                if selected is None or selected.status in {
+                    SubgoalStatus.COMPLETED,
+                    SubgoalStatus.FAILED,
+                }:
+                    raise ValueError("decision requires an unfinished subgoal")
+                self._validate_action(decision)
+                return decision
+            except ValueError as exc:
+                if attempt == 1:
+                    raise
+                prompt += (
+                    f"\nPrevious decision: {decision.model_dump_json()[:500]}\n"
+                    f"Validation error: {exc}. Return one corrected PlanDecision JSON."
+                )
+        raise AssertionError("unreachable")
 
     @staticmethod
     def _validate_action(decision: PlanDecision) -> None:

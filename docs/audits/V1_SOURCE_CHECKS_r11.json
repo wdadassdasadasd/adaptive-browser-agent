@@ -1,0 +1,187 @@
+{
+  "batch": "20261016T112555579395Z-644bdf88",
+  "reviewed_at_utc": "2026-10-16",
+  "records": [
+    {
+      "run_id": "20261016T112555579395Z-644bdf88-B01-adaptive-browser-only-r1",
+      "record": "../../data/benchmark/20261016T112555579395Z-644bdf88/B01_adaptive-browser-only_r1.json",
+      "answer_reviewed": true,
+      "checked_claims": [],
+      "official_urls_opened": [],
+      "manual_contradiction_note": "none",
+      "record_sha256": "b6ad831bbcbd5cd126819a58bcf06d815e603a3a341f4eb0a0982ecf47fe1067"
+    },
+    {
+      "run_id": "20261016T112555579395Z-644bdf88-B01-adaptive-browser-only-r2",
+      "record": "../../data/benchmark/20261016T112555579395Z-644bdf88/B01_adaptive-browser-only_r2.json",
+      "answer_reviewed": true,
+      "checked_claims": [],
+      "official_urls_opened": [],
+      "manual_contradiction_note": "none",
+      "record_sha256": "79dd85426863b3d9a15144da72956664b7b895167e12dfcca590aace02e8beb0"
+    },
+    {
+      "run_id": "20261016T112555579395Z-644bdf88-B01-adaptive-full-r1",
+      "record": "../../data/benchmark/20261016T112555579395Z-644bdf88/B01_adaptive-full_r1.json",
+      "answer_reviewed": true,
+      "checked_claims": [],
+      "official_urls_opened": [],
+      "manual_contradiction_note": "none",
+      "record_sha256": "50df62f9a092ef960a765b803864535d0b900ba3431c8751a2cb6cec92651666"
+    },
+    {
+      "run_id": "20261016T112555579395Z-644bdf88-B01-adaptive-full-r2",
+      "record": "../../data/benchmark/20261016T112555579395Z-644bdf88/B01_adaptive-full_r2.json",
+      "answer_reviewed": true,
+      "checked_claims": [
+        "microsoft/playwright-python official repository, Python description and Apache-2.0 license"
+      ],
+      "official_urls_opened": [
+        "https://github.com/microsoft/playwright-python",
+        "https://api.github.com/repos/microsoft/playwright-python"
+      ],
+      "manual_contradiction_note": "none",
+      "record_sha256": "9e3ac28c67f08eb06290290ede253ed3a45cfda3d4d9f60dd717e0e29435588d"
+    },
+    {
+      "run_id": "20261016T112555579395Z-644bdf88-B01-baseline-r1",
+      "record": "../../data/benchmark/20261016T112555579395Z-644bdf88/B01_baseline_r1.json",
+      "answer_reviewed": true,
+      "checked_claims": [],
+      "official_urls_opened": [],
+      "manual_contradiction_note": "none",
+      "record_sha256": "b168c1de98eb359bd9a13401b4694f521b8327b3e55003c02ac4b39214e5591c"
+    },
+    {
+      "run_id": "20261016T112555579395Z-644bdf88-B01-baseline-r2",
+      "record": "../../data/benchmark/20261016T112555579395Z-644bdf88/B01_baseline_r2.json",
+      "answer_reviewed": true,
+      "checked_claims": [],
+      "official_urls_opened": [],
+      "manual_contradiction_note": "none",
+      "record_sha256": "cb4cf64a0b5495dcb02859568ccca67d0554bbc0b4ebd6d87b33568bc2db204d"
+    },
+    {
+      "run_id": "20261016T112555579395Z-644bdf88-B02-adaptive-browser-only-r1",
+      "record": "../../data/benchmark/20261016T112555579395Z-644bdf88/B02_adaptive-browser-only_r1.json",
+      "answer_reviewed": true,
+      "checked_claims": [],
+      "official_urls_opened": [],
+      "manual_contradiction_note": "none",
+      "record_sha256": "4bbc319fbdcbf960f336d8a60cff0ea4dc40710715083fbeb00b5a2befa243aa"
+    },
+    {
+      "run_id": "20261016T112555579395Z-644bdf88-B02-adaptive-browser-only-r2",
+      "record": "../../data/benchmark/20261016T112555579395Z-644bdf88/B02_adaptive-browser-only_r2.json",
+      "answer_reviewed": true,
+      "checked_claims": [],
+      "official_urls_opened": [],
+      "manual_contradiction_note": "none",
+      "record_sha256": "10d4cea1aebdce12c32a587f9944950c4c688c2a9554480adbb35986de906154"
+    },
+    {
+      "run_id": "20261016T112555579395Z-644bdf88-B02-adaptive-full-r1",
+      "record": "../../data/benchmark/20261016T112555579395Z-644bdf88/B02_adaptive-full_r1.json",
+      "answer_reviewed": true,
+      "checked_claims": [],
+      "official_urls_opened": [],
+      "manual_contradiction_note": "none",
+      "record_sha256": "7a768793780af26c1e213cff9bba4ce4bdf5d86a05ebb557482ae913181ff6b8"
+    },
+    {
+      "run_id": "20261016T112555579395Z-644bdf88-B02-adaptive-full-r2",
+      "record": "../../data/benchmark/20261016T112555579395Z-644bdf88/B02_adaptive-full_r2.json",
+      "answer_reviewed": true,
+      "checked_claims": [],
+      "official_urls_opened": [],
+      "manual_contradiction_note": "none",
+      "record_sha256": "e5b158707893456f6856025863b45925b89a49ea974deac1c8262b66b4222c08"
+    },
+    {
+      "run_id": "20261016T112555579395Z-644bdf88-B02-baseline-r1",
+      "record": "../../data/benchmark/20261016T112555579395Z-644bdf88/B02_baseline_r1.json",
+      "answer_reviewed": true,
+      "checked_claims": [],
+      "official_urls_opened": [],
+      "manual_contradiction_note": "none",
+      "record_sha256": "077f0c109563bc4b69e618dc7dfe852097a16d117a441627c429ab162f4cd2ca"
+    },
+    {
+      "run_id": "20261016T112555579395Z-644bdf88-B02-baseline-r2",
+      "record": "../../data/benchmark/20261016T112555579395Z-644bdf88/B02_baseline_r2.json",
+      "answer_reviewed": true,
+      "checked_claims": [],
+      "official_urls_opened": [],
+      "manual_contradiction_note": "none",
+      "record_sha256": "8a858d63d1a38946b28890caf0733312186314d52c3d818a894b88581e6b08e9"
+    },
+    {
+      "run_id": "20261016T112555579395Z-644bdf88-B03-adaptive-browser-only-r1",
+      "record": "../../data/benchmark/20261016T112555579395Z-644bdf88/B03_adaptive-browser-only_r1.json",
+      "answer_reviewed": true,
+      "checked_claims": [
+        "0.13.13 listed as Latest on official release listing; no tag-page citation in answer"
+      ],
+      "official_urls_opened": [
+        "https://github.com/browser-use/browser-use/releases"
+      ],
+      "manual_contradiction_note": "none",
+      "record_sha256": "3d224a573f0a2c181d381e08f90e23f63c2e1ca735dff9470e917debbd1aa139"
+    },
+    {
+      "run_id": "20261016T112555579395Z-644bdf88-B03-adaptive-browser-only-r2",
+      "record": "../../data/benchmark/20261016T112555579395Z-644bdf88/B03_adaptive-browser-only_r2.json",
+      "answer_reviewed": true,
+      "checked_claims": [],
+      "official_urls_opened": [],
+      "manual_contradiction_note": "none",
+      "record_sha256": "6bf16d4a74d0325265454e0ebbf9c15c1822e6156aa7ba6ed54ce7fad7bac3a4"
+    },
+    {
+      "run_id": "20261016T112555579395Z-644bdf88-B03-adaptive-full-r1",
+      "record": "../../data/benchmark/20261016T112555579395Z-644bdf88/B03_adaptive-full_r1.json",
+      "answer_reviewed": true,
+      "checked_claims": [
+        "0.13.13 Latest, 15 Oct 23:50 timestamp, OpenAI browser-tool driver; only one described change in answer"
+      ],
+      "official_urls_opened": [
+        "https://github.com/browser-use/browser-use/releases/tag/0.13.13"
+      ],
+      "manual_contradiction_note": "none",
+      "record_sha256": "27b80c256c8a936f23a93d226273b1a3c22c345c9fe35368bb3de3e1281efa43"
+    },
+    {
+      "run_id": "20261016T112555579395Z-644bdf88-B03-adaptive-full-r2",
+      "record": "../../data/benchmark/20261016T112555579395Z-644bdf88/B03_adaptive-full_r2.json",
+      "answer_reviewed": true,
+      "checked_claims": [
+        "0.13.13 official release URL"
+      ],
+      "official_urls_opened": [
+        "https://github.com/browser-use/browser-use/releases/tag/0.13.13",
+        "https://api.github.com/repos/browser-use/browser-use/releases"
+      ],
+      "manual_contradiction_note": "none",
+      "record_sha256": "b673b0c9d353da4d4bca942948872878d53101e65367fe2f408f608d982a0dcc"
+    },
+    {
+      "run_id": "20261016T112555579395Z-644bdf88-B03-baseline-r1",
+      "record": "../../data/benchmark/20261016T112555579395Z-644bdf88/B03_baseline_r1.json",
+      "answer_reviewed": true,
+      "checked_claims": [],
+      "official_urls_opened": [],
+      "manual_contradiction_note": "none",
+      "record_sha256": "7a84cb6fac96abfcdd8946a42185a1e304d325b73bffba12a75c4dddef552953"
+    },
+    {
+      "run_id": "20261016T112555579395Z-644bdf88-B03-baseline-r2",
+      "record": "../../data/benchmark/20261016T112555579395Z-644bdf88/B03_baseline_r2.json",
+      "answer_reviewed": true,
+      "checked_claims": [],
+      "official_urls_opened": [],
+      "manual_contradiction_note": "none",
+      "record_sha256": "01dff68d032687b64306df27aed621bc5f51efa734306fce397a9bf41431b99b"
+    }
+  ],
+  "record_sha256_basis": "SHA-256 of committed Git blob content (LF-normalized), not Windows CRLF working-tree bytes"
+}

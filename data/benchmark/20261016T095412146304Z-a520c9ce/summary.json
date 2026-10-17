@@ -1,0 +1,283 @@
+{
+  "arms": {
+    "baseline": {
+      "attempts": 6,
+      "completion_rate": 0,
+      "provisional_full_coverage_rate": 0,
+      "mean_steps": 6,
+      "mean_duplicate_urls": 0,
+      "mean_duration_seconds": 25.538999999989755,
+      "mean_coverage": 0.0,
+      "mean_prompt_tokens": null,
+      "mean_completion_tokens": null,
+      "budget_parity": "mismatched",
+      "missing_values": {
+        "prompt_tokens": 6,
+        "completion_tokens": 6
+      },
+      "failure_categories": {
+        "upstream_unfinished": 6
+      }
+    },
+    "adaptive-full": {
+      "attempts": 6,
+      "completion_rate": 0,
+      "provisional_full_coverage_rate": 0,
+      "mean_steps": 3.5,
+      "mean_duplicate_urls": 0,
+      "mean_duration_seconds": 63.268166666666126,
+      "mean_coverage": 0.13333333333333333,
+      "mean_prompt_tokens": 17943.666666666668,
+      "mean_completion_tokens": 6190.166666666667,
+      "budget_parity": "verified",
+      "missing_values": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0
+      },
+      "failure_categories": {
+        "execution_error": 3,
+        "no_progress": 1,
+        "token_budget": 2
+      }
+    },
+    "adaptive-browser-only": {
+      "attempts": 6,
+      "completion_rate": 0,
+      "provisional_full_coverage_rate": 0,
+      "mean_steps": 3.1666666666666665,
+      "mean_duplicate_urls": 0,
+      "mean_duration_seconds": 45.68483333332794,
+      "mean_coverage": 0.06666666666666667,
+      "mean_prompt_tokens": 18154.166666666668,
+      "mean_completion_tokens": 3831.1666666666665,
+      "budget_parity": "verified",
+      "missing_values": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0
+      },
+      "failure_categories": {
+        "no_progress": 1,
+        "execution_error": 1,
+        "token_budget": 4
+      }
+    }
+  },
+  "by_case": {
+    "B01": {
+      "baseline": {
+        "attempts": 2,
+        "completion_rate": 0,
+        "provisional_full_coverage_rate": 0,
+        "mean_steps": 6,
+        "mean_duplicate_urls": 0,
+        "mean_duration_seconds": 25.843499999988126,
+        "mean_coverage": 0.0,
+        "mean_prompt_tokens": null,
+        "mean_completion_tokens": null,
+        "budget_parity": "mismatched",
+        "missing_values": {
+          "prompt_tokens": 2,
+          "completion_tokens": 2
+        },
+        "failure_categories": {
+          "upstream_unfinished": 2
+        }
+      },
+      "adaptive-full": {
+        "attempts": 2,
+        "completion_rate": 0,
+        "provisional_full_coverage_rate": 0,
+        "mean_steps": 4.5,
+        "mean_duplicate_urls": 0,
+        "mean_duration_seconds": 79.49249999999302,
+        "mean_coverage": 0.2,
+        "mean_prompt_tokens": 16893.5,
+        "mean_completion_tokens": 9926,
+        "budget_parity": "verified",
+        "missing_values": {
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        "failure_categories": {
+          "execution_error": 1,
+          "no_progress": 1
+        }
+      },
+      "adaptive-browser-only": {
+        "attempts": 2,
+        "completion_rate": 0,
+        "provisional_full_coverage_rate": 0,
+        "mean_steps": 3,
+        "mean_duplicate_urls": 0,
+        "mean_duration_seconds": 37.04700000000594,
+        "mean_coverage": 0.0,
+        "mean_prompt_tokens": 8564.5,
+        "mean_completion_tokens": 1852.5,
+        "budget_parity": "verified",
+        "missing_values": {
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        "failure_categories": {
+          "no_progress": 1,
+          "execution_error": 1
+        }
+      }
+    },
+    "B02": {
+      "baseline": {
+        "attempts": 2,
+        "completion_rate": 0,
+        "provisional_full_coverage_rate": 0,
+        "mean_steps": 6,
+        "mean_duplicate_urls": 0,
+        "mean_duration_seconds": 24.359499999991385,
+        "mean_coverage": 0.0,
+        "mean_prompt_tokens": null,
+        "mean_completion_tokens": null,
+        "budget_parity": "mismatched",
+        "missing_values": {
+          "prompt_tokens": 2,
+          "completion_tokens": 2
+        },
+        "failure_categories": {
+          "upstream_unfinished": 2
+        }
+      },
+      "adaptive-full": {
+        "attempts": 2,
+        "completion_rate": 0,
+        "provisional_full_coverage_rate": 0,
+        "mean_steps": 2.5,
+        "mean_duplicate_urls": 0,
+        "mean_duration_seconds": 47.453000000008615,
+        "mean_coverage": 0.0,
+        "mean_prompt_tokens": 14821,
+        "mean_completion_tokens": 2188,
+        "budget_parity": "verified",
+        "missing_values": {
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        "failure_categories": {
+          "token_budget": 1,
+          "execution_error": 1
+        }
+      },
+      "adaptive-browser-only": {
+        "attempts": 2,
+        "completion_rate": 0,
+        "provisional_full_coverage_rate": 0,
+        "mean_steps": 2.5,
+        "mean_duplicate_urls": 0,
+        "mean_duration_seconds": 47.913999999989755,
+        "mean_coverage": 0.0,
+        "mean_prompt_tokens": 25174,
+        "mean_completion_tokens": 3850.5,
+        "budget_parity": "verified",
+        "missing_values": {
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        "failure_categories": {
+          "token_budget": 2
+        }
+      }
+    },
+    "B03": {
+      "baseline": {
+        "attempts": 2,
+        "completion_rate": 0,
+        "provisional_full_coverage_rate": 0,
+        "mean_steps": 6,
+        "mean_duplicate_urls": 0,
+        "mean_duration_seconds": 26.413999999989755,
+        "mean_coverage": 0.0,
+        "mean_prompt_tokens": null,
+        "mean_completion_tokens": null,
+        "budget_parity": "mismatched",
+        "missing_values": {
+          "prompt_tokens": 2,
+          "completion_tokens": 2
+        },
+        "failure_categories": {
+          "upstream_unfinished": 2
+        }
+      },
+      "adaptive-full": {
+        "attempts": 2,
+        "completion_rate": 0,
+        "provisional_full_coverage_rate": 0,
+        "mean_steps": 3.5,
+        "mean_duplicate_urls": 0,
+        "mean_duration_seconds": 62.85899999999674,
+        "mean_coverage": 0.2,
+        "mean_prompt_tokens": 22116.5,
+        "mean_completion_tokens": 6456.5,
+        "budget_parity": "verified",
+        "missing_values": {
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        "failure_categories": {
+          "execution_error": 1,
+          "token_budget": 1
+        }
+      },
+      "adaptive-browser-only": {
+        "attempts": 2,
+        "completion_rate": 0,
+        "provisional_full_coverage_rate": 0,
+        "mean_steps": 4,
+        "mean_duplicate_urls": 0,
+        "mean_duration_seconds": 52.093499999988126,
+        "mean_coverage": 0.2,
+        "mean_prompt_tokens": 20724,
+        "mean_completion_tokens": 5790.5,
+        "budget_parity": "verified",
+        "missing_values": {
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        "failure_categories": {
+          "token_budget": 2
+        }
+      }
+    }
+  },
+  "protocol_version": "V1-D7-r10",
+  "comparisons": {
+    "full_system_vs_baseline": [
+      "adaptive-full",
+      "baseline"
+    ],
+    "browser_only_vs_baseline": [
+      "adaptive-browser-only",
+      "baseline"
+    ]
+  },
+  "protocol_complete": true,
+  "controlled_advantage_claim_allowed": false,
+  "smoke_only": false,
+  "raw_records": [
+    "B01_adaptive-browser-only_r1.json",
+    "B01_adaptive-browser-only_r2.json",
+    "B01_adaptive-full_r1.json",
+    "B01_adaptive-full_r2.json",
+    "B01_baseline_r1.json",
+    "B01_baseline_r2.json",
+    "B02_adaptive-browser-only_r1.json",
+    "B02_adaptive-browser-only_r2.json",
+    "B02_adaptive-full_r1.json",
+    "B02_adaptive-full_r2.json",
+    "B02_baseline_r1.json",
+    "B02_baseline_r2.json",
+    "B03_adaptive-browser-only_r1.json",
+    "B03_adaptive-browser-only_r2.json",
+    "B03_adaptive-full_r1.json",
+    "B03_adaptive-full_r2.json",
+    "B03_baseline_r1.json",
+    "B03_baseline_r2.json"
+  ],
+  "run_id": "20261016T095412146304Z-a520c9ce"
+}

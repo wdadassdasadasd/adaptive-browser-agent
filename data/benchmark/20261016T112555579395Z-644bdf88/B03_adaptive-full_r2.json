@@ -1,0 +1,80 @@
+{
+  "case": "B03",
+  "arm": "adaptive-full",
+  "repetition": 2,
+  "protocol_version": "V1-D7-r11",
+  "task": "Find the latest public release of browser-use/browser-use and summarize its version, publication date, and two changes from its release notes. Cite the official release page.",
+  "prompt_sha256": "38700c88e0ad824f6f9ffd014fb30ed1abbacb6b560b39b749367677f2b161fb",
+  "model": "deepseek-flash",
+  "git_revisions": {
+    "project": "7385fcf5e8cbb194c04b18f5aaba9f070a6c243f",
+    "project_dirty": true,
+    "project_worktree_sha256": "5c4aa039fdc7c00b94988d765ca5d9cf8c83f40dbaec495ed8f039f5e1cf1477",
+    "browser_use_gitlink": "7be96ed8bafa8dfe1eef228b59cf5c884b8b2431",
+    "browser_use_actual_head": "7be96ed8bafa8dfe1eef228b59cf5c884b8b2431"
+  },
+  "browser_use_version": "0.13.10",
+  "environment": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.13",
+    "browser": "Chrome/155.0.8059.80",
+    "network": "unverified"
+  },
+  "started_at": "2026-10-16T11:37:39.289097+00:00",
+  "ended_at": "2026-10-16T11:38:31.151068+00:00",
+  "duration_seconds": 51.5,
+  "status": "partial",
+  "answer": "# Research report: Find the latest public release of browser-use/browser-use and summarize its version, publication date, and two changes from its release notes. Cite the official release page.\n\n1 sourced fact(s) collected; stop reason: token_budget (the model usage limit was reached).\n\n## Findings\n### browser-use\nThe citation URL for release 0.13.13 is the official release page https://github.com/browser-use/browser-use/releases/tag/0.13.13.\n- Source: https://api.github.com/repos/browser-use/browser-use/releases\n\n## Comparison\nInsufficient evidence for a supported comparison.\n\n## Recommendation\nInsufficient evidence for a supported recommendation.\n\n## Unknown or unfinished\n- Identify the latest public release of the browser-use/browser-use repository, including its version/tag and its publication date, as stated on the official GitHub releases page for that repository.\n- Extract at least two specific changes or highlights listed in the release notes/body of the identified latest release of browser-use/browser-use.\n- Confirm and lock in the authoritative source URL for the release facts so the summary can cite the official release page.\n- Requested 2 change(s); verified 0.\n\n## Sources\n- https://api.github.com/repos/browser-use/browser-use/releases",
+  "source_urls": [
+    "https://api.github.com/repos/browser-use/browser-use/releases",
+    "https://github.com/browser-use/browser-use/releases/tag/0.13.13",
+    "https://api.github.com/repos/browser-use/browser-use/releases/latest"
+  ],
+  "trace": [
+    {
+      "step": 1,
+      "tool": "github",
+      "action": "list_releases",
+      "error_type": "none",
+      "success": true
+    },
+    {
+      "step": 2,
+      "tool": "browser",
+      "action": "navigate",
+      "error_type": "none",
+      "success": true
+    },
+    {
+      "step": 3,
+      "tool": "browser",
+      "action": "extract",
+      "error_type": "none",
+      "success": true
+    },
+    {
+      "step": 4,
+      "tool": "browser",
+      "action": "navigate",
+      "error_type": "none",
+      "success": true
+    }
+  ],
+  "steps": 4,
+  "prompt_tokens": 22689,
+  "completion_tokens": 5881,
+  "duplicate_urls": 0,
+  "score_fields": {
+    "version": true,
+    "publication_date": false,
+    "change_1": false,
+    "change_2": false,
+    "official_release_source": true
+  },
+  "coverage": 0.4,
+  "manual_contradiction_note": "none",
+  "failure_reason": "token_budget",
+  "upstream_success": null,
+  "budget_parity": "verified",
+  "run_id": "20261016T112555579395Z-644bdf88-B03-adaptive-full-r2"
+}

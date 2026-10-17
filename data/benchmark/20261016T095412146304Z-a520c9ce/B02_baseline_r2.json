@@ -1,0 +1,77 @@
+{
+  "case": "B02",
+  "arm": "baseline",
+  "repetition": 2,
+  "protocol_version": "V1-D7-r10",
+  "task": "Compare FastAPI and Flask for a small Python HTTP API using their official documentation. Explain how each declares a route, whether async handlers are documented, and how each is installed. Cite the exact official pages.",
+  "prompt_sha256": "b8147c3d38c7ff6c1c5211de081d1651777af1d6a0e21116734eedfa7df604c0",
+  "model": "deepseek-flash",
+  "git_revisions": {
+    "project": "7385fcf5e8cbb194c04b18f5aaba9f070a6c243f",
+    "project_dirty": true,
+    "project_worktree_sha256": "b9be058a38e457f44c32a0809d6c2370222c1ecaf30c974a2d949e2fef46d3c2",
+    "browser_use_gitlink": "7be96ed8bafa8dfe1eef228b59cf5c884b8b2431",
+    "browser_use_actual_head": "7be96ed8bafa8dfe1eef228b59cf5c884b8b2431"
+  },
+  "browser_use_version": "0.13.10",
+  "environment": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.13",
+    "browser": "Chrome/155.0.8059.80",
+    "network": "unverified"
+  },
+  "started_at": "2026-10-16T10:04:18.096729+00:00",
+  "ended_at": "2026-10-16T10:04:43.440853+00:00",
+  "duration_seconds": 24.875,
+  "status": "failed",
+  "answer": "",
+  "source_urls": [],
+  "trace": [
+    {
+      "step": 1,
+      "actions": []
+    },
+    {
+      "step": 2,
+      "actions": []
+    },
+    {
+      "step": 3,
+      "actions": []
+    },
+    {
+      "step": 4,
+      "actions": []
+    },
+    {
+      "step": 5,
+      "actions": []
+    },
+    {
+      "step": 6,
+      "actions": []
+    }
+  ],
+  "steps": 6,
+  "prompt_tokens": null,
+  "completion_tokens": null,
+  "duplicate_urls": 0,
+  "score_fields": {
+    "fastapi_name": false,
+    "fastapi_route": false,
+    "fastapi_async": false,
+    "fastapi_install": false,
+    "fastapi_source": false,
+    "flask_name": false,
+    "flask_route": false,
+    "flask_async": false,
+    "flask_install": false,
+    "flask_source": false
+  },
+  "coverage": 0.0,
+  "manual_contradiction_note": "none",
+  "failure_reason": "upstream_unfinished",
+  "upstream_success": null,
+  "budget_parity": "mismatched",
+  "run_id": "20261016T095412146304Z-a520c9ce-B02-baseline-r2"
+}

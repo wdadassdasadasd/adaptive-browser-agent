@@ -419,6 +419,24 @@ async def test_hanging_resource_close_has_bounded_terminal_failure() -> None:
 
 
 @pytest.mark.asyncio
+async def test_default_cleanup_allows_browser_kill_to_finish_after_five_seconds() -> (
+    None
+):
+    class SlowBrowser(FakeBrowser):
+        async def close_session(self) -> None:
+            await asyncio.sleep(5.1)
+            await super().close_session()
+
+    provider, github, browser = FakeProvider(), FakeGithub(), SlowBrowser()
+    result = await asyncio.wait_for(
+        make_loop(provider, github, browser).run("Research FastAPI"), timeout=8
+    )
+
+    assert result.state.stop_reason != "cleanup_error"
+    assert browser.closed and github.closed and provider.closed
+
+
+@pytest.mark.asyncio
 async def test_cancellation_signal_during_cleanup_changes_terminal_outcome() -> None:
     cancellation = asyncio.Event()
 
@@ -590,7 +608,7 @@ async def test_cancellation_during_tool_action_finishes_once_and_closes_resource
 
 
 @pytest.mark.asyncio
-async def test_explicit_count_uses_verified_subject_even_if_subgoal_is_unfinished() -> (
+async def test_explicit_count_does_not_finish_with_required_subgoal_unfinished() -> (
     None
 ):
     provider, github, browser = (
@@ -598,6 +616,19 @@ async def test_explicit_count_uses_verified_subject_even_if_subgoal_is_unfinishe
         FakeGithub(),
         FakeBrowser(),
     )
+
+    result = await make_loop(provider, github, browser, max_steps=1).run(
+        "Find one project"
+    )
+
+    assert result.state.status == "partial"
+    assert result.state.stop_reason == "max_steps"
+    assert github.calls == 1
+
+
+@pytest.mark.asyncio
+async def test_explicit_count_finishes_when_required_subgoal_is_complete() -> None:
+    provider, github, browser = FakeProvider(), FakeGithub(), FakeBrowser()
 
     result = await make_loop(provider, github, browser).run("Find one project")
 

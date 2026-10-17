@@ -1,10 +1,11 @@
 """Planner decisions must use the current state and observation."""
 
 import pytest
+from pydantic import ValidationError
 
 from adaptive_agent.context_manager import ContextManager
 from adaptive_agent.llm.base import StructuredCompletion
-from adaptive_agent.planner import PlannerService
+from adaptive_agent.planner import InitialSubgoals, PlannerService
 from adaptive_agent.state import ResearchState, Subgoal
 
 
@@ -88,6 +89,34 @@ async def test_initialize_returns_observable_subgoals_without_mutating_state() -
     assert "Find project docs" in llm.prompts[0]
 
 
+def test_initialize_rejects_more_than_three_subgoals() -> None:
+    with pytest.raises(ValidationError, match="at most 3 items"):
+        InitialSubgoals.model_validate(
+            {
+                "subgoals": [
+                    {
+                        "id": f"s{index}",
+                        "description": f"Evidence {index}",
+                        "completion_criteria": "Official source cited",
+                    }
+                    for index in range(4)
+                ]
+            }
+        )
+
+
+@pytest.mark.asyncio
+async def test_initialize_requests_tool_agnostic_sourced_criteria() -> None:
+    llm = FakeLLM()
+
+    await PlannerService(llm).initialize("Find a release and two changes")
+
+    prompt = llm.prompts[0]
+    assert "1-3 high-level evidence subgoals" in prompt
+    assert "not a required tool or rendered page" in prompt
+    assert "all requested output fields" in prompt
+
+
 @pytest.mark.asyncio
 async def test_next_step_changes_when_state_or_observation_changes() -> None:
     llm = FakeLLM()
@@ -167,7 +196,7 @@ async def test_supplied_history_keeps_current_state_and_observation() -> None:
 
 
 @pytest.mark.asyncio
-async def test_next_step_rejects_invalid_model_action_without_fallback() -> None:
+async def test_next_step_rejects_invalid_model_action_after_one_repair() -> None:
     llm = FakeLLM()
     llm.invalid_action = True
     state = ResearchState(
@@ -183,7 +212,63 @@ async def test_next_step_rejects_invalid_model_action_without_fallback() -> None
     )
     with pytest.raises(ValueError, match="action"):
         await PlannerService(llm).next_step(state, {"title": "Documentation"})
-    assert len(llm.prompts) == 1
+    assert len(llm.prompts) == 2
+
+
+@pytest.mark.asyncio
+async def test_next_step_explains_real_tool_actions_and_target_shapes() -> None:
+    llm = FakeLLM()
+    state = ResearchState(
+        goal="Find two browser-automation projects",
+        status="running",
+        subgoals=[
+            Subgoal(id="s1", description="Find projects", completion_criteria="sources")
+        ],
+    )
+
+    await PlannerService(llm).next_step(state, {})
+
+    prompt = llm.prompts[-1]
+    assert "browser has no search action" in prompt
+    assert "navigate(target: public HTTP(S) URL)" in prompt
+    assert "search_repositories(target: query)" in prompt
+    assert "get_repository(target: owner/repo)" in prompt
+    assert "list_releases(target: owner/repo)" in prompt
+
+
+@pytest.mark.asyncio
+async def test_next_step_repairs_one_invalid_action_contract() -> None:
+    class RepairingLLM:
+        def __init__(self) -> None:
+            self.prompts: list[str] = []
+
+        async def complete_structured(self, prompt: str, schema: type):
+            self.prompts.append(prompt)
+            decision = {
+                "subgoal_id": "s1",
+                "reasoning": "Read the current official page",
+                "tool": "browser",
+                "action": "extract",
+                "target": "What are the route declarations?",
+                "element_index": 1 if len(self.prompts) == 1 else None,
+                "expected_result": "Official route examples",
+            }
+            return StructuredCompletion(schema.model_validate(decision), 3, 2)
+
+    llm = RepairingLLM()
+    state = ResearchState(
+        goal="Compare official API docs",
+        status="running",
+        subgoals=[
+            Subgoal(id="s1", description="Read docs", completion_criteria="source")
+        ],
+    )
+
+    decision = await PlannerService(llm).next_step(state, {"title": "Official docs"})
+
+    assert decision.action == "extract" and decision.element_index is None
+    assert len(llm.prompts) == 2
+    assert "extract action requires only a question" in llm.prompts[1]
 
 
 @pytest.mark.asyncio

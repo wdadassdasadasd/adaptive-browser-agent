@@ -1,0 +1,60 @@
+{
+  "case": "B01",
+  "arm": "adaptive-browser-only",
+  "repetition": 2,
+  "protocol_version": "V1-D7-r10",
+  "task": "Find two publicly documented Python browser-automation projects suitable for researching web pages. For each, give its name, official repository URL, license, and documented installation command. Cite official sources.",
+  "prompt_sha256": "19ea1b4649f9ae465a31cd302882d12f1b072338e1884d2b37df3395abbfd730",
+  "model": "deepseek-flash",
+  "git_revisions": {
+    "project": "7385fcf5e8cbb194c04b18f5aaba9f070a6c243f",
+    "project_dirty": true,
+    "project_worktree_sha256": "b9be058a38e457f44c32a0809d6c2370222c1ecaf30c974a2d949e2fef46d3c2",
+    "browser_use_gitlink": "7be96ed8bafa8dfe1eef228b59cf5c884b8b2431",
+    "browser_use_actual_head": "7be96ed8bafa8dfe1eef228b59cf5c884b8b2431"
+  },
+  "browser_use_version": "0.13.10",
+  "environment": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.13",
+    "browser": "Chrome/155.0.8059.80",
+    "network": "unverified"
+  },
+  "started_at": "2026-10-16T10:02:42.982764+00:00",
+  "ended_at": "2026-10-16T10:03:01.762180+00:00",
+  "duration_seconds": 18.42200000002049,
+  "status": "failed",
+  "answer": "# Research report: Find two publicly documented Python browser-automation projects suitable for researching web pages. For each, give its name, official repository URL, license, and documented installation command. Cite official sources.\n\nInsufficient evidence; stop reason: execution_error (an unexpected error interrupted the research).\n\n## Findings\nNo verified findings.\n\n## Comparison\nInsufficient evidence for a supported comparison.\n\n## Recommendation\nInsufficient evidence for a supported recommendation.\n\n## Unknown or unfinished\n- Identify at least two candidate Python browser-automation projects suitable for researching web pages, confirming each project's official repository URL from an official source (e.g., the project's own docs site or its canonical GitHub organization repository).\n- For each of the two selected projects, record the license under which it is distributed, cited from an official source (the repository LICENSE file or the project's official documentation/PyPI metadata).\n- For each of the two selected projects, capture the documented installation command exactly as shown in that project's official documentation (e.g., official install/docs page or README).\n- Requested 2 project(s); verified 0.\n\n## Sources\n- No verified sources.",
+  "source_urls": [],
+  "trace": [
+    {
+      "step": 1,
+      "tool": "browser",
+      "action": "navigate",
+      "error_type": "semantic",
+      "success": false
+    }
+  ],
+  "steps": 1,
+  "prompt_tokens": 1721,
+  "completion_tokens": 800,
+  "duplicate_urls": 0,
+  "score_fields": {
+    "project_1_name": false,
+    "project_1_repository": false,
+    "project_1_license": false,
+    "project_1_install": false,
+    "project_1_source": false,
+    "project_2_name": false,
+    "project_2_repository": false,
+    "project_2_license": false,
+    "project_2_install": false,
+    "project_2_source": false
+  },
+  "coverage": 0.0,
+  "manual_contradiction_note": "none",
+  "failure_reason": "execution_error",
+  "upstream_success": null,
+  "budget_parity": "verified",
+  "run_id": "20261016T095412146304Z-a520c9ce-B01-adaptive-browser-only-r2"
+}

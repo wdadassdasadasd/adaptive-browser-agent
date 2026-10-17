@@ -1,0 +1,86 @@
+{
+  "case": "B01",
+  "arm": "adaptive-full",
+  "repetition": 1,
+  "protocol_version": "V1-D7-r12",
+  "task": "Find two publicly documented Python browser-automation projects suitable for researching web pages. For each, give its name, official repository URL, license, and documented installation command. Cite official sources.",
+  "prompt_sha256": "19ea1b4649f9ae465a31cd302882d12f1b072338e1884d2b37df3395abbfd730",
+  "model": "deepseek-flash",
+  "git_revisions": {
+    "project": "7385fcf5e8cbb194c04b18f5aaba9f070a6c243f",
+    "project_dirty": true,
+    "project_worktree_sha256": "1f98ac965d2a5f4e44332f514334418e91c8b58e94e97bf61954e2dd10d8f1cb",
+    "browser_use_gitlink": "7be96ed8bafa8dfe1eef228b59cf5c884b8b2431",
+    "browser_use_actual_head": "7be96ed8bafa8dfe1eef228b59cf5c884b8b2431"
+  },
+  "browser_use_version": "0.13.10",
+  "environment": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.13",
+    "browser": "Chrome/155.0.8059.80",
+    "network": "unverified"
+  },
+  "started_at": "2026-10-16T15:23:55.594658+00:00",
+  "ended_at": "2026-10-16T15:25:12.695783+00:00",
+  "duration_seconds": 76.75,
+  "status": "partial",
+  "answer": "# Research report: Find two publicly documented Python browser-automation projects suitable for researching web pages. For each, give its name, official repository URL, license, and documented installation command. Cite official sources.\n\n4 sourced fact(s) collected; stop reason: token_budget (the model usage limit was reached).\n\n## Findings\n### SeleniumHQ/selenium\nThe project's full name is SeleniumHQ/selenium.\nThe official repository URL is https://github.com/SeleniumHQ/selenium.\nThe repository declares an explicit license: Apache License 2.0 (SPDX: Apache-2.0).\nThe observed evidence does not include any documented installation command for the project, so that required subgoal fact remains unsupported.\n- Source: https://api.github.com/repos/SeleniumHQ/selenium\n\n## Comparison\nInsufficient evidence for a supported comparison.\n\n## Recommendation\nInsufficient evidence for a supported recommendation.\n\n## Unknown or unfinished\n- Identify and document the first Python browser-automation project suitable for researching web pages, capturing its name, official repository URL, license, and documented installation command from official sources.\n- Identify and document a second, distinct Python browser-automation project suitable for researching web pages, capturing its name, official repository URL, license, and documented installation command from official sources.\n- Verify that both selected projects are genuinely Python browser-automation tools usable for web-page research, and that each of the four required output fields (name, repository URL, license, installation command) is sourced from an official reference for both projects.\n- Requested 2 project(s); verified 1.\n\n## Sources\n- https://api.github.com/repos/SeleniumHQ/selenium",
+  "source_urls": [
+    "https://api.github.com/search/repositories",
+    "https://api.github.com/repos/SeleniumHQ/selenium",
+    "https://pypi.org",
+    "https://github.com/SeleniumHQ/selenium"
+  ],
+  "trace": [
+    {
+      "step": 1,
+      "tool": "github",
+      "action": "search_repositories",
+      "error_type": "none",
+      "success": true
+    },
+    {
+      "step": 2,
+      "tool": "github",
+      "action": "get_repository",
+      "error_type": "none",
+      "success": true
+    },
+    {
+      "step": 3,
+      "tool": "browser",
+      "action": "navigate",
+      "error_type": "none",
+      "success": true
+    },
+    {
+      "step": 4,
+      "tool": "browser",
+      "action": "extract",
+      "error_type": "none",
+      "success": true
+    }
+  ],
+  "steps": 4,
+  "prompt_tokens": 20117,
+  "completion_tokens": 7656,
+  "duplicate_urls": 0,
+  "score_fields": {
+    "project_1_name": true,
+    "project_1_repository": true,
+    "project_1_license": true,
+    "project_1_install": false,
+    "project_1_source": true,
+    "project_2_name": false,
+    "project_2_repository": false,
+    "project_2_license": false,
+    "project_2_install": false,
+    "project_2_source": false
+  },
+  "coverage": 0.4,
+  "manual_contradiction_note": "none",
+  "failure_reason": "token_budget",
+  "upstream_success": null,
+  "budget_parity": "verified",
+  "run_id": "20261016T152251931497Z-3de75ed5-B01-adaptive-full-r1"
+}

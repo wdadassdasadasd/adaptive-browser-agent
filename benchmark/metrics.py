@@ -58,6 +58,14 @@ RELEASE_TASK_ECHO_RE = re.compile(
     r"\b(?:two|2)\s+changes?\s+from\s+(?:its|the)\s+release notes\b",
     re.IGNORECASE,
 )
+RELEASE_TITLE_RE = re.compile(
+    r"\b(?:titled|title\s*(?:is|:))\s*(?:(?P<quote>['\"]).*?(?P=quote)|[^\n]*?(?:\.(?=\s|$)|$))",
+    re.IGNORECASE | re.MULTILINE,
+)
+RELEASE_PAGE_TITLE_RE = re.compile(
+    r"^\s*(?:#{1,6}\s*)?(?:Release\s+)?v?\d+\.\d+(?:\.\d+)?\s*:.*·\s*GitHub\s*$",
+    re.IGNORECASE,
+)
 UNFINISHED_SECTION_RE = re.compile(
     r"^[ \t]*##[ \t]+Unknown or unfinished[ \t]*\r?\n.*?(?=^[ \t]*##[ \t]+|\Z)",
     re.IGNORECASE | re.MULTILINE | re.DOTALL,
@@ -188,6 +196,13 @@ def score_answer(case_id: str, answer: str) -> dict[str, bool]:
             ):
                 chunk = []
                 for line in lines:
+                    if case_id == "B01" and re.match(
+                        r"^\s*(?:(?:[-*+]|\d+[.)])\s+)?[\w.-]+/[\w.-]+\s*:", line
+                    ):
+                        # A new candidate starts a new attribution block.
+                        # Uncited facts about the previous candidate cannot
+                        # inherit this candidate's subsequent source URL.
+                        chunk = []
                     if (
                         case_id == "B02"
                         and line.lstrip().startswith("#")
@@ -367,7 +382,9 @@ def score_answer(case_id: str, answer: str) -> dict[str, bool]:
         if (match := VERSION_RE.fullmatch(urlsplit(url).path.rsplit("/", 1)[-1]))
     }
     changes = []
-    for line in release_prose.splitlines():
+    for line in RELEASE_TITLE_RE.sub("", release_prose).splitlines():
+        if RELEASE_PAGE_TITLE_RE.match(line):
+            continue
         if re.fullmatch(
             r"\s*#{0,6}\s*changes?\s+(?:in|for|of)\s+(?:this\s+)?release\s*",
             line,
@@ -393,10 +410,21 @@ def score_answer(case_id: str, answer: str) -> dict[str, bool]:
                 "problems",
             }:
                 changes.append(detail.casefold())
-    publication_date = bool(
-        PUBLICATION_DATE_RE.search(release_prose)
-        or VERSION_DATE_RE.search(release_prose)
-    )
+    dated_versions = []
+    for line in release_prose.splitlines():
+        publication_matches = list(PUBLICATION_DATE_RE.finditer(line))
+        publication_matches.extend(VERSION_DATE_RE.finditer(line))
+        for date_match in publication_matches:
+            preceding = list(VERSION_RE.finditer(line[: date_match.end()]))
+            if preceding:
+                dated_versions.append(
+                    preceding[-1].group().casefold().removeprefix("v")
+                )
+            elif len(set(versions)) == 1:
+                # A separate date line is unambiguous only when the answer
+                # does not mention another release version.
+                dated_versions.append(versions[0])
+    publication_date = bool(claimed_versions.intersection(dated_versions))
     return {
         "version": bool(claimed_versions)
         and len(cited_tags) == 1

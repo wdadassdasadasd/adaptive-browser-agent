@@ -101,7 +101,7 @@ class AgentLoop:
         max_seconds: float = 900,
         max_tokens: int = 40_000,
         max_no_progress: int = 5,
-        cleanup_timeout: float = 5,
+        cleanup_timeout: float = 20,
         clock: Callable[[], float] = monotonic,
         browser_only: bool = False,
     ) -> None:
@@ -185,7 +185,9 @@ class AgentLoop:
             if meter.prompt_tokens + meter.completion_tokens >= self.max_tokens:
                 return "token_budget"
             targets = parse_goal_targets(state.goal)
-            if targets_met(targets, state.facts):
+            if targets_met(targets, state.facts) and all(
+                item.status == SubgoalStatus.COMPLETED for item in state.subgoals
+            ):
                 return "target_count"
             if state.step >= state.max_steps:
                 return "max_steps"
@@ -357,6 +359,7 @@ class AgentLoop:
                 remaining = deadline - monotonic()
                 if remaining <= 0:
                     close_task.cancel()
+                    await asyncio.wait({close_task}, timeout=0.1)
                     return False
                 try:
                     await asyncio.wait({close_task}, timeout=remaining)

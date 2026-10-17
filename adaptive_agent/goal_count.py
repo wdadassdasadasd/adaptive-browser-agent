@@ -3,6 +3,7 @@
 import re
 from collections import defaultdict
 from collections.abc import Iterable
+from urllib.parse import urlsplit
 
 from adaptive_agent.state import ResearchFact
 
@@ -163,6 +164,62 @@ def subject_in_evidence(subject: str, evidence: str) -> bool:
     return re.search(left + name + right, evidence, flags=re.IGNORECASE) is not None
 
 
+def subject_matches_repository_url(subject: str, source_url: str) -> bool:
+    """Match a repository identity against its exact official GitHub URL."""
+
+    parsed = urlsplit(source_url)
+    if parsed.scheme != "https":
+        return False
+    segments = parsed.path.strip("/").split("/")
+    if parsed.hostname == "api.github.com":
+        segments = segments[1:] if segments[0] == "repos" else []
+    elif parsed.hostname == "github.com":
+        if segments[0].casefold() in {
+            "about",
+            "account",
+            "apps",
+            "codespaces",
+            "collections",
+            "dashboard",
+            "enterprise",
+            "events",
+            "explore",
+            "features",
+            "issues",
+            "login",
+            "marketplace",
+            "new",
+            "notifications",
+            "orgs",
+            "organizations",
+            "pulls",
+            "search",
+            "security",
+            "settings",
+            "signup",
+            "sponsors",
+            "stars",
+            "topics",
+            "trending",
+            "users",
+        }:
+            return False
+    else:
+        return False
+    repository_or_release = (
+        len(segments) == 2
+        or (len(segments) == 3 and segments[2] == "releases")
+        or (
+            len(segments) == 5
+            and segments[2:4] == ["releases", "tag"]
+            and bool(segments[4])
+        )
+    )
+    return repository_or_release and subject.casefold() == (
+        f"{segments[0]}/{segments[1]}".casefold()
+    )
+
+
 def verified_subject_counts(facts: Iterable[ResearchFact]) -> dict[str, int]:
     """Count distinct subjects whose name is present in admitted source evidence."""
 
@@ -171,7 +228,13 @@ def verified_subject_counts(facts: Iterable[ResearchFact]) -> dict[str, int]:
         if not fact.subject or not fact.subject_kind or not fact.evidence:
             continue
         normalized = " ".join(fact.subject.split()).casefold()
-        if normalized and subject_in_evidence(fact.subject, fact.evidence):
+        if normalized and (
+            subject_in_evidence(fact.subject, fact.evidence)
+            or (
+                fact.subject_kind == "project"
+                and subject_matches_repository_url(fact.subject, fact.source_url)
+            )
+        ):
             subjects[fact.subject_kind].add(normalized)
     return {kind: len(names) for kind, names in subjects.items()}
 

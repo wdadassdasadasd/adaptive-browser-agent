@@ -87,6 +87,9 @@ next_step(state, observation, context="")
 ```
 
 `initialize` produces high-level subgoals for a `subgoals_initialized` event.
+V1 initialization returns one to three evidence-oriented subgoals covering
+the requested output fields; completion criteria name sourced facts rather
+than a required tool or rendered page, and report writing is not a subgoal.
 `next_step` dynamically selects the next action from current state and browser
 observation; optional context carries a bounded history summary. `PlanDecision`
 must carry:
@@ -104,6 +107,10 @@ expected_result
 
 `element_index` and `value` are optional. V1 tool identifiers are `browser`
 and `github`.
+The Planner names the supported actions and target forms in its decision
+prompt. If a structured decision violates an action or unfinished-subgoal
+contract, it may request one corrected decision; a second invalid decision
+fails without executing a tool.
 
 ## 7. ResearchState
 
@@ -125,7 +132,10 @@ Every fact stores at least `content`, `source_url`, and `source_title`.
 `evidence` and `confidence` may be reserved for later use. For explicit
 quantity goals, an admitted fact may also identify a `subject` and
 `subject_kind`; the subject must be present as a complete name in the observed
-evidence. Every material final conclusion must be traceable to a source.
+evidence, or a project subject may match the exact owner/repository identity
+in an observed official GitHub repository or release URL. Search results do
+not anchor a repository identity. Every material final conclusion must be
+traceable to a source.
 
 ## 9. BrowserUseAdapter
 
@@ -232,6 +242,9 @@ enforces the limits at the Agent domain boundary. Detailed semantics are in
 D4 recognizes common explicit Chinese and English quantities tied to researched
 projects or changes. Distinct validated subjects of the requested kind count;
 facts or URLs alone do not. Ambiguous quantities do not trigger an early stop.
+Meeting the quantity alone does not complete a goal with other required
+subgoals: `target_count` requires every initialized subgoal to be completed
+with validated evidence. Otherwise the loop continues within its hard limits.
 Completion of every initialized observable subgoal with sourced facts is the
 V1 sufficient-information stop when no explicit target count remains unmet.
 If every subgoal is complete but an explicit count is still unmet, the Agent

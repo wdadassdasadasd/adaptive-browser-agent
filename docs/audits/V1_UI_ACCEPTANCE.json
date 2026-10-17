@@ -1,0 +1,190 @@
+{
+  "model": "deepseek-flash",
+  "database_isolated": ".pytest_cache/d7-live/acceptance-r8.db",
+  "runs": [
+    {
+      "case": "B01",
+      "task_id": "45985791-55cc-43e1-bd26-003056dfd915",
+      "goal": "Find two publicly documented Python browser-automation projects suitable for researching web pages. For each, give its name, official repository URL, license, and documented installation command. Cite official sources.",
+      "goal_sha256": "19ea1b4649f9ae465a31cd302882d12f1b072338e1884d2b37df3395abbfd730",
+      "started_at": "2026-10-16T09:17:50.650264+00:00",
+      "ended_at": "2026-10-16T09:20:18.333666+00:00",
+      "status": "failed",
+      "stop_reason": "token_budget",
+      "steps": 2,
+      "prompt_tokens": 8920,
+      "completion_tokens": 25074,
+      "sse_events": [
+        {
+          "event_id": "dabbe326-5a6d-4e61-9d99-285c99909951",
+          "event_type": "task_queued",
+          "step": 0
+        },
+        {
+          "event_id": "017e209d-9ec1-474e-a1db-ae6003b8f8a0",
+          "event_type": "task_started",
+          "step": 0
+        },
+        {
+          "event_id": "09f267ce-8380-45a6-97dd-6982204dd103",
+          "event_type": "subgoals_initialized",
+          "step": 0
+        },
+        {
+          "event_id": "26a08a8f-0cdd-4321-87aa-7ea6474106dc",
+          "event_type": "step_evaluated",
+          "step": 0
+        },
+        {
+          "event_id": "232dcd36-1cad-4931-b0c6-847afd889b69",
+          "event_type": "step_evaluated",
+          "step": 1
+        },
+        {
+          "event_id": "2674ccef-2ba1-4043-b93d-cc9a33b654bf",
+          "event_type": "task_finished",
+          "step": 2
+        }
+      ],
+      "persisted_trace_count": 6,
+      "source_urls": [],
+      "report_markdown": "# Research report: Find two publicly documented Python browser-automation projects suitable for researching web pages. For each, give its name, official repository URL, license, and documented installation command. Cite official sources.\n\nInsufficient evidence; stop reason: token_budget (the model usage limit was reached).\n\n## Findings\nNo verified findings.\n\n## Comparison\nInsufficient evidence for a supported comparison.\n\n## Recommendation\nInsufficient evidence for a supported recommendation.\n\n## Unknown or unfinished\n- Identify two distinct publicly documented Python browser-automation projects suitable for researching web pages, such as loading and navigating pages or extracting rendered content.\n- For each identified project, collect its official repository URL and its license as stated by an official source.\n- For each identified project, collect the documented installation command as published in the project's official installation documentation.\n- Requested 2 project(s); verified 0.\n\n## Sources\n- No verified sources.",
+      "ui_terminal": {
+        "url": "http://127.0.0.1:5173/?task=45985791-55cc-43e1-bd26-003056dfd915",
+        "status": "失败",
+        "timeline_count": 6,
+        "report_visible": true,
+        "source_links": 0
+      },
+      "api_restart_reloaded": true
+    },
+    {
+      "case": "B02",
+      "task_id": "a91ba448-74d8-4a7f-9ce9-b527da58e2c9",
+      "goal": "Compare FastAPI and Flask for a small Python HTTP API using their official documentation. Explain how each declares a route, whether async handlers are documented, and how each is installed. Cite the exact official pages.",
+      "goal_sha256": "b8147c3d38c7ff6c1c5211de081d1651777af1d6a0e21116734eedfa7df604c0",
+      "started_at": "2026-10-16T09:22:03.655943+00:00",
+      "ended_at": "2026-10-16T09:22:04.910275+00:00",
+      "status": "failed",
+      "stop_reason": "token_budget",
+      "steps": 1,
+      "prompt_tokens": 15482,
+      "completion_tokens": 4103,
+      "sse_events": [
+        {
+          "event_id": "06d9da8d-6315-4865-9722-a501aad3c63d",
+          "event_type": "task_queued",
+          "step": 0
+        },
+        {
+          "event_id": "4f810669-e9a9-4754-98a9-472a4d3256ff",
+          "event_type": "task_started",
+          "step": 0
+        },
+        {
+          "event_id": "77d136d1-5577-41c8-a477-fc1dc200c1cd",
+          "event_type": "subgoals_initialized",
+          "step": 0
+        },
+        {
+          "event_id": "12196d98-18ba-4d27-ae00-5f3ca35f2453",
+          "event_type": "step_evaluated",
+          "step": 0
+        },
+        {
+          "event_id": "5b724f98-cb30-4691-8391-9ccb1a4e0679",
+          "event_type": "task_finished",
+          "step": 1
+        }
+      ],
+      "persisted_trace_count": 5,
+      "source_urls": [],
+      "report_markdown": "# Research report: Compare FastAPI and Flask for a small Python HTTP API using their official documentation. Explain how each declares a route, whether async handlers are documented, and how each is installed. Cite the exact official pages.\n\nInsufficient evidence; stop reason: token_budget (the model usage limit was reached).\n\n## Findings\nNo verified findings.\n\n## Comparison\nInsufficient evidence for a supported comparison.\n\n## Recommendation\nInsufficient evidence for a supported recommendation.\n\n## Unknown or unfinished\n- Determine, from official FastAPI and Flask documentation, how each framework declares an HTTP API route and whether async handlers are documented.\n- Determine, from official FastAPI and Flask documentation, how each framework is installed.\n- Record the exact official documentation pages used so each compared claim is citable.\n\n## Sources\n- No verified sources.",
+      "ui_terminal": {
+        "url": "http://127.0.0.1:5173/?task=a91ba448-74d8-4a7f-9ce9-b527da58e2c9",
+        "status": "失败",
+        "timeline_count": 5,
+        "report_visible": true,
+        "source_links": 0
+      },
+      "api_restart_reloaded": true
+    },
+    {
+      "case": "B03",
+      "task_id": "3cda2d59-3b03-4c17-9d21-70e38bd47ffb",
+      "goal": "Find the latest public release of browser-use/browser-use and summarize its version, publication date, and two changes from its release notes. Cite the official release page.",
+      "goal_sha256": "38700c88e0ad824f6f9ffd014fb30ed1abbacb6b560b39b749367677f2b161fb",
+      "started_at": "2026-10-16T09:22:04.933288+00:00",
+      "ended_at": "2026-10-16T09:23:03.477156+00:00",
+      "status": "failed",
+      "stop_reason": "no_progress",
+      "steps": 5,
+      "prompt_tokens": 20676,
+      "completion_tokens": 4286,
+      "sse_events": [
+        {
+          "event_id": "aecb4feb-3a97-4bc4-8fa5-245a40682c31",
+          "event_type": "task_queued",
+          "step": 0
+        },
+        {
+          "event_id": "63361401-1ce3-4c80-a18b-a780c0ef311a",
+          "event_type": "task_started",
+          "step": 0
+        },
+        {
+          "event_id": "95c6f062-44a7-419c-bea5-fb0fa5c21044",
+          "event_type": "subgoals_initialized",
+          "step": 0
+        },
+        {
+          "event_id": "0b17c146-e3e8-46d4-8cac-977fef4f2f1d",
+          "event_type": "step_evaluated",
+          "step": 0
+        },
+        {
+          "event_id": "ad37690d-6a74-400d-b08f-bf18ed09e759",
+          "event_type": "step_evaluated",
+          "step": 1
+        },
+        {
+          "event_id": "558a30f1-b953-44d5-a549-3827a9309dcc",
+          "event_type": "step_evaluated",
+          "step": 2
+        },
+        {
+          "event_id": "e4054bbc-e703-4959-aa73-84459de61c13",
+          "event_type": "step_evaluated",
+          "step": 3
+        },
+        {
+          "event_id": "61b96f25-106f-43f9-a3c5-add0e07feea7",
+          "event_type": "step_evaluated",
+          "step": 4
+        },
+        {
+          "event_id": "4ca142a1-e0cb-4e76-b5b5-255b8a435298",
+          "event_type": "task_finished",
+          "step": 5
+        }
+      ],
+      "persisted_trace_count": 9,
+      "source_urls": [],
+      "report_markdown": "# Research report: Find the latest public release of browser-use/browser-use and summarize its version, publication date, and two changes from its release notes. Cite the official release page.\n\nInsufficient evidence; stop reason: no_progress (repeated planning found no new evidence).\n\n## Findings\nNo verified findings.\n\n## Comparison\nInsufficient evidence for a supported comparison.\n\n## Recommendation\nInsufficient evidence for a supported recommendation.\n\n## Unknown or unfinished\n- Determine the latest public (non-draft, non-prerelease unless it is the newest published release) release of the GitHub repository browser-use/browser-use, capturing its version tag name and its publication date.\n- Read the release notes/body of the identified latest release and extract two distinct changes, fixes, or features described in it.\n- Confirm that the identified release is in fact the most recent published release for the repository and not an older or superseded entry.\n- Requested 2 change(s); verified 0.\n\n## Sources\n- No verified sources.",
+      "ui_terminal": {
+        "url": "http://127.0.0.1:5173/?task=3cda2d59-3b03-4c17-9d21-70e38bd47ffb",
+        "status": "失败",
+        "timeline_count": 9,
+        "report_visible": true,
+        "source_links": 0
+      },
+      "api_restart_reloaded": true
+    }
+  ],
+  "resource_evidence": {
+    "browser_kill_returned": true,
+    "api_shutdown_complete": true,
+    "vite_stopped": true,
+    "browser_loop_destructor_warning": true
+  }
+}

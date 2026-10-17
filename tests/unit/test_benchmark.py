@@ -92,6 +92,7 @@ async def test_attempt_records_working_tree_fingerprint():
 
     record = await attempt("B01", "baseline", 1, baseline=baseline)
     assert record["git_revisions"]["project_worktree_sha256"] is not None
+    assert record["protocol_version"] == "V1-D7-r12"
 
 
 def test_observed_nonofficial_url_path_cannot_persist_page_secret():
@@ -259,6 +260,49 @@ def test_multiline_candidate_claims_keep_each_adjacent_source():
         "  Source: https://github.com/SeleniumHQ/selenium"
     )
     assert all(score_answer("B01", answer).values())
+
+
+def test_candidate_comparison_does_not_attach_previous_license_to_next_repo():
+    answer = (
+        "## Findings\n"
+        "### SeleniumHQ/selenium\n"
+        "SeleniumHQ/selenium: https://github.com/SeleniumHQ/selenium\n"
+        "The repository license is Apache-2.0.\n"
+        "- Source: https://api.github.com/repos/SeleniumHQ/selenium\n"
+        "### browserbase/stagehand-python\n"
+        "browserbase/stagehand-python: https://github.com/browserbase/stagehand-python\n"
+        "## Comparison\n"
+        "SeleniumHQ/selenium: https://github.com/SeleniumHQ/selenium\n"
+        "The repository license is Apache-2.0.\n"
+        "browserbase/stagehand-python: https://github.com/browserbase/stagehand-python\n"
+    )
+    fields = score_answer("B01", answer)
+    assert fields["project_1_license"]
+    assert not fields["project_2_license"]
+
+
+def test_bulleted_candidate_does_not_inherit_previous_license():
+    answer = (
+        "SeleniumHQ/selenium: Apache-2.0 license; pip install selenium. "
+        "https://github.com/SeleniumHQ/selenium\n"
+        "The Selenium repository license is Apache-2.0.\n"
+        "- browserbase/stagehand-python: pip install stagehand-python. "
+        "https://github.com/browserbase/stagehand-python"
+    )
+    fields = score_answer("B01", answer)
+    assert fields["project_1_license"]
+    assert not fields["project_2_license"]
+
+
+def test_plus_bulleted_candidate_does_not_inherit_previous_license():
+    answer = (
+        "SeleniumHQ/selenium: Apache-2.0; pip install selenium. "
+        "https://github.com/SeleniumHQ/selenium\n"
+        "The Selenium repository license is Apache-2.0.\n"
+        "+ browserbase/stagehand-python: pip install stagehand-python. "
+        "https://github.com/browserbase/stagehand-python"
+    )
+    assert not score_answer("B01", answer)["project_2_license"]
 
 
 def test_release_version_must_match_cited_tag_and_changes_need_descriptions():
@@ -511,6 +555,130 @@ def test_release_date_adjacent_to_version_counts_as_publication_date():
         "https://github.com/browser-use/browser-use/releases/tag/v1.2.3"
     )
     assert score_answer("B03", answer)["publication_date"]
+
+
+def test_release_date_of_previous_version_does_not_score_latest_date():
+    answer = (
+        "The latest release is 0.13.11. "
+        "The 0.13.11 entry is listed ahead of 0.13.10 "
+        "(published 2026-09-04). "
+        "The prior listed release, 0.13.10, was published 2026-09-04T03:28:53Z. "
+        "Change 1: added image uploads. Change 2: fixed history redaction. "
+        "https://github.com/browser-use/browser-use/releases/tag/0.13.11"
+    )
+    fields = score_answer("B03", answer)
+    assert fields["version"]
+    assert not fields["publication_date"]
+
+
+def test_release_date_of_latest_version_scores_with_older_release_mentioned():
+    answer = (
+        "The latest release 0.13.11 was published 2026-10-07. "
+        "Previous release 0.13.10 was published 2026-09-04. "
+        "https://github.com/browser-use/browser-use/releases/tag/0.13.11"
+    )
+    assert score_answer("B03", answer)["publication_date"]
+
+
+def test_release_title_is_not_counted_as_release_note_change():
+    answer = (
+        "The latest public release is version 0.13.13, titled "
+        "'OpenAI browser tools and Cloud fixes' and labeled Latest. "
+        "https://github.com/browser-use/browser-use/releases/tag/0.13.13"
+    )
+    fields = score_answer("B03", answer)
+    assert fields["version"]
+    assert not fields["change_1"]
+    assert not fields["change_2"]
+
+
+def test_unquoted_release_title_is_not_counted_as_two_changes():
+    answer = (
+        "The latest public release is 0.13.13, published 2026-10-07. "
+        "Title: Added browser tools and fixed Cloud startup. "
+        "https://github.com/browser-use/browser-use/releases/tag/0.13.13"
+    )
+    fields = score_answer("B03", answer)
+    assert fields["version"] and fields["publication_date"]
+    assert not fields["change_1"]
+    assert not fields["change_2"]
+
+
+def test_semicolon_separated_release_title_is_not_release_notes():
+    answer = (
+        "Latest release v1.2.3, published 2026-01-02. "
+        "Title: Added tab support; Fixed scroll timeout; Improved download retry. "
+        "https://github.com/browser-use/browser-use/releases/tag/v1.2.3"
+    )
+    fields = score_answer("B03", answer)
+    assert not fields["change_1"] and not fields["change_2"]
+
+
+def test_github_release_page_title_and_comparison_do_not_create_changes():
+    source = "https://github.com/browser-use/browser-use/releases/tag/0.13.13"
+    answer = (
+        "## Findings\n"
+        "### browser-use/browser-use\n"
+        f"Release 0.13.13 is marked Latest. - Source: {source}\n"
+        "### 0.13.13: OpenAI browser tools and Cloud fixes · "
+        "browser-use/browser-use · GitHub\n"
+        f"The release was published 15 Oct 23:50. - Source: {source}\n"
+        "### OpenAI browser-tool driver\n"
+        f"Release notes describe the OpenAI browser-tool driver. - Source: {source}\n"
+        "## Comparison\n"
+        "0.13.13: OpenAI browser tools and Cloud fixes · "
+        "browser-use/browser-use · GitHub: published 15 Oct 23:50.\n"
+    )
+    fields = score_answer("B03", answer)
+    assert fields["version"]
+    assert not fields["change_2"]
+
+
+def test_release_changes_in_comparison_count_when_findings_have_none():
+    source = "https://github.com/browser-use/browser-use/releases/tag/v1.2.3"
+    answer = (
+        "## Findings\n"
+        f"Latest release v1.2.3, published 2026-01-02. Source: {source}\n"
+        "## Comparison\n"
+        f"Added tab support. Fixed scroll timeout. Source: {source}"
+    )
+    fields = score_answer("B03", answer)
+    assert fields["change_1"] and fields["change_2"]
+
+
+def test_version_prefixed_heading_can_state_real_release_change():
+    source = "https://github.com/browser-use/browser-use/releases/tag/v1.2.3"
+    answer = (
+        "## Findings\n"
+        f"Latest release v1.2.3, published 2026-01-02. Source: {source}\n"
+        "### v1.2.3: Added tab support\n"
+        f"Source: {source}\n"
+        f"- Fixed scroll timeout. Source: {source}"
+    )
+    fields = score_answer("B03", answer)
+    assert fields["change_1"] and fields["change_2"]
+
+
+def test_version_heading_with_github_change_is_not_page_title():
+    source = "https://github.com/browser-use/browser-use/releases/tag/v1.2.3"
+    answer = (
+        f"Latest release v1.2.3, published 2026-01-02. Source: {source}\n"
+        "### v1.2.3: Added GitHub login support\n"
+        f"Source: {source}\n"
+        f"- Fixed scroll timeout. Source: {source}"
+    )
+    fields = score_answer("B03", answer)
+    assert fields["change_1"] and fields["change_2"]
+
+
+def test_version_heading_with_github_sso_suffix_is_a_change():
+    source = "https://github.com/browser-use/browser-use/releases/tag/v1.2.3"
+    answer = (
+        f"Latest release v1.2.3, published 2026-01-02. Source: {source}\n"
+        "### v1.2.3: Added login · GitHub SSO\n"
+        f"Source: {source}"
+    )
+    assert score_answer("B03", answer)["change_1"]
 
 
 def test_comparison_plural_async_views_are_scored_with_flask_source():
@@ -1514,6 +1682,7 @@ def test_manual_notes_recompute_completion_without_controlled_claim(tmp_path):
                 "case": case,
                 "arm": arm,
                 "repetition": repetition,
+                "protocol_version": "V1-D7-r7",
                 "status": "completed",
                 "coverage": 1.0,
                 "steps": 1,
@@ -1532,6 +1701,78 @@ def test_manual_notes_recompute_completion_without_controlled_claim(tmp_path):
     assert all(summary["arms"][arm]["completion_rate"] == 1.0 for arm in ARMS)
     assert summary["arms"]["baseline"]["budget_parity"] == "mismatched"
     assert summary["controlled_advantage_claim_allowed"] is False
+
+
+def test_summary_exposes_case_metrics_failures_and_missing_usage():
+    records = [
+        {
+            "case": "B01",
+            "arm": "baseline",
+            "repetition": 1,
+            "status": "completed",
+            "coverage": 1.0,
+            "steps": 3,
+            "duplicate_urls": 1,
+            "duration_seconds": 12.0,
+            "prompt_tokens": 100,
+            "completion_tokens": 20,
+            "failure_reason": None,
+            "budget_parity": "mismatched",
+            "manual_contradiction_note": "none",
+        },
+        {
+            "case": "B01",
+            "arm": "baseline",
+            "repetition": 2,
+            "status": "failed",
+            "coverage": 0.5,
+            "steps": 5,
+            "duplicate_urls": 3,
+            "duration_seconds": 28.0,
+            "prompt_tokens": None,
+            "completion_tokens": None,
+            "failure_reason": "provider_unavailable",
+            "budget_parity": "mismatched",
+            "manual_contradiction_note": "none",
+        },
+    ]
+
+    summary = summarize(records)
+    case = summary["by_case"]["B01"]["baseline"]
+    assert case["attempts"] == 2
+    assert case["completion_rate"] == 0.5
+    assert case["mean_coverage"] == 0.75
+    assert case["mean_steps"] == 4
+    assert case["mean_duplicate_urls"] == 2
+    assert case["mean_duration_seconds"] == 20
+    assert case["mean_prompt_tokens"] is None
+    assert case["missing_values"] == {"prompt_tokens": 1, "completion_tokens": 1}
+    assert case["failure_categories"] == {"provider_unavailable": 1}
+    assert summary["arms"]["baseline"] == case
+    assert summary["by_case"]["B02"]["baseline"]["attempts"] == 0
+
+
+def test_summary_flags_mixed_protocol_revisions():
+    rows = [
+        {
+            "case": "B01",
+            "arm": "baseline",
+            "repetition": index,
+            "protocol_version": version,
+            "status": "failed",
+            "coverage": 0.0,
+            "steps": 0,
+            "duplicate_urls": 0,
+            "duration_seconds": 1.0,
+            "prompt_tokens": None,
+            "completion_tokens": None,
+            "budget_parity": "mismatched",
+            "manual_contradiction_note": "none",
+        }
+        for index, version in enumerate(("V1-D7-r1", "V1-D7-r2"), 1)
+    ]
+
+    assert summarize(rows)["protocol_version"] == "mixed"
 
 
 def test_duplicate_record_is_rejected(tmp_path):
@@ -1570,5 +1811,7 @@ async def test_live_run_isolated_directory_links_each_raw_attempt(
     record = tmp_path / "test-run" / "B01_baseline_r1.json"
     summary = json.loads((tmp_path / "test-run" / "summary.json").read_text())
     assert record.exists()
+    saved = json.loads(record.read_text())
+    assert saved["run_id"] == "test-run-B01-baseline-r1"
     assert summary["raw_records"] == ["B01_baseline_r1.json"]
     assert summary["protocol_complete"] is False
