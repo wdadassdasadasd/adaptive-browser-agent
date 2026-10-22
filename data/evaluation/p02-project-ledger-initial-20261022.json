@@ -1,0 +1,29 @@
+{
+  "protocol_version": "current-3",
+  "batches": [],
+  "entries": [],
+  "artifact_type": "offline_project_cost_ledger",
+  "created_at": "2026-10-22T04:20:48.382761+00:00",
+  "status": "declared_costs_reconciled_offline_only",
+  "new_paid_calls_authorized": false,
+  "unknown_attempt_count": 0,
+  "known_subtotals_cny": {
+    "pilot": "0",
+    "diagnostic": "0",
+    "formal": "0",
+    "contingency": "0"
+  },
+  "known_project_subtotal_cny": "0",
+  "declared_project_total_cny": "0",
+  "allocation_limits_cny": {
+    "pilot": 49,
+    "diagnostic": 30,
+    "formal": 200,
+    "contingency": 20
+  },
+  "project_max_cny": 299,
+  "protocol_sha256": "1c18d53624c21b1e25f5cea5640b4c8b4a5e0cfc001f430c8d603a01d51a8507",
+  "validation_errors": [],
+  "billing_reconciliation": "not_verified_against_provider_invoice",
+  "note": "Only declared attempts are checked; this snapshot does not authorize spending or prove completeness against provider billing."
+}

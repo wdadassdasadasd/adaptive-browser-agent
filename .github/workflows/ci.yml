@@ -1,4 +1,4 @@
-name: V1 offline checks
+name: Offline code and current-3 configuration checks
 
 on:
   push:
@@ -28,19 +28,59 @@ jobs:
         with:
           version: "0.11.28"
       - name: Install locked dependencies
-        run: uv sync --locked --dev
+        run: uv --directory backend sync --locked --dev
       - name: Check lock and configuration
         run: |
-          uv lock --check --offline
-          uv run --offline --locked python -c "from backend.config import Settings; Settings(_env_file=None)"
+          uv --directory backend lock --check --offline
+          uv --directory backend run --offline --locked python -c "from adaptive_research.infrastructure.config import Settings; Settings(_env_file=None)"
+      - name: Validate current-3 authority, archived protocol hashes, Skills, and frozen cases
+        run: uv --directory backend run --offline --locked python ../scripts/validate_project.py
       - name: Ruff
         run: |
-          uv run --offline --locked ruff check adaptive_agent backend benchmark tests
-          uv run --offline --locked ruff format --check adaptive_agent backend benchmark tests
+          uv --directory backend run --offline --locked ruff check --config pyproject.toml src tests migrations ../scripts
+          uv --directory backend run --offline --locked ruff format --check --config pyproject.toml src tests migrations ../scripts
       - name: Compile Python
-        run: uv run --offline --locked python -m compileall -q adaptive_agent backend benchmark tests
+        run: uv --directory backend run --offline --locked python -m compileall -q src tests migrations ../scripts
       - name: Offline tests
-        run: uv run --offline --locked pytest -q
+        run: uv --directory backend run --offline --locked pytest -q
+
+  postgres:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: offline-ci-only
+          POSTGRES_DB: adaptive_research_dev
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      P01_DATABASE_URL: postgresql+asyncpg://postgres:offline-ci-only@127.0.0.1:5432/adaptive_research_dev
+      P01_TEST_DATABASE_NAME: adaptive_research_test
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          submodules: recursive
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - uses: astral-sh/setup-uv@v10.2.0
+        with:
+          version: "0.11.28"
+      - name: Install locked backend dependencies
+        run: uv --directory backend sync --locked --dev
+      - name: Create disposable test database
+        run: docker exec ${{ job.services.postgres.id }} createdb -U postgres adaptive_research_test
+      - name: PostgreSQL migrations, leases and API/Worker integration
+        run: uv --directory backend run --offline --locked pytest -q tests/integration/test_pg_store.py tests/integration/test_pg_api_worker.py
+      # Windows/WSL cold start, process restart and resource limits have separate local evidence.
 
   frontend:
     runs-on: ubuntu-latest

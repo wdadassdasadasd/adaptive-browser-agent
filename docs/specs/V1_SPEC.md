@@ -1,5 +1,13 @@
 # Adaptive Research Agent V1 Specification
 
+> Forward pointer (2026-10-19): This frozen V1 specification remains
+> authoritative for existing behavior until an explicitly authorized task
+> changes it. The unimplemented target is [current SPEC.md](../../SPEC.md), with
+> [current contracts](../contracts/CURRENT_CONTRACTS.md). The [archived target](../archive/target-2026-10-18/SPEC.md)
+> and [Gate 1 Design Index](../archive/design-0.3/00_DESIGN_INDEX.md) retain history. Record
+> any current/target conflict before implementation.
+> This pointer does not revise the historical V1 requirements or acceptance.
+
 ## 1. Project positioning
 
 Adaptive Research Agent is an independent research-oriented Agent runtime built

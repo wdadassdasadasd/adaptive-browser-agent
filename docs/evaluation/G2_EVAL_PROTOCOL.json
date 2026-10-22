@@ -1,0 +1,66 @@
+{
+  "protocol_version": "0.4",
+  "status": "approved_design_pending_execution",
+  "registered_at": "2026-10-18",
+  "authority": "SPEC.md",
+  "historical_protocol": "docs/benchmark/BENCHMARK_PROTOCOL.md",
+  "paid_execution_requires_separate_authorization": true,
+  "pilot": {"case_ids": ["B01", "B02", "B03"], "trials_per_case": 1, "excluded_from_formal_release": true},
+  "formal": {
+    "trials_per_b_case": 3,
+    "trials_per_g_case": 1,
+    "required_b_full_successes_per_case": 2,
+    "required_g_full_successes_total": 2,
+    "expected_total_trials": 12,
+    "aggregate_field_release_threshold": null,
+    "all_attempts_retained": true
+  },
+  "full_success_requires": [
+    "persisted_status_completed",
+    "completion_level_full",
+    "all_required_fields_in_this_report_with_official_sources",
+    "every_material_claim_traced_to_accepted_fact_and_manually_verified_official_source",
+    "recommendation_has_explicit_conditions_rationale_and_verified_supporting_facts",
+    "owner_can_access_and_other_team_member_cannot_access_or_cancel",
+    "ui_api_sqlite_sse_consistent"
+  ],
+  "cases": [
+    {
+      "id": "B01", "set": "regression", "category": "candidate_discovery",
+      "prompt": "Find two publicly documented Python browser-automation projects suitable for researching web pages. For each, give its name, official repository URL, license, and documented installation command. Cite official sources.",
+      "required_fields": ["project_1_name", "project_1_repository", "project_1_license", "project_1_install", "project_1_source", "project_2_name", "project_2_repository", "project_2_license", "project_2_install", "project_2_source"]
+    },
+    {
+      "id": "B02", "set": "regression", "category": "documentation_comparison",
+      "prompt": "Compare FastAPI and Flask for a small Python HTTP API using their official documentation. Explain how each declares a route, whether async handlers are documented, and how each is installed. Cite the exact official pages.",
+      "required_fields": ["fastapi_name", "fastapi_route", "fastapi_async", "fastapi_install", "fastapi_source", "flask_name", "flask_route", "flask_async", "flask_install", "flask_source"]
+    },
+    {
+      "id": "B03", "set": "regression", "category": "release_research",
+      "prompt": "Find the latest public release of browser-use/browser-use and summarize its version, publication date, and two changes from its release notes. Cite the official release page.",
+      "required_fields": ["version", "publication_date", "change_1", "change_2", "release_source"]
+    },
+    {
+      "id": "G01", "set": "public_generalization", "category": "candidate_discovery",
+      "prompt": "Find the official repositories, licenses, and documented Python installation commands for Selenium and Playwright. Cite the official sources for each item.",
+      "required_fields": ["selenium_name", "selenium_repository", "selenium_license", "selenium_install", "selenium_source", "playwright_name", "playwright_repository", "playwright_license", "playwright_install", "playwright_source"]
+    },
+    {
+      "id": "G02", "set": "public_generalization", "category": "documentation_comparison",
+      "prompt": "Compare Django and Starlette for a small Python HTTP API using their official documentation. For each, give its route declaration, documented async handler support, installation command, and exact official source page.",
+      "required_fields": ["django_name", "django_route", "django_async", "django_install", "django_source", "starlette_name", "starlette_route", "starlette_async", "starlette_install", "starlette_source"]
+    },
+    {
+      "id": "G03", "set": "public_generalization", "category": "release_research",
+      "prompt": "Find the latest public release of microsoft/playwright and report its version, publication date, two distinct release-note changes, and official release page.",
+      "required_fields": ["version", "publication_date", "change_1", "change_2", "release_source"]
+    }
+  ],
+  "result_record_contract": {
+    "required_fields": ["protocol_version", "phase", "case_id", "trial_index", "task_id", "run_id", "code_revision", "started_at", "ended_at", "status", "completion_level", "field_reviews", "field_coverage", "claims", "recommendation_review", "official_source_review", "chain_checks", "access_checks", "stop_reason", "usage", "wall_clock_seconds", "duplicate_urls", "raw_record_path"],
+    "field_review_required_fields": ["value", "official_source_url", "verified_by_human", "source_checked_at"],
+    "claim_required_fields": ["text", "fact_ids", "official_source_urls", "verified_by_human", "source_checked_at"],
+    "recommendation_review_required_fields": ["text", "use_conditions", "supporting_fact_ids", "official_source_urls", "tradeoffs_or_unknowns", "rationale_checked_by_human", "source_checked_at"],
+    "usage_required_fields": ["reported_prompt_tokens", "reported_completion_tokens", "known_lower_bound_tokens", "unknown_attempt_count"]
+  }
+}

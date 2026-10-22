@@ -3,6 +3,7 @@
 __pycache__/
 *.py[cod]
 .pytest_cache/
+.tmp/
 .ruff_cache/
 .mypy_cache/
 .coverage
@@ -16,3 +17,4 @@ data/benchmark/
 frontend/node_modules/
 frontend/dist/
 .playwright-mcp/
+data/p01/*-control/*.release

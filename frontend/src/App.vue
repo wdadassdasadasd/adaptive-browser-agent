@@ -2,7 +2,7 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { ApiError, eventUrl, researchApi, safeSourceUrl, type AgentEvent, type ResearchTask, type TaskStatus } from './api'
 
-const eventTypes = ['task_queued', 'task_started', 'subgoals_initialized', 'step_evaluated', 'cancel_requested', 'task_finished']
+const eventTypes = ['task_queued', 'task_started', 'task_requeued', 'subgoals_initialized', 'step_evaluated', 'cancel_requested', 'task_finished']
 const terminalStatuses = new Set<TaskStatus>(['completed', 'partial', 'failed', 'cancelled'])
 const statusLabels: Record<TaskStatus, string> = {
   queued: '排队中', running: '研究中', completed: '已完成', partial: '部分完成',
@@ -29,6 +29,7 @@ let listVersion = 0
 let disposed = false
 
 const active = computed(() => selected.value && !terminalStatuses.has(selected.value.status))
+const pendingCancellation = computed(() => Boolean(active.value && selected.value?.cancellation_requested))
 const validGoal = computed(() => goal.value.trim().length > 0 && goal.value.trim().length <= 4000)
 const unfinishedItems = computed(() => {
   const lines = selected.value?.report?.markdown.split(/\r?\n/) ?? []
@@ -257,7 +258,7 @@ async function cancel(): Promise<void> {
   error.value = ''
   try {
     const result = await researchApi.cancel(task.id)
-    notice.value = result.cancelled ? '取消请求已发送，等待任务结束。' : '任务已结束，无法取消。'
+    notice.value = result.cancelled || result.cancellation_requested ? '取消请求已发送，等待任务结束。' : '任务已结束，无法取消。'
     await reloadSelected(selectionVersion)
     await refreshList()
   } catch (cause) {
@@ -320,7 +321,7 @@ onUnmounted(() => { disposed = true; ++selectionVersion; closeStream() })
           <div v-if="taskBusy" class="empty" role="status">正在加载任务与时间线…</div>
           <div v-else-if="!selected" class="empty">还没有任务。输入研究目标后即可开始。</div>
           <template v-else>
-            <div class="task-summary"><div><span class="status" :class="selected.status">{{ statusLabels[selected.status] }}</span><h3>{{ selected.goal || selected.id }}</h3><small>创建于 {{ new Date(selected.created_at).toLocaleString('zh-CN') }}</small></div><button v-if="active" class="danger" data-test="cancel" type="button" :disabled="cancelBusy" @click="cancel">{{ cancelBusy ? '正在请求取消…' : '取消任务' }}</button></div>
+            <div class="task-summary"><div><span class="status" :class="selected.status">{{ pendingCancellation ? '取消中' : statusLabels[selected.status] }}</span><h3>{{ selected.goal || selected.id }}</h3><small>创建于 {{ new Date(selected.created_at).toLocaleString('zh-CN') }}</small></div><button v-if="active" class="danger" data-test="cancel" type="button" :disabled="cancelBusy || pendingCancellation" @click="cancel">{{ pendingCancellation ? '等待取消完成' : cancelBusy ? '正在请求取消…' : '取消任务' }}</button></div>
             <p v-if="selected.error_message" class="task-error">{{ selected.error_message }}</p>
             <p v-if="selected.stop_reason" class="muted">结束原因：{{ selected.stop_reason }}</p>
             <p v-if="streamWarning" class="connection" role="status">{{ streamWarning }}</p>

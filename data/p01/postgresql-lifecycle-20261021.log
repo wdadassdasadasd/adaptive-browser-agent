@@ -1,0 +1,56 @@
+2026-10-20 13:08:25.098 CST [3208] LOG:  database system was shut down at 2026-10-20 13:08:23 CST
+2026-10-20 13:08:25.104 CST [3205] LOG:  database system is ready to accept connections
+2026-10-20 13:08:52.497 CST [3205] LOG:  received fast shutdown request
+2026-10-20 13:08:52.501 CST [3206] LOG:  shutting down
+2026-10-20 13:08:52.516 CST [3205] LOG:  database system is shut down
+2026-10-20 13:09:07.379 CST [263] LOG:  database system was shut down at 2026-10-20 13:08:52 CST
+2026-10-20 13:09:07.389 CST [236] LOG:  database system is ready to accept connections
+2026-10-20 13:09:26.168 CST [236] LOG:  received fast shutdown request
+2026-10-20 13:09:26.173 CST [261] LOG:  shutting down
+2026-10-20 13:09:26.189 CST [236] LOG:  database system is shut down
+2026-10-20 13:09:43.027 CST [268] LOG:  database system was shut down at 2026-10-20 13:09:26 CST
+2026-10-20 13:09:43.038 CST [241] LOG:  database system is ready to accept connections
+2026-10-20 13:10:00.733 CST [241] LOG:  received fast shutdown request
+2026-10-20 13:10:00.738 CST [265] LOG:  shutting down
+2026-10-20 13:10:00.754 CST [241] LOG:  database system is shut down
+2026-10-20 13:10:41.900 CST [263] LOG:  database system was shut down at 2026-10-20 13:10:00 CST
+2026-10-20 13:10:41.909 CST [241] LOG:  database system is ready to accept connections
+2026-10-20 13:11:20.582 CST [241] LOG:  received fast shutdown request
+2026-10-20 13:11:20.587 CST [260] LOG:  shutting down
+2026-10-20 13:11:20.669 CST [241] LOG:  database system is shut down
+2026-10-20 13:12:43.915 CST [271] LOG:  database system was shut down at 2026-10-20 13:11:20 CST
+2026-10-20 13:12:43.927 CST [243] LOG:  database system is ready to accept connections
+2026-10-20 13:13:02.710 CST [243] LOG:  received fast shutdown request
+2026-10-20 13:13:02.716 CST [269] LOG:  shutting down
+2026-10-20 13:13:02.737 CST [243] LOG:  database system is shut down
+2026-10-20 13:13:09.040 CST [259] LOG:  database system was shut down at 2026-10-20 13:13:02 CST
+2026-10-20 13:13:09.052 CST [229] LOG:  database system is ready to accept connections
+2026-10-20 13:13:26.772 CST [229] LOG:  received fast shutdown request
+2026-10-20 13:13:26.778 CST [257] LOG:  shutting down
+2026-10-20 13:13:26.794 CST [229] LOG:  database system is shut down
+2026-10-20 13:14:11.279 CST [258] LOG:  database system was shut down at 2026-10-20 13:13:26 CST
+2026-10-20 13:14:11.290 CST [232] LOG:  database system is ready to accept connections
+2026-10-21 00:43:35.852 CST [334] LOG:  database system was interrupted; last known up at 2026-10-20 13:14:11 CST
+2026-10-21 00:43:36.233 CST [334] LOG:  database system was not properly shut down; automatic recovery in progress
+2026-10-21 00:43:36.261 CST [310] LOG:  database system is ready to accept connections
+2026-10-21 00:52:44.171 CST [310] LOG:  received fast shutdown request
+2026-10-21 00:52:44.182 CST [332] LOG:  shutting down
+2026-10-21 00:52:44.226 CST [310] LOG:  database system is shut down
+2026-10-21 12:44:42.278 CST [244] LOG:  database system was shut down at 2026-10-21 00:52:44 CST
+2026-10-21 12:44:42.291 CST [230] LOG:  database system is ready to accept connections
+2026-10-21 12:46:45.602 CST [230] LOG:  received fast shutdown request
+2026-10-21 12:46:45.609 CST [241] LOG:  shutting down
+2026-10-21 12:46:45.645 CST [230] LOG:  database system is shut down
+2026-10-21 12:47:31.935 CST [252] LOG:  database system was shut down at 2026-10-21 12:46:45 CST
+2026-10-21 12:47:31.946 CST [225] LOG:  database system is ready to accept connections
+2026-10-21 13:22:19.777 CST [225] LOG:  received fast shutdown request
+2026-10-21 13:22:19.780 CST [20951] adaptive_agent_app@adaptive_agent_p01_measure_r2_20261021 FATAL:  terminating connection due to administrator command
+2026-10-21 13:22:19.780 CST [20961] adaptive_agent_app@adaptive_agent_p01_measure_r2_20261021 FATAL:  terminating connection due to administrator command
+2026-10-21 13:22:19.780 CST [20899] adaptive_agent_app@adaptive_agent_p01_measure_r2_20261021 FATAL:  terminating connection due to administrator command
+2026-10-21 13:22:19.780 CST [20956] adaptive_agent_app@adaptive_agent_p01_measure_r2_20261021 FATAL:  terminating connection due to administrator command
+2026-10-21 13:22:19.780 CST [20820] adaptive_agent_app@adaptive_agent_p01_measure_r2_20261021 FATAL:  terminating connection due to administrator command
+2026-10-21 13:22:19.780 CST [20805] adaptive_agent_app@adaptive_agent_p01_measure_r2_20261021 FATAL:  terminating connection due to administrator command
+2026-10-21 13:22:19.784 CST [250] LOG:  shutting down
+2026-10-21 13:22:19.861 CST [225] LOG:  database system is shut down
+2026-10-21 13:22:39.045 CST [21159] LOG:  database system was shut down at 2026-10-21 13:22:19 CST
+2026-10-21 13:22:39.052 CST [21156] LOG:  database system is ready to accept connections

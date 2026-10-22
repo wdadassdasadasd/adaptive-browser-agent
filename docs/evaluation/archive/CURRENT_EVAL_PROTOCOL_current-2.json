@@ -1,0 +1,385 @@
+{
+  "protocol_version": "current-2",
+  "status": "frozen_pending_execution",
+  "registered_at": "2026-10-19",
+  "supersedes": "docs/evaluation/archive/CURRENT_EVAL_PROTOCOL_current-1.json",
+  "authority": "SPEC.md",
+  "historical_protocols": [
+    "docs/evaluation/G3_EVAL_PROTOCOL.json",
+    "docs/evaluation/G2_EVAL_PROTOCOL.json",
+    "docs/benchmark/BENCHMARK_PROTOCOL.md"
+  ],
+  "paid_execution_requires_separate_authorization": true,
+  "execution_budget_cny": {
+    "pilot_max": 49,
+    "diagnostic_max": 30,
+    "formal_max": 200,
+    "contingency_max": 20,
+    "new_live_run_total_strictly_below": 300,
+    "stop_if_cost_cannot_be_bounded": true
+  },
+  "pilot": {
+    "case_ids": [
+      "B01",
+      "B02",
+      "B03"
+    ],
+    "trials_per_case": 1,
+    "excluded_from_formal_release": true
+  },
+  "formal": {
+    "trials_per_b_case": 3,
+    "trials_per_g_case": 1,
+    "required_b_full_successes_per_case": 2,
+    "required_g_full_successes_total": 2,
+    "expected_total_trials": 15,
+    "aggregate_field_release_threshold": null,
+    "all_attempts_retained": true,
+    "trials_per_o_case": 1,
+    "required_o_full_successes_total": 3
+  },
+  "comparison_policy": {
+    "pre_optimization_cohort": "B01-B03 pilot, one attempt each",
+    "post_optimization_cohort": "first formal attempt for each of B01-B03",
+    "interpretation": "descriptive_pairing_only_not_causal_improvement",
+    "requires_same_case_prompt_and_fields": true,
+    "record_environment_model_budget_scoring_and_source_drift": true,
+    "exclude_pilot_from_formal_denominator": true
+  },
+  "cohort_policy": {
+    "pilot_and_formal_each_freeze_code_model_budget_scoring_environment": true,
+    "systemic_pilot_failure": "pause_retain_attempts_restart_full_cohort_or_mark_incomparable",
+    "formal_fix_requires_new_complete_batch": true,
+    "release_case_latest_version": "verify_official_page_at_each_attempt_start_and_record_drift"
+  },
+  "record_semantics": {
+    "artifact_paths_relative_to": "batch_results_json_parent",
+    "artifact_sha256": "lowercase_hex_of_file_bytes",
+    "trace_scope": "redacted_call_level_actions_outcomes_and_event_ids",
+    "known_cost_cny": "observed_or_calculable_lower_bound_null_if_unavailable",
+    "total_cost_cny": "null_if_any_billable_attempt_cost_unknown",
+    "unknown_usage_or_cost": "null_never_zero_for_unobserved_values",
+    "chain_checks": ["ui", "api", "persistence", "sse"],
+    "persistence_backend_values": ["postgresql"],
+    "comparison_budget_parity_values": ["matched", "mismatched", "unverified"],
+    "second_review_status_values": ["independent", "same_reviewer_later", "not_done"],
+    "call_outcome_values": ["completed", "failed", "unknown_outcome"],
+    "machine_admission_values": ["admitted", "rejected", "unknown"],
+    "human_official_review_values": ["verified", "not_verified", "contradicted"]
+  },
+  "full_success_requires": [
+    "persisted_status_completed",
+    "completion_level_full",
+    "all_required_fields_in_this_report_with_official_sources",
+    "every_material_claim_traced_to_accepted_fact_and_manually_verified_official_source",
+    "recommendation_has_explicit_conditions_rationale_and_verified_supporting_facts",
+    "owner_can_access_and_other_team_member_cannot_access_or_cancel",
+    "ui_api_application_persistence_sse_consistent",
+    "community_sources_labeled_supplement_only"
+  ],
+  "cases": [
+    {
+      "id": "B01",
+      "set": "regression",
+      "category": "candidate_discovery",
+      "prompt": "Find two publicly documented Python browser-automation projects suitable for researching web pages. For each, give its name, official repository URL, license, and documented installation command. Cite official sources.",
+      "required_fields": [
+        "project_1_name",
+        "project_1_repository",
+        "project_1_license",
+        "project_1_install",
+        "project_1_source",
+        "project_2_name",
+        "project_2_repository",
+        "project_2_license",
+        "project_2_install",
+        "project_2_source"
+      ]
+    },
+    {
+      "id": "B02",
+      "set": "regression",
+      "category": "documentation_comparison",
+      "prompt": "Compare FastAPI and Flask for a small Python HTTP API using their official documentation. Explain how each declares a route, whether async handlers are documented, and how each is installed. Cite the exact official pages.",
+      "required_fields": [
+        "fastapi_name",
+        "fastapi_route",
+        "fastapi_async",
+        "fastapi_install",
+        "fastapi_source",
+        "flask_name",
+        "flask_route",
+        "flask_async",
+        "flask_install",
+        "flask_source"
+      ]
+    },
+    {
+      "id": "B03",
+      "set": "regression",
+      "category": "release_research",
+      "prompt": "Find the latest public release of browser-use/browser-use and summarize its version, publication date, and two changes from its release notes. Cite the official release page.",
+      "required_fields": [
+        "version",
+        "publication_date",
+        "change_1",
+        "change_2",
+        "release_source"
+      ]
+    },
+    {
+      "id": "G01",
+      "set": "public_generalization",
+      "category": "candidate_discovery",
+      "prompt": "Find the official repositories, licenses, and documented Python installation commands for Selenium and Playwright. Cite the official sources for each item.",
+      "required_fields": [
+        "selenium_name",
+        "selenium_repository",
+        "selenium_license",
+        "selenium_install",
+        "selenium_source",
+        "playwright_name",
+        "playwright_repository",
+        "playwright_license",
+        "playwright_install",
+        "playwright_source"
+      ]
+    },
+    {
+      "id": "G02",
+      "set": "public_generalization",
+      "category": "documentation_comparison",
+      "prompt": "Compare Django and Starlette for a small Python HTTP API using their official documentation. For each, give its route declaration, documented async handler support, installation command, and exact official source page.",
+      "required_fields": [
+        "django_name",
+        "django_route",
+        "django_async",
+        "django_install",
+        "django_source",
+        "starlette_name",
+        "starlette_route",
+        "starlette_async",
+        "starlette_install",
+        "starlette_source"
+      ]
+    },
+    {
+      "id": "G03",
+      "set": "public_generalization",
+      "category": "release_research",
+      "prompt": "Find the latest public release of microsoft/playwright and report its version, publication date, two distinct release-note changes, and official release page.",
+      "required_fields": [
+        "version",
+        "publication_date",
+        "change_1",
+        "change_2",
+        "release_source"
+      ]
+    },
+    {
+      "id": "O01",
+      "set": "public_preregistered",
+      "category": "candidate_discovery",
+      "prompt": "Compare browser-use and Skyvern as publicly documented options for autonomous browser research. For each, report its official repository, license, and documented Python installation path. Use official sources for key facts and give a conditional recommendation.",
+      "required_fields": [
+        "browser_use_name",
+        "browser_use_repository",
+        "browser_use_license",
+        "browser_use_install",
+        "browser_use_source",
+        "skyvern_name",
+        "skyvern_repository",
+        "skyvern_license",
+        "skyvern_install",
+        "skyvern_source"
+      ]
+    },
+    {
+      "id": "O02",
+      "set": "public_preregistered",
+      "category": "documentation_comparison",
+      "prompt": "Compare FastAPI and Litestar for a small Python HTTP API using their official documentation. For each, report route declaration, documented async handler support, installation method, and exact official page. Give a conditional recommendation.",
+      "required_fields": [
+        "fastapi_name",
+        "fastapi_route",
+        "fastapi_async",
+        "fastapi_install",
+        "fastapi_source",
+        "litestar_name",
+        "litestar_route",
+        "litestar_async",
+        "litestar_install",
+        "litestar_source"
+      ]
+    },
+    {
+      "id": "O03",
+      "set": "public_preregistered",
+      "category": "release_research",
+      "prompt": "Find the latest public Playwright release, report its version, publication date and two distinct changes from the official release notes, then summarize at least one clearly labeled public community upgrade experience as supplementary context. Give a conditional upgrade recommendation without treating community feedback as an official fact.",
+      "required_fields": [
+        "version",
+        "publication_date",
+        "change_1",
+        "change_2",
+        "release_source"
+      ],
+      "community_supplement_required": true
+    }
+  ],
+  "result_record_contract": {
+    "required_fields": [
+      "protocol_version",
+      "phase",
+      "case_id",
+      "trial_index",
+      "task_id",
+      "run_id",
+      "code_revision",
+      "prompt_sha256",
+      "started_at",
+      "ended_at",
+      "status",
+      "completion_level",
+      "facts",
+      "call_attempts",
+      "field_reviews",
+      "field_coverage",
+      "claims",
+      "recommendation_review",
+      "official_source_review",
+      "chain_checks",
+      "access_checks",
+      "stop_reason",
+      "usage",
+      "wall_clock_seconds",
+      "duplicate_urls",
+      "raw_record_path",
+      "raw_record_sha256",
+      "trace_artifact",
+      "review_bundle_artifact",
+      "cost",
+      "comparison",
+      "persistence_backend",
+      "manual_source_review",
+      "community_supplements"
+    ],
+    "field_review_required_fields": [
+      "value",
+      "fact_ids",
+      "official_source_url",
+      "verified_by_human",
+      "source_checked_at",
+      "reviewer_id",
+      "evidence_locator",
+      "contradiction_note"
+    ],
+    "fact_required_fields": [
+      "fact_id",
+      "subject",
+      "claim",
+      "official_source_url",
+      "official_identity_basis",
+      "evidence_excerpt",
+      "evidence_locator",
+      "retrieved_at",
+      "machine_admission_status",
+      "human_official_review_status",
+      "reviewer_id",
+      "source_checked_at",
+      "contradiction_note"
+    ],
+    "call_attempt_required_fields": [
+      "attempt_id",
+      "kind",
+      "billable",
+      "started_at",
+      "ended_at",
+      "outcome",
+      "reported_prompt_tokens",
+      "reported_completion_tokens",
+      "known_cost_cny"
+    ],
+    "claim_required_fields": [
+      "text",
+      "fact_ids",
+      "official_source_urls",
+      "verified_by_human",
+      "source_checked_at",
+      "reviewer_id",
+      "evidence_locator",
+      "contradiction_note"
+    ],
+    "recommendation_review_required_fields": [
+      "text",
+      "use_conditions",
+      "supporting_fact_ids",
+      "official_source_urls",
+      "tradeoffs_or_unknowns",
+      "rationale_checked_by_human",
+      "source_checked_at"
+    ],
+    "usage_required_fields": [
+      "reported_prompt_tokens",
+      "reported_completion_tokens",
+      "known_lower_bound_tokens",
+      "unknown_attempt_count"
+    ],
+    "community_supplement_required_fields": [
+      "text",
+      "source_url",
+      "source_role",
+      "verified_by_human",
+      "source_checked_at",
+      "limitation"
+    ],
+    "trace_artifact_required_fields": [
+      "relative_path",
+      "sha256"
+    ],
+    "review_bundle_artifact_required_fields": [
+      "relative_path",
+      "sha256"
+    ],
+    "review_bundle_content_required_fields": [
+      "task_id",
+      "run_id",
+      "status",
+      "stop_reason",
+      "facts",
+      "raw_record_sha256",
+      "trace_sha256",
+      "cost",
+      "comparison",
+      "manual_source_review"
+    ],
+    "cost_required_fields": [
+      "currency",
+      "known_cost_cny",
+      "total_cost_cny",
+      "unknown_attempt_count",
+      "pricing_basis",
+      "price_checked_at"
+    ],
+    "comparison_required_fields": [
+      "cohort_id",
+      "environment_fingerprint",
+      "upstream_browser_fingerprint",
+      "dependency_lock_sha256",
+      "model_id",
+      "budget_fingerprint",
+      "scoring_revision",
+      "source_window",
+      "source_drift",
+      "budget_parity"
+    ],
+    "manual_source_review_required_fields": [
+      "reviewer_id",
+      "reviewed_at",
+      "evidence_note",
+      "second_review_status",
+      "second_reviewer_id",
+      "second_reviewed_at"
+    ]
+  }
+}

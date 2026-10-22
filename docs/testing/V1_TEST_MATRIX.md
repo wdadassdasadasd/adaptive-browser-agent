@@ -1,5 +1,13 @@
 # V1 requirement, test and acceptance matrix
 
+> Forward pointer (2026-10-19): Keep this matrix as the historical V1
+> test and acceptance record. For an explicitly authorized task, select
+> target checks from [current SPEC.md](../../SPEC.md), [PLANS.md](../../PLANS.md)
+> and the [current protocol](../evaluation/CURRENT_EVAL_PROTOCOL.json); the
+> [Gate 1 Design Index](../archive/design-0.3/00_DESIGN_INDEX.md), [05](../archive/design-0.3/05_TEST_AND_EVALUATION.md)
+> and [06](../archive/design-0.3/06_ACCEPTANCE_AND_RELEASE.md) retain 0.3 history. Planned cases are not
+> passing evidence; do not alter V1 results or benchmark scoring.
+
 Revised 2026-10-14 for D6. `docs/specs/V1_SPEC.md` is the product authority;
 `docs/contracts/V1_CONTRACTS.md` supplies the approved target fields and
 failure semantics. **Target** evidence paths below are not passed tests.

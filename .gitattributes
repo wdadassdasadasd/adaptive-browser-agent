@@ -1,0 +1,2 @@
+# Keep the frozen historical source byte-identical while checking other whitespace.
+docs/archive/design-0.3/07_AI_CODING_WORKFLOW.md whitespace=-blank-at-eof

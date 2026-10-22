@@ -326,6 +326,32 @@ describe('research UI', () => {
     wrapper.unmount()
   })
 
+  it('shows a durable running cancellation as pending and restores it on refresh', async () => {
+    history.replaceState(null, '', '/?task=task-1')
+    vi.stubGlobal('fetch', vi.fn(async (url: string) => {
+      if (url.endsWith('/cancel')) {
+        currentTask = task({ cancellation_requested: true })
+        return response({ task_id: 'task-1', cancelled: false, cancellation_requested: true })
+      }
+      if (url.endsWith('/traces')) return response([])
+      if (url.endsWith('/task-1')) return response(currentTask)
+      return response([currentTask])
+    }))
+    const wrapper = mount(App)
+    await flushPromises()
+    await wrapper.get('[data-test="cancel"]').trigger('click')
+    await flushPromises()
+    expect(wrapper.text()).toContain('取消请求已发送')
+    expect(wrapper.get('[data-test="cancel"]').attributes('disabled')).toBeDefined()
+    expect(wrapper.text()).toContain('等待取消完成')
+    wrapper.unmount()
+    const restored = mount(App)
+    await flushPromises()
+    expect(restored.text()).toContain('取消中')
+    expect(restored.get('[data-test="cancel"]').attributes('disabled')).toBeDefined()
+    restored.unmount()
+  })
+
   it('shows a created task while the subsequent recent-list request is stalled', async () => {
     let releaseList: ((value: ReturnType<typeof response>) => void) | undefined
     let listCalls = 0
@@ -391,7 +417,7 @@ describe('research UI', () => {
 
   it('explains missing provider configuration without exposing credentials', async () => {
     vi.stubGlobal('fetch', vi.fn(async (_url: string, options?: RequestInit) =>
-      options?.method === 'POST' ? response({}, 503) : response([])))
+      options?.method === 'POST' ? response({ detail: 'DeepSeek provider is not configured' }, 503) : response([])))
     const wrapper = mount(App)
     await flushPromises()
     await wrapper.get('textarea').setValue('研究目标')
@@ -399,6 +425,22 @@ describe('research UI', () => {
     await flushPromises()
     expect(wrapper.text()).toContain('未配置 DeepSeek 密钥')
     expect(wrapper.text()).not.toContain('sk-')
+    wrapper.unmount()
+  })
+
+  it.each([
+    [503, '研究服务暂时不可用'],
+    [429, '研究任务已满'],
+  ])('explains unavailable capacity or database (HTTP %s)', async (status, message) => {
+    vi.stubGlobal('fetch', vi.fn(async (_url: string, options?: RequestInit) =>
+      options?.method === 'POST' ? response({}, status) : response([])))
+    const wrapper = mount(App)
+    await flushPromises()
+    await wrapper.get('textarea').setValue('研究目标')
+    await wrapper.get('form').trigger('submit')
+    await flushPromises()
+    expect(wrapper.text()).toContain(message)
+    expect(wrapper.text()).not.toContain('未配置 DeepSeek 密钥')
     wrapper.unmount()
   })
 

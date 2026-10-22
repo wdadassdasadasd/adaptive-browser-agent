@@ -1,0 +1,15 @@
+---
+name: research-eval
+description: Prepare or audit Adaptive Research Agent real-task evaluation protocols and results, including B01-B03, G01-G03, and O01-O03, with per-attempt evidence and official-source checks. Use for research acceptance evaluation; unit tests alone do not trigger this workflow.
+---
+
+# Research evaluation
+
+Use `AGENTS.md`, `SPEC.md`, `PLANS.md`, and `docs/evaluation/CURRENT_EVAL_PROTOCOL.json`. Preserve exact B01-B03 prompts and fields from `docs/benchmark/BENCHMARK_PROTOCOL.md`, exact G01-G03 prompts/fields from the archived G2 protocol, and original r12 records. G cases are public, not blind; O01-O03 are public preregistered cases. Do not substitute historical aggregate thresholds. Design approval does not authorize paid execution.
+
+1. Before any live model, browser, or external-write run, require explicit authorization for that run and its cost. With no such authorization, prepare or audit the protocol and offline fixtures only. Lock case text, code/worktree fingerprint, provider/model, budgets, scoring rule, and run IDs before a formal batch. The B01–B03 pilot is one same-version cohort before targeted quality changes; systemic failure pauses it, retaining attempts. A formal-batch fix starts a new complete batch.
+2. Preserve every attempt, including failures, timeouts, missing usage, and interrupted runs. Keep diagnostic runs separate from the frozen formal batch. Record trace and raw-record paths with SHA-256, source reviews, status, coverage, steps, elapsed time, known/unknown usage, pricing basis, known/unknown cost, and failure reason; use `null` for unavailable metrics. Keep the three B pilot runs separate and pair them descriptively with the first formal B run under locked comparison conditions.
+3. Check every material conclusion against an attributable official source, including subject and release-version ownership. Distinguish machine-admitted from human-official-verified facts; retain fact ID, official identity basis, minimal excerpt, locator and times. Mark community pages as supplementary and never use them alone for key facts. Reopen all full and conflicting attempts later for a second source review, marking whether the reviewer was independent. Review each successful recommendation, conditions, fact IDs and trade-offs; verify owner-only report/trace/cancel access with two accounts and UI/API/persistence/SSE consistency. Fixed B/G prompts and 10/5 field denominators remain unchanged. Inspect raw evidence; keep source drift and manual judgments visible.
+4. Aggregate only after all 15 formal attempts are retained and independently recomputable. Apply B ≥2/3 for each case, G ≥2/3 overall, and O 3/3, showing numerators and denominators. Check local account isolation, safe recovery, simulated capacity, and encrypted offline backup restoration separately. LAN deployment has separate security gates. Baseline comparison is informative, not a release condition.
+
+Completion means the protocol or result can be recomputed from preserved, redacted attempt records, and the conclusion follows the currently approved criteria.

@@ -1,0 +1,38 @@
+{
+  "artifact_type": "p02_pilot_preflight_stop",
+  "checked_at": "2026-10-22T05:03:59.124085+00:00",
+  "status": "No-Go_pre_execution_insufficient_cny_balance",
+  "authorization_reference": "chat:2026-10-22-p02-pilot-cny49",
+  "provider_balance_read": "GET https://api.deepseek.com/user/balance, HTTP 200, read-only, exact account balances not retained",
+  "provider_is_available": true,
+  "cny_balance_band": "0 <= balance < 1 CNY",
+  "minimum_local_budget_cap_cny": "1",
+  "authorized_pilot_max_cny": "49",
+  "stop_reason": "CNY balance below the minimum durable pilot cap and not enough to reserve the next 1 CNY model call. Do not arm or submit.",
+  "pilot_database": "adaptive_agent_pilot_20261022",
+  "pilot_database_revision": "20261021_05",
+  "pilot_database_pre_stop": {
+    "tasks": 0,
+    "budgets": 0,
+    "calls": 0,
+    "reports": 0
+  },
+  "artifacts": {
+    "freeze": {
+      "relative_path": "data/evaluation/p02-pilot-runtime-freeze-20261022.json",
+      "sha256": "f268d9456985a0ffc6dfa8746b8751e8eeb263b97a916754be1696bc55acec70"
+    },
+    "plan": {
+      "relative_path": "data/evaluation/p02-pilot-dry-run-r6-20261022.json",
+      "sha256": "a247a0960d1d490cd22c176ce5f817df73f929f09140a774a671ae6d132742d6"
+    },
+    "prior_ledger": {
+      "relative_path": "data/evaluation/p02-project-ledger-initial-20261022.json",
+      "sha256": "4d89bd28de6849be8618b2761c734f9555ca7d1d492bf16b7ac002e4558a4232"
+    }
+  },
+  "paid_model_calls": 0,
+  "research_tasks_submitted": 0,
+  "budget_armed": false,
+  "resume_gate": "After CNY funds change, repeat balance/price/source/DB checks; retain all existing artifacts and do not pretend this stop was a trial."
+}

@@ -1,5 +1,15 @@
 # Adaptive Research Agent V1 contracts
 
+> Forward pointer (2026-10-19): These V1 contracts govern existing
+> behavior until an explicitly authorized task supersedes a specific clause.
+> The unimplemented target is [current SPEC.md](../../SPEC.md), with task order in
+> [PLANS.md](../../PLANS.md) and [current contracts](CURRENT_CONTRACTS.md).
+> [archived target](../archive/target-2026-10-18/SPEC.md), [Gate 1 Design Index](../archive/design-0.3/00_DESIGN_INDEX.md)
+> and [04](../archive/design-0.3/04_DATA_AND_API_CONTRACTS.md) retain historical design.
+> New account, owner, Worker and report fields remain unimplemented until an
+> authorized task changes code and compatibility tests; existing event, API,
+> and persistence rules remain in force meanwhile.
+
 Status: **Target contract**, approved 2026-10-08. The readiness audit records
 which parts remain skeletons. This document does not mark unimplemented code as
 working. `docs/specs/V1_SPEC.md` remains the product source of truth.

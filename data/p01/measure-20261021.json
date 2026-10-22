@@ -1,0 +1,4686 @@
+{
+  "schema_version": 1,
+  "started_at": "2026-10-21T05:01:52.861484+00:00",
+  "mode": "controlled_fake_worker_no_provider_or_browser",
+  "database_name": "adaptive_agent_p01_measure_20261021",
+  "api_port": 8014,
+  "checks": {
+    "two_running_eight_queued": {
+      "passed": true,
+      "counts": {
+        "running": 2,
+        "queued": 8
+      }
+    },
+    "eleventh_429_without_insert": {
+      "passed": true,
+      "status_code": 429,
+      "retry_after": "2",
+      "persisted_task_count": 10
+    },
+    "api_load_p95": {
+      "passed": true,
+      "seconds": 0.01600000006146729,
+      "sample_count": 100,
+      "samples_seconds": [
+        0.015999999945051968,
+        0.0,
+        0.015000000013969839,
+        0.0,
+        0.015999999945051968,
+        0.0,
+        0.0,
+        0.015000000013969839,
+        0.0,
+        0.01600000006146729,
+        0.0,
+        0.015999999945051968,
+        0.0,
+        0.015000000013969839,
+        0.0,
+        0.01600000006146729,
+        0.0,
+        0.015999999945051968,
+        0.0,
+        0.015000000013969839,
+        0.0,
+        0.0,
+        0.030999999959021807,
+        0.0,
+        0.01600000006146729,
+        0.015999999945051968,
+        0.015000000013969839,
+        0.0,
+        0.01600000006146729,
+        0.015999999945051968,
+        0.0,
+        0.015000000013969839,
+        0.015999999945051968,
+        0.0,
+        0.015000000013969839,
+        0.0,
+        0.01600000006146729,
+        0.015999999945051968,
+        0.0,
+        0.015000000013969839,
+        0.0,
+        0.01600000006146729,
+        0.0,
+        0.015999999945051968,
+        0.015000000013969839,
+        0.0,
+        0.030999999959021807,
+        0.0,
+        0.0,
+        0.01600000006146729,
+        0.0,
+        0.015999999945051968,
+        0.0,
+        0.015000000013969839,
+        0.0,
+        0.01600000006146729,
+        0.0,
+        0.015999999945051968,
+        0.0,
+        0.015000000013969839,
+        0.0,
+        0.015999999945051968,
+        0.0,
+        0.015000000013969839,
+        0.0,
+        0.0,
+        0.01600000006146729,
+        0.0,
+        0.015999999945051968,
+        0.0,
+        0.0,
+        0.015000000013969839,
+        0.0,
+        0.01600000006146729,
+        0.015999999945051968,
+        0.0,
+        0.015000000013969839,
+        0.0,
+        0.030999999959021807,
+        0.0,
+        0.01600000006146729,
+        0.0,
+        0.015999999945051968,
+        0.0,
+        0.015000000013969839,
+        0.01600000006146729,
+        0.0,
+        0.015999999945051968,
+        0.0,
+        0.015000000013969839,
+        0.0,
+        0.015999999945051968,
+        0.0,
+        0.015000000013969839,
+        0.0,
+        0.01600000006146729,
+        0.0,
+        0.015999999945051968,
+        0.0,
+        0.015000000013969839
+      ]
+    },
+    "queued_cancel_releases_capacity": {
+      "passed": true,
+      "response": {
+        "task_id": "d6fdc601-cde3-42dc-8e5b-cb4d8426c706",
+        "cancelled": true,
+        "cancellation_requested": true
+      },
+      "replacement_task_id": "feae16a3-4690-44e1-9025-4815491e2116"
+    },
+    "running_cancel_persisted_confirmation": {
+      "passed": true,
+      "seconds": 0.0470000000204891,
+      "response": {
+        "task_id": "2920d644-9c47-409d-8ce4-a53d5ac6055b",
+        "cancelled": false,
+        "cancellation_requested": true
+      }
+    },
+    "sse_committed_replay_upper_bound": {
+      "passed": true,
+      "received_at": "2026-10-21T05:02:03.920140+00:00",
+      "event": {
+        "event_id": "00000000-0000-0000-0000-00000000000f",
+        "event_type": "cancel_requested",
+        "task_id": "2920d644-9c47-409d-8ce4-a53d5ac6055b",
+        "step": 0,
+        "timestamp": "2026-10-21T05:02:03.721552Z",
+        "message": "",
+        "payload": {
+          "status": "running",
+          "cancellation_requested": true
+        }
+      },
+      "event_timestamp_to_receive_upper_bound_seconds": 0.43616794174957274,
+      "clock_offset_correction_seconds": 0.23658084869384766,
+      "clock_uncertainty_seconds": 0.0009990930557250977
+    },
+    "worker_restart_1": {
+      "passed": true,
+      "seconds": 2.2339999999385327,
+      "old_pid": 35252,
+      "new_pid": 22196
+    },
+    "task_resolution_1": {
+      "passed": true,
+      "seconds": 30.17200000002049,
+      "before": {
+        "7b814eac-1f68-449e-af37-35cf6d806c68": {
+          "id": "7b814eac-1f68-449e-af37-35cf6d806c68",
+          "owner_id": "p01-local-owner",
+          "goal": "p01-fake:1",
+          "status": "running",
+          "cancellation_requested": false,
+          "fencing_token": 1,
+          "recovery_count": 0,
+          "lease_owner": "38780-3ad3f065-b1fe-4feb-b981-092f8b4e9f35",
+          "lease_expires_at": "2026-10-21T05:02:37.422705+00:00",
+          "completion_level": "none",
+          "stop_reason": null,
+          "error_message": null,
+          "report": null,
+          "created_at": "2026-10-21T05:02:02.289506+00:00",
+          "updated_at": "2026-10-21T05:02:07.422705+00:00"
+        },
+        "a0466229-faeb-4231-ac7b-37e493ed02be": {
+          "id": "a0466229-faeb-4231-ac7b-37e493ed02be",
+          "owner_id": "p01-local-owner",
+          "goal": "p01-fake:2",
+          "status": "running",
+          "cancellation_requested": false,
+          "fencing_token": 1,
+          "recovery_count": 0,
+          "lease_owner": "38780-3ad3f065-b1fe-4feb-b981-092f8b4e9f35",
+          "lease_expires_at": "2026-10-21T05:02:37.531148+00:00",
+          "completion_level": "none",
+          "stop_reason": null,
+          "error_message": null,
+          "report": null,
+          "created_at": "2026-10-21T05:02:02.541941+00:00",
+          "updated_at": "2026-10-21T05:02:07.531148+00:00"
+        }
+      },
+      "after": {
+        "7b814eac-1f68-449e-af37-35cf6d806c68": {
+          "id": "7b814eac-1f68-449e-af37-35cf6d806c68",
+          "owner_id": "p01-local-owner",
+          "goal": "p01-fake:1",
+          "status": "running",
+          "cancellation_requested": false,
+          "fencing_token": 2,
+          "recovery_count": 1,
+          "lease_owner": "16660-f12fc4c0-6f29-4bb2-8b39-e99851072762",
+          "lease_expires_at": "2026-10-21T05:03:07.680490+00:00",
+          "completion_level": "none",
+          "stop_reason": null,
+          "error_message": null,
+          "report": null,
+          "created_at": "2026-10-21T05:02:02.289506+00:00",
+          "updated_at": "2026-10-21T05:02:37.680490+00:00"
+        },
+        "a0466229-faeb-4231-ac7b-37e493ed02be": {
+          "id": "a0466229-faeb-4231-ac7b-37e493ed02be",
+          "owner_id": "p01-local-owner",
+          "goal": "p01-fake:2",
+          "status": "running",
+          "cancellation_requested": false,
+          "fencing_token": 2,
+          "recovery_count": 1,
+          "lease_owner": "16660-f12fc4c0-6f29-4bb2-8b39-e99851072762",
+          "lease_expires_at": "2026-10-21T05:03:07.702389+00:00",
+          "completion_level": "none",
+          "stop_reason": null,
+          "error_message": null,
+          "report": null,
+          "created_at": "2026-10-21T05:02:02.541941+00:00",
+          "updated_at": "2026-10-21T05:02:37.702389+00:00"
+        }
+      }
+    },
+    "old_token_rejected_1_7b814eac-1f68-449e-af37-35cf6d806c68": {
+      "passed": true
+    },
+    "interrupted_call_unknown_1_7b814eac-1f68-449e-af37-35cf6d806c68": {
+      "passed": true
+    },
+    "old_token_rejected_1_a0466229-faeb-4231-ac7b-37e493ed02be": {
+      "passed": true
+    },
+    "interrupted_call_unknown_1_a0466229-faeb-4231-ac7b-37e493ed02be": {
+      "passed": true
+    },
+    "worker_restart_2": {
+      "passed": true,
+      "seconds": 0.46899999992456287,
+      "old_pid": 22196,
+      "new_pid": 27812
+    },
+    "task_resolution_2": {
+      "passed": true,
+      "seconds": 29.968999999924563,
+      "before": {
+        "7b814eac-1f68-449e-af37-35cf6d806c68": {
+          "id": "7b814eac-1f68-449e-af37-35cf6d806c68",
+          "owner_id": "p01-local-owner",
+          "goal": "p01-fake:1",
+          "status": "running",
+          "cancellation_requested": false,
+          "fencing_token": 2,
+          "recovery_count": 1,
+          "lease_owner": "16660-f12fc4c0-6f29-4bb2-8b39-e99851072762",
+          "lease_expires_at": "2026-10-21T05:03:07.680490+00:00",
+          "completion_level": "none",
+          "stop_reason": null,
+          "error_message": null,
+          "report": null,
+          "created_at": "2026-10-21T05:02:02.289506+00:00",
+          "updated_at": "2026-10-21T05:02:37.680490+00:00"
+        },
+        "a0466229-faeb-4231-ac7b-37e493ed02be": {
+          "id": "a0466229-faeb-4231-ac7b-37e493ed02be",
+          "owner_id": "p01-local-owner",
+          "goal": "p01-fake:2",
+          "status": "running",
+          "cancellation_requested": false,
+          "fencing_token": 2,
+          "recovery_count": 1,
+          "lease_owner": "16660-f12fc4c0-6f29-4bb2-8b39-e99851072762",
+          "lease_expires_at": "2026-10-21T05:03:07.702389+00:00",
+          "completion_level": "none",
+          "stop_reason": null,
+          "error_message": null,
+          "report": null,
+          "created_at": "2026-10-21T05:02:02.541941+00:00",
+          "updated_at": "2026-10-21T05:02:37.702389+00:00"
+        }
+      },
+      "after": {
+        "7b814eac-1f68-449e-af37-35cf6d806c68": {
+          "id": "7b814eac-1f68-449e-af37-35cf6d806c68",
+          "owner_id": "p01-local-owner",
+          "goal": "p01-fake:1",
+          "status": "failed",
+          "cancellation_requested": false,
+          "fencing_token": 2,
+          "recovery_count": 1,
+          "lease_owner": null,
+          "lease_expires_at": null,
+          "completion_level": "none",
+          "stop_reason": "second_worker_failure",
+          "error_message": "worker lease expired twice",
+          "report": null,
+          "created_at": "2026-10-21T05:02:02.289506+00:00",
+          "updated_at": "2026-10-21T05:03:07.798653+00:00"
+        },
+        "a0466229-faeb-4231-ac7b-37e493ed02be": {
+          "id": "a0466229-faeb-4231-ac7b-37e493ed02be",
+          "owner_id": "p01-local-owner",
+          "goal": "p01-fake:2",
+          "status": "failed",
+          "cancellation_requested": false,
+          "fencing_token": 2,
+          "recovery_count": 1,
+          "lease_owner": null,
+          "lease_expires_at": null,
+          "completion_level": "none",
+          "stop_reason": "second_worker_failure",
+          "error_message": "worker lease expired twice",
+          "report": null,
+          "created_at": "2026-10-21T05:02:02.541941+00:00",
+          "updated_at": "2026-10-21T05:03:07.798653+00:00"
+        }
+      }
+    },
+    "old_token_rejected_2_7b814eac-1f68-449e-af37-35cf6d806c68": {
+      "passed": true
+    },
+    "interrupted_call_unknown_2_7b814eac-1f68-449e-af37-35cf6d806c68": {
+      "passed": true
+    },
+    "old_token_rejected_2_a0466229-faeb-4231-ac7b-37e493ed02be": {
+      "passed": true
+    },
+    "interrupted_call_unknown_2_a0466229-faeb-4231-ac7b-37e493ed02be": {
+      "passed": true
+    },
+    "second_failure_honest_terminal": {
+      "passed": true
+    },
+    "no_lost_task": {
+      "passed": true,
+      "count": 11
+    },
+    "unique_terminal_feae16a3-4690-44e1-9025-4815491e2116": {
+      "passed": true,
+      "terminal_count": 1
+    },
+    "unique_terminal_d6fdc601-cde3-42dc-8e5b-cb4d8426c706": {
+      "passed": true,
+      "terminal_count": 1
+    },
+    "unique_terminal_b798e1a9-0240-4c7a-8960-0d1ad81653a0": {
+      "passed": true,
+      "terminal_count": 1
+    },
+    "unique_terminal_bfa41781-05a1-4596-b3b1-46d491cb46c9": {
+      "passed": true,
+      "terminal_count": 1
+    },
+    "unique_terminal_be96e409-c9ce-4ca3-be95-1d48325a1f7d": {
+      "passed": true,
+      "terminal_count": 1
+    },
+    "unique_terminal_ed0b28cf-778c-4468-aa6c-3547ba573dd6": {
+      "passed": true,
+      "terminal_count": 1
+    },
+    "unique_terminal_e5e3b5f4-d703-437f-abef-2f3e27a7c514": {
+      "passed": true,
+      "terminal_count": 1
+    },
+    "unique_terminal_c298b7b2-0282-4139-8091-79f8dcc99f81": {
+      "passed": true,
+      "terminal_count": 1
+    },
+    "unique_terminal_a0466229-faeb-4231-ac7b-37e493ed02be": {
+      "passed": true,
+      "terminal_count": 1
+    },
+    "unique_terminal_7b814eac-1f68-449e-af37-35cf6d806c68": {
+      "passed": true,
+      "terminal_count": 1
+    },
+    "unique_terminal_2920d644-9c47-409d-8ce4-a53d5ac6055b": {
+      "passed": true,
+      "terminal_count": 1
+    },
+    "fifo_first_claims": {
+      "passed": true,
+      "actual": [
+        "2920d644-9c47-409d-8ce4-a53d5ac6055b",
+        "7b814eac-1f68-449e-af37-35cf6d806c68",
+        "a0466229-faeb-4231-ac7b-37e493ed02be",
+        "c298b7b2-0282-4139-8091-79f8dcc99f81",
+        "e5e3b5f4-d703-437f-abef-2f3e27a7c514",
+        "ed0b28cf-778c-4468-aa6c-3547ba573dd6",
+        "be96e409-c9ce-4ca3-be95-1d48325a1f7d",
+        "bfa41781-05a1-4596-b3b1-46d491cb46c9",
+        "b798e1a9-0240-4c7a-8960-0d1ad81653a0",
+        "feae16a3-4690-44e1-9025-4815491e2116"
+      ],
+      "expected": [
+        "2920d644-9c47-409d-8ce4-a53d5ac6055b",
+        "7b814eac-1f68-449e-af37-35cf6d806c68",
+        "a0466229-faeb-4231-ac7b-37e493ed02be",
+        "c298b7b2-0282-4139-8091-79f8dcc99f81",
+        "e5e3b5f4-d703-437f-abef-2f3e27a7c514",
+        "ed0b28cf-778c-4468-aa6c-3547ba573dd6",
+        "be96e409-c9ce-4ca3-be95-1d48325a1f7d",
+        "bfa41781-05a1-4596-b3b1-46d491cb46c9",
+        "b798e1a9-0240-4c7a-8960-0d1ad81653a0",
+        "feae16a3-4690-44e1-9025-4815491e2116"
+      ]
+    },
+    "no_external_call_kind": {
+      "passed": true
+    },
+    "database_clock_stable_for_sse_bound": {
+      "passed": false,
+      "initial_offset_seconds": 0.23658084869384766,
+      "final_offset_seconds": -0.019777536392211914,
+      "final_uncertainty_seconds": 0.009859442710876465
+    },
+    "launcher_owned_process_cleanup": {
+      "passed": true,
+      "remaining_pids": []
+    }
+  },
+  "failures": [
+    {
+      "check": "database_clock_stable_for_sse_bound",
+      "initial_offset_seconds": 0.23658084869384766,
+      "final_offset_seconds": -0.019777536392211914,
+      "final_uncertainty_seconds": 0.009859442710876465
+    }
+  ],
+  "requests": [
+    {
+      "at": "2026-10-21T05:02:01.725130+00:00",
+      "method": "POST",
+      "path": "/api/research",
+      "status_code": 202,
+      "latency_seconds": 0.03200000000651926
+    },
+    {
+      "at": "2026-10-21T05:02:02.197166+00:00",
+      "method": "POST",
+      "path": "/api/research",
+      "status_code": 202,
+      "latency_seconds": 0.030999999959021807
+    },
+    {
+      "at": "2026-10-21T05:02:02.458270+00:00",
+      "method": "POST",
+      "path": "/api/research",
+      "status_code": 202,
+      "latency_seconds": 0.03100000007543713
+    },
+    {
+      "at": "2026-10-21T05:02:02.484033+00:00",
+      "method": "POST",
+      "path": "/api/research",
+      "status_code": 202,
+      "latency_seconds": 0.015999999945051968
+    },
+    {
+      "at": "2026-10-21T05:02:02.502228+00:00",
+      "method": "POST",
+      "path": "/api/research",
+      "status_code": 202,
+      "latency_seconds": 0.015000000013969839
+    },
+    {
+      "at": "2026-10-21T05:02:02.530205+00:00",
+      "method": "POST",
+      "path": "/api/research",
+      "status_code": 202,
+      "latency_seconds": 0.03200000000651926
+    },
+    {
+      "at": "2026-10-21T05:02:02.549239+00:00",
+      "method": "POST",
+      "path": "/api/research",
+      "status_code": 202,
+      "latency_seconds": 0.015000000013969839
+    },
+    {
+      "at": "2026-10-21T05:02:02.569260+00:00",
+      "method": "POST",
+      "path": "/api/research",
+      "status_code": 202,
+      "latency_seconds": 0.030999999959021807
+    },
+    {
+      "at": "2026-10-21T05:02:02.602814+00:00",
+      "method": "POST",
+      "path": "/api/research",
+      "status_code": 202,
+      "latency_seconds": 0.01600000006146729
+    },
+    {
+      "at": "2026-10-21T05:02:02.619742+00:00",
+      "method": "POST",
+      "path": "/api/research",
+      "status_code": 202,
+      "latency_seconds": 0.015999999945051968
+    },
+    {
+      "at": "2026-10-21T05:02:02.648643+00:00",
+      "method": "POST",
+      "path": "/api/research",
+      "status_code": 429,
+      "latency_seconds": 0.01600000006146729
+    },
+    {
+      "at": "2026-10-21T05:02:02.662528+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.015999999945051968
+    },
+    {
+      "at": "2026-10-21T05:02:02.673809+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:02.682239+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.015000000013969839
+    },
+    {
+      "at": "2026-10-21T05:02:02.689340+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:02.695870+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.015999999945051968
+    },
+    {
+      "at": "2026-10-21T05:02:02.703326+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:02.710100+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:02.717697+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.015000000013969839
+    },
+    {
+      "at": "2026-10-21T05:02:02.724453+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:02.732031+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.01600000006146729
+    },
+    {
+      "at": "2026-10-21T05:02:02.738516+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:02.745940+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.015999999945051968
+    },
+    {
+      "at": "2026-10-21T05:02:02.752946+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:02.759960+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.015000000013969839
+    },
+    {
+      "at": "2026-10-21T05:02:02.766769+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:02.773614+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.01600000006146729
+    },
+    {
+      "at": "2026-10-21T05:02:02.781009+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:02.788176+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.015999999945051968
+    },
+    {
+      "at": "2026-10-21T05:02:02.797251+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:02.805294+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.015000000013969839
+    },
+    {
+      "at": "2026-10-21T05:02:02.811516+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:02.818098+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:02.824375+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.030999999959021807
+    },
+    {
+      "at": "2026-10-21T05:02:02.846327+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:02.854696+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.01600000006146729
+    },
+    {
+      "at": "2026-10-21T05:02:02.869877+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.015999999945051968
+    },
+    {
+      "at": "2026-10-21T05:02:02.879940+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.015000000013969839
+    },
+    {
+      "at": "2026-10-21T05:02:02.890549+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:02.902409+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.01600000006146729
+    },
+    {
+      "at": "2026-10-21T05:02:02.912960+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.015999999945051968
+    },
+    {
+      "at": "2026-10-21T05:02:02.925231+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:02.935518+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.015000000013969839
+    },
+    {
+      "at": "2026-10-21T05:02:02.944737+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.015999999945051968
+    },
+    {
+      "at": "2026-10-21T05:02:02.955096+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:02.964043+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.015000000013969839
+    },
+    {
+      "at": "2026-10-21T05:02:02.973346+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:02.979844+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.01600000006146729
+    },
+    {
+      "at": "2026-10-21T05:02:02.990778+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.015999999945051968
+    },
+    {
+      "at": "2026-10-21T05:02:02.999468+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:03.007639+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.015000000013969839
+    },
+    {
+      "at": "2026-10-21T05:02:03.016803+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:03.026351+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.01600000006146729
+    },
+    {
+      "at": "2026-10-21T05:02:03.035051+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:03.045392+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.015999999945051968
+    },
+    {
+      "at": "2026-10-21T05:02:03.053542+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.015000000013969839
+    },
+    {
+      "at": "2026-10-21T05:02:03.063841+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:03.071687+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.030999999959021807
+    },
+    {
+      "at": "2026-10-21T05:02:03.093592+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:03.102037+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:03.108141+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.01600000006146729
+    },
+    {
+      "at": "2026-10-21T05:02:03.116250+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:03.122796+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.015999999945051968
+    },
+    {
+      "at": "2026-10-21T05:02:03.129747+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:03.137146+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.015000000013969839
+    },
+    {
+      "at": "2026-10-21T05:02:03.144862+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:03.152861+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.01600000006146729
+    },
+    {
+      "at": "2026-10-21T05:02:03.159877+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:03.168083+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.015999999945051968
+    },
+    {
+      "at": "2026-10-21T05:02:03.175096+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:03.182745+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.015000000013969839
+    },
+    {
+      "at": "2026-10-21T05:02:03.190073+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:03.197791+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.015999999945051968
+    },
+    {
+      "at": "2026-10-21T05:02:03.205514+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:03.212737+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.015000000013969839
+    },
+    {
+      "at": "2026-10-21T05:02:03.218833+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:03.225373+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:03.230970+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.01600000006146729
+    },
+    {
+      "at": "2026-10-21T05:02:03.236333+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:03.243993+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.015999999945051968
+    },
+    {
+      "at": "2026-10-21T05:02:03.250938+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:03.257184+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:03.264206+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.015000000013969839
+    },
+    {
+      "at": "2026-10-21T05:02:03.271605+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:03.279723+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.01600000006146729
+    },
+    {
+      "at": "2026-10-21T05:02:03.286725+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.015999999945051968
+    },
+    {
+      "at": "2026-10-21T05:02:03.296724+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:03.304724+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.015000000013969839
+    },
+    {
+      "at": "2026-10-21T05:02:03.312949+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:03.320958+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.030999999959021807
+    },
+    {
+      "at": "2026-10-21T05:02:03.345153+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:03.355056+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.01600000006146729
+    },
+    {
+      "at": "2026-10-21T05:02:03.363252+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:03.371821+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.015999999945051968
+    },
+    {
+      "at": "2026-10-21T05:02:03.380677+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:03.388389+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.015000000013969839
+    },
+    {
+      "at": "2026-10-21T05:02:03.397578+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.01600000006146729
+    },
+    {
+      "at": "2026-10-21T05:02:03.407124+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:03.415671+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.015999999945051968
+    },
+    {
+      "at": "2026-10-21T05:02:03.423475+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:03.431821+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.015000000013969839
+    },
+    {
+      "at": "2026-10-21T05:02:03.440831+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:03.448836+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.015999999945051968
+    },
+    {
+      "at": "2026-10-21T05:02:03.456831+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:03.463859+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.015000000013969839
+    },
+    {
+      "at": "2026-10-21T05:02:03.470860+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:03.478816+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.01600000006146729
+    },
+    {
+      "at": "2026-10-21T05:02:03.486768+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:03.494762+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.015999999945051968
+    },
+    {
+      "at": "2026-10-21T05:02:03.502148+00:00",
+      "method": "GET",
+      "path": "/api/research",
+      "status_code": 200,
+      "latency_seconds": 0.0
+    },
+    {
+      "at": "2026-10-21T05:02:03.508771+00:00",
+      "method": "GET",
+      "path": "/api/research/7b814eac-1f68-449e-af37-35cf6d806c68",
+      "status_code": 200,
+      "latency_seconds": 0.015000000013969839
+    },
+    {
+      "at": "2026-10-21T05:02:03.519007+00:00",
+      "method": "POST",
+      "path": "/api/research/d6fdc601-cde3-42dc-8e5b-cb4d8426c706/cancel",
+      "status_code": 200,
+      "latency_seconds": 0.01600000006146729
+    },
+    {
+      "at": "2026-10-21T05:02:03.543797+00:00",
+      "method": "POST",
+      "path": "/api/research",
+      "status_code": 202,
+      "latency_seconds": 0.030999999959021807
+    },
+    {
+      "at": "2026-10-21T05:02:03.645416+00:00",
+      "method": "POST",
+      "path": "/api/research/2920d644-9c47-409d-8ce4-a53d5ac6055b/cancel",
+      "status_code": 200,
+      "latency_seconds": 0.0470000000204891
+    }
+  ],
+  "process_events": [
+    {
+      "at": "2026-10-21T05:01:54.674481+00:00",
+      "event": "launcher_started",
+      "pid": 34780
+    },
+    {
+      "at": "2026-10-21T05:02:07.737714+00:00",
+      "event": "controlled_worker_kill",
+      "pid": 35252,
+      "generation": 1
+    },
+    {
+      "at": "2026-10-21T05:02:37.993220+00:00",
+      "event": "controlled_worker_kill",
+      "pid": 22196,
+      "generation": 2
+    }
+  ],
+  "launcher_output": [
+    {
+      "at": "2026-10-21T05:01:59.529362+00:00",
+      "line": "INFO  [alembic.runtime.migration] Context impl PostgresqlImpl."
+    },
+    {
+      "at": "2026-10-21T05:01:59.529362+00:00",
+      "line": "INFO  [alembic.runtime.migration] Will assume transactional DDL."
+    },
+    {
+      "at": "2026-10-21T05:01:59.545461+00:00",
+      "line": "INFO  [alembic.runtime.migration] Running upgrade  -> 20261020_01, Create the P-01 PostgreSQL application ledger."
+    },
+    {
+      "at": "2026-10-21T05:02:07.578892+00:00",
+      "line": "P-01 API: http://127.0.0.1:8014; Worker PID 35252"
+    },
+    {
+      "at": "2026-10-21T05:02:07.586230+00:00",
+      "line": "startup_seconds=12.12"
+    },
+    {
+      "at": "2026-10-21T05:02:09.777228+00:00",
+      "line": "����: Worker exited; restarting"
+    },
+    {
+      "at": "2026-10-21T05:02:38.291453+00:00",
+      "line": "����: Worker exited; restarting"
+    }
+  ],
+  "resource_samples": [
+    {
+      "at": "2026-10-21T05:01:54.936025+00:00",
+      "host_cpu_percent": 50.0,
+      "host_memory_used_bytes": 16186101760,
+      "host_memory_percent": 96.4,
+      "launcher_descendant_rss_sum_bytes": 8085504,
+      "launcher_descendant_count": 1
+    },
+    {
+      "at": "2026-10-21T05:01:55.208261+00:00",
+      "host_cpu_percent": 27.5,
+      "host_memory_used_bytes": 16211636224,
+      "host_memory_percent": 96.6,
+      "launcher_descendant_rss_sum_bytes": 8122368,
+      "launcher_descendant_count": 1
+    },
+    {
+      "at": "2026-10-21T05:01:55.480599+00:00",
+      "host_cpu_percent": 24.9,
+      "host_memory_used_bytes": 16184651776,
+      "host_memory_percent": 96.4,
+      "launcher_descendant_rss_sum_bytes": 8122368,
+      "launcher_descendant_count": 1
+    },
+    {
+      "at": "2026-10-21T05:01:55.748608+00:00",
+      "host_cpu_percent": 36.0,
+      "host_memory_used_bytes": 16214994944,
+      "host_memory_percent": 96.6,
+      "launcher_descendant_rss_sum_bytes": 62259200,
+      "launcher_descendant_count": 6
+    },
+    {
+      "at": "2026-10-21T05:01:56.031611+00:00",
+      "host_cpu_percent": 26.1,
+      "host_memory_used_bytes": 16221409280,
+      "host_memory_percent": 96.7,
+      "launcher_descendant_rss_sum_bytes": 64745472,
+      "launcher_descendant_count": 6
+    },
+    {
+      "at": "2026-10-21T05:01:56.318210+00:00",
+      "host_cpu_percent": 13.4,
+      "host_memory_used_bytes": 16212619264,
+      "host_memory_percent": 96.6,
+      "launcher_descendant_rss_sum_bytes": 64745472,
+      "launcher_descendant_count": 6
+    },
+    {
+      "at": "2026-10-21T05:01:56.601215+00:00",
+      "host_cpu_percent": 18.4,
+      "host_memory_used_bytes": 16204906496,
+      "host_memory_percent": 96.6,
+      "launcher_descendant_rss_sum_bytes": 64745472,
+      "launcher_descendant_count": 6
+    },
+    {
+      "at": "2026-10-21T05:01:56.879802+00:00",
+      "host_cpu_percent": 27.1,
+      "host_memory_used_bytes": 16200925184,
+      "host_memory_percent": 96.5,
+      "launcher_descendant_rss_sum_bytes": 64745472,
+      "launcher_descendant_count": 6
+    },
+    {
+      "at": "2026-10-21T05:01:57.161735+00:00",
+      "host_cpu_percent": 25.1,
+      "host_memory_used_bytes": 16218804224,
+      "host_memory_percent": 96.6,
+      "launcher_descendant_rss_sum_bytes": 64745472,
+      "launcher_descendant_count": 6
+    },
+    {
+      "at": "2026-10-21T05:01:57.449055+00:00",
+      "host_cpu_percent": 12.0,
+      "host_memory_used_bytes": 16213499904,
+      "host_memory_percent": 96.6,
+      "launcher_descendant_rss_sum_bytes": 64745472,
+      "launcher_descendant_count": 6
+    },
+    {
+      "at": "2026-10-21T05:01:57.727937+00:00",
+      "host_cpu_percent": 15.0,
+      "host_memory_used_bytes": 16204087296,
+      "host_memory_percent": 96.6,
+      "launcher_descendant_rss_sum_bytes": 71565312,
+      "launcher_descendant_count": 7
+    },
+    {
+      "at": "2026-10-21T05:01:58.004540+00:00",
+      "host_cpu_percent": 30.1,
+      "host_memory_used_bytes": 16237813760,
+      "host_memory_percent": 96.8,
+      "launcher_descendant_rss_sum_bytes": 81932288,
+      "launcher_descendant_count": 8
+    },
+    {
+      "at": "2026-10-21T05:01:58.276987+00:00",
+      "host_cpu_percent": 18.4,
+      "host_memory_used_bytes": 16238186496,
+      "host_memory_percent": 96.8,
+      "launcher_descendant_rss_sum_bytes": 93003776,
+      "launcher_descendant_count": 8
+    },
+    {
+      "at": "2026-10-21T05:01:58.558079+00:00",
+      "host_cpu_percent": 32.9,
+      "host_memory_used_bytes": 16219086848,
+      "host_memory_percent": 96.6,
+      "launcher_descendant_rss_sum_bytes": 102584320,
+      "launcher_descendant_count": 8
+    },
+    {
+      "at": "2026-10-21T05:01:58.832780+00:00",
+      "host_cpu_percent": 14.9,
+      "host_memory_used_bytes": 16242049024,
+      "host_memory_percent": 96.8,
+      "launcher_descendant_rss_sum_bytes": 116432896,
+      "launcher_descendant_count": 8
+    },
+    {
+      "at": "2026-10-21T05:01:59.114643+00:00",
+      "host_cpu_percent": 19.9,
+      "host_memory_used_bytes": 16266346496,
+      "host_memory_percent": 96.9,
+      "launcher_descendant_rss_sum_bytes": 127082496,
+      "launcher_descendant_count": 8
+    },
+    {
+      "at": "2026-10-21T05:01:59.388270+00:00",
+      "host_cpu_percent": 15.0,
+      "host_memory_used_bytes": 16273924096,
+      "host_memory_percent": 97.0,
+      "launcher_descendant_rss_sum_bytes": 137510912,
+      "launcher_descendant_count": 8
+    },
+    {
+      "at": "2026-10-21T05:01:59.639178+00:00",
+      "host_cpu_percent": 21.0,
+      "host_memory_used_bytes": 16279261184,
+      "host_memory_percent": 97.0,
+      "launcher_descendant_rss_sum_bytes": 148754432,
+      "launcher_descendant_count": 8
+    },
+    {
+      "at": "2026-10-21T05:01:59.915452+00:00",
+      "host_cpu_percent": 27.5,
+      "host_memory_used_bytes": 16238190592,
+      "host_memory_percent": 96.8,
+      "launcher_descendant_rss_sum_bytes": 119799808,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:00.200455+00:00",
+      "host_cpu_percent": 33.0,
+      "host_memory_used_bytes": 16268652544,
+      "host_memory_percent": 96.9,
+      "launcher_descendant_rss_sum_bytes": 143695872,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:00.465677+00:00",
+      "host_cpu_percent": 27.7,
+      "host_memory_used_bytes": 16279568384,
+      "host_memory_percent": 97.0,
+      "launcher_descendant_rss_sum_bytes": 159342592,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:00.727869+00:00",
+      "host_cpu_percent": 28.9,
+      "host_memory_used_bytes": 16299216896,
+      "host_memory_percent": 97.1,
+      "launcher_descendant_rss_sum_bytes": 187387904,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:00.995031+00:00",
+      "host_cpu_percent": 29.7,
+      "host_memory_used_bytes": 16319090688,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 214302720,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:01.261718+00:00",
+      "host_cpu_percent": 36.5,
+      "host_memory_used_bytes": 16337903616,
+      "host_memory_percent": 97.4,
+      "launcher_descendant_rss_sum_bytes": 235720704,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:01.538053+00:00",
+      "host_cpu_percent": 31.8,
+      "host_memory_used_bytes": 16313188352,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 257994752,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:01.816606+00:00",
+      "host_cpu_percent": 27.0,
+      "host_memory_used_bytes": 16328966144,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 274751488,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:02.092393+00:00",
+      "host_cpu_percent": 26.3,
+      "host_memory_used_bytes": 16356868096,
+      "host_memory_percent": 97.5,
+      "launcher_descendant_rss_sum_bytes": 288796672,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:02.356855+00:00",
+      "host_cpu_percent": 33.3,
+      "host_memory_used_bytes": 16346906624,
+      "host_memory_percent": 97.4,
+      "launcher_descendant_rss_sum_bytes": 289746944,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:02.601814+00:00",
+      "host_cpu_percent": 35.1,
+      "host_memory_used_bytes": 16345825280,
+      "host_memory_percent": 97.4,
+      "launcher_descendant_rss_sum_bytes": 289849344,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:02.844752+00:00",
+      "host_cpu_percent": 23.3,
+      "host_memory_used_bytes": 16336084992,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290037760,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:03.093592+00:00",
+      "host_cpu_percent": 23.8,
+      "host_memory_used_bytes": 16337911808,
+      "host_memory_percent": 97.4,
+      "launcher_descendant_rss_sum_bytes": 290234368,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:03.344155+00:00",
+      "host_cpu_percent": 24.8,
+      "host_memory_used_bytes": 16346832896,
+      "host_memory_percent": 97.4,
+      "launcher_descendant_rss_sum_bytes": 290328576,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:03.594069+00:00",
+      "host_cpu_percent": 29.4,
+      "host_memory_used_bytes": 16363094016,
+      "host_memory_percent": 97.5,
+      "launcher_descendant_rss_sum_bytes": 290504704,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:03.879919+00:00",
+      "host_cpu_percent": 30.9,
+      "host_memory_used_bytes": 16347889664,
+      "host_memory_percent": 97.4,
+      "launcher_descendant_rss_sum_bytes": 291254272,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:04.142753+00:00",
+      "host_cpu_percent": 22.8,
+      "host_memory_used_bytes": 16354160640,
+      "host_memory_percent": 97.5,
+      "launcher_descendant_rss_sum_bytes": 291901440,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:04.425907+00:00",
+      "host_cpu_percent": 24.3,
+      "host_memory_used_bytes": 16353017856,
+      "host_memory_percent": 97.4,
+      "launcher_descendant_rss_sum_bytes": 291901440,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:04.701400+00:00",
+      "host_cpu_percent": 37.8,
+      "host_memory_used_bytes": 16366080000,
+      "host_memory_percent": 97.5,
+      "launcher_descendant_rss_sum_bytes": 291901440,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:04.962995+00:00",
+      "host_cpu_percent": 31.4,
+      "host_memory_used_bytes": 16363757568,
+      "host_memory_percent": 97.5,
+      "launcher_descendant_rss_sum_bytes": 291901440,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:05.239316+00:00",
+      "host_cpu_percent": 35.6,
+      "host_memory_used_bytes": 16348917760,
+      "host_memory_percent": 97.4,
+      "launcher_descendant_rss_sum_bytes": 291901440,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:05.515421+00:00",
+      "host_cpu_percent": 20.1,
+      "host_memory_used_bytes": 16343855104,
+      "host_memory_percent": 97.4,
+      "launcher_descendant_rss_sum_bytes": 291905536,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:05.792595+00:00",
+      "host_cpu_percent": 22.0,
+      "host_memory_used_bytes": 16336326656,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 291905536,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:06.060938+00:00",
+      "host_cpu_percent": 23.9,
+      "host_memory_used_bytes": 16318001152,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 291905536,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:06.334766+00:00",
+      "host_cpu_percent": 21.5,
+      "host_memory_used_bytes": 16323686400,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 291905536,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:06.611993+00:00",
+      "host_cpu_percent": 30.6,
+      "host_memory_used_bytes": 16316219392,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 291905536,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:06.890674+00:00",
+      "host_cpu_percent": 32.0,
+      "host_memory_used_bytes": 16332492800,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 291905536,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:07.167042+00:00",
+      "host_cpu_percent": 16.8,
+      "host_memory_used_bytes": 16324689920,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 291942400,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:07.431420+00:00",
+      "host_cpu_percent": 23.5,
+      "host_memory_used_bytes": 16323309568,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 292204544,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:07.688426+00:00",
+      "host_cpu_percent": 10.4,
+      "host_memory_used_bytes": 16318504960,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 292220928,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:07.956132+00:00",
+      "host_cpu_percent": 19.2,
+      "host_memory_used_bytes": 16230678528,
+      "host_memory_percent": 96.7,
+      "launcher_descendant_rss_sum_bytes": 169414656,
+      "launcher_descendant_count": 9
+    },
+    {
+      "at": "2026-10-21T05:02:08.243938+00:00",
+      "host_cpu_percent": 15.8,
+      "host_memory_used_bytes": 16222511104,
+      "host_memory_percent": 96.7,
+      "launcher_descendant_rss_sum_bytes": 169414656,
+      "launcher_descendant_count": 9
+    },
+    {
+      "at": "2026-10-21T05:02:08.512981+00:00",
+      "host_cpu_percent": 22.3,
+      "host_memory_used_bytes": 16233164800,
+      "host_memory_percent": 96.7,
+      "launcher_descendant_rss_sum_bytes": 169414656,
+      "launcher_descendant_count": 9
+    },
+    {
+      "at": "2026-10-21T05:02:08.786794+00:00",
+      "host_cpu_percent": 11.6,
+      "host_memory_used_bytes": 16232300544,
+      "host_memory_percent": 96.7,
+      "launcher_descendant_rss_sum_bytes": 169414656,
+      "launcher_descendant_count": 9
+    },
+    {
+      "at": "2026-10-21T05:02:09.065343+00:00",
+      "host_cpu_percent": 19.7,
+      "host_memory_used_bytes": 16230150144,
+      "host_memory_percent": 96.7,
+      "launcher_descendant_rss_sum_bytes": 169414656,
+      "launcher_descendant_count": 9
+    },
+    {
+      "at": "2026-10-21T05:02:09.349654+00:00",
+      "host_cpu_percent": 26.9,
+      "host_memory_used_bytes": 16234672128,
+      "host_memory_percent": 96.7,
+      "launcher_descendant_rss_sum_bytes": 169414656,
+      "launcher_descendant_count": 9
+    },
+    {
+      "at": "2026-10-21T05:02:09.625942+00:00",
+      "host_cpu_percent": 44.7,
+      "host_memory_used_bytes": 16228999168,
+      "host_memory_percent": 96.7,
+      "launcher_descendant_rss_sum_bytes": 180338688,
+      "launcher_descendant_count": 11
+    },
+    {
+      "at": "2026-10-21T05:02:09.919707+00:00",
+      "host_cpu_percent": 41.1,
+      "host_memory_used_bytes": 16229236736,
+      "host_memory_percent": 96.7,
+      "launcher_descendant_rss_sum_bytes": 196296704,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:10.208862+00:00",
+      "host_cpu_percent": 30.0,
+      "host_memory_used_bytes": 16235880448,
+      "host_memory_percent": 96.7,
+      "launcher_descendant_rss_sum_bytes": 206835712,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:10.480373+00:00",
+      "host_cpu_percent": 38.3,
+      "host_memory_used_bytes": 16243585024,
+      "host_memory_percent": 96.8,
+      "launcher_descendant_rss_sum_bytes": 214368256,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:10.746210+00:00",
+      "host_cpu_percent": 32.0,
+      "host_memory_used_bytes": 16236515328,
+      "host_memory_percent": 96.7,
+      "launcher_descendant_rss_sum_bytes": 226140160,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:11.003295+00:00",
+      "host_cpu_percent": 38.9,
+      "host_memory_used_bytes": 16249094144,
+      "host_memory_percent": 96.8,
+      "launcher_descendant_rss_sum_bytes": 239730688,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:11.264037+00:00",
+      "host_cpu_percent": 42.5,
+      "host_memory_used_bytes": 16278724608,
+      "host_memory_percent": 97.0,
+      "launcher_descendant_rss_sum_bytes": 251133952,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:11.555470+00:00",
+      "host_cpu_percent": 34.5,
+      "host_memory_used_bytes": 16286642176,
+      "host_memory_percent": 97.0,
+      "launcher_descendant_rss_sum_bytes": 258674688,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:11.833930+00:00",
+      "host_cpu_percent": 28.6,
+      "host_memory_used_bytes": 16292327424,
+      "host_memory_percent": 97.1,
+      "launcher_descendant_rss_sum_bytes": 279896064,
+      "launcher_descendant_count": 14
+    },
+    {
+      "at": "2026-10-21T05:02:12.093772+00:00",
+      "host_cpu_percent": 27.1,
+      "host_memory_used_bytes": 16305995776,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 275013632,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:12.371704+00:00",
+      "host_cpu_percent": 37.0,
+      "host_memory_used_bytes": 16307339264,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 285483008,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:12.647448+00:00",
+      "host_cpu_percent": 25.6,
+      "host_memory_used_bytes": 16302231552,
+      "host_memory_percent": 97.1,
+      "launcher_descendant_rss_sum_bytes": 290623488,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:12.891218+00:00",
+      "host_cpu_percent": 19.7,
+      "host_memory_used_bytes": 16308035584,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290631680,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:13.181484+00:00",
+      "host_cpu_percent": 22.7,
+      "host_memory_used_bytes": 16310624256,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290652160,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:13.447034+00:00",
+      "host_cpu_percent": 30.9,
+      "host_memory_used_bytes": 16315527168,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290652160,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:13.712017+00:00",
+      "host_cpu_percent": 18.4,
+      "host_memory_used_bytes": 16307458048,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290652160,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:13.978717+00:00",
+      "host_cpu_percent": 26.5,
+      "host_memory_used_bytes": 16309559296,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290664448,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:14.229984+00:00",
+      "host_cpu_percent": 31.5,
+      "host_memory_used_bytes": 16324415488,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290664448,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:14.471708+00:00",
+      "host_cpu_percent": 22.0,
+      "host_memory_used_bytes": 16321531904,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290664448,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:14.763974+00:00",
+      "host_cpu_percent": 12.7,
+      "host_memory_used_bytes": 16306163712,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290676736,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:15.053935+00:00",
+      "host_cpu_percent": 26.3,
+      "host_memory_used_bytes": 16303689728,
+      "host_memory_percent": 97.1,
+      "launcher_descendant_rss_sum_bytes": 290676736,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:15.323114+00:00",
+      "host_cpu_percent": 17.7,
+      "host_memory_used_bytes": 16308281344,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290676736,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:15.582387+00:00",
+      "host_cpu_percent": 48.0,
+      "host_memory_used_bytes": 16336359424,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290684928,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:15.866965+00:00",
+      "host_cpu_percent": 34.3,
+      "host_memory_used_bytes": 16325156864,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290684928,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:16.142598+00:00",
+      "host_cpu_percent": 29.6,
+      "host_memory_used_bytes": 16311140352,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290684928,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:16.426326+00:00",
+      "host_cpu_percent": 40.6,
+      "host_memory_used_bytes": 16328691712,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290684928,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:16.689375+00:00",
+      "host_cpu_percent": 21.1,
+      "host_memory_used_bytes": 16320569344,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290684928,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:16.933873+00:00",
+      "host_cpu_percent": 18.9,
+      "host_memory_used_bytes": 16319741952,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290684928,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:17.210583+00:00",
+      "host_cpu_percent": 18.0,
+      "host_memory_used_bytes": 16313151488,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290684928,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:17.473329+00:00",
+      "host_cpu_percent": 26.2,
+      "host_memory_used_bytes": 16307523584,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290693120,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:17.730338+00:00",
+      "host_cpu_percent": 27.9,
+      "host_memory_used_bytes": 16334274560,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290689024,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:17.999913+00:00",
+      "host_cpu_percent": 25.2,
+      "host_memory_used_bytes": 16321212416,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290693120,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:18.280060+00:00",
+      "host_cpu_percent": 23.5,
+      "host_memory_used_bytes": 16317710336,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290693120,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:18.554821+00:00",
+      "host_cpu_percent": 25.0,
+      "host_memory_used_bytes": 16331456512,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290689024,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:18.843334+00:00",
+      "host_cpu_percent": 14.5,
+      "host_memory_used_bytes": 16321171456,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290689024,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:19.141993+00:00",
+      "host_cpu_percent": 12.9,
+      "host_memory_used_bytes": 16316481536,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290693120,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:19.414552+00:00",
+      "host_cpu_percent": 17.8,
+      "host_memory_used_bytes": 16311508992,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290693120,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:19.697063+00:00",
+      "host_cpu_percent": 18.0,
+      "host_memory_used_bytes": 16327475200,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290693120,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:19.959280+00:00",
+      "host_cpu_percent": 25.7,
+      "host_memory_used_bytes": 16335052800,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290689024,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:20.237787+00:00",
+      "host_cpu_percent": 33.7,
+      "host_memory_used_bytes": 16326754304,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290689024,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:20.515793+00:00",
+      "host_cpu_percent": 19.6,
+      "host_memory_used_bytes": 16325058560,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290697216,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:20.765500+00:00",
+      "host_cpu_percent": 38.1,
+      "host_memory_used_bytes": 16352051200,
+      "host_memory_percent": 97.4,
+      "launcher_descendant_rss_sum_bytes": 290697216,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:21.055164+00:00",
+      "host_cpu_percent": 20.1,
+      "host_memory_used_bytes": 16339877888,
+      "host_memory_percent": 97.4,
+      "launcher_descendant_rss_sum_bytes": 290697216,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:21.331332+00:00",
+      "host_cpu_percent": 18.6,
+      "host_memory_used_bytes": 16338759680,
+      "host_memory_percent": 97.4,
+      "launcher_descendant_rss_sum_bytes": 290705408,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:21.617371+00:00",
+      "host_cpu_percent": 17.9,
+      "host_memory_used_bytes": 16329363456,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290705408,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:21.897880+00:00",
+      "host_cpu_percent": 18.6,
+      "host_memory_used_bytes": 16324759552,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290705408,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:22.144940+00:00",
+      "host_cpu_percent": 41.7,
+      "host_memory_used_bytes": 16354045952,
+      "host_memory_percent": 97.4,
+      "launcher_descendant_rss_sum_bytes": 290713600,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:22.391210+00:00",
+      "host_cpu_percent": 40.4,
+      "host_memory_used_bytes": 16350781440,
+      "host_memory_percent": 97.4,
+      "launcher_descendant_rss_sum_bytes": 290713600,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:22.664191+00:00",
+      "host_cpu_percent": 34.2,
+      "host_memory_used_bytes": 16361414656,
+      "host_memory_percent": 97.5,
+      "launcher_descendant_rss_sum_bytes": 290713600,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:22.929143+00:00",
+      "host_cpu_percent": 38.6,
+      "host_memory_used_bytes": 16367337472,
+      "host_memory_percent": 97.5,
+      "launcher_descendant_rss_sum_bytes": 290721792,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:23.188517+00:00",
+      "host_cpu_percent": 28.2,
+      "host_memory_used_bytes": 16358268928,
+      "host_memory_percent": 97.5,
+      "launcher_descendant_rss_sum_bytes": 290721792,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:23.467433+00:00",
+      "host_cpu_percent": 33.9,
+      "host_memory_used_bytes": 16369094656,
+      "host_memory_percent": 97.5,
+      "launcher_descendant_rss_sum_bytes": 290725888,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:23.720445+00:00",
+      "host_cpu_percent": 19.0,
+      "host_memory_used_bytes": 16365113344,
+      "host_memory_percent": 97.5,
+      "launcher_descendant_rss_sum_bytes": 290729984,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:24.012680+00:00",
+      "host_cpu_percent": 16.0,
+      "host_memory_used_bytes": 16344317952,
+      "host_memory_percent": 97.4,
+      "launcher_descendant_rss_sum_bytes": 290738176,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:24.268642+00:00",
+      "host_cpu_percent": 20.3,
+      "host_memory_used_bytes": 16335507456,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290738176,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:24.554895+00:00",
+      "host_cpu_percent": 27.1,
+      "host_memory_used_bytes": 16337022976,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290738176,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:24.827854+00:00",
+      "host_cpu_percent": 24.6,
+      "host_memory_used_bytes": 16335613952,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290729984,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:25.101335+00:00",
+      "host_cpu_percent": 33.1,
+      "host_memory_used_bytes": 16352804864,
+      "host_memory_percent": 97.4,
+      "launcher_descendant_rss_sum_bytes": 290729984,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:25.389227+00:00",
+      "host_cpu_percent": 19.6,
+      "host_memory_used_bytes": 16334331904,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290729984,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:25.669094+00:00",
+      "host_cpu_percent": 16.7,
+      "host_memory_used_bytes": 16329338880,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290631680,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:25.942237+00:00",
+      "host_cpu_percent": 19.2,
+      "host_memory_used_bytes": 16328011776,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290578432,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:26.194289+00:00",
+      "host_cpu_percent": 16.9,
+      "host_memory_used_bytes": 16320282624,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290578432,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:26.470738+00:00",
+      "host_cpu_percent": 35.3,
+      "host_memory_used_bytes": 16335126528,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290586624,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:26.748022+00:00",
+      "host_cpu_percent": 33.5,
+      "host_memory_used_bytes": 16338456576,
+      "host_memory_percent": 97.4,
+      "launcher_descendant_rss_sum_bytes": 290586624,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:27.032953+00:00",
+      "host_cpu_percent": 26.4,
+      "host_memory_used_bytes": 16333172736,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290586624,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:27.310951+00:00",
+      "host_cpu_percent": 34.0,
+      "host_memory_used_bytes": 16350437376,
+      "host_memory_percent": 97.4,
+      "launcher_descendant_rss_sum_bytes": 290590720,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:27.570813+00:00",
+      "host_cpu_percent": 30.9,
+      "host_memory_used_bytes": 16322830336,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290598912,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:27.813313+00:00",
+      "host_cpu_percent": 19.5,
+      "host_memory_used_bytes": 16319918080,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290603008,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:28.099399+00:00",
+      "host_cpu_percent": 16.8,
+      "host_memory_used_bytes": 16320016384,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290603008,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:28.380781+00:00",
+      "host_cpu_percent": 24.7,
+      "host_memory_used_bytes": 16313032704,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290611200,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:28.655418+00:00",
+      "host_cpu_percent": 34.6,
+      "host_memory_used_bytes": 16325578752,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290611200,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:28.921345+00:00",
+      "host_cpu_percent": 32.4,
+      "host_memory_used_bytes": 16327184384,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290611200,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:29.203394+00:00",
+      "host_cpu_percent": 24.8,
+      "host_memory_used_bytes": 16322760704,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290611200,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:29.477465+00:00",
+      "host_cpu_percent": 29.9,
+      "host_memory_used_bytes": 16337063936,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 336224256,
+      "launcher_descendant_count": 16
+    },
+    {
+      "at": "2026-10-21T05:02:29.762398+00:00",
+      "host_cpu_percent": 18.2,
+      "host_memory_used_bytes": 16321585152,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290615296,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:30.032858+00:00",
+      "host_cpu_percent": 16.3,
+      "host_memory_used_bytes": 16326270976,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290549760,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:30.297172+00:00",
+      "host_cpu_percent": 33.2,
+      "host_memory_used_bytes": 16318574592,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290553856,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:30.573041+00:00",
+      "host_cpu_percent": 28.1,
+      "host_memory_used_bytes": 16312872960,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290553856,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:30.832474+00:00",
+      "host_cpu_percent": 28.0,
+      "host_memory_used_bytes": 16320532480,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290553856,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:31.100756+00:00",
+      "host_cpu_percent": 30.6,
+      "host_memory_used_bytes": 16327405568,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290553856,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:31.361368+00:00",
+      "host_cpu_percent": 30.5,
+      "host_memory_used_bytes": 16367624192,
+      "host_memory_percent": 97.5,
+      "launcher_descendant_rss_sum_bytes": 290557952,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:31.639238+00:00",
+      "host_cpu_percent": 40.9,
+      "host_memory_used_bytes": 16385417216,
+      "host_memory_percent": 97.6,
+      "launcher_descendant_rss_sum_bytes": 331886592,
+      "launcher_descendant_count": 16
+    },
+    {
+      "at": "2026-10-21T05:02:31.923279+00:00",
+      "host_cpu_percent": 44.7,
+      "host_memory_used_bytes": 16372604928,
+      "host_memory_percent": 97.6,
+      "launcher_descendant_rss_sum_bytes": 290557952,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:32.202626+00:00",
+      "host_cpu_percent": 40.2,
+      "host_memory_used_bytes": 16412676096,
+      "host_memory_percent": 97.8,
+      "launcher_descendant_rss_sum_bytes": 290562048,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:32.470427+00:00",
+      "host_cpu_percent": 45.6,
+      "host_memory_used_bytes": 16386809856,
+      "host_memory_percent": 97.6,
+      "launcher_descendant_rss_sum_bytes": 290562048,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:32.721262+00:00",
+      "host_cpu_percent": 34.6,
+      "host_memory_used_bytes": 16390602752,
+      "host_memory_percent": 97.7,
+      "launcher_descendant_rss_sum_bytes": 290562048,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:32.968875+00:00",
+      "host_cpu_percent": 31.9,
+      "host_memory_used_bytes": 16373653504,
+      "host_memory_percent": 97.6,
+      "launcher_descendant_rss_sum_bytes": 290562048,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:33.218493+00:00",
+      "host_cpu_percent": 40.5,
+      "host_memory_used_bytes": 16361287680,
+      "host_memory_percent": 97.5,
+      "launcher_descendant_rss_sum_bytes": 290562048,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:33.507706+00:00",
+      "host_cpu_percent": 26.4,
+      "host_memory_used_bytes": 16355336192,
+      "host_memory_percent": 97.5,
+      "launcher_descendant_rss_sum_bytes": 290562048,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:33.782733+00:00",
+      "host_cpu_percent": 32.5,
+      "host_memory_used_bytes": 16362061824,
+      "host_memory_percent": 97.5,
+      "launcher_descendant_rss_sum_bytes": 317067264,
+      "launcher_descendant_count": 15
+    },
+    {
+      "at": "2026-10-21T05:02:34.062005+00:00",
+      "host_cpu_percent": 30.1,
+      "host_memory_used_bytes": 16361390080,
+      "host_memory_percent": 97.5,
+      "launcher_descendant_rss_sum_bytes": 290566144,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:34.330469+00:00",
+      "host_cpu_percent": 23.4,
+      "host_memory_used_bytes": 16343203840,
+      "host_memory_percent": 97.4,
+      "launcher_descendant_rss_sum_bytes": 290566144,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:34.611906+00:00",
+      "host_cpu_percent": 28.2,
+      "host_memory_used_bytes": 16345477120,
+      "host_memory_percent": 97.4,
+      "launcher_descendant_rss_sum_bytes": 290566144,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:34.885443+00:00",
+      "host_cpu_percent": 18.0,
+      "host_memory_used_bytes": 16316645376,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290578432,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:35.150796+00:00",
+      "host_cpu_percent": 13.3,
+      "host_memory_used_bytes": 16310317056,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290578432,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:35.417196+00:00",
+      "host_cpu_percent": 29.2,
+      "host_memory_used_bytes": 16323727360,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290578432,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:35.675952+00:00",
+      "host_cpu_percent": 18.2,
+      "host_memory_used_bytes": 16322519040,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290590720,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:35.957839+00:00",
+      "host_cpu_percent": 23.2,
+      "host_memory_used_bytes": 16318873600,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 309641216,
+      "launcher_descendant_count": 14
+    },
+    {
+      "at": "2026-10-21T05:02:36.233539+00:00",
+      "host_cpu_percent": 35.4,
+      "host_memory_used_bytes": 16325996544,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290590720,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:36.520569+00:00",
+      "host_cpu_percent": 18.8,
+      "host_memory_used_bytes": 16317366272,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290590720,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:36.796477+00:00",
+      "host_cpu_percent": 26.2,
+      "host_memory_used_bytes": 16315256832,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290598912,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:37.085413+00:00",
+      "host_cpu_percent": 32.1,
+      "host_memory_used_bytes": 16300007424,
+      "host_memory_percent": 97.1,
+      "launcher_descendant_rss_sum_bytes": 290598912,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:37.354425+00:00",
+      "host_cpu_percent": 32.4,
+      "host_memory_used_bytes": 16306196480,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290598912,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:37.620163+00:00",
+      "host_cpu_percent": 44.1,
+      "host_memory_used_bytes": 16312340480,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290603008,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:37.897986+00:00",
+      "host_cpu_percent": 23.2,
+      "host_memory_used_bytes": 16311066624,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 291680256,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:38.174605+00:00",
+      "host_cpu_percent": 34.2,
+      "host_memory_used_bytes": 16225681408,
+      "host_memory_percent": 96.7,
+      "launcher_descendant_rss_sum_bytes": 190443520,
+      "launcher_descendant_count": 11
+    },
+    {
+      "at": "2026-10-21T05:02:38.467411+00:00",
+      "host_cpu_percent": 44.3,
+      "host_memory_used_bytes": 16245600256,
+      "host_memory_percent": 96.8,
+      "launcher_descendant_rss_sum_bytes": 197316608,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:38.746725+00:00",
+      "host_cpu_percent": 39.7,
+      "host_memory_used_bytes": 16235356160,
+      "host_memory_percent": 96.7,
+      "launcher_descendant_rss_sum_bytes": 209121280,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:39.012217+00:00",
+      "host_cpu_percent": 28.1,
+      "host_memory_used_bytes": 16239464448,
+      "host_memory_percent": 96.8,
+      "launcher_descendant_rss_sum_bytes": 217792512,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:39.279797+00:00",
+      "host_cpu_percent": 26.7,
+      "host_memory_used_bytes": 16227676160,
+      "host_memory_percent": 96.7,
+      "launcher_descendant_rss_sum_bytes": 235634688,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:39.560259+00:00",
+      "host_cpu_percent": 26.4,
+      "host_memory_used_bytes": 16236617728,
+      "host_memory_percent": 96.7,
+      "launcher_descendant_rss_sum_bytes": 250568704,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:39.821659+00:00",
+      "host_cpu_percent": 26.5,
+      "host_memory_used_bytes": 16233062400,
+      "host_memory_percent": 96.7,
+      "launcher_descendant_rss_sum_bytes": 259006464,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:40.090093+00:00",
+      "host_cpu_percent": 16.5,
+      "host_memory_used_bytes": 16241774592,
+      "host_memory_percent": 96.8,
+      "launcher_descendant_rss_sum_bytes": 269099008,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:40.360829+00:00",
+      "host_cpu_percent": 34.4,
+      "host_memory_used_bytes": 16250019840,
+      "host_memory_percent": 96.8,
+      "launcher_descendant_rss_sum_bytes": 293130240,
+      "launcher_descendant_count": 14
+    },
+    {
+      "at": "2026-10-21T05:02:40.634564+00:00",
+      "host_cpu_percent": 33.4,
+      "host_memory_used_bytes": 16264790016,
+      "host_memory_percent": 96.9,
+      "launcher_descendant_rss_sum_bytes": 290185216,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:40.895632+00:00",
+      "host_cpu_percent": 21.3,
+      "host_memory_used_bytes": 16270114816,
+      "host_memory_percent": 96.9,
+      "launcher_descendant_rss_sum_bytes": 290201600,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:41.143085+00:00",
+      "host_cpu_percent": 16.9,
+      "host_memory_used_bytes": 16266883072,
+      "host_memory_percent": 96.9,
+      "launcher_descendant_rss_sum_bytes": 290205696,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:41.391848+00:00",
+      "host_cpu_percent": 26.8,
+      "host_memory_used_bytes": 16254009344,
+      "host_memory_percent": 96.9,
+      "launcher_descendant_rss_sum_bytes": 290222080,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:41.671988+00:00",
+      "host_cpu_percent": 19.5,
+      "host_memory_used_bytes": 16247668736,
+      "host_memory_percent": 96.8,
+      "launcher_descendant_rss_sum_bytes": 290222080,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:41.970099+00:00",
+      "host_cpu_percent": 26.4,
+      "host_memory_used_bytes": 16241147904,
+      "host_memory_percent": 96.8,
+      "launcher_descendant_rss_sum_bytes": 290222080,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:42.248265+00:00",
+      "host_cpu_percent": 12.5,
+      "host_memory_used_bytes": 16239153152,
+      "host_memory_percent": 96.8,
+      "launcher_descendant_rss_sum_bytes": 290222080,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:42.523922+00:00",
+      "host_cpu_percent": 20.9,
+      "host_memory_used_bytes": 16231575552,
+      "host_memory_percent": 96.7,
+      "launcher_descendant_rss_sum_bytes": 298405888,
+      "launcher_descendant_count": 13
+    },
+    {
+      "at": "2026-10-21T05:02:42.780393+00:00",
+      "host_cpu_percent": 24.8,
+      "host_memory_used_bytes": 16239513600,
+      "host_memory_percent": 96.8,
+      "launcher_descendant_rss_sum_bytes": 290226176,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:43.076509+00:00",
+      "host_cpu_percent": 13.0,
+      "host_memory_used_bytes": 16229171200,
+      "host_memory_percent": 96.7,
+      "launcher_descendant_rss_sum_bytes": 290226176,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:43.368897+00:00",
+      "host_cpu_percent": 17.3,
+      "host_memory_used_bytes": 16228892672,
+      "host_memory_percent": 96.7,
+      "launcher_descendant_rss_sum_bytes": 290226176,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:43.652900+00:00",
+      "host_cpu_percent": 12.8,
+      "host_memory_used_bytes": 16221437952,
+      "host_memory_percent": 96.7,
+      "launcher_descendant_rss_sum_bytes": 290226176,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:43.885649+00:00",
+      "host_cpu_percent": 15.4,
+      "host_memory_used_bytes": 16226856960,
+      "host_memory_percent": 96.7,
+      "launcher_descendant_rss_sum_bytes": 290226176,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:44.168019+00:00",
+      "host_cpu_percent": 18.0,
+      "host_memory_used_bytes": 16230621184,
+      "host_memory_percent": 96.7,
+      "launcher_descendant_rss_sum_bytes": 290226176,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:44.450027+00:00",
+      "host_cpu_percent": 17.0,
+      "host_memory_used_bytes": 16226488320,
+      "host_memory_percent": 96.7,
+      "launcher_descendant_rss_sum_bytes": 290226176,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:44.721054+00:00",
+      "host_cpu_percent": 20.4,
+      "host_memory_used_bytes": 16222748672,
+      "host_memory_percent": 96.7,
+      "launcher_descendant_rss_sum_bytes": 298287104,
+      "launcher_descendant_count": 13
+    },
+    {
+      "at": "2026-10-21T05:02:45.013055+00:00",
+      "host_cpu_percent": 30.5,
+      "host_memory_used_bytes": 16241639424,
+      "host_memory_percent": 96.8,
+      "launcher_descendant_rss_sum_bytes": 290242560,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:45.270395+00:00",
+      "host_cpu_percent": 17.6,
+      "host_memory_used_bytes": 16233340928,
+      "host_memory_percent": 96.7,
+      "launcher_descendant_rss_sum_bytes": 290242560,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:45.519025+00:00",
+      "host_cpu_percent": 22.9,
+      "host_memory_used_bytes": 16233717760,
+      "host_memory_percent": 96.7,
+      "launcher_descendant_rss_sum_bytes": 290242560,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:45.772838+00:00",
+      "host_cpu_percent": 16.7,
+      "host_memory_used_bytes": 16230486016,
+      "host_memory_percent": 96.7,
+      "launcher_descendant_rss_sum_bytes": 290246656,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:46.051367+00:00",
+      "host_cpu_percent": 23.3,
+      "host_memory_used_bytes": 16230424576,
+      "host_memory_percent": 96.7,
+      "launcher_descendant_rss_sum_bytes": 290254848,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:46.317296+00:00",
+      "host_cpu_percent": 24.4,
+      "host_memory_used_bytes": 16239194112,
+      "host_memory_percent": 96.8,
+      "launcher_descendant_rss_sum_bytes": 290254848,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:46.596404+00:00",
+      "host_cpu_percent": 34.9,
+      "host_memory_used_bytes": 16257794048,
+      "host_memory_percent": 96.9,
+      "launcher_descendant_rss_sum_bytes": 290258944,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:46.866070+00:00",
+      "host_cpu_percent": 39.5,
+      "host_memory_used_bytes": 16281976832,
+      "host_memory_percent": 97.0,
+      "launcher_descendant_rss_sum_bytes": 290271232,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:47.143960+00:00",
+      "host_cpu_percent": 42.7,
+      "host_memory_used_bytes": 16309391360,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290271232,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:47.429233+00:00",
+      "host_cpu_percent": 21.8,
+      "host_memory_used_bytes": 16287571968,
+      "host_memory_percent": 97.1,
+      "launcher_descendant_rss_sum_bytes": 290271232,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:47.703985+00:00",
+      "host_cpu_percent": 28.9,
+      "host_memory_used_bytes": 16298876928,
+      "host_memory_percent": 97.1,
+      "launcher_descendant_rss_sum_bytes": 290279424,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:47.982831+00:00",
+      "host_cpu_percent": 30.7,
+      "host_memory_used_bytes": 16292884480,
+      "host_memory_percent": 97.1,
+      "launcher_descendant_rss_sum_bytes": 290279424,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:48.216203+00:00",
+      "host_cpu_percent": 38.0,
+      "host_memory_used_bytes": 16294199296,
+      "host_memory_percent": 97.1,
+      "launcher_descendant_rss_sum_bytes": 290283520,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:48.488715+00:00",
+      "host_cpu_percent": 41.2,
+      "host_memory_used_bytes": 16306536448,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290291712,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:48.769585+00:00",
+      "host_cpu_percent": 29.8,
+      "host_memory_used_bytes": 16285581312,
+      "host_memory_percent": 97.0,
+      "launcher_descendant_rss_sum_bytes": 290291712,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:49.046651+00:00",
+      "host_cpu_percent": 25.5,
+      "host_memory_used_bytes": 16282120192,
+      "host_memory_percent": 97.0,
+      "launcher_descendant_rss_sum_bytes": 290291712,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:49.324487+00:00",
+      "host_cpu_percent": 35.4,
+      "host_memory_used_bytes": 16306671616,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290295808,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:49.584344+00:00",
+      "host_cpu_percent": 17.4,
+      "host_memory_used_bytes": 16279154688,
+      "host_memory_percent": 97.0,
+      "launcher_descendant_rss_sum_bytes": 290291712,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:49.845079+00:00",
+      "host_cpu_percent": 19.9,
+      "host_memory_used_bytes": 16286978048,
+      "host_memory_percent": 97.0,
+      "launcher_descendant_rss_sum_bytes": 290295808,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:50.097923+00:00",
+      "host_cpu_percent": 32.5,
+      "host_memory_used_bytes": 16286998528,
+      "host_memory_percent": 97.0,
+      "launcher_descendant_rss_sum_bytes": 290295808,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:50.347105+00:00",
+      "host_cpu_percent": 21.4,
+      "host_memory_used_bytes": 16291938304,
+      "host_memory_percent": 97.1,
+      "launcher_descendant_rss_sum_bytes": 290295808,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:50.599782+00:00",
+      "host_cpu_percent": 21.1,
+      "host_memory_used_bytes": 16273338368,
+      "host_memory_percent": 97.0,
+      "launcher_descendant_rss_sum_bytes": 290304000,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:50.843796+00:00",
+      "host_cpu_percent": 33.7,
+      "host_memory_used_bytes": 16289550336,
+      "host_memory_percent": 97.1,
+      "launcher_descendant_rss_sum_bytes": 290304000,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:51.114068+00:00",
+      "host_cpu_percent": 19.1,
+      "host_memory_used_bytes": 16294699008,
+      "host_memory_percent": 97.1,
+      "launcher_descendant_rss_sum_bytes": 290304000,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:51.394669+00:00",
+      "host_cpu_percent": 28.9,
+      "host_memory_used_bytes": 16279732224,
+      "host_memory_percent": 97.0,
+      "launcher_descendant_rss_sum_bytes": 320847872,
+      "launcher_descendant_count": 15
+    },
+    {
+      "at": "2026-10-21T05:02:51.679115+00:00",
+      "host_cpu_percent": 31.9,
+      "host_memory_used_bytes": 16272064512,
+      "host_memory_percent": 97.0,
+      "launcher_descendant_rss_sum_bytes": 290312192,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:51.939506+00:00",
+      "host_cpu_percent": 19.2,
+      "host_memory_used_bytes": 16263315456,
+      "host_memory_percent": 96.9,
+      "launcher_descendant_rss_sum_bytes": 290312192,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:52.188446+00:00",
+      "host_cpu_percent": 21.8,
+      "host_memory_used_bytes": 16257708032,
+      "host_memory_percent": 96.9,
+      "launcher_descendant_rss_sum_bytes": 290320384,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:52.437016+00:00",
+      "host_cpu_percent": 24.7,
+      "host_memory_used_bytes": 16253075456,
+      "host_memory_percent": 96.8,
+      "launcher_descendant_rss_sum_bytes": 290320384,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:52.719949+00:00",
+      "host_cpu_percent": 35.0,
+      "host_memory_used_bytes": 16268115968,
+      "host_memory_percent": 96.9,
+      "launcher_descendant_rss_sum_bytes": 290320384,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:53.005931+00:00",
+      "host_cpu_percent": 22.3,
+      "host_memory_used_bytes": 16282382336,
+      "host_memory_percent": 97.0,
+      "launcher_descendant_rss_sum_bytes": 290324480,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:53.284202+00:00",
+      "host_cpu_percent": 20.4,
+      "host_memory_used_bytes": 16276094976,
+      "host_memory_percent": 97.0,
+      "launcher_descendant_rss_sum_bytes": 290328576,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:53.561027+00:00",
+      "host_cpu_percent": 32.2,
+      "host_memory_used_bytes": 16284839936,
+      "host_memory_percent": 97.0,
+      "launcher_descendant_rss_sum_bytes": 311910400,
+      "launcher_descendant_count": 14
+    },
+    {
+      "at": "2026-10-21T05:02:53.841348+00:00",
+      "host_cpu_percent": 33.6,
+      "host_memory_used_bytes": 16292331520,
+      "host_memory_percent": 97.1,
+      "launcher_descendant_rss_sum_bytes": 290332672,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:54.104825+00:00",
+      "host_cpu_percent": 27.1,
+      "host_memory_used_bytes": 16306872320,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290336768,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:54.364878+00:00",
+      "host_cpu_percent": 24.8,
+      "host_memory_used_bytes": 16318955520,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290336768,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:54.656236+00:00",
+      "host_cpu_percent": 23.4,
+      "host_memory_used_bytes": 16284184576,
+      "host_memory_percent": 97.0,
+      "launcher_descendant_rss_sum_bytes": 290336768,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:54.931968+00:00",
+      "host_cpu_percent": 27.7,
+      "host_memory_used_bytes": 16284139520,
+      "host_memory_percent": 97.0,
+      "launcher_descendant_rss_sum_bytes": 290344960,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:55.199737+00:00",
+      "host_cpu_percent": 21.0,
+      "host_memory_used_bytes": 16277942272,
+      "host_memory_percent": 97.0,
+      "launcher_descendant_rss_sum_bytes": 290344960,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:55.477962+00:00",
+      "host_cpu_percent": 14.9,
+      "host_memory_used_bytes": 16284790784,
+      "host_memory_percent": 97.0,
+      "launcher_descendant_rss_sum_bytes": 290344960,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:55.728748+00:00",
+      "host_cpu_percent": 19.5,
+      "host_memory_used_bytes": 16279568384,
+      "host_memory_percent": 97.0,
+      "launcher_descendant_rss_sum_bytes": 303808512,
+      "launcher_descendant_count": 14
+    },
+    {
+      "at": "2026-10-21T05:02:55.971701+00:00",
+      "host_cpu_percent": 24.8,
+      "host_memory_used_bytes": 16269709312,
+      "host_memory_percent": 96.9,
+      "launcher_descendant_rss_sum_bytes": 290291712,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:56.219262+00:00",
+      "host_cpu_percent": 13.4,
+      "host_memory_used_bytes": 16261173248,
+      "host_memory_percent": 96.9,
+      "launcher_descendant_rss_sum_bytes": 290291712,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:56.469195+00:00",
+      "host_cpu_percent": 18.3,
+      "host_memory_used_bytes": 16264351744,
+      "host_memory_percent": 96.9,
+      "launcher_descendant_rss_sum_bytes": 290291712,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:56.754743+00:00",
+      "host_cpu_percent": 20.1,
+      "host_memory_used_bytes": 16259649536,
+      "host_memory_percent": 96.9,
+      "launcher_descendant_rss_sum_bytes": 290295808,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:57.029747+00:00",
+      "host_cpu_percent": 23.4,
+      "host_memory_used_bytes": 16274280448,
+      "host_memory_percent": 97.0,
+      "launcher_descendant_rss_sum_bytes": 290299904,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:57.315817+00:00",
+      "host_cpu_percent": 14.2,
+      "host_memory_used_bytes": 16266350592,
+      "host_memory_percent": 96.9,
+      "launcher_descendant_rss_sum_bytes": 290299904,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:57.602575+00:00",
+      "host_cpu_percent": 20.1,
+      "host_memory_used_bytes": 16261156864,
+      "host_memory_percent": 96.9,
+      "launcher_descendant_rss_sum_bytes": 290304000,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:57.850600+00:00",
+      "host_cpu_percent": 15.2,
+      "host_memory_used_bytes": 16257368064,
+      "host_memory_percent": 96.9,
+      "launcher_descendant_rss_sum_bytes": 290308096,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:58.095958+00:00",
+      "host_cpu_percent": 28.0,
+      "host_memory_used_bytes": 16278032384,
+      "host_memory_percent": 97.0,
+      "launcher_descendant_rss_sum_bytes": 290308096,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:58.366990+00:00",
+      "host_cpu_percent": 30.0,
+      "host_memory_used_bytes": 16264069120,
+      "host_memory_percent": 96.9,
+      "launcher_descendant_rss_sum_bytes": 290308096,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:58.631306+00:00",
+      "host_cpu_percent": 23.3,
+      "host_memory_used_bytes": 16259780608,
+      "host_memory_percent": 96.9,
+      "launcher_descendant_rss_sum_bytes": 290381824,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:58.899269+00:00",
+      "host_cpu_percent": 31.3,
+      "host_memory_used_bytes": 16279879680,
+      "host_memory_percent": 97.0,
+      "launcher_descendant_rss_sum_bytes": 290381824,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:59.165146+00:00",
+      "host_cpu_percent": 27.2,
+      "host_memory_used_bytes": 16300969984,
+      "host_memory_percent": 97.1,
+      "launcher_descendant_rss_sum_bytes": 290381824,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:59.428066+00:00",
+      "host_cpu_percent": 34.6,
+      "host_memory_used_bytes": 16326606848,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290385920,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:59.712893+00:00",
+      "host_cpu_percent": 12.9,
+      "host_memory_used_bytes": 16320696320,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290390016,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:02:59.984882+00:00",
+      "host_cpu_percent": 17.8,
+      "host_memory_used_bytes": 16313982976,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290320384,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:03:00.266197+00:00",
+      "host_cpu_percent": 43.7,
+      "host_memory_used_bytes": 16330383360,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290324480,
+      "launcher_descendant_count": 13
+    },
+    {
+      "at": "2026-10-21T05:03:00.556684+00:00",
+      "host_cpu_percent": 21.9,
+      "host_memory_used_bytes": 16323010560,
+      "host_memory_percent": 97.3,
+      "launcher_descendant_rss_sum_bytes": 290324480,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:03:00.843521+00:00",
+      "host_cpu_percent": 14.2,
+      "host_memory_used_bytes": 16316682240,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290324480,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:03:01.124675+00:00",
+      "host_cpu_percent": 15.0,
+      "host_memory_used_bytes": 16304369664,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290324480,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:03:01.418063+00:00",
+      "host_cpu_percent": 33.4,
+      "host_memory_used_bytes": 16298725376,
+      "host_memory_percent": 97.1,
+      "launcher_descendant_rss_sum_bytes": 290328576,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:03:01.677997+00:00",
+      "host_cpu_percent": 22.9,
+      "host_memory_used_bytes": 16296603648,
+      "host_memory_percent": 97.1,
+      "launcher_descendant_rss_sum_bytes": 290328576,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:03:01.957871+00:00",
+      "host_cpu_percent": 22.1,
+      "host_memory_used_bytes": 16290246656,
+      "host_memory_percent": 97.1,
+      "launcher_descendant_rss_sum_bytes": 290328576,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:03:02.236408+00:00",
+      "host_cpu_percent": 24.9,
+      "host_memory_used_bytes": 16288956416,
+      "host_memory_percent": 97.1,
+      "launcher_descendant_rss_sum_bytes": 290332672,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:03:02.526932+00:00",
+      "host_cpu_percent": 29.6,
+      "host_memory_used_bytes": 16304910336,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290332672,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:03:02.799191+00:00",
+      "host_cpu_percent": 10.5,
+      "host_memory_used_bytes": 16300400640,
+      "host_memory_percent": 97.1,
+      "launcher_descendant_rss_sum_bytes": 290312192,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:03:03.067550+00:00",
+      "host_cpu_percent": 21.6,
+      "host_memory_used_bytes": 16295415808,
+      "host_memory_percent": 97.1,
+      "launcher_descendant_rss_sum_bytes": 290316288,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:03:03.338898+00:00",
+      "host_cpu_percent": 18.8,
+      "host_memory_used_bytes": 16293998592,
+      "host_memory_percent": 97.1,
+      "launcher_descendant_rss_sum_bytes": 290316288,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:03:03.620092+00:00",
+      "host_cpu_percent": 19.6,
+      "host_memory_used_bytes": 16294244352,
+      "host_memory_percent": 97.1,
+      "launcher_descendant_rss_sum_bytes": 290316288,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:03:03.880843+00:00",
+      "host_cpu_percent": 14.7,
+      "host_memory_used_bytes": 16288083968,
+      "host_memory_percent": 97.1,
+      "launcher_descendant_rss_sum_bytes": 290320384,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:03:04.151445+00:00",
+      "host_cpu_percent": 17.6,
+      "host_memory_used_bytes": 16283439104,
+      "host_memory_percent": 97.0,
+      "launcher_descendant_rss_sum_bytes": 290324480,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:03:04.401669+00:00",
+      "host_cpu_percent": 16.5,
+      "host_memory_used_bytes": 16278691840,
+      "host_memory_percent": 97.0,
+      "launcher_descendant_rss_sum_bytes": 290320384,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:03:04.641439+00:00",
+      "host_cpu_percent": 31.0,
+      "host_memory_used_bytes": 16298164224,
+      "host_memory_percent": 97.1,
+      "launcher_descendant_rss_sum_bytes": 334196736,
+      "launcher_descendant_count": 16
+    },
+    {
+      "at": "2026-10-21T05:03:04.935499+00:00",
+      "host_cpu_percent": 30.6,
+      "host_memory_used_bytes": 16300240896,
+      "host_memory_percent": 97.1,
+      "launcher_descendant_rss_sum_bytes": 290320384,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:03:05.226465+00:00",
+      "host_cpu_percent": 19.2,
+      "host_memory_used_bytes": 16288387072,
+      "host_memory_percent": 97.1,
+      "launcher_descendant_rss_sum_bytes": 290324480,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:03:05.493041+00:00",
+      "host_cpu_percent": 20.1,
+      "host_memory_used_bytes": 16289046528,
+      "host_memory_percent": 97.1,
+      "launcher_descendant_rss_sum_bytes": 290324480,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:03:05.752444+00:00",
+      "host_cpu_percent": 37.6,
+      "host_memory_used_bytes": 16303521792,
+      "host_memory_percent": 97.1,
+      "launcher_descendant_rss_sum_bytes": 290324480,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:03:06.032192+00:00",
+      "host_cpu_percent": 24.9,
+      "host_memory_used_bytes": 16305631232,
+      "host_memory_percent": 97.2,
+      "launcher_descendant_rss_sum_bytes": 290328576,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:03:06.313869+00:00",
+      "host_cpu_percent": 18.4,
+      "host_memory_used_bytes": 16302321664,
+      "host_memory_percent": 97.1,
+      "launcher_descendant_rss_sum_bytes": 290328576,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:03:06.600134+00:00",
+      "host_cpu_percent": 19.7,
+      "host_memory_used_bytes": 16276402176,
+      "host_memory_percent": 97.0,
+      "launcher_descendant_rss_sum_bytes": 290328576,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:03:06.860328+00:00",
+      "host_cpu_percent": 30.4,
+      "host_memory_used_bytes": 16270360576,
+      "host_memory_percent": 97.0,
+      "launcher_descendant_rss_sum_bytes": 336211968,
+      "launcher_descendant_count": 16
+    },
+    {
+      "at": "2026-10-21T05:03:07.135237+00:00",
+      "host_cpu_percent": 32.2,
+      "host_memory_used_bytes": 16262971392,
+      "host_memory_percent": 96.9,
+      "launcher_descendant_rss_sum_bytes": 290332672,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:03:07.412787+00:00",
+      "host_cpu_percent": 20.6,
+      "host_memory_used_bytes": 16259690496,
+      "host_memory_percent": 96.9,
+      "launcher_descendant_rss_sum_bytes": 290332672,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:03:07.676552+00:00",
+      "host_cpu_percent": 23.8,
+      "host_memory_used_bytes": 16261640192,
+      "host_memory_percent": 96.9,
+      "launcher_descendant_rss_sum_bytes": 290336768,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:03:07.951330+00:00",
+      "host_cpu_percent": 35.1,
+      "host_memory_used_bytes": 16267907072,
+      "host_memory_percent": 96.9,
+      "launcher_descendant_rss_sum_bytes": 291393536,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:03:08.235003+00:00",
+      "host_cpu_percent": 27.5,
+      "host_memory_used_bytes": 16260759552,
+      "host_memory_percent": 96.9,
+      "launcher_descendant_rss_sum_bytes": 291913728,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:03:08.508607+00:00",
+      "host_cpu_percent": 26.9,
+      "host_memory_used_bytes": 16258293760,
+      "host_memory_percent": 96.9,
+      "launcher_descendant_rss_sum_bytes": 291905536,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:03:08.783089+00:00",
+      "host_cpu_percent": 21.0,
+      "host_memory_used_bytes": 16258674688,
+      "host_memory_percent": 96.9,
+      "launcher_descendant_rss_sum_bytes": 291979264,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:03:09.065622+00:00",
+      "host_cpu_percent": 42.0,
+      "host_memory_used_bytes": 16288681984,
+      "host_memory_percent": 97.1,
+      "launcher_descendant_rss_sum_bytes": 292012032,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:03:09.322320+00:00",
+      "host_cpu_percent": 41.1,
+      "host_memory_used_bytes": 16271896576,
+      "host_memory_percent": 97.0,
+      "launcher_descendant_rss_sum_bytes": 292020224,
+      "launcher_descendant_count": 12
+    },
+    {
+      "at": "2026-10-21T05:03:09.563595+00:00",
+      "host_cpu_percent": 35.0,
+      "host_memory_used_bytes": 16274350080,
+      "host_memory_percent": 97.0,
+      "launcher_descendant_rss_sum_bytes": 292020224,
+      "launcher_descendant_count": 12
+    }
+  ],
+  "scope_limits": {
+    "database_outage_manual_restore": "UNVERIFIED",
+    "real_browser_recovery": "UNVERIFIED",
+    "wsl_cold_start": "SEPARATE_EVIDENCE_REQUIRED",
+    "research_quality": "UNVERIFIED"
+  },
+  "product_release": "No-Go",
+  "phase_status": "P01_INCOMPLETE",
+  "actual_external_provider_calls": 0,
+  "actual_external_provider_cost_cny": "0",
+  "cost_note": "Synthetic local waits only; unpriced application ledger entries stay null.",
+  "source_sha256": {
+    "scripts/start-p01.ps1": "53dfe25fa65360a2c4f7673cc1bd51c2302419d156e41af251420b23fc8240f1",
+    "scripts/measure_p01.py": "94e4cc1f77dcdf1f7ccadb30e06c4bb7b3193aeaaee75efb3903c68b92a52ae2",
+    "backend/tests/p01_fake_worker.py": "1fb28de1cc32bd589e99cd11225c70319718ebd5cada866bd3feb84a9ff10160",
+    "backend/uv.lock": "3c14b9629f83f801cf61d2c1b969bb9f80c91fe99d1206e9739936741d0677bb",
+    "backend/src/adaptive_research/__init__.py": "63a5a88454500439fd3e24ccd2c9bcdca3d7d28b24ded6cf6073e0d7794aa410",
+    "backend/src/adaptive_research/agent/__init__.py": "cb8df164d72f52eac66c63a5755fc726ab61eb6bedd579d9b7b44fc0ea76f818",
+    "backend/src/adaptive_research/agent/adapters/__init__.py": "4a5c237e693954f06c2c713fdda189aef71286354c4cc57c4e3432167e969684",
+    "backend/src/adaptive_research/agent/adapters/browser_use_adapter.py": "450c337f698fb343ae1497e77d94e51435fd0ce88a33862e5e933f4672300d4a",
+    "backend/src/adaptive_research/agent/agent_loop.py": "d2ae10c7c3ec6707258ade7858ae11e1ac85aca028ae8f00e2e01d3c70df334e",
+    "backend/src/adaptive_research/agent/call_observer.py": "7e6f516aea02035b4cd538ed86d6492656c8e8b03b81d2e89c69af31b4d36112",
+    "backend/src/adaptive_research/agent/context_manager.py": "593fe25df5090487b63a77a7aac92058e2966476360736918f3e75d70944ee77",
+    "backend/src/adaptive_research/agent/evaluator.py": "a2f0f312bfa546cc29df9bccde7eb4497d0bf15ef064467b91375ecacd5c8708",
+    "backend/src/adaptive_research/agent/events.py": "71114699aa391b975521ee5ff37198c97124e2a40ecedf4457d12dd72c272ecf",
+    "backend/src/adaptive_research/agent/goal_count.py": "b8e60f57824ef0ceeee3b2a3b5051b79d914cca028144988a7c7a8535068a1a2",
+    "backend/src/adaptive_research/agent/llm/__init__.py": "199533c5b303cf0cc124ca91a4be2fa93bf2b085aae2c08f1711a74b2ebf67af",
+    "backend/src/adaptive_research/agent/llm/base.py": "3d100a284b7e293d0df6b961006488af1983da42dce228b9fbdfebe6bf8268c6",
+    "backend/src/adaptive_research/agent/llm/deepseek.py": "d3326bfe20827029162ecd705fe206683c8cbfc8b51c78ba9a145cab3692262f",
+    "backend/src/adaptive_research/agent/normalization.py": "3bf5e3a299e89c56bcaf80920a804190a05a12c36e7d73b79036ac4c068b775a",
+    "backend/src/adaptive_research/agent/planner.py": "fc3b1f8a4c248076dfb4470768bc8bace866ab4c1202fc5b64691a32ac8cba7c",
+    "backend/src/adaptive_research/agent/prompts/__init__.py": "8e46e088abdba33a3ecd7ae595826d7629f4a36b88eb395747a8725f7eaa7956",
+    "backend/src/adaptive_research/agent/prompts/evaluator.py": "a7031e71840e92b5a4150a408123f1d9a62ae740bf0340a9c2f0eff927f4cfdc",
+    "backend/src/adaptive_research/agent/prompts/planner.py": "05f1c0fef99dba03c1299e3539ac99cb6be7547a1ed741067ce947387aa220af",
+    "backend/src/adaptive_research/agent/prompts/reporter.py": "b3439dcad0b7da15f0a689a6527496959c01ccab70a1ebf28cf2a1cf210ff5d5",
+    "backend/src/adaptive_research/agent/reporter.py": "ef24245284c1f8861a0568bed40c2a551f60a9664107676e10f794f1077d5386",
+    "backend/src/adaptive_research/agent/runtime/__init__.py": "bb8d466a0963c95037dccbb7889332929fd9281b627cdaa02cf225970d38d219",
+    "backend/src/adaptive_research/agent/runtime/task_manager.py": "ce453a92ae70e2972bb23d033105460bfe5f6186db3c69bf135545c2ec174e39",
+    "backend/src/adaptive_research/agent/state.py": "30dbafd170614bd13a75e3b63aef719b27d5dd87b2a7b31626e859f0c294d186",
+    "backend/src/adaptive_research/agent/state_reducer.py": "7afb369b993526e86488eb575932878f84dfa41381b35a4ca8965c483abad4f6",
+    "backend/src/adaptive_research/agent/tools/__init__.py": "98a7791ae6f6ee93ddd6216e780918bf7b4932c404d307e16a20d34990345d64",
+    "backend/src/adaptive_research/agent/tools/github_tool.py": "d636d11a7c7003fa07ce7b19fd37e47fb365e3c738c0f9f2c2bbe9ae5162f8af",
+    "backend/src/adaptive_research/agent/tools/router.py": "9d921c45ed0cc98c22660882049ba393297a4a3fe80b813ff313a75d95f5401b",
+    "backend/src/adaptive_research/api/__init__.py": "5323279183dcabc63413303be1dc76b4cb2d7dcc736a54c92cc8b4452e3e2ae9",
+    "backend/src/adaptive_research/api/main.py": "4b73488dbe07d4552195a3292e5b7c39fa24ba94a924151b64863d287eae739d",
+    "backend/src/adaptive_research/api/pg_main.py": "c8cb60711129f753ec143870e89a43133ca31297578bbd55d5badbd9da94570c",
+    "backend/src/adaptive_research/api/pg_research.py": "5c4ec645e70527a0f6c0bc3bf8d1bc27c58d0f482e5f259cfa88fc6235cc55bc",
+    "backend/src/adaptive_research/api/research.py": "a080c043b6c599db9d42072d59b1330a4e80fec4096fd003eecd8e991c5eeb78",
+    "backend/src/adaptive_research/api/schemas/__init__.py": "8f40f1a171933525b18f19d754cf6a04af425104d2ba1199ebc0d2ea873a7907",
+    "backend/src/adaptive_research/api/schemas/research.py": "4a2ee64eea9c43074aeb05c0f3d501c17cfa83a8dea6aa6708c04fd90c2aaf8e",
+    "backend/src/adaptive_research/application/__init__.py": "a6db547f9921fe126b3ec4be290ad0a00c3ab5bbd00b1c55a60475ca2275f37e",
+    "backend/src/adaptive_research/application/agent_factory.py": "d327c3e85bb653ad28423f0fffd569a837b3ed8de64035adae01c360d9056ac9",
+    "backend/src/adaptive_research/application/research.py": "5214c46db1519cbbfffb734fc1a7824cfc00850a44d8ef1e6dceb2f81c7d9d4c",
+    "backend/src/adaptive_research/evaluation/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "backend/src/adaptive_research/evaluation/legacy_v1/__init__.py": "0cbdefd7bdff74302d953247b4d110e2a36f8377562e391c6ae5d309578a8ca5",
+    "backend/src/adaptive_research/evaluation/legacy_v1/adaptive.py": "3c7576c729c9d506fd530a7348c9c235dddbb9432904ce4f8455ac0ab0b81648",
+    "backend/src/adaptive_research/evaluation/legacy_v1/baseline.py": "555e3572330f16659b26526901ef69561898fddbb4913c6b31cfb995acad25c5",
+    "backend/src/adaptive_research/evaluation/legacy_v1/cases/__init__.py": "39ab0f10d83d69ab2adc307bffbccec9b8e89191681b6f435ac7403da6f7095a",
+    "backend/src/adaptive_research/evaluation/legacy_v1/manual_browser_use_smoke.py": "acbb00cc33be244fc39c1a1ea6d6d3d5ef96bf4745fe9dc305a8eb37394c44f9",
+    "backend/src/adaptive_research/evaluation/legacy_v1/metrics.py": "b25f20d33b44728c2d13a86429eac3f31607beaa5d633be605d98ee5f8be8003",
+    "backend/src/adaptive_research/evaluation/legacy_v1/runner.py": "fdff658d177caf2d6097910243da87000b1924aa19b68ebb155c21d1dfeb2854",
+    "backend/src/adaptive_research/infrastructure/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "backend/src/adaptive_research/infrastructure/config.py": "616a60a75941aba16736ac7946407c950d6270d17df719c190934e931bf2c5fc",
+    "backend/src/adaptive_research/infrastructure/db/__init__.py": "123a65216ddcd08ff3ea9bdef307fbe5ffc003b09e499713afe558672b1cbadc",
+    "backend/src/adaptive_research/infrastructure/db/base.py": "e8f0f3311a1c8143921826f070e38ea4784a3beeb37fb6279fd80db5939a0db0",
+    "backend/src/adaptive_research/infrastructure/db/models.py": "3bdbe4675888a3d1b57b481aad17ad0930f82fb477f931f0b301e8d6da643188",
+    "backend/src/adaptive_research/infrastructure/db/session.py": "b4ce90ec8d969a94b1c33a6702aca193784fc96becf7735ca98ba2ae948a16b6",
+    "backend/src/adaptive_research/infrastructure/persistence.py": "3d51743ddc499486b02c89313d4b6ef335fcb4b4f1d6559c3c62abcbf73eee1a",
+    "backend/src/adaptive_research/infrastructure/pg_models.py": "3e8f8b2dc8e762ae7165d8131ade4e7f681cfa8501b5435afc21033f613b761e",
+    "backend/src/adaptive_research/infrastructure/pg_store.py": "8e44abcccfb32f250bb6222c46efd81d0e9fc6ed4e53aa5d5fe9747cd4bdec54",
+    "backend/src/adaptive_research/worker/__init__.py": "5b72f5e455fb70cd3fc1dec5caa8cc9d7bd3d0cf2a66063cb5439d45f352c2f6",
+    "backend/src/adaptive_research/worker/runner.py": "9c0ca297a886ea92eb56727bc8078e477f3e0d53f254151cedc08d1728ae47c2",
+    "backend/migrations/env.py": "7062b414ca5390288aea7f8ee75bcb3133d29ff1c42cda45ff27984bd784a68c",
+    "backend/migrations/versions/20261020_01_p01_ledger.py": "1171dce3cdf4f6723cf63c2ed4ee24055c46fc9eec041600c00f463ab5398e87"
+  },
+  "database_clock": {
+    "sampled_at": "2026-10-21T05:01:54.397983+00:00",
+    "database_minus_client_seconds": 0.23658084869384766,
+    "uncertainty_seconds": 0.0009990930557250977
+  },
+  "environment": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.13 (main, Jun 23 2026, 15:23:43) [MSC v.1944 64 bit (AMD64)]",
+    "logical_cpu_count": 20,
+    "physical_cpu_count": 14,
+    "physical_memory_bytes": 16782102528,
+    "postgresql": "PostgreSQL 16.15 (Ubuntu 16.15-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit",
+    "psutil": "7.2.2",
+    "lease_seconds": 30,
+    "heartbeat_seconds": 5
+  },
+  "git_head": "dbacdc02fb119f70bc65a14608ab1bede75c0622",
+  "working_tree_status": [
+    " M .env.example",
+    " M .github/workflows/ci.yml",
+    " M AGENTS.md",
+    " M README.md",
+    " D adaptive_agent/__init__.py",
+    " D adaptive_agent/adapters/__init__.py",
+    " D adaptive_agent/adapters/browser_use_adapter.py",
+    " D adaptive_agent/agent_loop.py",
+    " D adaptive_agent/context_manager.py",
+    " D adaptive_agent/evaluator.py",
+    " D adaptive_agent/events.py",
+    " D adaptive_agent/goal_count.py",
+    " D adaptive_agent/llm/__init__.py",
+    " D adaptive_agent/llm/base.py",
+    " D adaptive_agent/llm/deepseek.py",
+    " D adaptive_agent/normalization.py",
+    " D adaptive_agent/planner.py",
+    " D adaptive_agent/prompts/__init__.py",
+    " D adaptive_agent/prompts/evaluator.py",
+    " D adaptive_agent/prompts/planner.py",
+    " D adaptive_agent/prompts/reporter.py",
+    " D adaptive_agent/reporter.py",
+    " D adaptive_agent/runtime/__init__.py",
+    " D adaptive_agent/runtime/task_manager.py",
+    " D adaptive_agent/state.py",
+    " D adaptive_agent/state_reducer.py",
+    " D adaptive_agent/tools/__init__.py",
+    " D adaptive_agent/tools/github_tool.py",
+    " D adaptive_agent/tools/router.py",
+    " D backend/__init__.py",
+    " D backend/api/__init__.py",
+    " D backend/api/research.py",
+    " D backend/config.py",
+    " D backend/db/__init__.py",
+    " D backend/db/base.py",
+    " D backend/db/models.py",
+    " D backend/db/session.py",
+    " D backend/main.py",
+    " D backend/schemas/__init__.py",
+    " D backend/schemas/research.py",
+    " D backend/services/__init__.py",
+    " D backend/services/persistence.py",
+    " D backend/services/research.py",
+    " D benchmark/__init__.py",
+    " D benchmark/adaptive.py",
+    " D benchmark/baseline.py",
+    " D benchmark/cases/__init__.py",
+    " D benchmark/manual_browser_use_smoke.py",
+    " D benchmark/metrics.py",
+    " D benchmark/runner.py",
+    " D docs/audits/CURRENT_CHANGESET_ACCEPTANCE.md",
+    " D docs/audits/D2_ACCEPTANCE_2026-10-10.md",
+    " D docs/audits/D3_ACCEPTANCE_2026-10-10.md",
+    " D docs/audits/D4_ACCEPTANCE_2026-10-11.md",
+    " D docs/audits/D5_ACCEPTANCE_2026-10-12.md",
+    " D docs/audits/D6_ACCEPTANCE_2026-10-12.md",
+    " D docs/audits/V1_DELIVERY_REPORT.md",
+    " D docs/audits/V1_PREDEV_FINAL_REVIEW.md",
+    " D docs/audits/V1_READINESS_AUDIT.md",
+    " D docs/audits/V1_SOURCE_CHECKS.json",
+    " D docs/audits/V1_SOURCE_CHECKS_r10.json",
+    " D docs/audits/V1_SOURCE_CHECKS_r11.json",
+    " D docs/audits/V1_UI_ACCEPTANCE.json",
+    " M docs/contracts/V1_CONTRACTS.md",
+    " M docs/specs/V1_SPEC.md",
+    " M docs/testing/V1_TEST_MATRIX.md",
+    " M frontend/src/App.test.ts",
+    " M frontend/src/App.vue",
+    " M frontend/src/api.ts",
+    " D pyproject.toml",
+    " D tests/__init__.py",
+    " D tests/d6_demo_server.py",
+    " D tests/integration/__init__.py",
+    " D tests/integration/test_agent_loop.py",
+    " D tests/integration/test_d2_component_flow.py",
+    " D tests/integration/test_d3_component_flow.py",
+    " D tests/integration/test_database.py",
+    " D tests/integration/test_persistence.py",
+    " D tests/integration/test_research_api.py",
+    " D tests/integration/test_sse.py",
+    " D tests/smoke/__init__.py",
+    " D tests/smoke/d4_agent_domain.py",
+    " D tests/smoke/test_app.py",
+    " D tests/smoke/test_browser_use_adapter.py",
+    " D tests/unit/__init__.py",
+    " D tests/unit/test_benchmark.py",
+    " D tests/unit/test_browser_use_adapter.py",
+    " D tests/unit/test_config.py",
+    " D tests/unit/test_context_manager.py",
+    " D tests/unit/test_deepseek.py",
+    " D tests/unit/test_evaluator.py",
+    " D tests/unit/test_github_tool.py",
+    " D tests/unit/test_goal_count.py",
+    " D tests/unit/test_loop_usage.py",
+    " D tests/unit/test_planner.py",
+    " D tests/unit/test_reporter.py",
+    " D tests/unit/test_state.py",
+    " D tests/unit/test_state_reducer.py",
+    " D tests/unit/test_task_manager.py",
+    " D tests/unit/test_tool_router.py",
+    " D uv.lock",
+    "?? .agents/",
+    "?? .github/ISSUE_TEMPLATE/",
+    "?? .github/PULL_REQUEST_TEMPLATE.md",
+    "?? GLOSSARY.md",
+    "?? PLANS.md",
+    "?? SPEC.md",
+    "?? backend/README.md",
+    "?? backend/migrations/",
+    "?? backend/pyproject.toml",
+    "?? backend/src/",
+    "?? backend/tests/",
+    "?? backend/uv.lock",
+    "?? docs/README.md",
+    "?? docs/architecture/",
+    "?? docs/archive/",
+    "?? docs/audits/PREDEV_0_5_VERIFICATION_2026-10-19.md",
+    "?? docs/audits/PREDEV_BASELINE_2026-10-18.md",
+    "?? docs/audits/PREDEV_CURRENT_CONFIG_2026-10-19.md",
+    "?? docs/audits/PREDEV_DELIVERY_CHECKLIST_2026-10-20.md",
+    "?? docs/audits/PREDEV_ENV_SETUP_2026-10-20.md",
+    "?? docs/audits/PREDEV_FINAL_DESIGN_REVIEW_2026-10-19.md",
+    "?? docs/audits/PREDEV_R12_SYMPTOM_INVENTORY_2026-10-20.md",
+    "?? docs/audits/PREDEV_SEVEN_CORE_FINALIZATION_2026-10-20.md",
+    "?? docs/audits/PREDEV_VERIFICATION_2026-10-18.md",
+    "?? docs/contracts/0.5_TARGET_CONTRACTS.md",
+    "?? docs/contracts/CURRENT_CONTRACTS.md",
+    "?? docs/design/",
+    "?? docs/evaluation/",
+    "?? docs/research/",
+    "?? docs/tasks/PREDEV_P01_START_PACKAGE_2026-10-20.md",
+    "?? docs/tasks/PREDEV_P02_P04_TASK_PACKAGE_2026-10-20.md",
+    "?? docs/tasks/R0_ACCEPTANCE_2026-10-20.md",
+    "?? docs/tasks/README.md",
+    "?? scripts/"
+  ],
+  "launcher_startup_seconds": 12.12,
+  "task_timelines": [
+    {
+      "task": {
+        "id": "feae16a3-4690-44e1-9025-4815491e2116",
+        "owner_id": "p01-local-owner",
+        "goal": "p01-fake:replacement",
+        "status": "failed",
+        "cancellation_requested": false,
+        "fencing_token": 1,
+        "recovery_count": 0,
+        "lease_owner": null,
+        "lease_expires_at": null,
+        "completion_level": "none",
+        "stop_reason": "insufficient_info",
+        "error_message": null,
+        "report": null,
+        "created_at": "2026-10-21T05:02:03.603820+00:00",
+        "updated_at": "2026-10-21T05:03:09.160288+00:00"
+      },
+      "events": [
+        {
+          "id": 14,
+          "task_id": "feae16a3-4690-44e1-9025-4815491e2116",
+          "event_type": "task_queued",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "status": "queued"
+          },
+          "created_at": "2026-10-21T05:02:03.603820+00:00"
+        },
+        {
+          "id": 36,
+          "task_id": "feae16a3-4690-44e1-9025-4815491e2116",
+          "event_type": "task_started",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "status": "running",
+            "recovery_count": 0
+          },
+          "created_at": "2026-10-21T05:03:09.109705+00:00"
+        },
+        {
+          "id": 37,
+          "task_id": "feae16a3-4690-44e1-9025-4815491e2116",
+          "event_type": "task_finished",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "report": null,
+            "status": "failed",
+            "stop_reason": "insufficient_info",
+            "completion_level": "none"
+          },
+          "created_at": "2026-10-21T05:03:09.156101+00:00"
+        }
+      ],
+      "calls": [
+        {
+          "id": "ef19558b-8339-43d6-94c7-6f95a3008082",
+          "task_id": "feae16a3-4690-44e1-9025-4815491e2116",
+          "fencing_token": 1,
+          "phase": "controlled_fake.wait",
+          "kind": "tool",
+          "status": "completed",
+          "reported_prompt_tokens": null,
+          "reported_completion_tokens": null,
+          "known_cost_cny": null,
+          "failure_type": null,
+          "started_at": "2026-10-21T05:03:09.125675+00:00",
+          "ended_at": "2026-10-21T05:03:09.138305+00:00"
+        }
+      ],
+      "cost": {
+        "task_id": "feae16a3-4690-44e1-9025-4815491e2116",
+        "known_cost_cny": "0E-8",
+        "unknown_attempt_count": 1,
+        "updated_at": "2026-10-21T05:03:09.138305+00:00"
+      }
+    },
+    {
+      "task": {
+        "id": "d6fdc601-cde3-42dc-8e5b-cb4d8426c706",
+        "owner_id": "p01-local-owner",
+        "goal": "p01-fake:9",
+        "status": "cancelled",
+        "cancellation_requested": true,
+        "fencing_token": 0,
+        "recovery_count": 0,
+        "lease_owner": null,
+        "lease_expires_at": null,
+        "completion_level": "none",
+        "stop_reason": "user_cancelled",
+        "error_message": null,
+        "report": null,
+        "created_at": "2026-10-21T05:02:02.698314+00:00",
+        "updated_at": "2026-10-21T05:02:03.588259+00:00"
+      },
+      "events": [
+        {
+          "id": 12,
+          "task_id": "d6fdc601-cde3-42dc-8e5b-cb4d8426c706",
+          "event_type": "task_queued",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "status": "queued"
+          },
+          "created_at": "2026-10-21T05:02:02.698314+00:00"
+        },
+        {
+          "id": 13,
+          "task_id": "d6fdc601-cde3-42dc-8e5b-cb4d8426c706",
+          "event_type": "task_finished",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "status": "cancelled"
+          },
+          "created_at": "2026-10-21T05:02:03.579362+00:00"
+        }
+      ],
+      "calls": [],
+      "cost": {
+        "task_id": "d6fdc601-cde3-42dc-8e5b-cb4d8426c706",
+        "known_cost_cny": "0E-8",
+        "unknown_attempt_count": 0,
+        "updated_at": "2026-10-21T05:02:02.698314+00:00"
+      }
+    },
+    {
+      "task": {
+        "id": "b798e1a9-0240-4c7a-8960-0d1ad81653a0",
+        "owner_id": "p01-local-owner",
+        "goal": "p01-fake:8",
+        "status": "failed",
+        "cancellation_requested": false,
+        "fencing_token": 1,
+        "recovery_count": 0,
+        "lease_owner": null,
+        "lease_expires_at": null,
+        "completion_level": "none",
+        "stop_reason": "insufficient_info",
+        "error_message": null,
+        "report": null,
+        "created_at": "2026-10-21T05:02:02.680529+00:00",
+        "updated_at": "2026-10-21T05:03:08.891529+00:00"
+      },
+      "events": [
+        {
+          "id": 11,
+          "task_id": "b798e1a9-0240-4c7a-8960-0d1ad81653a0",
+          "event_type": "task_queued",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "status": "queued"
+          },
+          "created_at": "2026-10-21T05:02:02.680529+00:00"
+        },
+        {
+          "id": 33,
+          "task_id": "b798e1a9-0240-4c7a-8960-0d1ad81653a0",
+          "event_type": "task_started",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "status": "running",
+            "recovery_count": 0
+          },
+          "created_at": "2026-10-21T05:03:08.824846+00:00"
+        },
+        {
+          "id": 35,
+          "task_id": "b798e1a9-0240-4c7a-8960-0d1ad81653a0",
+          "event_type": "task_finished",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "report": null,
+            "status": "failed",
+            "stop_reason": "insufficient_info",
+            "completion_level": "none"
+          },
+          "created_at": "2026-10-21T05:03:08.888022+00:00"
+        }
+      ],
+      "calls": [
+        {
+          "id": "08b9d51e-d9c8-424a-84c2-aa97c6a88250",
+          "task_id": "b798e1a9-0240-4c7a-8960-0d1ad81653a0",
+          "fencing_token": 1,
+          "phase": "controlled_fake.wait",
+          "kind": "tool",
+          "status": "completed",
+          "reported_prompt_tokens": null,
+          "reported_completion_tokens": null,
+          "known_cost_cny": null,
+          "failure_type": null,
+          "started_at": "2026-10-21T05:03:08.849202+00:00",
+          "ended_at": "2026-10-21T05:03:08.867021+00:00"
+        }
+      ],
+      "cost": {
+        "task_id": "b798e1a9-0240-4c7a-8960-0d1ad81653a0",
+        "known_cost_cny": "0E-8",
+        "unknown_attempt_count": 1,
+        "updated_at": "2026-10-21T05:03:08.867021+00:00"
+      }
+    },
+    {
+      "task": {
+        "id": "bfa41781-05a1-4596-b3b1-46d491cb46c9",
+        "owner_id": "p01-local-owner",
+        "goal": "p01-fake:7",
+        "status": "failed",
+        "cancellation_requested": false,
+        "fencing_token": 1,
+        "recovery_count": 0,
+        "lease_owner": null,
+        "lease_expires_at": null,
+        "completion_level": "none",
+        "stop_reason": "insufficient_info",
+        "error_message": null,
+        "report": null,
+        "created_at": "2026-10-21T05:02:02.648063+00:00",
+        "updated_at": "2026-10-21T05:03:08.879403+00:00"
+      },
+      "events": [
+        {
+          "id": 10,
+          "task_id": "bfa41781-05a1-4596-b3b1-46d491cb46c9",
+          "event_type": "task_queued",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "status": "queued"
+          },
+          "created_at": "2026-10-21T05:02:02.648063+00:00"
+        },
+        {
+          "id": 32,
+          "task_id": "bfa41781-05a1-4596-b3b1-46d491cb46c9",
+          "event_type": "task_started",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "status": "running",
+            "recovery_count": 0
+          },
+          "created_at": "2026-10-21T05:03:08.792483+00:00"
+        },
+        {
+          "id": 34,
+          "task_id": "bfa41781-05a1-4596-b3b1-46d491cb46c9",
+          "event_type": "task_finished",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "report": null,
+            "status": "failed",
+            "stop_reason": "insufficient_info",
+            "completion_level": "none"
+          },
+          "created_at": "2026-10-21T05:03:08.874613+00:00"
+        }
+      ],
+      "calls": [
+        {
+          "id": "4de2753e-8f89-44cc-9906-ccc66eed44f9",
+          "task_id": "bfa41781-05a1-4596-b3b1-46d491cb46c9",
+          "fencing_token": 1,
+          "phase": "controlled_fake.wait",
+          "kind": "tool",
+          "status": "completed",
+          "reported_prompt_tokens": null,
+          "reported_completion_tokens": null,
+          "known_cost_cny": null,
+          "failure_type": null,
+          "started_at": "2026-10-21T05:03:08.825683+00:00",
+          "ended_at": "2026-10-21T05:03:08.850395+00:00"
+        }
+      ],
+      "cost": {
+        "task_id": "bfa41781-05a1-4596-b3b1-46d491cb46c9",
+        "known_cost_cny": "0E-8",
+        "unknown_attempt_count": 1,
+        "updated_at": "2026-10-21T05:03:08.850395+00:00"
+      }
+    },
+    {
+      "task": {
+        "id": "be96e409-c9ce-4ca3-be95-1d48325a1f7d",
+        "owner_id": "p01-local-owner",
+        "goal": "p01-fake:6",
+        "status": "failed",
+        "cancellation_requested": false,
+        "fencing_token": 1,
+        "recovery_count": 0,
+        "lease_owner": null,
+        "lease_expires_at": null,
+        "completion_level": "none",
+        "stop_reason": "insufficient_info",
+        "error_message": null,
+        "report": null,
+        "created_at": "2026-10-21T05:02:02.628198+00:00",
+        "updated_at": "2026-10-21T05:03:08.533706+00:00"
+      },
+      "events": [
+        {
+          "id": 9,
+          "task_id": "be96e409-c9ce-4ca3-be95-1d48325a1f7d",
+          "event_type": "task_queued",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "status": "queued"
+          },
+          "created_at": "2026-10-21T05:02:02.628198+00:00"
+        },
+        {
+          "id": 29,
+          "task_id": "be96e409-c9ce-4ca3-be95-1d48325a1f7d",
+          "event_type": "task_started",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "status": "running",
+            "recovery_count": 0
+          },
+          "created_at": "2026-10-21T05:03:08.480533+00:00"
+        },
+        {
+          "id": 31,
+          "task_id": "be96e409-c9ce-4ca3-be95-1d48325a1f7d",
+          "event_type": "task_finished",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "report": null,
+            "status": "failed",
+            "stop_reason": "insufficient_info",
+            "completion_level": "none"
+          },
+          "created_at": "2026-10-21T05:03:08.531222+00:00"
+        }
+      ],
+      "calls": [
+        {
+          "id": "7aec8e0d-6a60-4769-acf1-762175fc8bb2",
+          "task_id": "be96e409-c9ce-4ca3-be95-1d48325a1f7d",
+          "fencing_token": 1,
+          "phase": "controlled_fake.wait",
+          "kind": "tool",
+          "status": "completed",
+          "reported_prompt_tokens": null,
+          "reported_completion_tokens": null,
+          "known_cost_cny": null,
+          "failure_type": null,
+          "started_at": "2026-10-21T05:03:08.498931+00:00",
+          "ended_at": "2026-10-21T05:03:08.512209+00:00"
+        }
+      ],
+      "cost": {
+        "task_id": "be96e409-c9ce-4ca3-be95-1d48325a1f7d",
+        "known_cost_cny": "0E-8",
+        "unknown_attempt_count": 1,
+        "updated_at": "2026-10-21T05:03:08.512209+00:00"
+      }
+    },
+    {
+      "task": {
+        "id": "ed0b28cf-778c-4468-aa6c-3547ba573dd6",
+        "owner_id": "p01-local-owner",
+        "goal": "p01-fake:5",
+        "status": "failed",
+        "cancellation_requested": false,
+        "fencing_token": 1,
+        "recovery_count": 0,
+        "lease_owner": null,
+        "lease_expires_at": null,
+        "completion_level": "none",
+        "stop_reason": "insufficient_info",
+        "error_message": null,
+        "report": null,
+        "created_at": "2026-10-21T05:02:02.609805+00:00",
+        "updated_at": "2026-10-21T05:03:08.519915+00:00"
+      },
+      "events": [
+        {
+          "id": 8,
+          "task_id": "ed0b28cf-778c-4468-aa6c-3547ba573dd6",
+          "event_type": "task_queued",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "status": "queued"
+          },
+          "created_at": "2026-10-21T05:02:02.609805+00:00"
+        },
+        {
+          "id": 28,
+          "task_id": "ed0b28cf-778c-4468-aa6c-3547ba573dd6",
+          "event_type": "task_started",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "status": "running",
+            "recovery_count": 0
+          },
+          "created_at": "2026-10-21T05:03:08.465558+00:00"
+        },
+        {
+          "id": 30,
+          "task_id": "ed0b28cf-778c-4468-aa6c-3547ba573dd6",
+          "event_type": "task_finished",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "report": null,
+            "status": "failed",
+            "stop_reason": "insufficient_info",
+            "completion_level": "none"
+          },
+          "created_at": "2026-10-21T05:03:08.515209+00:00"
+        }
+      ],
+      "calls": [
+        {
+          "id": "b27a24ae-b223-4f36-b459-d7666b4bf827",
+          "task_id": "ed0b28cf-778c-4468-aa6c-3547ba573dd6",
+          "fencing_token": 1,
+          "phase": "controlled_fake.wait",
+          "kind": "tool",
+          "status": "completed",
+          "reported_prompt_tokens": null,
+          "reported_completion_tokens": null,
+          "known_cost_cny": null,
+          "failure_type": null,
+          "started_at": "2026-10-21T05:03:08.480273+00:00",
+          "ended_at": "2026-10-21T05:03:08.494778+00:00"
+        }
+      ],
+      "cost": {
+        "task_id": "ed0b28cf-778c-4468-aa6c-3547ba573dd6",
+        "known_cost_cny": "0E-8",
+        "unknown_attempt_count": 1,
+        "updated_at": "2026-10-21T05:03:08.494778+00:00"
+      }
+    },
+    {
+      "task": {
+        "id": "e5e3b5f4-d703-437f-abef-2f3e27a7c514",
+        "owner_id": "p01-local-owner",
+        "goal": "p01-fake:4",
+        "status": "failed",
+        "cancellation_requested": false,
+        "fencing_token": 1,
+        "recovery_count": 0,
+        "lease_owner": null,
+        "lease_expires_at": null,
+        "completion_level": "none",
+        "stop_reason": "insufficient_info",
+        "error_message": null,
+        "report": null,
+        "created_at": "2026-10-21T05:02:02.584434+00:00",
+        "updated_at": "2026-10-21T05:03:08.192355+00:00"
+      },
+      "events": [
+        {
+          "id": 7,
+          "task_id": "e5e3b5f4-d703-437f-abef-2f3e27a7c514",
+          "event_type": "task_queued",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "status": "queued"
+          },
+          "created_at": "2026-10-21T05:02:02.584434+00:00"
+        },
+        {
+          "id": 25,
+          "task_id": "e5e3b5f4-d703-437f-abef-2f3e27a7c514",
+          "event_type": "task_started",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "status": "running",
+            "recovery_count": 0
+          },
+          "created_at": "2026-10-21T05:03:07.897172+00:00"
+        },
+        {
+          "id": 26,
+          "task_id": "e5e3b5f4-d703-437f-abef-2f3e27a7c514",
+          "event_type": "task_finished",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "report": null,
+            "status": "failed",
+            "stop_reason": "insufficient_info",
+            "completion_level": "none"
+          },
+          "created_at": "2026-10-21T05:03:08.188434+00:00"
+        }
+      ],
+      "calls": [
+        {
+          "id": "c0cb65b2-dd7d-4b93-adc2-036784c51f8c",
+          "task_id": "e5e3b5f4-d703-437f-abef-2f3e27a7c514",
+          "fencing_token": 1,
+          "phase": "controlled_fake.wait",
+          "kind": "tool",
+          "status": "completed",
+          "reported_prompt_tokens": null,
+          "reported_completion_tokens": null,
+          "known_cost_cny": null,
+          "failure_type": null,
+          "started_at": "2026-10-21T05:03:07.921323+00:00",
+          "ended_at": "2026-10-21T05:03:08.150479+00:00"
+        }
+      ],
+      "cost": {
+        "task_id": "e5e3b5f4-d703-437f-abef-2f3e27a7c514",
+        "known_cost_cny": "0E-8",
+        "unknown_attempt_count": 1,
+        "updated_at": "2026-10-21T05:03:08.150479+00:00"
+      }
+    },
+    {
+      "task": {
+        "id": "c298b7b2-0282-4139-8091-79f8dcc99f81",
+        "owner_id": "p01-local-owner",
+        "goal": "p01-fake:3",
+        "status": "failed",
+        "cancellation_requested": false,
+        "fencing_token": 1,
+        "recovery_count": 0,
+        "lease_owner": null,
+        "lease_expires_at": null,
+        "completion_level": "none",
+        "stop_reason": "insufficient_info",
+        "error_message": null,
+        "report": null,
+        "created_at": "2026-10-21T05:02:02.564073+00:00",
+        "updated_at": "2026-10-21T05:03:08.205187+00:00"
+      },
+      "events": [
+        {
+          "id": 6,
+          "task_id": "c298b7b2-0282-4139-8091-79f8dcc99f81",
+          "event_type": "task_queued",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "status": "queued"
+          },
+          "created_at": "2026-10-21T05:02:02.564073+00:00"
+        },
+        {
+          "id": 24,
+          "task_id": "c298b7b2-0282-4139-8091-79f8dcc99f81",
+          "event_type": "task_started",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "status": "running",
+            "recovery_count": 0
+          },
+          "created_at": "2026-10-21T05:03:07.870260+00:00"
+        },
+        {
+          "id": 27,
+          "task_id": "c298b7b2-0282-4139-8091-79f8dcc99f81",
+          "event_type": "task_finished",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "report": null,
+            "status": "failed",
+            "stop_reason": "insufficient_info",
+            "completion_level": "none"
+          },
+          "created_at": "2026-10-21T05:03:08.191025+00:00"
+        }
+      ],
+      "calls": [
+        {
+          "id": "48ca50c1-392f-4706-98c2-43a2fa1fcc9c",
+          "task_id": "c298b7b2-0282-4139-8091-79f8dcc99f81",
+          "fencing_token": 1,
+          "phase": "controlled_fake.wait",
+          "kind": "tool",
+          "status": "completed",
+          "reported_prompt_tokens": null,
+          "reported_completion_tokens": null,
+          "known_cost_cny": null,
+          "failure_type": null,
+          "started_at": "2026-10-21T05:03:07.913484+00:00",
+          "ended_at": "2026-10-21T05:03:08.151516+00:00"
+        }
+      ],
+      "cost": {
+        "task_id": "c298b7b2-0282-4139-8091-79f8dcc99f81",
+        "known_cost_cny": "0E-8",
+        "unknown_attempt_count": 1,
+        "updated_at": "2026-10-21T05:03:08.151516+00:00"
+      }
+    },
+    {
+      "task": {
+        "id": "a0466229-faeb-4231-ac7b-37e493ed02be",
+        "owner_id": "p01-local-owner",
+        "goal": "p01-fake:2",
+        "status": "failed",
+        "cancellation_requested": false,
+        "fencing_token": 2,
+        "recovery_count": 1,
+        "lease_owner": null,
+        "lease_expires_at": null,
+        "completion_level": "none",
+        "stop_reason": "second_worker_failure",
+        "error_message": "worker lease expired twice",
+        "report": null,
+        "created_at": "2026-10-21T05:02:02.541941+00:00",
+        "updated_at": "2026-10-21T05:03:07.798653+00:00"
+      },
+      "events": [
+        {
+          "id": 5,
+          "task_id": "a0466229-faeb-4231-ac7b-37e493ed02be",
+          "event_type": "task_queued",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "status": "queued"
+          },
+          "created_at": "2026-10-21T05:02:02.541941+00:00"
+        },
+        {
+          "id": 17,
+          "task_id": "a0466229-faeb-4231-ac7b-37e493ed02be",
+          "event_type": "task_started",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "status": "running",
+            "recovery_count": 0
+          },
+          "created_at": "2026-10-21T05:02:07.525078+00:00"
+        },
+        {
+          "id": 19,
+          "task_id": "a0466229-faeb-4231-ac7b-37e493ed02be",
+          "event_type": "task_requeued",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "status": "queued",
+            "recovery_count": 1
+          },
+          "created_at": "2026-10-21T05:02:37.609881+00:00"
+        },
+        {
+          "id": 21,
+          "task_id": "a0466229-faeb-4231-ac7b-37e493ed02be",
+          "event_type": "task_started",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "status": "running",
+            "recovery_count": 1
+          },
+          "created_at": "2026-10-21T05:02:37.693778+00:00"
+        },
+        {
+          "id": 23,
+          "task_id": "a0466229-faeb-4231-ac7b-37e493ed02be",
+          "event_type": "task_finished",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "status": "failed",
+            "stop_reason": "second_worker_failure"
+          },
+          "created_at": "2026-10-21T05:03:07.796891+00:00"
+        }
+      ],
+      "calls": [
+        {
+          "id": "1bece6b7-f468-4dd2-aa25-030cf9944ec8",
+          "task_id": "a0466229-faeb-4231-ac7b-37e493ed02be",
+          "fencing_token": 1,
+          "phase": "controlled_fake.wait",
+          "kind": "tool",
+          "status": "unknown_outcome",
+          "reported_prompt_tokens": null,
+          "reported_completion_tokens": null,
+          "known_cost_cny": null,
+          "failure_type": null,
+          "started_at": "2026-10-21T05:02:07.539888+00:00",
+          "ended_at": "2026-10-21T05:02:37.612042+00:00"
+        },
+        {
+          "id": "1221ef15-935f-4d85-ae7a-e28aa7b6a922",
+          "task_id": "a0466229-faeb-4231-ac7b-37e493ed02be",
+          "fencing_token": 2,
+          "phase": "controlled_fake.wait",
+          "kind": "tool",
+          "status": "unknown_outcome",
+          "reported_prompt_tokens": null,
+          "reported_completion_tokens": null,
+          "known_cost_cny": null,
+          "failure_type": null,
+          "started_at": "2026-10-21T05:02:37.733642+00:00",
+          "ended_at": "2026-10-21T05:03:07.798653+00:00"
+        }
+      ],
+      "cost": {
+        "task_id": "a0466229-faeb-4231-ac7b-37e493ed02be",
+        "known_cost_cny": "0E-8",
+        "unknown_attempt_count": 2,
+        "updated_at": "2026-10-21T05:03:07.798653+00:00"
+      }
+    },
+    {
+      "task": {
+        "id": "7b814eac-1f68-449e-af37-35cf6d806c68",
+        "owner_id": "p01-local-owner",
+        "goal": "p01-fake:1",
+        "status": "failed",
+        "cancellation_requested": false,
+        "fencing_token": 2,
+        "recovery_count": 1,
+        "lease_owner": null,
+        "lease_expires_at": null,
+        "completion_level": "none",
+        "stop_reason": "second_worker_failure",
+        "error_message": "worker lease expired twice",
+        "report": null,
+        "created_at": "2026-10-21T05:02:02.289506+00:00",
+        "updated_at": "2026-10-21T05:03:07.798653+00:00"
+      },
+      "events": [
+        {
+          "id": 3,
+          "task_id": "7b814eac-1f68-449e-af37-35cf6d806c68",
+          "event_type": "task_queued",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "status": "queued"
+          },
+          "created_at": "2026-10-21T05:02:02.289506+00:00"
+        },
+        {
+          "id": 4,
+          "task_id": "7b814eac-1f68-449e-af37-35cf6d806c68",
+          "event_type": "task_started",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "status": "running",
+            "recovery_count": 0
+          },
+          "created_at": "2026-10-21T05:02:02.493094+00:00"
+        },
+        {
+          "id": 18,
+          "task_id": "7b814eac-1f68-449e-af37-35cf6d806c68",
+          "event_type": "task_requeued",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "status": "queued",
+            "recovery_count": 1
+          },
+          "created_at": "2026-10-21T05:02:37.609881+00:00"
+        },
+        {
+          "id": 20,
+          "task_id": "7b814eac-1f68-449e-af37-35cf6d806c68",
+          "event_type": "task_started",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "status": "running",
+            "recovery_count": 1
+          },
+          "created_at": "2026-10-21T05:02:37.672336+00:00"
+        },
+        {
+          "id": 22,
+          "task_id": "7b814eac-1f68-449e-af37-35cf6d806c68",
+          "event_type": "task_finished",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "status": "failed",
+            "stop_reason": "second_worker_failure"
+          },
+          "created_at": "2026-10-21T05:03:07.796891+00:00"
+        }
+      ],
+      "calls": [
+        {
+          "id": "15f5066c-b862-4ff8-b013-878b6d4092a7",
+          "task_id": "7b814eac-1f68-449e-af37-35cf6d806c68",
+          "fencing_token": 1,
+          "phase": "controlled_fake.wait",
+          "kind": "tool",
+          "status": "unknown_outcome",
+          "reported_prompt_tokens": null,
+          "reported_completion_tokens": null,
+          "known_cost_cny": null,
+          "failure_type": null,
+          "started_at": "2026-10-21T05:02:02.507889+00:00",
+          "ended_at": "2026-10-21T05:02:37.612042+00:00"
+        },
+        {
+          "id": "fb8c0493-8700-4549-97ef-c1a2cecefc4a",
+          "task_id": "7b814eac-1f68-449e-af37-35cf6d806c68",
+          "fencing_token": 2,
+          "phase": "controlled_fake.wait",
+          "kind": "tool",
+          "status": "unknown_outcome",
+          "reported_prompt_tokens": null,
+          "reported_completion_tokens": null,
+          "known_cost_cny": null,
+          "failure_type": null,
+          "started_at": "2026-10-21T05:02:37.725779+00:00",
+          "ended_at": "2026-10-21T05:03:07.798653+00:00"
+        }
+      ],
+      "cost": {
+        "task_id": "7b814eac-1f68-449e-af37-35cf6d806c68",
+        "known_cost_cny": "0E-8",
+        "unknown_attempt_count": 2,
+        "updated_at": "2026-10-21T05:03:07.798653+00:00"
+      }
+    },
+    {
+      "task": {
+        "id": "2920d644-9c47-409d-8ce4-a53d5ac6055b",
+        "owner_id": "p01-local-owner",
+        "goal": "p01-fake:0",
+        "status": "cancelled",
+        "cancellation_requested": true,
+        "fencing_token": 1,
+        "recovery_count": 0,
+        "lease_owner": null,
+        "lease_expires_at": null,
+        "completion_level": "none",
+        "stop_reason": "user_cancelled",
+        "error_message": null,
+        "report": null,
+        "created_at": "2026-10-21T05:02:01.826198+00:00",
+        "updated_at": "2026-10-21T05:02:07.290829+00:00"
+      },
+      "events": [
+        {
+          "id": 1,
+          "task_id": "2920d644-9c47-409d-8ce4-a53d5ac6055b",
+          "event_type": "task_queued",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "status": "queued"
+          },
+          "created_at": "2026-10-21T05:02:01.826198+00:00"
+        },
+        {
+          "id": 2,
+          "task_id": "2920d644-9c47-409d-8ce4-a53d5ac6055b",
+          "event_type": "task_started",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "status": "running",
+            "recovery_count": 0
+          },
+          "created_at": "2026-10-21T05:02:02.179305+00:00"
+        },
+        {
+          "id": 15,
+          "task_id": "2920d644-9c47-409d-8ce4-a53d5ac6055b",
+          "event_type": "cancel_requested",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "status": "running",
+            "cancellation_requested": true
+          },
+          "created_at": "2026-10-21T05:02:03.721552+00:00"
+        },
+        {
+          "id": 16,
+          "task_id": "2920d644-9c47-409d-8ce4-a53d5ac6055b",
+          "event_type": "task_finished",
+          "step": 0,
+          "message": "",
+          "payload": {
+            "report": null,
+            "status": "cancelled",
+            "stop_reason": "user_cancelled",
+            "completion_level": "none"
+          },
+          "created_at": "2026-10-21T05:02:07.283056+00:00"
+        }
+      ],
+      "calls": [
+        {
+          "id": "a376fef5-cbae-48af-830b-3ee2321c8eff",
+          "task_id": "2920d644-9c47-409d-8ce4-a53d5ac6055b",
+          "fencing_token": 1,
+          "phase": "controlled_fake.wait",
+          "kind": "tool",
+          "status": "failed",
+          "reported_prompt_tokens": null,
+          "reported_completion_tokens": null,
+          "known_cost_cny": null,
+          "failure_type": "controlled_cancelled",
+          "started_at": "2026-10-21T05:02:02.211807+00:00",
+          "ended_at": "2026-10-21T05:02:07.250459+00:00"
+        }
+      ],
+      "cost": {
+        "task_id": "2920d644-9c47-409d-8ce4-a53d5ac6055b",
+        "known_cost_cny": "0E-8",
+        "unknown_attempt_count": 1,
+        "updated_at": "2026-10-21T05:02:07.250459+00:00"
+      }
+    }
+  ],
+  "resource_peaks": {
+    "host_cpu_percent": 50.0,
+    "host_memory_used_bytes": 16412676096,
+    "host_memory_percent": 97.8,
+    "launcher_descendant_rss_sum_bytes": 336224256
+  },
+  "finished_at": "2026-10-21T05:03:12.677265+00:00",
+  "local_checks_passed": false
+}

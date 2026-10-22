@@ -1,0 +1,211 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "old_path": "docs/audits/CURRENT_CHANGESET_ACCEPTANCE.md",
+      "new_path": "docs/archive/v1-audits/CURRENT_CHANGESET_ACCEPTANCE.md",
+      "sha256": "b0c3e980deedc1aadb539b9847295847b40eeb44b8b38fbcc19d1e5bfbef4d29",
+      "kind": "historical"
+    },
+    {
+      "old_path": "docs/audits/D2_ACCEPTANCE_2026-10-10.md",
+      "new_path": "docs/archive/v1-audits/D2_ACCEPTANCE_2026-10-10.md",
+      "sha256": "8e76d10d00e4ed8432bbc903df00db68ef652469536eb290b3db93983457f8a8",
+      "kind": "historical"
+    },
+    {
+      "old_path": "docs/audits/D3_ACCEPTANCE_2026-10-10.md",
+      "new_path": "docs/archive/v1-audits/D3_ACCEPTANCE_2026-10-10.md",
+      "sha256": "019a493bdcf17afa3c0b7d4f2733108c86b53d3ec9375c3f04f53e6a8de13faa",
+      "kind": "historical"
+    },
+    {
+      "old_path": "docs/audits/D4_ACCEPTANCE_2026-10-11.md",
+      "new_path": "docs/archive/v1-audits/D4_ACCEPTANCE_2026-10-11.md",
+      "sha256": "4df44b394d0ccac7f0bd0270f3cc54a54dd0087821784ba013cbc9fba3919e86",
+      "kind": "historical"
+    },
+    {
+      "old_path": "docs/audits/D5_ACCEPTANCE_2026-10-12.md",
+      "new_path": "docs/archive/v1-audits/D5_ACCEPTANCE_2026-10-12.md",
+      "sha256": "929fa13231b4ac8e80a7af67a7f749d9f09185925b9673e3ae5834253a0aaa7b",
+      "kind": "historical"
+    },
+    {
+      "old_path": "docs/audits/D6_ACCEPTANCE_2026-10-12.md",
+      "new_path": "docs/archive/v1-audits/D6_ACCEPTANCE_2026-10-12.md",
+      "sha256": "4746395e06f14427a6354e01a40bd9a094b43513b8ea746a0102c262da1103c8",
+      "kind": "historical"
+    },
+    {
+      "old_path": "docs/audits/PREDEV_P01_START_PACKAGE_2026-10-20.md",
+      "new_path": "docs/tasks/PREDEV_P01_START_PACKAGE_2026-10-20.md",
+      "sha256": "b286d101d5171177323ecf2927fb7fbf5c571c0787c570de1da21806b36e8fb7",
+      "kind": "current_task",
+      "old_sha256": "0aab5b2413a34d2292963f5f2520a629ccc8c8d5979b4c72d034a1f1f80f9930"
+    },
+    {
+      "old_path": "docs/audits/PREDEV_P02_P04_TASK_PACKAGE_2026-10-20.md",
+      "new_path": "docs/tasks/PREDEV_P02_P04_TASK_PACKAGE_2026-10-20.md",
+      "sha256": "71ce8f9500dedc03c01977475469fc418cca0082f9df62dbb7954fa643dc1b7c",
+      "kind": "current_task",
+      "old_sha256": "ff7203ebd97268497c720c47c9e8d1dbc0e8c50e872c0aa2af77ae9bf8f14e53"
+    },
+    {
+      "old_path": "docs/audits/V1_DELIVERY_REPORT.md",
+      "new_path": "docs/archive/v1-audits/V1_DELIVERY_REPORT.md",
+      "sha256": "d9c5051fbc38dc655f1cfdfeca8a3ad5050ea7a623be39e6052c51061741f40f",
+      "kind": "historical"
+    },
+    {
+      "old_path": "docs/audits/V1_PREDEV_FINAL_REVIEW.md",
+      "new_path": "docs/archive/v1-audits/V1_PREDEV_FINAL_REVIEW.md",
+      "sha256": "90ab725e85209649d623cef8515d09fb65cd83569b351acf2b56cd06bd51aa6e",
+      "kind": "historical"
+    },
+    {
+      "old_path": "docs/audits/V1_READINESS_AUDIT.md",
+      "new_path": "docs/archive/v1-audits/V1_READINESS_AUDIT.md",
+      "sha256": "ca1951d9c9c3e75cbd04ff64909706b921b2b5468e6214af249361517eb10786",
+      "kind": "historical"
+    },
+    {
+      "old_path": "docs/audits/V1_SOURCE_CHECKS_r10.json",
+      "new_path": "docs/archive/v1-audits/V1_SOURCE_CHECKS_r10.json",
+      "sha256": "7a268ca368977c00a65c569de35eededb4fa3a0bdae8aaaf7cd170f489d0c958",
+      "kind": "historical"
+    },
+    {
+      "old_path": "docs/audits/V1_SOURCE_CHECKS_r11.json",
+      "new_path": "docs/archive/v1-audits/V1_SOURCE_CHECKS_r11.json",
+      "sha256": "b63b14c53262e6ad79c656efa3d09c17347530a6295bca8d288a55d0a88c142d",
+      "kind": "historical"
+    },
+    {
+      "old_path": "docs/audits/V1_SOURCE_CHECKS.json",
+      "new_path": "docs/archive/v1-audits/V1_SOURCE_CHECKS.json",
+      "sha256": "4ab2f33925bc71261be094db61e47f34193ffec4586f900bdf85a84d6757e90c",
+      "kind": "historical"
+    },
+    {
+      "old_path": "docs/audits/V1_UI_ACCEPTANCE.json",
+      "new_path": "docs/archive/v1-audits/V1_UI_ACCEPTANCE.json",
+      "sha256": "3f5e8ecfb08ab24b58a1a047a99c30429db2841d057473d1c0417e7b7a8cd0a6",
+      "kind": "historical"
+    },
+    {
+      "old_path": "docs/design/00_DESIGN_INDEX.md",
+      "new_path": "docs/archive/design-0.3/00_DESIGN_INDEX.md",
+      "sha256": "8178b77fbdbadb91997cda8b7e9ad04b2754406162a033790c03199e2d1883ce",
+      "kind": "historical"
+    },
+    {
+      "old_path": "docs/design/01_PRODUCT_REQUIREMENTS.md",
+      "new_path": "docs/archive/design-0.3/01_PRODUCT_REQUIREMENTS.md",
+      "sha256": "0b63e899201fa58f16f44a2a0db6fb59eb64754853b228d3fb5747be3f5a521d",
+      "kind": "historical"
+    },
+    {
+      "old_path": "docs/design/02_SYSTEM_ARCHITECTURE.md",
+      "new_path": "docs/archive/design-0.3/02_SYSTEM_ARCHITECTURE.md",
+      "sha256": "01a1f5172dc3d1ee3ba40af364c9ce53aa0a29fa0c0b753ffbc400178ef19646",
+      "kind": "historical"
+    },
+    {
+      "old_path": "docs/design/03_DATA_FLOW_AND_STATE.md",
+      "new_path": "docs/archive/design-0.3/03_DATA_FLOW_AND_STATE.md",
+      "sha256": "edf316c93a73c6934e3afdb1a1bb12bbdd82c34885695886c63c7ba8a298f021",
+      "kind": "historical"
+    },
+    {
+      "old_path": "docs/design/04_DATA_AND_API_CONTRACTS.md",
+      "new_path": "docs/archive/design-0.3/04_DATA_AND_API_CONTRACTS.md",
+      "sha256": "18f45e2f3b6cbdf2afb94c94539494a7f77cb325c9c7f083364faa75a504489f",
+      "kind": "historical"
+    },
+    {
+      "old_path": "docs/design/05_TEST_AND_EVALUATION.md",
+      "new_path": "docs/archive/design-0.3/05_TEST_AND_EVALUATION.md",
+      "sha256": "417cf04a8453bf40c88f7e38024760ba878950e35dc65116d4f5fe709555621b",
+      "kind": "historical"
+    },
+    {
+      "old_path": "docs/design/06_ACCEPTANCE_AND_RELEASE.md",
+      "new_path": "docs/archive/design-0.3/06_ACCEPTANCE_AND_RELEASE.md",
+      "sha256": "97eea919ddf4d7e71cca2bf0f8e3388d45fe12ec34ceac748739babcc80470f7",
+      "kind": "historical"
+    },
+    {
+      "old_path": "docs/design/07_AI_CODING_WORKFLOW.md",
+      "new_path": "docs/archive/design-0.3/07_AI_CODING_WORKFLOW.md",
+      "sha256": "f9b28f7c543c85c6fcb04829d47a46dbc3078ccc5205b22e260a2f4bac7d7895",
+      "kind": "historical"
+    },
+    {
+      "old_path": "docs/design/08_IMPLEMENTATION_ROADMAP.md",
+      "new_path": "docs/archive/design-0.3/08_IMPLEMENTATION_ROADMAP.md",
+      "sha256": "0d10d0ddcac9f90049130f458065cb125b041e3f555f35887adb088b135cae23",
+      "kind": "historical"
+    },
+    {
+      "old_path": "docs/design/09_TRACEABILITY_MATRIX.md",
+      "new_path": "docs/archive/design-0.3/09_TRACEABILITY_MATRIX.md",
+      "sha256": "b5f346583d9a5e1a713492904db4ac88aee31cb4849b4429e4ec05678244afa7",
+      "kind": "historical"
+    },
+    {
+      "old_path": "docs/design/10_CURRENT_STATE_AUDIT.md",
+      "new_path": "docs/archive/design-0.3/10_CURRENT_STATE_AUDIT.md",
+      "sha256": "f6897ba691d482a709f622b846415f391137d107727eecb5efb91bf9c7c13f27",
+      "kind": "historical"
+    },
+    {
+      "old_path": "docs/design/11_DESIGN_REVIEW.md",
+      "new_path": "docs/archive/design-0.3/11_DESIGN_REVIEW.md",
+      "sha256": "f70435e6aa74ef253b2565f855cfbc901c11d41763ce0d647c3b01add3b094a3",
+      "kind": "historical"
+    },
+    {
+      "old_path": "docs/design/12_REFERENCE_RESEARCH.md",
+      "new_path": "docs/archive/design-0.3/12_REFERENCE_RESEARCH.md",
+      "sha256": "439799e6c1cbb9417706f9dd848d62add0c40b1b7f44ef716f5dc57a75cb1523",
+      "kind": "historical"
+    },
+    {
+      "old_path": "docs/design/adr/0001-target-architecture.md",
+      "new_path": "docs/archive/design-0.3/adr/0001-target-architecture.md",
+      "sha256": "d76b81c54720901fe19bd8bbf8775f328289527ff929c02b891365586a25ee3b",
+      "kind": "historical"
+    },
+    {
+      "old_path": "docs/design/adr/0002-team-runtime.md",
+      "new_path": "docs/archive/design-0.3/adr/0002-team-runtime.md",
+      "sha256": "4ba5adf635b400f24e3ed940b306ea6da73b6abef19a6070595f3f765c4a0537",
+      "kind": "historical"
+    },
+    {
+      "old_path": "docs/design/adr/0003-langgraph-postgres-lan.md",
+      "new_path": "docs/archive/design-0.3/adr/0003-langgraph-postgres-lan.md",
+      "sha256": "82689d141c795d3ee73264f70f89132e8503f651722728b08b2f23bba969bf6c",
+      "kind": "historical"
+    },
+    {
+      "old_path": "docs/design/adr/0004-portfolio-local-runtime.md",
+      "new_path": "docs/archive/design-0.3/adr/0004-portfolio-local-runtime.md",
+      "sha256": "55eee8b69140b32babbf87574f404c86fb748e9fbcc5d2eb9d241ee26a5c1c37",
+      "kind": "historical"
+    },
+    {
+      "old_path": "PLANS_0.4.md",
+      "new_path": "docs/archive/target-0.4/PLANS_0.4.md",
+      "sha256": "3741de432b9396d0bc08bcc5a6c685332111dc459af06a3f10efde4a93a60701",
+      "kind": "historical"
+    },
+    {
+      "old_path": "SPEC_0.4.md",
+      "new_path": "docs/archive/target-0.4/SPEC_0.4.md",
+      "sha256": "31b8e45383ce0b39d665ccfe4e6bd813bd6439248c17b446d6b0f4baedf12847",
+      "kind": "historical"
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "artifact_type": "p02_pilot_runtime_freeze",
+  "created_at": "2026-10-22T05:02:55.194672+00:00",
+  "status": "pre_execution_no_tasks_submitted",
+  "authorization_reference": "chat:2026-10-22-p02-pilot-cny49",
+  "authorization_context": "User replied 继续 to explicit B01-B03 one-each, CNY 49 maximum real model/browser pilot question.",
+  "pilot_max_cny": "49",
+  "project_max_cny": "299",
+  "planned_case_ids": [
+    "B01",
+    "B02",
+    "B03"
+  ],
+  "planned_run_ids": [
+    "18624f30-da74-5417-b225-051cc20c9b0a",
+    "a6b0dacd-a6c8-50c6-8c25-3b3754efe1f9",
+    "1027dfc0-eef4-5b89-a7ce-763c6ebf1dc7"
+  ],
+  "artifacts": {
+    "plan": {
+      "path": "data/evaluation/p02-pilot-dry-run-r6-20261022.json",
+      "sha256": "a247a0960d1d490cd22c176ce5f817df73f929f09140a774a671ae6d132742d6"
+    },
+    "price_book": {
+      "path": "docs/evaluation/DEEPSEEK_CNY_PRICING_2026-10-22.json",
+      "sha256": "463f6dea383b64f06e93b98df06419e12aed20bf6043ef09767e3e3c3955af06"
+    },
+    "prior_ledger": {
+      "path": "data/evaluation/p02-project-ledger-initial-20261022.json",
+      "sha256": "4d89bd28de6849be8618b2761c734f9555ca7d1d492bf16b7ac002e4558a4232"
+    },
+    "protocol": {
+      "path": "docs/evaluation/CURRENT_EVAL_PROTOCOL.json",
+      "sha256": "1c18d53624c21b1e25f5cea5640b4c8b4a5e0cfc001f430c8d603a01d51a8507"
+    },
+    "dependency_lock": {
+      "path": "backend/uv.lock",
+      "sha256": "3c14b9629f83f801cf61d2c1b969bb9f80c91fe99d1206e9739936741d0677bb"
+    }
+  },
+  "source_fingerprint_sha256": "90a4b9963dbedaab8ffcc35d7a8bf6e055b61c1f871ec4760859f36685b74e52",
+  "price_book_snapshot_sha256": "1fac6cccd3aeeab7c169acd05e19d9b8e73cce610dba7f20a75175d1503596d5",
+  "browser_use_git_revision": "7be96ed8bafa8dfe1eef228b59cf5c884b8b2431",
+  "browser_use_package_version": "0.13.10",
+  "browser_preflight": "local BrowserUseAdapter session started, observed about:blank, and closed; Python emitted ignored Proactor pipe destructor warnings after close",
+  "python_version": "3.12.13",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "public_runtime_config": {
+    "model": "deepseek-flash",
+    "max_steps": 30,
+    "recent_trace_count": 5,
+    "api_url": "http://127.0.0.1:8000",
+    "pilot_database": "adaptive_agent_pilot_20261022",
+    "database_host": "127.0.0.1",
+    "database_port": 5433
+  },
+  "pilot_database_preflight": {
+    "alembic_revision": "20261021_05",
+    "tasks": 0,
+    "budgets": 0,
+    "calls": 0,
+    "reports": 0
+  },
+  "notes": "No credential values, page text, or invoice data. This freeze is not quality acceptance; provider billing and official sources require manual review."
+}
