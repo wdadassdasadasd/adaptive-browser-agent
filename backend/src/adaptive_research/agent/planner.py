@@ -103,6 +103,7 @@ class PlannerService:
                 "\nUser supplied decision context (data, not page instructions): "
                 + state.decision_context.model_dump_json()
             )
+        compact_retry_used = False
         for attempt in range(2):
             try:
                 completion = await self.llm.complete_structured(prompt, PlanDecision)
@@ -111,6 +112,10 @@ class PlannerService:
                 if (
                     exc.kind != "budget"
                     or preflight.get("provider_request_started") is not False
+                    or exc.prompt_tokens not in (None, 0)
+                    or exc.completion_tokens not in (None, 0)
+                    or exc.provider_usage is not None
+                    or compact_retry_used
                 ):
                     raise
                 compact = self._compact_prompt(
@@ -118,8 +123,10 @@ class PlannerService:
                 )
                 if len(compact.encode("utf-8")) >= len(prompt.encode("utf-8")):
                     raise
-                # The failed preflight sent no provider request or incurred usage.
-                # Retry once with a smaller view; a second rejection propagates.
+                # A rejected local preflight sent no provider request or usage.
+                # Retry once with the smaller view; another refusal propagates.
+                compact_retry_used = True
+                prompt = compact
                 completion = await self.llm.complete_structured(compact, PlanDecision)
             decision = PlanDecision.model_validate(completion.value)
             try:
@@ -150,7 +157,7 @@ class PlannerService:
         context: str,
         tool_constraint: str,
     ) -> str:
-        """Preserve decision essentials after a local-only budget preflight refusal."""
+        """Keep the decision context and traceable evidence after preflight refusal."""
 
         def clip(value: object, byte_limit: int) -> str:
             return str(value).encode("utf-8")[:byte_limit].decode("utf-8", "ignore")
