@@ -2,17 +2,25 @@
 
 <!-- State the user-visible change or defect and why it matters. -->
 
-## Requirement / Task ID and affected components
+## Requirement / Task / AC IDs and affected components
 
-<!-- Link the approved requirement or issue. Name the affected modules. -->
+<!-- Link the approved requirement, task package, AC, and issue if any. Name the affected modules. -->
 
 ## Behavior / contract changes
 
 <!-- Include API, event, state, persistence, or UI compatibility changes; write None if not applicable. -->
 
-## Tests executed and verification evidence
+## Tests executed, CI, and verification evidence
 
-<!-- Give commands, exit results, and evidence links. State skipped checks and why. -->
+<!-- Give commands, exit codes, evidence links, and the actual CI result. State skipped checks and why. Offline/Mock results do not prove real Agent success. -->
+
+## Agent task evidence, if applicable
+
+<!-- Link task/run IDs, version, redacted trace, accepted fact IDs, report hash, human source review, actual/unknown usage and cost. Write Not run when no real task was authorized. -->
+
+## Review and approvals
+
+<!-- State review scope and findings, contract/architecture decisions, and the actual Commit/Push/PR authorizations. Merge approval is separate. -->
 
 ## Risks / limitations / rollback
 
@@ -21,4 +29,5 @@
 ## Reviewer checklist
 
 - [ ] Diff matches the approved scope and contains no secrets or historical data edits.
-- [ ] Contract, failure paths, tests, and acceptance evidence were checked.
+- [ ] Architecture and contract impact, failure paths, permissions, tests, and acceptance evidence were checked.
+- [ ] Remaining unknowns, cost and rollback are explicit; formal evaluation thresholds and historical records are unchanged.

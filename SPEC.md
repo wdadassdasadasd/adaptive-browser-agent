@@ -1,6 +1,6 @@
 # Adaptive Research Agent — 现行产品与技术规格
 
-**状态：已确认的开发目标；R0 与 P-01 本机假任务架构关口已验证，产品目标尚未实现。** 2026-10-22。实施顺序以 [现行计划](PLANS.md)、接口和状态边界以[现行契约](docs/contracts/CURRENT_CONTRACTS.md)、真实验收以[现行评测协议](docs/evaluation/CURRENT_EVAL_PROTOCOL.json)为准。[ADR-0005](docs/design/adr/0005-windows-worker-wsl-postgres.md)记录本轮架构决定并取代 ADR-0004 的目标方案。原目标规格[原样归档](docs/archive/target-2026-10-18/SPEC.md)，不再作为执行要求。现有行为仍以 [V1 规格](docs/specs/V1_SPEC.md)、[V1 契约](docs/contracts/V1_CONTRACTS.md)、源码和测试为准。本规格本身不授权业务代码、依赖安装、付费运行、部署或 Git 提交。
+**状态：已确认的开发目标；R0 与 P-01 本机假任务架构关口已验证，P-02 真实 pilot 仍为 No-Go；V3 产品方向和 DECISION-001 契约已纳入目标，尚未实现。** 2026-10-23。实施顺序以 [现行计划](PLANS.md)、接口和状态边界以[现行契约](docs/contracts/CURRENT_CONTRACTS.md)、真实验收以[现行评测协议](docs/evaluation/CURRENT_EVAL_PROTOCOL.json)为准。[ADR-0005](docs/design/adr/0005-windows-worker-wsl-postgres.md)记录运行架构，[ADR-0006](docs/design/adr/0006-python-open-source-decision-agent.md)记录产品方向。原目标规格[原样归档](docs/archive/target-2026-10-18/SPEC.md)，不再作为执行要求。现有行为仍以 [V1 规格](docs/specs/V1_SPEC.md)、[V1 契约](docs/contracts/V1_CONTRACTS.md)、源码和测试为准。用户于 2026-10-23 以“执行”授权本轮产品权威同步及相应离线业务开发；依赖安装、付费真实运行、部署、Git 提交等仍须分别授权。
 
 ## 产品目标与边界
 
@@ -11,6 +11,8 @@
 Tool Calling 首版统一工具 schema、动作指引与执行校验，并用已锁定的 MCP Python SDK 2.1.1 验证本地只读 stdio 适配，仅读取仓库元数据与发布记录。MCP 协商版本应记录；它是应用工具协议接入，不表示模型原生 `tool_calls` 已实现。
 
 面向中国大陆中大型科技公司 Agent 应用研发校招岗位的技术面试官，在 Windows 11、16 GB 单主机上演示可复查的公开技术研究闭环：用户提交开源项目选型、官方技术文档对比或发布记录问题；Agent 用浏览器与 GitHub 工具执行；核验来源和事实；生成引用事实 ID、写明适用条件与未知项的报告和建议；界面展示失败、取消、历史和过程；固定题评测、按调用轨迹诊断、针对性优化并以同一口径复测。B01 开源工具选型是首个面试纵切；九道固定题的验收范围不变。以任务完成质量和证据质量为主，不以框架或功能数量替代。
+
+V3 首要实际用户为**开发团队技术负责人**，首版产品聚焦公开 **Python 开源技术选型决策**。用户给出用途、硬条件、偏好与可选候选；系统将已准入官方事实映射到候选 × 条件矩阵，给出有 fact ID 支持的条件化建议，明确未知、冲突与改变建议的条件。缺少关键证据、决定性来源冲突或全部候选违反硬条件时，不输出无条件赢家；用户未提供约束时不得臆造偏好。仅研究公开资料，不判定用户代码库兼容性、提供法律结论或自动修改依赖／创建升级 PR。此为目标行为，须经过 [DECISION-001](docs/features/DECISION-001/spec.md) 的离线验收及真实研究证据，不能由产品定位变更推断为已实现。
 
 现有模型通过结构化 JSON 生成 `PlanDecision`，由 `ToolRouter` 执行浏览器/GitHub 动作；首版完善这条链的约束、反馈和证据，不宣称使用模型原生 `tool_calls` 协议。上下文按当前目标、当前子目标、来源事实、最新观察和失败线索选择与裁剪；裁剪后须能追溯关键 fact ID/来源，Token 用量以 provider 报告与未知调用记录，不以字符数冒充。P-02 用任务质量与实际用量共同评估改动。
 
@@ -52,6 +54,7 @@ Worker 以短事务租约认领任务，每次业务写入核对 fencing token�
 | FR-008 | 可编辑模板和 Markdown 导出，首版推迟 | 后续另行授权 | AC-008 |
 | FR-009 | 五账户含管理员、完整管理员界面、登录及逐对象归属隔离 | P-03 | AC-009 |
 | FR-010 | 条件化建议与官方事实/社区补充分层 | P-02、P-03 | AC-010 |
+| FR-013 | 可选决策上下文、候选 × 条件证据矩阵、硬条件约束和无法推荐语义；不改变旧请求及六态 | P-02 后续纵切，正式放行前 | DEC-AC-01–05、DEC-AC-07 |
 | FR-011 | 分层记忆、来源线索检索、过期、撤销及 owner 隔离 | P-03 | AC-011 |
 | FR-012 | 本地只读 MCP stdio、统一工具校验和可靠清理 | P-03 | AC-012 |
 | NFR-001 | 运行有界、资源释放 | P-01、P-03 | AC-N01 |

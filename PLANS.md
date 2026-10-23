@@ -1,6 +1,6 @@
 # Adaptive Research Agent — 现行实施计划
 
-**状态：设计和实施方案已获授权，P-00/R0 已完成；P-01 本机假任务架构关口第二轮 48/48 通过；P-02 同版 B01–B03 真实 pilot 已采集诊断基线，三题均未完整成功，研究质量及产品仍为 No-Go。** 当前权威为[规格](SPEC.md)、[契约](docs/contracts/CURRENT_CONTRACTS.md)、[评测协议](docs/evaluation/CURRENT_EVAL_PROTOCOL.json)及[ADR-0005](docs/design/adr/0005-windows-worker-wsl-postgres.md)。旧方案[原样归档](docs/archive/target-2026-10-18/PLANS.md)。默认 V1 入口继续由 V1 规格/契约解释，P-01 差异及实际验证见[任务记录](docs/tasks/PREDEV_P01_START_PACKAGE_2026-10-20.md)，P-02 pilot 结果见[准备与交接记录](docs/tasks/EIGHT_MODULE_PREP_2026-10-22.md)；r12 No-Go、原始 SQLite、browser-use checkout 和历史审计保持原样。
+**状态：设计和实施方案已获授权，P-00/R0 已完成；P-01 本机假任务架构关口第二轮 48/48 通过；P-02 同版 B01–B03 真实 pilot 已采集诊断基线，三题均未完整成功，研究质量及产品仍为 No-Go。V3 产品方向与 DECISION-001 已纳入目标计划，尚未实现。** 当前权威为[规格](SPEC.md)、[契约](docs/contracts/CURRENT_CONTRACTS.md)、[评测协议](docs/evaluation/CURRENT_EVAL_PROTOCOL.json)、[ADR-0005](docs/design/adr/0005-windows-worker-wsl-postgres.md)及产品[ADR-0006](docs/design/adr/0006-python-open-source-decision-agent.md)。旧方案[原样归档](docs/archive/target-2026-10-18/PLANS.md)。默认 V1 入口继续由 V1 规格/契约解释，P-01 差异及实际验证见[任务记录](docs/tasks/PREDEV_P01_START_PACKAGE_2026-10-20.md)，P-02 pilot 结果见[准备与交接记录](docs/tasks/EIGHT_MODULE_PREP_2026-10-22.md)；r12 No-Go、原始 SQLite、browser-use checkout 和历史审计保持原样。
 
 ## 阶段与停线
 
@@ -23,6 +23,8 @@
 
 ## 任务依赖与需求映射
 
+V3 决策功能沿 [DECISION-001 任务包](docs/features/DECISION-001/tasks.md) 分为 DEC-T01（P-02 冻结轨迹驱动的事实／无进展／预算离线修复）、DEC-T02（兼容输入）、DEC-T03（证据矩阵）、DEC-T04（条件化推荐）、DEC-T05（展示）和 DEC-T06（独立决策质量复核）。先取得研究事实可用的证据，再宣称推荐可用；若 T01 未解除 No-Go，不因后续 UI 或格式实现宣称产品通过。DEC-AC-01–07 是 FR-013 及既有 FR-002／003／004／010 的细化验收，不改 P-02–P-04 固定题、十五次正式尝试、人工核源或费用门槛。额外真实运行仍需逐次授权；8–12 周和 299 元总额不足时停线并重新议定范围。
+
 每个获授权实施任务先登记需求、AC、源码基线、兼容影响与最小 Diff；实施后附测试命令、退出码、失败证据和剩余风险。P-01 的架构关口只验证可行性，不证明真实任务完成。r12 的只读症状分类先于 pilot；pilot 的完整同版三题是优化前基线，随后按调用级轨迹提出可证伪根因。
 
 [环境探针](docs/audits/PREDEV_ENV_SETUP_2026-10-20.md)证明 PostgreSQL 16.15 和 Windows `asyncpg` 在 WSL 保活时本机连接可用，但 WSL 无前台进程即退出。P-01 启动器必须保持 WSL 生命周期并在数据库失联时失败关闭；仅安装和一次连接不算通过 P-01 两周关口。P-02..P-04 的逐项依赖、改动边界、证据和停线见[后续任务包](docs/tasks/PREDEV_P02_P04_TASK_PACKAGE_2026-10-20.md)。
@@ -32,6 +34,7 @@
 | P-00 | NFR-005 | AC-N05；唯一现行入口、历史原字节、映射与协议冻结 |
 | P-01 | FR-001、FR-002、FR-005、FR-006、NFR-001、NFR-006、NFR-007 | AC-001、AC-002、AC-005、AC-006、AC-N01、AC-N06、AC-N07；假任务闭环、唯一认领、重启、资源 |
 | P-02 | FR-002、FR-003、FR-004、FR-007、FR-010、NFR-002、NFR-004、NFR-010 | AC-002、AC-003、AC-004、AC-007、AC-010、AC-N02、AC-N04、AC-N10；上下文质量/用量、Gateway、官方事实、报告、诊断和 pilot |
+| P-02 后续纵切至 P-04 前 | FR-013，复用 FR-002、FR-003、FR-004、FR-010 | DEC-AC-01–07；兼容请求、事实矩阵、条件化建议及独立决策质量复核；正式协议不变 |
 | P-03 | FR-001、FR-005、FR-006、FR-009、FR-010、FR-011、FR-012、NFR-001、NFR-003、NFR-006、NFR-007、NFR-008、NFR-009 | AC-001、AC-005、AC-006、AC-009、AC-010、AC-011、AC-012、AC-N01、AC-N03、AC-N06、AC-N07、AC-N08、AC-N09；隔离、分层记忆、MCP 实证、故障、容量模拟、备份恢复 |
 | P-04 | FR-004、FR-007、NFR-002、NFR-005 | AC-004、AC-007、AC-N02、AC-N05；15 次正式结果、人工核源、项目总账、演示/恢复包和 Go/No-Go |
 
@@ -39,4 +42,4 @@ FR-008 / AC-008 为延期能力，不在 P-01..P-04 实施；模板、Markdown �
 
 ## 授权边界
 
-P-00 仅配置与文档，P-01 的[开工任务包](docs/tasks/PREDEV_P01_START_PACKAGE_2026-10-20.md)记录执行顺序和证据要求。业务代码实施、依赖安装、付费真实任务、真实部署、Git 提交/推送/PR/合并分别授权。离线校验不能被描述为真实研究、部署安全或岗位竞争力已验证。
+P-00 仅配置与文档，P-01 的[开工任务包](docs/tasks/PREDEV_P01_START_PACKAGE_2026-10-20.md)记录执行顺序和证据要求。用户于 2026-10-23 以“执行”授权本轮 V3 现行权威同步及所述离线业务开发；本次授权不包括依赖安装、付费真实任务、真实部署、Git 提交/推送/PR/合并，这些仍分别授权。离线校验不能被描述为真实研究、部署安全或岗位竞争力已验证。
