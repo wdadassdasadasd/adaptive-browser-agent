@@ -1,0 +1,27 @@
+{
+  "comparison": "Insufficient evidence for a supported comparison.",
+  "findings": [
+    {
+      "attributes": {},
+      "description": "The GitHub repository search for 'playwright-python' returns the official Microsoft project under the full name microsoft/playwright-python, confirming it exists on the canonical Microsoft GitHub organization.\nThe official repository URL for the project is https://github.com/microsoft/playwright-python, as reported in the search result's html_url field.",
+      "name": "microsoft/playwright-python",
+      "source_urls": [
+        "https://api.github.com/search/repositories"
+      ],
+      "supporting_fact_ids": [
+        "f1-project-name",
+        "f2-repo-url"
+      ]
+    }
+  ],
+  "generated_at": "2026-10-22T10:50:51.721735Z",
+  "goal": "Find two publicly documented Python browser-automation projects suitable for researching web pages. For each, give its name, official repository URL, license, and documented installation command. Cite official sources.",
+  "markdown": "# Research report: Find two publicly documented Python browser-automation projects suitable for researching web pages. For each, give its name, official repository URL, license, and documented installation command. Cite official sources.\n\n2 sourced fact(s) collected; stop reason: token_budget (the model usage limit was reached).\n\n## Findings\n### microsoft/playwright-python\nThe GitHub repository search for 'playwright-python' returns the official Microsoft project under the full name microsoft/playwright-python, confirming it exists on the canonical Microsoft GitHub organization.\nThe official repository URL for the project is https://github.com/microsoft/playwright-python, as reported in the search result's html_url field.\n- Source: https://api.github.com/search/repositories\n\n## Comparison\nInsufficient evidence for a supported comparison.\n\n## Recommendation\nInsufficient evidence for a supported recommendation.\n\n## Unknown or unfinished\n- Identify and verify one publicly documented Python browser-automation project suitable for researching web pages, collecting all required fields from official sources.\n- Identify and verify a second publicly documented Python browser-automation project suitable for researching web pages, collecting all required fields from official sources.\n- Requested 2 project(s); verified 1.\n\n## Sources\n- https://api.github.com/search/repositories",
+  "recommendation": "Insufficient evidence for a supported recommendation.",
+  "sources": [
+    "https://api.github.com/search/repositories"
+  ],
+  "summary": "2 sourced fact(s) collected; stop reason: token_budget (the model usage limit was reached).",
+  "task_id": "59a0f54a-e250-48df-b2ba-bbf4834a9256",
+  "title": "Research report: Find two publicly documented Python browser-automation projects suitable for researching web pages. For each, give its name, official repository URL, license, and documented installation command. Cite official sources."
+}

@@ -113,6 +113,8 @@ def _entry(value: Any, allocations: set[str]) -> dict[str, Any]:
     }
     if "attempt_status" in value:
         result["attempt_status"] = _identity(value["attempt_status"], "attempt_status")
+    if "reconciliation_artifact" in value:
+        result["reconciliation_artifact"] = _artifact(value["reconciliation_artifact"])
     return result
 
 

@@ -1,0 +1,71 @@
+{
+  "artifact_type": "p02_pilot_runtime_freeze",
+  "created_at": "2026-10-22T10:48:08.884646+00:00",
+  "status": "pre_execution_no_tasks_submitted",
+  "authorization_reference": "chat:2026-10-22-p02-pilot-cny10",
+  "authorization_context": "User explicitly approved local API/Worker plus B01-B03 pilot with total cap CNY 10 after prior CNY 49 allocation was armed; durable cap was reduced before any task or call.",
+  "pilot_max_cny": "10",
+  "project_max_cny": "299",
+  "planned_case_ids": [
+    "B01",
+    "B02",
+    "B03"
+  ],
+  "planned_run_ids": [
+    "45ecbdf2-bc98-5fb3-9fa7-3b4f505c2c1c",
+    "3a940315-d5d3-5439-ba73-cd97feaa08b4",
+    "bbeaec17-d892-535a-90f9-89f5a913406c"
+  ],
+  "artifacts": {
+    "plan": {
+      "path": "data/evaluation/p02-pilot-dry-run-r8-20261022.json",
+      "sha256": "6e73885902c99e1ba44c1d2bf97cce76bfa2e5abb6f53dc262f7ccc4b91e8a11"
+    },
+    "price_book": {
+      "path": "docs/evaluation/DEEPSEEK_CNY_PRICING_2026-10-22.json",
+      "sha256": "463f6dea383b64f06e93b98df06419e12aed20bf6043ef09767e3e3c3955af06"
+    },
+    "prior_ledger": {
+      "path": "data/evaluation/p02-project-ledger-initial-20261022.json",
+      "sha256": "4d89bd28de6849be8618b2761c734f9555ca7d1d492bf16b7ac002e4558a4232"
+    },
+    "protocol": {
+      "path": "docs/evaluation/CURRENT_EVAL_PROTOCOL.json",
+      "sha256": "1c18d53624c21b1e25f5cea5640b4c8b4a5e0cfc001f430c8d603a01d51a8507"
+    },
+    "dependency_lock": {
+      "path": "backend/uv.lock",
+      "sha256": "3c14b9629f83f801cf61d2c1b969bb9f80c91fe99d1206e9739936741d0677bb"
+    }
+  },
+  "source_fingerprint_sha256": "64bded4dde2eeb3e24fbb0d140894fde401455cb833097827d6343c4ac47eb7a",
+  "price_book_snapshot_sha256": "1fac6cccd3aeeab7c169acd05e19d9b8e73cce610dba7f20a75175d1503596d5",
+  "browser_use_git_revision": "7be96ed8bafa8dfe1eef228b59cf5c884b8b2431",
+  "browser_use_package_version": "0.13.10",
+  "browser_preflight": "local BrowserUseAdapter session started, observed about:blank, and closed; Python emitted ignored Proactor pipe destructor warnings after close",
+  "python_version": "3.12.13",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "public_runtime_config": {
+    "model": "deepseek-flash",
+    "max_steps": 30,
+    "recent_trace_count": 5,
+    "api_url": "http://127.0.0.1:8000",
+    "pilot_database": "adaptive_agent_pilot_20261022",
+    "database_host": "127.0.0.1",
+    "database_port": 5433
+  },
+  "pilot_database_preflight": {
+    "alembic_revision": "20261021_05",
+    "app_budget": 1,
+    "app_call_attempt": 0,
+    "app_cost": 0,
+    "app_event": 0,
+    "app_fact": 0,
+    "app_owner": 0,
+    "app_report": 0,
+    "app_task": 0
+  },
+  "notes": "Protocol allocation ceiling is 49 CNY; actual current user authorization and durable database cap are 10 CNY. No secrets retained. Original r6 and r8 freezes preserved.",
+  "balance_gate": "CNY balance >= 1; exact balance intentionally omitted",
+  "budget_state": "armed; durable phase_max_cny=10.00000000; no task or call"
+}

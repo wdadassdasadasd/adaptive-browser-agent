@@ -52,6 +52,10 @@ lists the checks actually run and the remaining No-Go gates.
 - Git with submodule support
 - Node.js 22 and npm for the frontend
 
+The repository-root `.nvmrc` is the frontend Node version used by CI. Select
+Node 22 with your local version manager before running the frontend commands.
+The P-02 pilot preparation record includes the local Node 22 verification.
+
 ## Setup
 
 Clone with the browser-use submodule:

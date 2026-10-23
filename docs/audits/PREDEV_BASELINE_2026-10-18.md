@@ -15,7 +15,7 @@
 | SSE/UI | `backend/api/research.py:114-153` 从 SQLite 补读、TaskManager 队列唤醒；`frontend/src/api.ts:51-80` 封装接口；`frontend/src/App.vue:89-110,146-216,295` 刷新详情/trace、订阅/轮询和释放流 | VERIFIED 路径；真实断线/慢订阅竞态待测 |
 | 取消/重启 | `backend/services/research.py:137-167` 分 queued/running 取消；`backend/services/persistence.py:350-428` 将重启时未完成任务有事实转 partial、无事实转 failed，原因 server_restart，不续跑 | VERIFIED 路径；取消与自然完成竞态、资源释放待测 |
 
-`ResearchState` 是可序列化领域状态，见 `adaptive_agent/state.py:123-145`；其用量当前只汇总已报告值。AgentLoop 使用 DeepSeek 并有单次工具技术重试及预算/停止分支；不能从这些代码路径推定目标完成率。分层依赖和目标责任由[候选 SPEC](../../SPEC.md)定义，0.3 冻结架构仍见[设计索引](../design/00_DESIGN_INDEX.md)。
+`ResearchState` 是可序列化领域状态，见 `adaptive_agent/state.py:123-145`；其用量当前只汇总已报告值。AgentLoop 使用 DeepSeek 并有单次工具技术重试及预算/停止分支；不能从这些代码路径推定目标完成率。分层依赖和目标责任由[候选 SPEC](../../SPEC.md)定义，0.3 冻结架构仍见[设计索引](../archive/design-0.3/00_DESIGN_INDEX.md)。
 
 ## 已设计与未验证的缺口
 
@@ -30,6 +30,6 @@
 
 ## 历史结果与版本冲突
 
-[D7 交付报告](V1_DELIVERY_REPORT.md)记载 r12 共 18 次真实 benchmark 尝试，三组完整成功率均 0；full-system 平均字段覆盖约 13.3%。三次独立 UI 任务分别在 B01/B02 因 `token_budget`、B03 因 `no_progress` 失败。baseline 六次 Token 记录缺失，预算不对等；不能据此做成本改善因果结论。原始数据和旧 scorer 均保留。
+[D7 交付报告](../archive/v1-audits/V1_DELIVERY_REPORT.md)记载 r12 共 18 次真实 benchmark 尝试，三组完整成功率均 0；full-system 平均字段覆盖约 13.3%。三次独立 UI 任务分别在 B01/B02 因 `token_budget`、B03 因 `no_progress` 失败。baseline 六次 Token 记录缺失，预算不对等；不能据此做成本改善因果结论。原始数据和旧 scorer 均保留。
 
 现行获批 0.3 的 `docs/design/01_PRODUCT_REQUIREMENTS.md:62`、`05_TEST_AND_EVALUATION.md:63-65`、`06_ACCEPTANCE_AND_RELEASE.md:17,24,60` 设 B 九次聚合 68/75 字段阈值；[0.4 候选](../../SPEC.md)拟以**每次完整成功须全字段**和每次独立报告覆盖取代聚合阈值。此为显式设计冲突，0.4 获用户确认前仍依 0.3 权威，不静默改动上述历史文件。

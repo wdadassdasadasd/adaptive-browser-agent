@@ -172,7 +172,9 @@ class PgCallAttempt(PgBase):
     pricing_error: Mapped[str | None] = mapped_column(String(64))
     pricing_tariff: Mapped[str | None] = mapped_column(String(16))
     known_cost_cny: Mapped[Decimal | None] = mapped_column(Numeric(18, 8))
+    cost_basis: Mapped[str | None] = mapped_column(String(128))
     price_revision: Mapped[str | None] = mapped_column(String(128))
+    execution_source_sha256: Mapped[str | None] = mapped_column(String(64))
     started_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), nullable=False, server_default=text("now()")
     )

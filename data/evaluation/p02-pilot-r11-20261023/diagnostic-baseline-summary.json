@@ -1,0 +1,84 @@
+{
+  "artifact_type": "pilot_three_attempt_diagnostic_baseline",
+  "created_at": "2026-10-23T05:03:41.298170+00:00",
+  "plan_artifact": {
+    "path": "../p02-pilot-dry-run-r11-20261023.json",
+    "sha256": "4ba96406e4494e95de75d70f9435d884ce38c474f36ccb822decd25be72b3cd1"
+  },
+  "price_book_artifact": {
+    "path": "../../../docs/evaluation/DEEPSEEK_CNY_PRICING_2026-10-23.json",
+    "sha256": "82e7c4acd3bfb309e74bab23caeef30a686a09b75c595d58d87158da70c00127"
+  },
+  "authorization_reference": "chat:2026-10-23-p02-pilot-cny10",
+  "batch_cap_cny": "10",
+  "attempts": [
+    {
+      "case_id": "B01",
+      "run_id": "39d4a2d0-8729-5b97-be65-a87d0678a0f2",
+      "task_id": "89d08313-5851-47e7-a4a4-6918bd596c4a",
+      "status": "failed",
+      "stop_reason": "no_progress",
+      "known_cost_cny": "0.03792848",
+      "unknown_call_count": 0,
+      "report_artifact": {
+        "path": "39d4a2d0-8729-5b97-be65-a87d0678a0f2/capture/report.json",
+        "sha256": "0044f99e88e6a45f46fce7c5bf2a7944d769bd798e3293ab03e6065ee9df8619"
+      },
+      "manifest_artifact": {
+        "path": "39d4a2d0-8729-5b97-be65-a87d0678a0f2/capture/manifest.json",
+        "sha256": "54bfa13a2126d819bab4513ee8b1bac3ce1fd4f14822e80709043c16b4861a2d"
+      },
+      "review_packet_artifact": {
+        "path": "39d4a2d0-8729-5b97-be65-a87d0678a0f2/field-source-review-pending.json",
+        "sha256": "d11a0ae76b67d1443e41d851124b20d46232ac8c42dd8614454192578c88faaf"
+      }
+    },
+    {
+      "case_id": "B02",
+      "run_id": "347bd8b2-0e09-5975-8dff-e8ed4f2c1a52",
+      "task_id": "136c307b-a562-4ea4-8e8c-da325ceeb01a",
+      "status": "failed",
+      "stop_reason": "token_budget",
+      "known_cost_cny": "0.03836468",
+      "unknown_call_count": 0,
+      "report_artifact": {
+        "path": "347bd8b2-0e09-5975-8dff-e8ed4f2c1a52/capture/report.json",
+        "sha256": "f4585e9ebc9b2535290760904b2841489633a7d4e3baf9296bf462b19b562561"
+      },
+      "manifest_artifact": {
+        "path": "347bd8b2-0e09-5975-8dff-e8ed4f2c1a52/capture/manifest.json",
+        "sha256": "44a2885c5d5fda54d02025bea0fbbbd2e219ad02d46d353a81d766850db49230"
+      },
+      "review_packet_artifact": {
+        "path": "347bd8b2-0e09-5975-8dff-e8ed4f2c1a52/field-source-review-pending.json",
+        "sha256": "a23672f72ac66c4fc113408f03cf6d73ebd5c922eddad4c06ffbb1f73364a558"
+      }
+    },
+    {
+      "case_id": "B03",
+      "run_id": "e4e3e822-f5f0-582d-9412-e7cb91daefe4",
+      "task_id": "ecad1481-a489-4c0f-b01a-04076ac01e9b",
+      "status": "partial",
+      "stop_reason": "token_budget",
+      "known_cost_cny": "0.04767960",
+      "unknown_call_count": 0,
+      "report_artifact": {
+        "path": "e4e3e822-f5f0-582d-9412-e7cb91daefe4/capture/report.json",
+        "sha256": "860738abacbf4b07563a963e153e58f8621b08d5964c22fdbdb767edae2466b6"
+      },
+      "manifest_artifact": {
+        "path": "e4e3e822-f5f0-582d-9412-e7cb91daefe4/capture/manifest.json",
+        "sha256": "a360573a18b5ba294d8943c4c29c6133687336797f4c3a2d62db8be673133dca"
+      },
+      "review_packet_artifact": {
+        "path": "e4e3e822-f5f0-582d-9412-e7cb91daefe4/field-source-review-pending.json",
+        "sha256": "828145018f03f601e9ab6fdfccb9877dcdc04f57827965696c0c3acc131aae87"
+      }
+    }
+  ],
+  "human_source_review_status": "pending_user_review",
+  "provider_dashboard_reconciliation_status": "pending_itemized_provider_record",
+  "quality_gate": "diagnostic_baseline_only",
+  "new_batch_total_cny": "0.12397276",
+  "under_authorized_cap": true
+}

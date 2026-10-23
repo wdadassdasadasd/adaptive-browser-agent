@@ -1,0 +1,12 @@
+{
+  "cancellation_requested": false,
+  "completion_level": "none",
+  "created_at": "2026-10-23T04:58:46.811882+00:00",
+  "error_message": null,
+  "fencing_token": 1,
+  "id": "89d08313-5851-47e7-a4a4-6918bd596c4a",
+  "recovery_count": 0,
+  "status": "failed",
+  "stop_reason": "no_progress",
+  "updated_at": "2026-10-23T04:59:45.573646+00:00"
+}

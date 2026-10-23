@@ -1,6 +1,6 @@
 # 文档导航
 
-本页只指路。后续开发的四个权威入口是[现行规格](../SPEC.md)、[现行计划](../PLANS.md)、[现行契约](contracts/CURRENT_CONTRACTS.md)与[评测协议](evaluation/CURRENT_EVAL_PROTOCOL.json)。目标架构仍待 P-01 实证；产品当前为 **No-Go**。已经实现的行为须核对 [V1 规格](specs/V1_SPEC.md)、[V1 契约](contracts/V1_CONTRACTS.md)、源码与测试。
+本页只指路。后续开发的四个权威入口是[现行规格](../SPEC.md)、[现行计划](../PLANS.md)、[现行契约](contracts/CURRENT_CONTRACTS.md)与[评测协议](evaluation/CURRENT_EVAL_PROTOCOL.json)。P-01 本机假任务架构关口已通过；真实研究质量与产品仍为 **No-Go**。已经实现的行为须核对 [V1 规格](specs/V1_SPEC.md)、[V1 契约](contracts/V1_CONTRACTS.md)、源码与测试。
 
 | 要查什么 | 入口 | 使用方式 |
 | --- | --- | --- |
@@ -10,6 +10,7 @@
 | 真实研究如何判定 | [评测说明](evaluation/README.md)、[核源流程](evaluation/REVIEW_WORKFLOW.md) | 机器协议固定题面和门槛；离线核源仍需实际报告与记录。 |
 | 开发前已检查什么 | [环境探针](audits/PREDEV_ENV_SETUP_2026-10-20.md)、[准备记录](audits/PREDEV_SEVEN_CORE_FINALIZATION_2026-10-20.md) | 只代表记录所写日期、命令和范围。 |
 | 为什么这样整理 | [工程结构研究](research/ENGINEERING_STRUCTURE_REVIEW.md) | 包含高星项目参考、原问题和本轮迁移结果。 |
+| 八模块为何这样设计 | [固定版本源码研究](research/HIGH_STAR_AGENT_MECHANISMS_2026-10-22.md)、[准备整改任务](tasks/EIGHT_MODULE_PREP_2026-10-22.md) | 区分上游机制、当前实现和待验证目标。 |
 | 旧版本和旧验收 | [归档索引](archive/README.md) | 历史资料留原字节并标明旧路径。 |
 
 `docs/audits/` 收指定基线的实际检查；`docs/tasks/` 收待实施的任务及后续单任务验收；`docs/research/` 收来源研究；`docs/architecture/` 说明当前/目标边界。根目录的 `browser-use/` 是上游 checkout，`data/` 保存本机运行证据。

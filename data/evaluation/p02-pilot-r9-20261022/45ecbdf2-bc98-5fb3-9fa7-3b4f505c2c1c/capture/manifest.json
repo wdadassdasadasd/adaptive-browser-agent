@@ -1,0 +1,81 @@
+{
+  "artifact_type": "persisted_pilot_diagnostic_capture",
+  "artifacts": {
+    "calls.json": {
+      "bytes": 16030,
+      "sha256": "f87806a5ed8ccf11d9d0aa17deef19e6330798c743293f6475e19c2645ecfc6f"
+    },
+    "events.json": {
+      "bytes": 6757,
+      "sha256": "8776fd14cb708887f2b0d75ba72536b617505b804c6f808ccca13c66eeece68b"
+    },
+    "facts.json": {
+      "bytes": 1607,
+      "sha256": "57a69f0062edc077b5663543329cfea628c69e5c63f458fa85fa01e98e1e0ca8"
+    },
+    "report.json": {
+      "bytes": 2994,
+      "sha256": "f758c4b1a8c85629086ec3bf0f90fe22dccec03156b2a7ecf27f444d472b9f35"
+    },
+    "source-version.json": {
+      "bytes": 10539,
+      "sha256": "1f95cbf46c28be7598d6505b572b93c6411dcda42e0b73796cb47a0635560825"
+    },
+    "task.json": {
+      "bytes": 349,
+      "sha256": "b0f4de814dd13e470352000052fd7a198594b225bcdfd5aed1f41821dee141e6"
+    }
+  },
+  "capture_browser_calls": 0,
+  "capture_database_writes": 0,
+  "capture_provider_calls": 0,
+  "capture_tasks_submitted": 0,
+  "captured_at": "2026-10-22T10:50:51.954725+00:00",
+  "case_id": "B01",
+  "cost": {
+    "actual_total_cost_cny": null,
+    "cost_completeness": "unknown_or_incomplete",
+    "currency": "CNY",
+    "observed_call_known_subtotal_cny": "0.04139536",
+    "observed_unpriced_call_count": 11,
+    "observed_unresolved_call_ids": [],
+    "persisted_known_cost_cny": "0.04139536",
+    "persisted_unknown_attempt_count": 11,
+    "task_and_call_known_cost_match": true
+  },
+  "formal_acceptance": null,
+  "goal_matches_planned_prompt": true,
+  "limits": {
+    "max_records_per_collection": 1000,
+    "max_text_chars": 4000,
+    "max_total_bytes": 8000000,
+    "read_timeout_seconds": 10
+  },
+  "note": "Diagnostic projection only; preserve original database evidence. No attempt, review, or release success is inferred.",
+  "official_source_verification": "not_performed_by_exporter; persisted human status is not independently verified",
+  "owner_id_sha256": "17df83dfdedb489af4b3498860ba47100120bfd41ead1b1a6638a3773fe76350",
+  "persisted_completion_level": "partial",
+  "persisted_task_status": "partial",
+  "phase": "pilot",
+  "planned_run_id": "45ecbdf2-bc98-5fb3-9fa7-3b4f505c2c1c",
+  "product_release": "No-Go",
+  "read_failures": {},
+  "redaction": {
+    "boundary": "allowlisted_metadata_and_redacted_report_facts; no raw tool bodies or observations",
+    "omitted_html_count": 0,
+    "omitted_sensitive_field_count": 0,
+    "truncated_text_count": 0
+  },
+  "research_quality_passed": null,
+  "snapshot_consistency": "stable_task_record_non_atomic",
+  "status": "diagnostic_not_release",
+  "task_id": "59a0f54a-e250-48df-b2ba-bbf4834a9256",
+  "task_terminal": true,
+  "task_visibility": "visible",
+  "trial_index": 1,
+  "truncated_collections": {
+    "list_calls": false,
+    "list_events": false,
+    "list_facts": false
+  }
+}

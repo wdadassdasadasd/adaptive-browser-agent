@@ -357,6 +357,14 @@ async def test_budgeted_prompt_too_large_makes_no_request() -> None:
 
     assert caught.value.kind == "budget"
     assert calls == 0
+    diagnostic = caught.value.budget_preflight
+    assert diagnostic is not None
+    assert diagnostic["request_kind"] == "structured"
+    assert diagnostic["remaining_tokens"] == 10
+    assert diagnostic["prompt_bound"] > 10
+    assert diagnostic["output_allowance"] == 10 - diagnostic["prompt_bound"]
+    assert diagnostic["provider_request_started"] is False
+    assert "Long prompt" not in str(diagnostic)
     await provider.aclose()
 
 

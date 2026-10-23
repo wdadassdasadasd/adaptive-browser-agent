@@ -291,6 +291,7 @@ class AgentLoop:
                     cancel_waiter.cancel()
 
         pending_tool_result: ToolResult | None = None
+        budget_preflight: dict[str, int | bool | str] | None = None
         try:
             if resume_state is None:
                 await emit("task_started")
@@ -434,6 +435,7 @@ class AgentLoop:
                 await emit("cancel_requested")
         except LLMError as exc:
             stop_reason = "token_budget" if exc.kind == "budget" else "execution_error"
+            budget_preflight = exc.budget_preflight
         except Exception:  # noqa: BLE001 - turn unhandled execution errors into a terminal result
             stop_reason = "execution_error"
 
@@ -558,6 +560,7 @@ class AgentLoop:
                 "completion_level": level,
                 "stop_reason": stop_reason,
                 "report": report.model_dump(mode="json"),
+                **({"budget_preflight": budget_preflight} if budget_preflight else {}),
                 **usage_delta(),
             },
         )

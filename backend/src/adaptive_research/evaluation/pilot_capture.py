@@ -58,6 +58,8 @@ CALL_FIELDS = (
     "pricing_error",
     "pricing_tariff",
     "known_cost_cny",
+    "cost_basis",
+    "execution_source_sha256",
     "failure_type",
     "started_at",
     "ended_at",
@@ -238,6 +240,33 @@ def _event(event: Any) -> dict[str, Any]:
         )
         if key in payload
     }
+    # The persisted terminal event may contain a rejected request's numeric
+    # preflight. Project only the validated fields; never export its prompt.
+    if _get(event, "event_type") == "task_finished":
+        diagnostic = payload.get("budget_preflight")
+        if isinstance(diagnostic, Mapping):
+            request_kind = diagnostic.get("request_kind")
+            remaining = diagnostic.get("remaining_tokens")
+            bound = diagnostic.get("prompt_bound")
+            allowance = diagnostic.get("output_allowance")
+            started = diagnostic.get("provider_request_started")
+            if (
+                request_kind in {"structured", "plain"}
+                and type(remaining) is int
+                and remaining >= 0
+                and type(bound) is int
+                and bound >= 0
+                and type(allowance) is int
+                and allowance == remaining - bound
+                and started is False
+            ):
+                result["payload"]["budget_preflight"] = {
+                    "request_kind": request_kind,
+                    "remaining_tokens": remaining,
+                    "prompt_bound": bound,
+                    "output_allowance": allowance,
+                    "provider_request_started": False,
+                }
     # Tool bodies, metadata, arguments and browser observations never cross this boundary.
     for name, fields in (
         ("decision", ("subgoal_id", "tool", "action")),
@@ -426,6 +455,17 @@ async def capture_attempt(
     )
     current_source = _source_fingerprint(root)
     planned_source = _get(plan.get("fingerprints"), "source")
+    call_source_hashes = sorted(
+        {
+            value
+            for call in calls or ()
+            if isinstance(value := _get(call, "execution_source_sha256"), str)
+        }
+    )
+    every_call_attested = bool(calls) and all(
+        _get(call, "execution_source_sha256") == _get(planned_source, "sha256")
+        for call in calls
+    )
     source_version = {
         "plan_id": plan.get("plan_id"),
         "plan_canonical_sha256": _hash(_bytes(dict(plan))),
@@ -439,8 +479,10 @@ async def capture_attempt(
         "capture_dependency_lock_sha256": resources["backend/uv.lock"],
         "planned_source_matches_capture": _get(planned_source, "sha256")
         == current_source["sha256"],
-        "execution_source_verified": False,
-        "note": "Neither dry-run nor capture hashes prove the source used by an existing task.",
+        "worker_startup_source_sha256_values": call_source_hashes,
+        "execution_source_verified": every_call_attested
+        and _get(planned_source, "sha256") == current_source["sha256"],
+        "note": "Worker startup file hash is bound to each persisted call; this does not prove unchanged in-memory modules after startup.",
     }
     documents = {
         "task.json": sanitizer.clean(_project(task, TASK_FIELDS))
@@ -484,6 +526,7 @@ async def capture_attempt(
         "snapshot_consistency": "stable_task_record_non_atomic"
         if stable
         else "changed_or_unavailable_non_atomic",
+        "execution_source_verified": source_version["execution_source_verified"],
         "read_failures": failures,
         "truncated_collections": truncated,
         "redaction": {

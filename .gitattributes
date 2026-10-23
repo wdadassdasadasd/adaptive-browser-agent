@@ -1,2 +1,8 @@
 # Keep the frozen historical source byte-identical while checking other whitespace.
 docs/archive/design-0.3/07_AI_CODING_WORKFLOW.md whitespace=-blank-at-eof
+
+# These signed pilot evidence files use CRLF bytes in their recorded SHA-256.
+data/evaluation/p02-pilot-r11-20261023/budget-preflight-supplement-20261023.json -text whitespace=cr-at-eol
+data/evaluation/p02-pilot-r11-20261023/human-review-conclusion-20261023.json -text whitespace=cr-at-eol
+data/evaluation/p02-pilot-r11-20261023/predev-handoff-20261023.json -text whitespace=cr-at-eol
+data/evaluation/p02-pilot-r11-20261023/provider-console-attestation-20261023.json -text whitespace=cr-at-eol

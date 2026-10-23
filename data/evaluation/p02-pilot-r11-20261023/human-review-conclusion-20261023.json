@@ -1,0 +1,134 @@
+{
+  "artifact_type": "pilot_human_source_review_conclusion",
+  "created_at": "2026-10-23T05:28:07.931370+00:00",
+  "reviewer": "user (human source reviewer)",
+  "review_provenance": "User replied 核实 to the scoped B03 official release page question in this chat on 2026-10-23; B01/B02 had no candidate facts.",
+  "review_status": "completed_for_available_candidate_facts",
+  "baseline_artifact": {
+    "path": "diagnostic-baseline-summary.json",
+    "sha256": "b4f6f34a0732b8c2e775fa091d9c65580e73c83aab9471b908c5ea180cddff92"
+  },
+  "attempt_reviews": [
+    {
+      "case_id": "B01",
+      "run_id": "39d4a2d0-8729-5b97-be65-a87d0678a0f2",
+      "task_id": "89d08313-5851-47e7-a4a4-6918bd596c4a",
+      "pending_packet_artifact": {
+        "path": "39d4a2d0-8729-5b97-be65-a87d0678a0f2/field-source-review-pending.json",
+        "sha256": "d11a0ae76b67d1443e41d851124b20d46232ac8c42dd8614454192578c88faaf"
+      },
+      "report_artifact": {
+        "path": "39d4a2d0-8729-5b97-be65-a87d0678a0f2/capture/report.json",
+        "sha256": "0044f99e88e6a45f46fce7c5bf2a7944d769bd798e3293ab03e6065ee9df8619"
+      },
+      "required_fields": [
+        "project_1_name",
+        "project_1_repository",
+        "project_1_license",
+        "project_1_install",
+        "project_1_source",
+        "project_2_name",
+        "project_2_repository",
+        "project_2_license",
+        "project_2_install",
+        "project_2_source"
+      ],
+      "human_verdict": "no_candidate_facts_to_review",
+      "verified_candidate_fact_ids": [],
+      "verified_fields": [],
+      "unverified_missing_fields": [
+        "project_1_name",
+        "project_1_repository",
+        "project_1_license",
+        "project_1_install",
+        "project_1_source",
+        "project_2_name",
+        "project_2_repository",
+        "project_2_license",
+        "project_2_install",
+        "project_2_source"
+      ],
+      "limitations": "No candidate facts or official source URLs were produced; no field is verified."
+    },
+    {
+      "case_id": "B02",
+      "run_id": "347bd8b2-0e09-5975-8dff-e8ed4f2c1a52",
+      "task_id": "136c307b-a562-4ea4-8e8c-da325ceeb01a",
+      "pending_packet_artifact": {
+        "path": "347bd8b2-0e09-5975-8dff-e8ed4f2c1a52/field-source-review-pending.json",
+        "sha256": "a23672f72ac66c4fc113408f03cf6d73ebd5c922eddad4c06ffbb1f73364a558"
+      },
+      "report_artifact": {
+        "path": "347bd8b2-0e09-5975-8dff-e8ed4f2c1a52/capture/report.json",
+        "sha256": "f4585e9ebc9b2535290760904b2841489633a7d4e3baf9296bf462b19b562561"
+      },
+      "required_fields": [
+        "fastapi_name",
+        "fastapi_route",
+        "fastapi_async",
+        "fastapi_install",
+        "fastapi_source",
+        "flask_name",
+        "flask_route",
+        "flask_async",
+        "flask_install",
+        "flask_source"
+      ],
+      "human_verdict": "no_candidate_facts_to_review",
+      "verified_candidate_fact_ids": [],
+      "verified_fields": [],
+      "unverified_missing_fields": [
+        "fastapi_name",
+        "fastapi_route",
+        "fastapi_async",
+        "fastapi_install",
+        "fastapi_source",
+        "flask_name",
+        "flask_route",
+        "flask_async",
+        "flask_install",
+        "flask_source"
+      ],
+      "limitations": "No candidate facts or official source URLs were produced; no field is verified."
+    },
+    {
+      "case_id": "B03",
+      "run_id": "e4e3e822-f5f0-582d-9412-e7cb91daefe4",
+      "task_id": "ecad1481-a489-4c0f-b01a-04076ac01e9b",
+      "pending_packet_artifact": {
+        "path": "e4e3e822-f5f0-582d-9412-e7cb91daefe4/field-source-review-pending.json",
+        "sha256": "828145018f03f601e9ab6fdfccb9877dcdc04f57827965696c0c3acc131aae87"
+      },
+      "report_artifact": {
+        "path": "e4e3e822-f5f0-582d-9412-e7cb91daefe4/capture/report.json",
+        "sha256": "860738abacbf4b07563a963e153e58f8621b08d5964c22fdbdb767edae2466b6"
+      },
+      "required_fields": [
+        "version",
+        "publication_date",
+        "change_1",
+        "change_2",
+        "release_source"
+      ],
+      "human_verdict": "核实",
+      "verdict_scope": "Candidate facts f1 and f4 only: release version 0.13.13, GitHub page Latest label, and canonical release URL.",
+      "verified_candidate_fact_ids": [
+        "f1",
+        "f4"
+      ],
+      "verified_fields": [
+        "version",
+        "release_source"
+      ],
+      "official_source_url": "https://github.com/browser-use/browser-use/releases/tag/0.13.13",
+      "unverified_missing_fields": [
+        "publication_date",
+        "change_1",
+        "change_2"
+      ],
+      "limitations": "The user did not verify a publication date or release changes. Original facts have 2026-10-16 retrieved_at and no source locator or identity basis; preserve these defects for quality diagnosis. This does not make B03 a successful task."
+    }
+  ],
+  "quality_gate": "diagnostic_baseline_only; B01/B02 failed and B03 partial",
+  "evidence_limit": "No screenshot or independently timestamped human browsing transcript supplied; user verdict is attested in this chat."
+}

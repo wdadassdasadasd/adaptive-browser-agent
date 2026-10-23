@@ -493,9 +493,45 @@ def test_link_gate_rejects_missing_local_target(tmp_path: Path) -> None:
     assert not check_links(tmp_path, ("doc.md",))
 
 
-def test_traceability_gate_rejects_broken_task_acceptance_mapping(
-    tmp_path: Path,
-) -> None:
+def test_current_links_cannot_pass_through_archive_mapping(tmp_path: Path) -> None:
+    archive = tmp_path / "docs/archive"
+    archive.mkdir(parents=True)
+    (archive / "evidence.md").write_text("# evidence\n", encoding="utf-8")
+    frozen = archive / "frozen.md"
+    frozen.write_text("[evidence](../evidence.md)\n", encoding="utf-8")
+    manifest = archive / "R0_PATH_MAP.json"
+    manifest.write_text(
+        json.dumps(
+            {
+                "version": 1,
+                "entries": [
+                    {
+                        "old_path": "docs/evidence.md",
+                        "new_path": "docs/archive/evidence.md",
+                        "kind": "historical",
+                        "sha256": hashlib.sha256(
+                            (archive / "evidence.md").read_bytes()
+                        ).hexdigest(),
+                    },
+                    {
+                        "old_path": "docs/legacy/frozen.md",
+                        "new_path": "docs/archive/frozen.md",
+                        "kind": "historical",
+                        "sha256": hashlib.sha256(frozen.read_bytes()).hexdigest(),
+                    },
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+    current = tmp_path / "docs/current.md"
+    current.write_text("[evidence](evidence.md)\n", encoding="utf-8")
+
+    assert "broken local link" in " ".join(check_links(tmp_path, ("docs/current.md",)))
+    assert not check_links(tmp_path, ("docs/archive/frozen.md",))
+
+
+def _copy_traceability_docs(tmp_path: Path) -> None:
     root = Path(__file__).resolve().parents[3]
     for relative in (
         "SPEC.md",
@@ -506,10 +542,18 @@ def test_traceability_gate_rejects_broken_task_acceptance_mapping(
         "docs/archive/design-0.3/00_DESIGN_INDEX.md",
         "docs/archive/target-2026-10-18/SPEC.md",
         "docs/archive/target-2026-10-18/PLANS.md",
+        "docs/evaluation/archive/CURRENT_EVAL_PROTOCOL_current-1.json",
+        "docs/evaluation/archive/CURRENT_EVAL_PROTOCOL_current-2.json",
     ):
         target = tmp_path / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes((root / relative).read_bytes())
+
+
+def test_traceability_gate_rejects_broken_task_acceptance_mapping(
+    tmp_path: Path,
+) -> None:
+    _copy_traceability_docs(tmp_path)
     plan = tmp_path / "PLANS.md"
     plan.write_text(
         plan.read_text(encoding="utf-8").replace("FR-001", "FR-999"),
@@ -517,6 +561,51 @@ def test_traceability_gate_rejects_broken_task_acceptance_mapping(
     )
     findings = check_versions_and_traceability(tmp_path)
     assert any("no stage row maps FR-001 to AC-001" in item for item in findings)
+
+
+def test_traceability_gate_requires_new_requirements_on_their_stages(
+    tmp_path: Path,
+) -> None:
+    _copy_traceability_docs(tmp_path)
+    spec = tmp_path / "SPEC.md"
+    plan = tmp_path / "PLANS.md"
+    mappings = (
+        ("FR-011", "AC-011", "P-03"),
+        ("FR-012", "AC-012", "P-03"),
+        ("NFR-010", "AC-N10", "P-02"),
+    )
+    spec_text = spec.read_text(encoding="utf-8")
+    for requirement, ac, stage in mappings:
+        if not any(
+            line.startswith(f"| {requirement} |") for line in spec_text.splitlines()
+        ):
+            spec_text += f"\n| {requirement} | test capability | {stage} | {ac} |"
+    spec.write_text(spec_text, encoding="utf-8")
+    plan_text = plan.read_text(encoding="utf-8")
+    plan_text += "".join(
+        f"\n| {stage} | {requirement} | {ac} |" for requirement, ac, stage in mappings
+    )
+    plan.write_text(plan_text, encoding="utf-8")
+    assert not check_versions_and_traceability(tmp_path)
+
+    spec.write_text(
+        "\n".join(
+            line for line in spec_text.splitlines() if not line.startswith("| FR-012 |")
+        ),
+        encoding="utf-8",
+    )
+    assert "SPEC: missing mapping row FR-012" in check_versions_and_traceability(
+        tmp_path
+    )
+
+    spec.write_text(spec_text, encoding="utf-8")
+    plan.write_text(
+        plan_text.replace("NFR-010", "NFR-999") + "\n| P-03 | NFR-010 | AC-N10 |",
+        encoding="utf-8",
+    )
+    assert "PLANS: stage P-02 must map NFR-010 to AC-N10" in (
+        check_versions_and_traceability(tmp_path)
+    )
 
 
 def test_protocol_rejects_aggregate_gate_and_changed_b_prompt() -> None:

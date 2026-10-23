@@ -4,7 +4,7 @@
 
 已实现的离线计划入口 `python -m adaptive_research.evaluation.current --phase pilot --output data/evaluation/<new-file>.json` 只校验冻结题面、生成 B01–B03 三条预览和源码/锁文件哈希；`--phase formal` 预览 15 次，`--execute` 会拒绝。输出标记尝试和 provider 调用均为 0。[当前 pilot 计划](../../data/evaluation/p02-pilot-dry-run-r6-20261022.json)与[空项目总账基线](../../data/evaluation/p02-project-ledger-initial-20261022.json)均为离线工件。价格依据为[2026-10-22 DeepSeek CNY 快照](DEEPSEEK_CNY_PRICING_2026-10-22.json)，旧快照保留；逐调用计算仅覆盖快照列出的 token 价格，Search/Fetch 等非模型计费仍须单独核对。快照到期、缓存拆分/模型/时段不明则费用为 null，真实执行前须重新核对官方单价并冻结新批次。
 
-`python -m adaptive_research.evaluation.pilot_budget` 默认只离线检查价表；单独授权后的 `--arm` 可在空库写入同库 pilot 预算上限，Worker 在未建额时拒绝带价表的模型调用。`adaptive_research.evaluation.pilot_capture.capture_attempt` 对已有 pilot 任务只读导出七份带 SHA-256 的脱敏诊断工件。`python -m adaptive_research.evaluation.pilot_runner` 默认无动作；经单次真实运行及费用授权后，其 `--execute` 模式才可在本机 API 上按幂等键串行提交、等待、捕获 B01–B03，并逐次追加只写一次的项目总账。它在未知费用、非完成终态、超时或证据不稳时停线；全部捕获也只标记“待人工复核”，不生成合格结果。当前预算表为空，没有真实尝试、人工核源或 provider 账单对账。详见[P02 pilot 准备证据](../tasks/P02_PILOT_PREP_2026-10-21.md)。
+`python -m adaptive_research.evaluation.pilot_budget` 默认只离线检查价表；单独授权后的 `--arm` 可在空库写入同库 pilot 预算上限，Worker 在未建额时拒绝带价表的模型调用。`adaptive_research.evaluation.pilot_capture.capture_attempt` 对已有 pilot 任务只读导出带 SHA-256 的脱敏诊断工件。`python -m adaptive_research.evaluation.pilot_runner` 默认无动作；经新批次真实运行及费用授权后，其 `--execute` 模式才可在本机 API 上按幂等键串行提交、等待、捕获 B01–B03，并逐次追加只写一次的项目总账。稳定的任务级 `partial/failed` 且费用、证据和运行源码核对完整时继续下一题；费用未知、系统故障、超额或证据不一致立即停线。捕获仅标记“待人工复核”，不生成合格结果。旧 B01 失败和停线记录见[任务包](../tasks/EIGHT_MODULE_PREP_2026-10-22.md)；[后继费用账本](../../data/evaluation/ledger-after-b01-reconciliation-20261022.json)是基于用户报告的两位小数控制台金额与工具执行路径的离线核销，逐请求 provider 发票尚未核实。
 
 ## 固定任务与判定
 
@@ -37,3 +37,7 @@ python scripts/validate_project.py --ledger path/to/project-ledger.json
 结果校验器只能检查题面冻结、记录结构、数量、文件哈希和成功声明的一致性。官方页面内容、真实权限、浏览器外联、资源容量与业务成功仍需人工和独立实证。缺少真实完整批次和安全、容量、恢复证据时维持 **No-Go**。
 
 [G3_EVAL_PROTOCOL.json](G3_EVAL_PROTOCOL.json) 是之前的 0.5 目标设计，[G2_EVAL_PROTOCOL.json](G2_EVAL_PROTOCOL.json) 是 0.4 目标设计，[V1 benchmark 协议](../benchmark/BENCHMARK_PROTOCOL.md)及 r12 原始记录均属历史。归档只供追溯，不是当前开发入口。
+
+## 2026-10-23 开发前 pilot 诊断基线
+
+[r11 三题诊断摘要](../../data/evaluation/p02-pilot-r11-20261023/diagnostic-baseline-summary.json)保留 B01、B02、B03 各一次同版真实尝试，结果依次为 `failed/no_progress`、`failed/token_budget`、`partial/token_budget`。[人工核源后继结论](../../data/evaluation/p02-pilot-r11-20261023/human-review-conclusion-20261023.json)仅核实 B03 的版本、Latest 标记与官方发布 URL；其余缺失字段未核实。[批次费用说明](../../data/evaluation/p02-pilot-r11-20261023/provider-console-attestation-20261023.json)将用户报告的控制台显示额 `0.12` 元与逐调用用量计算额 `0.12397276` 元按两位小数核对一致，但没有逐请求账单。[最终交接](../../data/evaluation/p02-pilot-r11-20261023/predev-handoff-20261023.json)及[项目账本](../../data/evaluation/ledger-after-e4e3e822-f5f0-582d-9412-e7cb91daefe4.json)绑定旧 B01 和新三题。该批次完成开发前准备，不计作正式研究质量通过；P-02 至 P-04 及产品继续 No-Go。

@@ -22,7 +22,7 @@
 
 校验器现在核对已知调用费用之和与任务费用、任务已知/总费用、模型调用用量与任务用量；报告快照 SHA-256 同人工复核及复查清单绑定。pilot 的未实施权限可明确标 `null`，正式批次必须实际检查。项目总账校验跨批次 run ID、遗漏、原始工件哈希、各阶段及 299 元总额；实际 provider 账单完整性仍需人工对账。此前“调用费用 500 元、任务只报 1 元”反例现被拒绝。
 
-[现行规格](../../SPEC.md)、[计划](../../PLANS.md)、[契约](../contracts/CURRENT_CONTRACTS.md)已映射七项能力。新增[离线核源流程](../evaluation/REVIEW_WORKFLOW.md)、[后续任务包](PREDEV_P02_P04_TASK_PACKAGE_2026-10-20.md)与[交付清单](PREDEV_DELIVERY_CHECKLIST_2026-10-20.md)，明确依赖、边界、证据、停线与面试复现条件。
+[现行规格](../../SPEC.md)、[计划](../../PLANS.md)、[契约](../contracts/CURRENT_CONTRACTS.md)已映射七项能力。新增[离线核源流程](../evaluation/REVIEW_WORKFLOW.md)、[后续任务包](../tasks/PREDEV_P02_P04_TASK_PACKAGE_2026-10-20.md)与[交付清单](PREDEV_DELIVERY_CHECKLIST_2026-10-20.md)，明确依赖、边界、证据、停线与面试复现条件。
 
 ## 实际验证（本轮）
 
@@ -39,4 +39,4 @@
 
 P-01 业务实现与两周假任务硬关口、P-02 真实 pilot、P-03 隔离/恢复/备份、P-04 正式 15 次均未进行。项目总账无法自动发现完全未登记的 provider 调用，必须人工核账；报告官方真实性必须人工打开来源核实。子模块工作树状态因 `.git/modules/browser-use` 访问受限仍未验证；本轮没有触碰其文件。当前工作树原有多项未提交改动均保留，本轮未提交或推送。
 
-下一步以 [P-01 开工包](PREDEV_P01_START_PACKAGE_2026-10-20.md)的 P01-DB、P01-RUNTIME、P01-CALL、P01-API-CI 逐项实施；每项按仓库规则独立记录授权与实际证据。P-01 未过关不进入付费 pilot，所有正式数字继续标为待验证。
+下一步以 [P-01 开工包](../tasks/PREDEV_P01_START_PACKAGE_2026-10-20.md)的 P01-DB、P01-RUNTIME、P01-CALL、P01-API-CI 逐项实施；每项按仓库规则独立记录授权与实际证据。P-01 未过关不进入付费 pilot，所有正式数字继续标为待验证。

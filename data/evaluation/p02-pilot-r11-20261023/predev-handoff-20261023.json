@@ -1,0 +1,81 @@
+{
+  "artifact_type": "predevelopment_pilot_handoff",
+  "created_at": "2026-10-23T05:28:07.931370+00:00",
+  "predevelopment_preparation_status": "complete",
+  "research_quality_status": "no_go",
+  "product_release_status": "no_go",
+  "scope": "B01–B03 one real attempt each under r11 freeze; original B01 remains in project ledger and failure denominator.",
+  "attempt_outcomes": [
+    {
+      "case_id": "B01",
+      "run_id": "39d4a2d0-8729-5b97-be65-a87d0678a0f2",
+      "task_id": "89d08313-5851-47e7-a4a4-6918bd596c4a",
+      "status": "failed",
+      "stop_reason": "no_progress",
+      "cost_cny": "0.03792848"
+    },
+    {
+      "case_id": "B02",
+      "run_id": "347bd8b2-0e09-5975-8dff-e8ed4f2c1a52",
+      "task_id": "136c307b-a562-4ea4-8e8c-da325ceeb01a",
+      "status": "failed",
+      "stop_reason": "token_budget",
+      "cost_cny": "0.03836468"
+    },
+    {
+      "case_id": "B03",
+      "run_id": "e4e3e822-f5f0-582d-9412-e7cb91daefe4",
+      "task_id": "ecad1481-a489-4c0f-b01a-04076ac01e9b",
+      "status": "partial",
+      "stop_reason": "token_budget",
+      "cost_cny": "0.04767960"
+    }
+  ],
+  "cost_accounting": {
+    "batch_cap_cny": "10",
+    "new_batch_known_cost_cny": "0.12397276",
+    "new_batch_unknown_call_count": 0,
+    "old_b01_known_cost_cny": "0.04139536",
+    "project_four_attempt_known_cost_cny": "0.16536812",
+    "user_reported_new_batch_console_display_cny": "0.12",
+    "reconciliation": "rounded display agrees with usage-based calculated cost; no itemized provider invoice"
+  },
+  "artifacts": {
+    "freeze": {
+      "path": "data/evaluation/p02-pilot-runtime-freeze-r11-20261023.json",
+      "sha256": "602cfe51c3fd1e0d0523f9ceed92962ec53bd4180d27ceccba7356e2ebb68082"
+    },
+    "diagnostic_baseline": {
+      "path": "diagnostic-baseline-summary.json",
+      "sha256": "b4f6f34a0732b8c2e775fa091d9c65580e73c83aab9471b908c5ea180cddff92"
+    },
+    "prior_b01_reconciled_ledger": {
+      "path": "data/evaluation/ledger-after-b01-reconciliation-20261022.json",
+      "sha256": "8d04dd04fc28cf2376796b5ffdc0322ee1b362e5d6c53d7b81f16de854269d04"
+    },
+    "final_project_ledger": {
+      "path": "data/evaluation/ledger-after-e4e3e822-f5f0-582d-9412-e7cb91daefe4.json",
+      "sha256": "b5157818a7b85d253ad55d4f55b598af0f6c2cfc36d36150b6e112e29df1178f"
+    },
+    "provider_console_attestation": {
+      "path": "provider-console-attestation-20261023.json",
+      "sha256": "aa4ca0b693c3981f999fcffdfd4b7f19cfe7e9c6497fd3488d8068f2487f6a21"
+    },
+    "human_source_review": {
+      "path": "human-review-conclusion-20261023.json",
+      "sha256": "78a7b67c193f9ae1ee53f6dbb07cfd1295a72455c27bf7ec33038c1d540bf6cd"
+    }
+  },
+  "remaining_quality_failures": [
+    "B01 failed/no_progress with zero facts",
+    "B02 failed/token_budget with zero facts",
+    "B03 partial/token_budget, only f1/f4 verified; publication date and two change fields missing",
+    "B03 fact retrieved_at predates run and lacks source locator/identity basis"
+  ],
+  "next_development_entry": "Use call-level traces to form falsifiable minimal changes for no_progress, token preflight, and fact timestamp/locator; separately evaluate under P-02 through P-04 gates.",
+  "limitations": [
+    "Provider dashboard figure is user-reported at two-decimal precision without itemized invoice.",
+    "Human B03 verdict is scoped to specified candidate claims; no official-source result for absent fields.",
+    "No research-quality behavior was modified before this baseline."
+  ]
+}

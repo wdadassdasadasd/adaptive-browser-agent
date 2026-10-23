@@ -1,0 +1,28 @@
+{
+  "artifact_type": "user_reported_provider_console_attestation",
+  "created_at": "2026-10-23T05:28:07.931370+00:00",
+  "authorization_reference": "chat:2026-10-23-p02-pilot-cny10",
+  "source": "user reply in this chat to DeepSeek console batch-cost question",
+  "provider": "DeepSeek",
+  "displayed_amount_cny": "0.12",
+  "display_precision_cny": "0.01",
+  "user_reply_verbatim": "0.12",
+  "asked_window_utc": "2026-10-23 04:58–05:03 UTC",
+  "attempt_run_ids": [
+    "39d4a2d0-8729-5b97-be65-a87d0678a0f2",
+    "347bd8b2-0e09-5975-8dff-e8ed4f2c1a52",
+    "e4e3e822-f5f0-582d-9412-e7cb91daefe4"
+  ],
+  "calculated_from_provider_reported_usage_cny": "0.12397276",
+  "rounded_calculated_amount_cny": "0.12",
+  "reconciliation_result": "consistent_at_display_precision",
+  "evidence_limit": "User-reported console total only; no screenshot, timestamped itemized provider invoice, or per-request console records were supplied. This is not an exact provider charge of 0.12 CNY.",
+  "baseline_artifact": {
+    "path": "diagnostic-baseline-summary.json",
+    "sha256": "b4f6f34a0732b8c2e775fa091d9c65580e73c83aab9471b908c5ea180cddff92"
+  },
+  "project_ledger_artifact": {
+    "path": "data/evaluation/ledger-after-e4e3e822-f5f0-582d-9412-e7cb91daefe4.json",
+    "sha256": "b5157818a7b85d253ad55d4f55b598af0f6c2cfc36d36150b6e112e29df1178f"
+  }
+}

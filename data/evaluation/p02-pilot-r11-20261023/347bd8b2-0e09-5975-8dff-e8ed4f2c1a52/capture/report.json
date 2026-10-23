@@ -1,0 +1,12 @@
+{
+  "comparison": "Insufficient evidence for a supported comparison.",
+  "findings": [],
+  "generated_at": "2026-10-23T05:00:37.632671Z",
+  "goal": "Compare FastAPI and Flask for a small Python HTTP API using their official documentation. Explain how each declares a route, whether async handlers are documented, and how each is installed. Cite the exact official pages.",
+  "markdown": "# Research report: Compare FastAPI and Flask for a small Python HTTP API using their official documentation. Explain how each declares a route, whether async handlers are documented, and how each is installed. Cite the exact official pages.\n\nInsufficient evidence; stop reason: token_budget (the model usage limit was reached).\n\n## Findings\nNo verified findings.\n\n## Comparison\nInsufficient evidence for a supported comparison.\n\n## Recommendation\nInsufficient evidence for a supported recommendation.\n\n## Unknown or unfinished\n- Gather official FastAPI documentation evidence for route declaration, async handler support, and installation.\n- Gather official Flask documentation evidence for route declaration, async handler support, and installation.\n- Verify that every requested comparison field has sourced evidence for both frameworks and exact official citations.\n\n## Sources\n- No verified sources.",
+  "recommendation": "Insufficient evidence for a supported recommendation.",
+  "sources": [],
+  "summary": "Insufficient evidence; stop reason: token_budget (the model usage limit was reached).",
+  "task_id": "136c307b-a562-4ea4-8e8c-da325ceeb01a",
+  "title": "Research report: Compare FastAPI and Flask for a small Python HTTP API using their official documentation. Explain how each declares a route, whether async handlers are documented, and how each is installed. Cite the exact official pages."
+}

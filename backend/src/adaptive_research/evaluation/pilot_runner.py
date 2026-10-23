@@ -154,7 +154,7 @@ def _validate_budget(
         or budget.authorization_reference != reference
         or budget.price_book_sha256 != book.get("snapshot_sha256")
         or budget.price_revision != book.get("price_revision")
-        or budget.phase_max_cny > 49
+        or budget.phase_max_cny > 10
         or budget.project_max_cny >= 300
     ):
         raise PilotRunError(
@@ -448,11 +448,21 @@ async def run_pilot(
         completed.append(
             {"run_id": run_id, "task_id": task_id, "status": persisted.status}
         )
+        task_level_terminal = persisted.status == "completed" or (
+            persisted.status in {"partial", "failed"}
+            and persisted.stop_reason
+            in {"token_budget", "no_progress", "max_steps", "insufficient_info"}
+        )
         if (
             timed_out
-            or persisted.status != "completed"
+            or not task_level_terminal
             or manifest.get("cost", {}).get("cost_completeness") != "known"
             or manifest.get("snapshot_consistency") != "stable_task_record_non_atomic"
+            or manifest.get("execution_source_verified") is not True
+            or manifest.get("goal_matches_planned_prompt") is not True
+            or manifest.get("task_terminal") is not True
+            or bool(manifest.get("read_failures"))
+            or any((manifest.get("truncated_collections") or {}).values())
             or recorded.get("status") == "No-Go"
         ):
             result = {"status": "paused_no_go", "retained": completed}

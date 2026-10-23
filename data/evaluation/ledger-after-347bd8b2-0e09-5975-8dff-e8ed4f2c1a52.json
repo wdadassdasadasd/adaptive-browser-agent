@@ -1,0 +1,83 @@
+{
+  "protocol_version": "current-3",
+  "batches": [],
+  "entries": [
+    {
+      "run_id": "45ecbdf2-bc98-5fb3-9fa7-3b4f505c2c1c",
+      "task_id": "59a0f54a-e250-48df-b2ba-bbf4834a9256",
+      "allocation": "pilot",
+      "batch_id": null,
+      "known_cost_cny": 0.04139536,
+      "total_cost_cny": 0.04139536,
+      "unknown_attempt_count": 0,
+      "evidence_artifact": {
+        "relative_path": "p02-pilot-r9-20261022/45ecbdf2-bc98-5fb3-9fa7-3b4f505c2c1c/capture/manifest.json",
+        "sha256": "ee2e9bb6f8f2f12de20354e5483692da477d7f5668a4d861b72ecceffa445569"
+      },
+      "authorization_reference": "chat:2026-10-22-p02-pilot-cny10",
+      "attempt_status": "partial",
+      "reconciliation_artifact": {
+        "relative_path": "b01-cost-reconciliation-20261022.json",
+        "sha256": "5695053cb1ed958275860965aeea6442412bbecedee7949a233bb292553c65fa"
+      }
+    },
+    {
+      "run_id": "39d4a2d0-8729-5b97-be65-a87d0678a0f2",
+      "task_id": "89d08313-5851-47e7-a4a4-6918bd596c4a",
+      "allocation": "pilot",
+      "batch_id": null,
+      "known_cost_cny": 0.03792848,
+      "total_cost_cny": 0.03792848,
+      "unknown_attempt_count": 0,
+      "evidence_artifact": {
+        "relative_path": "p02-pilot-r11-20261023/39d4a2d0-8729-5b97-be65-a87d0678a0f2/capture/manifest.json",
+        "sha256": "54bfa13a2126d819bab4513ee8b1bac3ce1fd4f14822e80709043c16b4861a2d"
+      },
+      "authorization_reference": "chat:2026-10-23-p02-pilot-cny10",
+      "attempt_status": "failed"
+    },
+    {
+      "run_id": "347bd8b2-0e09-5975-8dff-e8ed4f2c1a52",
+      "task_id": "136c307b-a562-4ea4-8e8c-da325ceeb01a",
+      "allocation": "pilot",
+      "batch_id": null,
+      "known_cost_cny": 0.03836468,
+      "total_cost_cny": 0.03836468,
+      "unknown_attempt_count": 0,
+      "evidence_artifact": {
+        "relative_path": "p02-pilot-r11-20261023/347bd8b2-0e09-5975-8dff-e8ed4f2c1a52/capture/manifest.json",
+        "sha256": "44a2885c5d5fda54d02025bea0fbbbd2e219ad02d46d353a81d766850db49230"
+      },
+      "authorization_reference": "chat:2026-10-23-p02-pilot-cny10",
+      "attempt_status": "failed"
+    }
+  ],
+  "artifact_type": "offline_project_cost_ledger",
+  "created_at": "2026-10-23T05:00:38.719257+00:00",
+  "status": "declared_costs_reconciled_offline_only",
+  "new_paid_calls_authorized": false,
+  "unknown_attempt_count": 0,
+  "known_subtotals_cny": {
+    "pilot": "0.11768852",
+    "diagnostic": "0",
+    "formal": "0",
+    "contingency": "0"
+  },
+  "known_project_subtotal_cny": "0.11768852",
+  "declared_project_total_cny": "0.11768852",
+  "allocation_limits_cny": {
+    "pilot": 49,
+    "diagnostic": 30,
+    "formal": 200,
+    "contingency": 20
+  },
+  "project_max_cny": 299,
+  "protocol_sha256": "1c18d53624c21b1e25f5cea5640b4c8b4a5e0cfc001f430c8d603a01d51a8507",
+  "validation_errors": [],
+  "billing_reconciliation": "not_verified_against_provider_invoice",
+  "note": "Only declared attempts are checked; this snapshot does not authorize spending or prove completeness against provider billing.",
+  "previous_ledger_artifact": {
+    "relative_path": "ledger-after-39d4a2d0-8729-5b97-be65-a87d0678a0f2.json",
+    "sha256": "435e6bf7fa8d0c622471323213c81fbea78f3e6d581bef043c1116045709fb5d"
+  }
+}

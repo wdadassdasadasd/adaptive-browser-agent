@@ -118,8 +118,31 @@ class StateReducer:
             self._expect_keys(
                 event.payload,
                 {"status", "completion_level", "stop_reason"},
-                {"report", "prompt_tokens", "completion_tokens"},
+                {"report", "prompt_tokens", "completion_tokens", "budget_preflight"},
             )
+            if "budget_preflight" in event.payload:
+                diagnostic = event.payload["budget_preflight"]
+                if (
+                    not isinstance(diagnostic, dict)
+                    or set(diagnostic)
+                    != {
+                        "request_kind",
+                        "remaining_tokens",
+                        "prompt_bound",
+                        "output_allowance",
+                        "provider_request_started",
+                    }
+                    or diagnostic["request_kind"] not in {"structured", "plain"}
+                    or type(diagnostic["remaining_tokens"]) is not int
+                    or diagnostic["remaining_tokens"] < 0
+                    or type(diagnostic["prompt_bound"]) is not int
+                    or diagnostic["prompt_bound"] < 0
+                    or type(diagnostic["output_allowance"]) is not int
+                    or diagnostic["output_allowance"]
+                    != diagnostic["remaining_tokens"] - diagnostic["prompt_bound"]
+                    or diagnostic["provider_request_started"] is not False
+                ):
+                    raise ValueError("invalid budget preflight diagnostic")
             usage = self._usage(event.payload)
             status = ResearchStatus(event.payload["status"])
             level = event.payload["completion_level"]

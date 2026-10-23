@@ -1,0 +1,13 @@
+{
+  "authorization_reference": "chat:2026-10-22-p02-pilot-cny10",
+  "plan_sha256": "a7db2ee574637535b53ed7950207e84c84b2b59a896ff401a15ef07b2cbb9b11",
+  "price_book_sha256": "1fac6cccd3aeeab7c169acd05e19d9b8e73cce610dba7f20a75175d1503596d5",
+  "prior_ledger_name": "p02-project-ledger-initial-20261022.json",
+  "prior_ledger_sha256": "4d89bd28de6849be8618b2761c734f9555ca7d1d492bf16b7ac002e4558a4232",
+  "protocol_version": "current-3",
+  "run_ids": [
+    "45ecbdf2-bc98-5fb3-9fa7-3b4f505c2c1c",
+    "3a940315-d5d3-5439-ba73-cd97feaa08b4",
+    "bbeaec17-d892-535a-90f9-89f5a913406c"
+  ]
+}

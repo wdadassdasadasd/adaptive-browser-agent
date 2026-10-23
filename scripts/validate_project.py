@@ -14,7 +14,7 @@ import re
 import sys
 from collections import Counter
 from datetime import datetime
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
@@ -146,15 +146,18 @@ def check_links(root: Path, files: tuple[str, ...] = DOCS) -> list[str]:
                 resolved = (source.parent / local).resolve()
                 if resolved.is_relative_to(root.resolve()) and resolved.exists():
                     continue
-                original_source = root / former.get(relative, relative)
-                old_target = (original_source.parent / local).resolve()
-                if old_target.is_relative_to(root.resolve()):
-                    old_relative = old_target.relative_to(root.resolve()).as_posix()
-                    mapped = moved.get(old_relative)
-                    if mapped is not None and (root / mapped).exists():
-                        continue
-                    if old_target.exists():
-                        continue
+                # Archived documents retain their original bytes and links. Current
+                # documents must point directly at the relocated target.
+                if relative.startswith("docs/archive/"):
+                    original_source = root / former.get(relative, relative)
+                    old_target = (original_source.parent / local).resolve()
+                    if old_target.is_relative_to(root.resolve()):
+                        old_relative = old_target.relative_to(root.resolve()).as_posix()
+                        mapped = moved.get(old_relative)
+                        if mapped is not None and (root / mapped).exists():
+                            continue
+                        if old_target.exists():
+                            continue
                 if not resolved.is_relative_to(root.resolve()) or not resolved.exists():
                     errors.append(f"{relative}:{number}: broken local link {target}")
     return errors
@@ -221,8 +224,13 @@ def check_versions_and_traceability(root: Path) -> list[str]:
         line for line in plan.splitlines() if re.match(r"^\| P-0[0-4] \|", line)
     ]
     expected = {
-        *(f"FR-{i:03d}" for i in range(1, 11)),
-        *(f"NFR-{i:03d}" for i in range(1, 10)),
+        *(f"FR-{i:03d}" for i in range(1, 13)),
+        *(f"NFR-{i:03d}" for i in range(1, 11)),
+    }
+    required_new_stages = {
+        "FR-011": "P-03",
+        "FR-012": "P-03",
+        "NFR-010": "P-02",
     }
     for requirement in sorted(expected):
         suffix = requirement.split("-")[1]
@@ -247,6 +255,16 @@ def check_versions_and_traceability(root: Path) -> list[str]:
             requirement in line and ac in line for line in stage_mapping_rows
         ):
             errors.append(f"PLANS: no stage row maps {requirement} to {ac}")
+        if stage_id := required_new_stages.get(requirement):
+            if row and stage_id not in STAGE.findall(row):
+                errors.append(f"SPEC: {requirement} missing stage {stage_id}")
+            if not any(
+                line.startswith(f"| {stage_id} |")
+                and requirement in line
+                and ac in line
+                for line in stage_mapping_rows
+            ):
+                errors.append(f"PLANS: stage {stage_id} must map {requirement} to {ac}")
         if row and requirement != "FR-008":
             for stage_id in STAGE.findall(row):
                 if not any(stage_id in line for line in stage_mapping_rows):
@@ -1499,6 +1517,89 @@ def check_ledger(protocol: dict, ledger: dict, base_dir: Path) -> list[str]:
                     label,
                 )
             )
+        reconciliation_artifact = entry.get("reconciliation_artifact")
+        if reconciliation_artifact is not None:
+            if not isinstance(reconciliation_artifact, dict):
+                errors.append(f"{label}: invalid reconciliation artifact")
+            else:
+                reconciliation_errors = _check_artifact(
+                    base_dir,
+                    reconciliation_artifact.get("relative_path"),
+                    reconciliation_artifact.get("sha256"),
+                    f"{label} reconciliation",
+                )
+                errors.extend(reconciliation_errors)
+                if not reconciliation_errors:
+                    try:
+                        reconciliation = json.loads(
+                            (
+                                base_dir / reconciliation_artifact["relative_path"]
+                            ).read_text(encoding="utf-8")
+                        )
+                        previous_ref = reconciliation["previous_ledger_artifact"]
+                        attestation_ref = reconciliation["attestation_artifact"]
+                        chain_errors = []
+                        for name, reference in (
+                            ("previous ledger", previous_ref),
+                            ("attestation", attestation_ref),
+                        ):
+                            chain_errors.extend(
+                                _check_artifact(
+                                    base_dir,
+                                    reference.get("relative_path"),
+                                    reference.get("sha256"),
+                                    f"{label} {name}",
+                                )
+                            )
+                        errors.extend(chain_errors)
+                        if chain_errors:
+                            raise ValueError("Reconciliation chain is incomplete")
+                        previous = json.loads(
+                            (base_dir / previous_ref["relative_path"]).read_text(
+                                encoding="utf-8"
+                            )
+                        )
+                        original = next(
+                            item
+                            for item in previous["entries"]
+                            if item["run_id"] == run_id
+                        )
+                        if (
+                            reconciliation.get("artifact_type")
+                            != "pilot_cost_reconciliation"
+                            or reconciliation.get("run_id") != run_id
+                            or reconciliation.get("task_id") != entry["task_id"]
+                            or reconciliation.get("original_capture_artifact")
+                            != entry["evidence_artifact"]
+                            or original["evidence_artifact"]
+                            != entry["evidence_artifact"]
+                            or original["task_id"] != entry["task_id"]
+                            or original["total_cost_cny"] is not None
+                            or original["unknown_attempt_count"]
+                            != reconciliation.get("original_unknown_call_count")
+                            or len(reconciliation.get("reclassified_tool_calls", []))
+                            != original["unknown_attempt_count"]
+                            or Decimal(str(reconciliation.get("reconciled_total_cny")))
+                            != _money(entry["total_cost_cny"])
+                            or Decimal(
+                                str(reconciliation.get("model_calculated_cost_cny"))
+                            )
+                            != _money(entry["known_cost_cny"])
+                            or reconciliation.get("remaining_unknown_call_count") != 0
+                            or entry["unknown_attempt_count"] != 0
+                        ):
+                            errors.append(
+                                f"{label}: reconciliation conflicts with original"
+                            )
+                    except (
+                        OSError,
+                        ValueError,
+                        KeyError,
+                        TypeError,
+                        StopIteration,
+                        InvalidOperation,
+                    ):
+                        errors.append(f"{label}: unreadable reconciliation chain")
         known = _money(entry["known_cost_cny"])
         total = _money(entry["total_cost_cny"])
         unknown = entry["unknown_attempt_count"]

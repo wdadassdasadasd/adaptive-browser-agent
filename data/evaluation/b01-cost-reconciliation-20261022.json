@@ -1,0 +1,84 @@
+{
+  "artifact_type": "pilot_cost_reconciliation",
+  "created_at": "2026-10-22T12:02:15.156610+00:00",
+  "run_id": "45ecbdf2-bc98-5fb3-9fa7-3b4f505c2c1c",
+  "task_id": "59a0f54a-e250-48df-b2ba-bbf4834a9256",
+  "previous_ledger_artifact": {
+    "relative_path": "ledger-after-45ecbdf2-bc98-5fb3-9fa7-3b4f505c2c1c.json",
+    "sha256": "ebfbdc4a5ab3d2de4be98fba068b2349d2c06c1808ff72dac8ed4e75361107d3"
+  },
+  "original_capture_artifact": {
+    "relative_path": "p02-pilot-r9-20261022/45ecbdf2-bc98-5fb3-9fa7-3b4f505c2c1c/capture/manifest.json",
+    "sha256": "ee2e9bb6f8f2f12de20354e5483692da477d7f5668a4d861b72ecceffa445569"
+  },
+  "original_calls_sha256": "f87806a5ed8ccf11d9d0aa17deef19e6330798c743293f6475e19c2645ecfc6f",
+  "attestation_artifact": {
+    "relative_path": "b01-deepseek-console-attestation-20261022.json",
+    "sha256": "dff10642e2d4fb3acc35012b96c1988cd25f91c6dc28e325b0f1e1decac4c1b9"
+  },
+  "model_calculated_cost_cny": "0.04139536",
+  "console_display_cny": "0.04",
+  "console_display_decimals": 2,
+  "reclassified_tool_calls": [
+    {
+      "call_id": "581ebc48-4cba-4e11-bc1c-e5c64dbc1849",
+      "operation": "github.search_repositories",
+      "basis": "public_github_rest_get_v1"
+    },
+    {
+      "call_id": "f4fe98a7-56df-402c-9b1c-4fcd8a02fa03",
+      "operation": "github.get_repository",
+      "basis": "public_github_rest_get_v1"
+    },
+    {
+      "call_id": "f586f17d-f263-4152-82ef-b814465801ed",
+      "operation": "github.get_repository",
+      "basis": "public_github_rest_get_v1"
+    },
+    {
+      "call_id": "1a48ba81-6307-4ae8-ae74-a4c279698a12",
+      "operation": "browser.start_session",
+      "basis": "local_browser_use_session_v1"
+    },
+    {
+      "call_id": "2bdc450a-fab9-41e6-a35e-a748ef734af1",
+      "operation": "browser.navigate",
+      "basis": "local_browser_use_session_v1"
+    },
+    {
+      "call_id": "a26d856d-2b9c-4d60-a6f8-196e87e55d5e",
+      "operation": "browser.observe",
+      "basis": "local_browser_use_session_v1"
+    },
+    {
+      "call_id": "522d5379-85d0-49d4-981e-5fca1e6d59f7",
+      "operation": "browser.navigate",
+      "basis": "local_browser_use_session_v1"
+    },
+    {
+      "call_id": "6a2de8cd-d82e-42bb-bbe2-8f275cf643ee",
+      "operation": "browser.observe",
+      "basis": "local_browser_use_session_v1"
+    },
+    {
+      "call_id": "c5393efa-525a-4f2f-b084-56317445430a",
+      "operation": "browser.extract",
+      "basis": "local_browser_use_session_v1"
+    },
+    {
+      "call_id": "141b5fb6-d529-49a9-b542-d3805bbfa17b",
+      "operation": "browser.observe",
+      "basis": "local_browser_use_session_v1"
+    },
+    {
+      "call_id": "0bef1857-9647-43b3-bed5-d9900af3081e",
+      "operation": "browser.extract",
+      "basis": "local_browser_use_session_v1"
+    }
+  ],
+  "original_unknown_call_count": 11,
+  "reconciled_total_cny": "0.04139536",
+  "remaining_unknown_call_count": 0,
+  "provider_invoice_itemized_verified": false,
+  "limitation": "User-reported rounded console display, not an itemized provider invoice; original database and capture remain unchanged."
+}

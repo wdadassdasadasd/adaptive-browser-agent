@@ -211,6 +211,22 @@ async def test_postgres_capacity_fifo_fencing_recovery_and_events(monkeypatch) -
         assert visible_facts[0].official_identity_basis == "fixture owner"
         assert visible_facts[0].human_review_status is None
 
+        local_tool = await store.start_call(
+            second.id,
+            second.fencing_token,
+            phase="github.get_repository",
+            kind="tool",
+            execution_source_sha256="a" * 64,
+        )
+        priced_tool = await store.fail_call(
+            second.id,
+            second.fencing_token,
+            local_tool.id,
+            failure_type="technical",
+        )
+        assert priced_tool.known_cost_cny == 0
+        assert priced_tool.cost_basis == "public_github_rest_get_v1"
+        assert priced_tool.execution_source_sha256 == "a" * 64
         unpriced = await store.start_call(
             second.id, second.fencing_token, phase="model", kind="model"
         )

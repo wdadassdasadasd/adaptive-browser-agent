@@ -1,0 +1,37 @@
+{
+  "comparison": "browser-use/browser-use: The official GitHub release page for browser-use/browser-use shows release 0.13.13, titled '0.13.13: OpenAI browser tools and Cloud fixes', and marks it 'Latest'.\n0.13.13: The canonical URL of this release page is https://github.com/browser-use/browser-use/releases/tag/0.13.13.",
+  "findings": [
+    {
+      "attributes": {},
+      "description": "The official GitHub release page for browser-use/browser-use shows release 0.13.13, titled '0.13.13: OpenAI browser tools and Cloud fixes', and marks it 'Latest'.",
+      "name": "browser-use/browser-use",
+      "source_urls": [
+        "https://github.com/browser-use/browser-use/releases/tag/0.13.13"
+      ],
+      "supporting_fact_ids": [
+        "f1"
+      ]
+    },
+    {
+      "attributes": {},
+      "description": "The canonical URL of this release page is https://github.com/browser-use/browser-use/releases/tag/0.13.13.",
+      "name": "0.13.13",
+      "source_urls": [
+        "https://github.com/browser-use/browser-use/releases/tag/0.13.13"
+      ],
+      "supporting_fact_ids": [
+        "f4"
+      ]
+    }
+  ],
+  "generated_at": "2026-10-23T05:01:37.830595Z",
+  "goal": "Find the latest public release of browser-use/browser-use and summarize its version, publication date, and two changes from its release notes. Cite the official release page.",
+  "markdown": "# Research report: Find the latest public release of browser-use/browser-use and summarize its version, publication date, and two changes from its release notes. Cite the official release page.\n\n2 sourced fact(s) collected; stop reason: token_budget (the model usage limit was reached).\n\n## Findings\n### browser-use/browser-use\nThe official GitHub release page for browser-use/browser-use shows release 0.13.13, titled '0.13.13: OpenAI browser tools and Cloud fixes', and marks it 'Latest'.\n- Source: https://github.com/browser-use/browser-use/releases/tag/0.13.13\n### 0.13.13\nThe canonical URL of this release page is https://github.com/browser-use/browser-use/releases/tag/0.13.13.\n- Source: https://github.com/browser-use/browser-use/releases/tag/0.13.13\n\n## Comparison\nbrowser-use/browser-use: The official GitHub release page for browser-use/browser-use shows release 0.13.13, titled '0.13.13: OpenAI browser tools and Cloud fixes', and marks it 'Latest'.\n0.13.13: The canonical URL of this release page is https://github.com/browser-use/browser-use/releases/tag/0.13.13.\n\n## Recommendation\nInsufficient evidence for a supported recommendation.\n\n## Unknown or unfinished\n- Locate the official browser-use/browser-use releases page and establish the latest public release entry.\n- Capture two distinct release-note changes from that same latest public release.\n- Requested 2 change(s); verified 1.\n\n## Sources\n- https://github.com/browser-use/browser-use/releases/tag/0.13.13",
+  "recommendation": "Insufficient evidence for a supported recommendation.",
+  "sources": [
+    "https://github.com/browser-use/browser-use/releases/tag/0.13.13"
+  ],
+  "summary": "2 sourced fact(s) collected; stop reason: token_budget (the model usage limit was reached).",
+  "task_id": "ecad1481-a489-4c0f-b01a-04076ac01e9b",
+  "title": "Research report: Find the latest public release of browser-use/browser-use and summarize its version, publication date, and two changes from its release notes. Cite the official release page."
+}

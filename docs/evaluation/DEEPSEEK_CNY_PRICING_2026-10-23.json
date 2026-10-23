@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "provider": "deepseek",
+  "currency": "CNY",
+  "request_model": "deepseek-flash",
+  "provider_models": [
+    "deepseek-flash",
+    "DeepSeek-V4.1-Flash-1017"
+  ],
+  "served_model": "DeepSeek-V4.1-Flash-1017",
+  "price_revision": "deepseek-flash-cny-20261023T045352Z-v1",
+  "verified_at": "2026-10-23T04:53:52.579523+00:00",
+  "valid_until": "2026-10-24T04:53:52.579523+00:00",
+  "validity_policy": "Local conservative 24-hour verification window, not a provider price guarantee. Refresh from official sources and create a new cohort fingerprint before further live work after expiry. Preserve old snapshots and previously calculated attempt costs.",
+  "authorization": "Offline preparation only. This artifact does not authorize paid calls, dependency installation or external writes.",
+  "unit_tokens": 1000000,
+  "timezone": "UTC+08:00",
+  "peak_weekdays": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "peak_windows": [
+    [
+      "09:00",
+      "12:00"
+    ],
+    [
+      "14:00",
+      "18:00"
+    ]
+  ],
+  "rates_cny_per_million": {
+    "off_peak": {
+      "cache_hit": "0.02",
+      "cache_miss": "1",
+      "output": "4"
+    },
+    "peak": {
+      "cache_hit": "0.04",
+      "cache_miss": "2",
+      "output": "8"
+    }
+  },
+  "calendar": {
+    "year": 2026,
+    "holiday_ranges": [
+      [
+        "2026-01-01",
+        "2026-01-03"
+      ],
+      [
+        "2026-02-15",
+        "2026-02-23"
+      ],
+      [
+        "2026-04-04",
+        "2026-04-06"
+      ],
+      [
+        "2026-05-01",
+        "2026-05-05"
+      ],
+      [
+        "2026-06-19",
+        "2026-06-21"
+      ],
+      [
+        "2026-09-25",
+        "2026-09-27"
+      ],
+      [
+        "2026-10-01",
+        "2026-10-07"
+      ]
+    ],
+    "makeup_workdays_for_provenance_only": [
+      "2026-01-04",
+      "2026-02-14",
+      "2026-02-28",
+      "2026-05-09",
+      "2026-09-20",
+      "2026-10-10"
+    ],
+    "weekend_makeup_is_peak": false,
+    "interpretation": "Official notified holiday ranges are excluded. DeepSeek explicitly makes all weekends off-peak; weekend makeup workdays do not override that rule. No 2027 calendar is inferred."
+  },
+  "scope": "Token fees only, calculated from provider-reported prompt cache hit, cache miss and completion tokens. No guessed cache ratio, retries, Search/Fetch fees, balance deductions, discounts or invoice reconciliation. Complete zero usage may produce zero; unknown usage remains null.",
+  "hash_policy": "facts_sha256 hashes UTF-8 extracted factual summaries, not downloaded page bytes. snapshot_sha256 hashes the complete JSON object except itself using sorted keys, ensure_ascii=false and compact separators. Hashes detect accidental changes; they do not authenticate a remote page.",
+  "sources": [
+    {
+      "id": "pricing",
+      "url": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing/",
+      "fetched_at": "2026-10-23T04:53:52.579523+00:00",
+      "retrieval": "official_page_open",
+      "facts": "deepseek-flash serves DeepSeek-V4.1-Flash-1017. CNY per million tokens: off-peak cache hit 0.02, cache miss 1, output 4; peak cache hit 0.04, cache miss 2, output 8. Beijing Monday-Friday excluding Chinese public holidays peak 09:00-12:00 and 14:00-18:00; all other periods and all weekends/public holidays off-peak. Prices may change.",
+      "facts_sha256": "8f2764d53290f7027392c257d3c11665664453f9d2cdec85ce3b038d2410ff3c"
+    },
+    {
+      "id": "usage",
+      "url": "https://api-docs.deepseek.com/api/create-chat-completion/",
+      "fetched_at": "2026-10-23T04:53:52.579523+00:00",
+      "retrieval": "official_page_open",
+      "facts": "Chat completion usage reports prompt_tokens, prompt_cache_hit_tokens, prompt_cache_miss_tokens and completion_tokens. Prompt tokens equal cache hit plus cache miss. Completion tokens count generated completion; total_tokens equals prompt plus completion.",
+      "facts_sha256": "12141aa9f3f8c77a26138c3977f1acc3936adde9aeffe9ecf927815032fd7b0a"
+    },
+    {
+      "id": "calendar",
+      "url": "https://www.gov.cn/zhengce/content/202511/content_7047090.htm",
+      "fetched_at": "2026-10-23T04:53:52.579523+00:00",
+      "retrieval": "official_gov_cn_indexed_search_text; direct policy URL not fetched; State Council Gazette corroborated",
+      "indexed_official_url": "https://big5.www.gov.cn/gate/big5/www.gov.cn/zhengce/content/202511/content_7047090.htm",
+      "document_id": "国办发明电〔2025〕7号",
+      "published_at": "2025-11-04",
+      "facts": "State Council General Office 2026 holiday notice, issued 2025-11-04: January 1-3; February 15-23; April 4-6; May 1-5; June 19-21; September 25-27; October 1-7. Makeup workdays: January 4, February 14 and 28, May 9, September 20, October 10. All dates are 2026 and inclusive.",
+      "facts_sha256": "bd798ca0060d716b8671a3f3bfd816fe92740ce00f48bb5e81ba0fde1cb5bb96",
+      "corroborating_official_url": "https://big5.www.gov.cn/gate/big5/www.gov.cn/gongbao/2025/issue_12406/202511/content_7048922.html"
+    }
+  ],
+  "snapshot_sha256": "54cb006fad1038f8b798ce56622ca9c2cc1a3a1a5fde9624034f87f00a6ae270"
+}

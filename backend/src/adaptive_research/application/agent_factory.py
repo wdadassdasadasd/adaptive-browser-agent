@@ -2,6 +2,7 @@
 
 from adaptive_research.agent.adapters.browser_use_adapter import BrowserUseAdapter
 from adaptive_research.agent.agent_loop import AgentLoop
+from adaptive_research.agent.context_manager import ContextManager
 from adaptive_research.agent.llm.deepseek import DeepSeekClient
 from adaptive_research.agent.tools.github_tool import GitHubTool
 from adaptive_research.agent.tools.router import ToolRouter
@@ -23,5 +24,6 @@ def new_agent(settings: Settings) -> AgentLoop:
     return AgentLoop(
         provider,
         ToolRouter(BrowserUseAdapter(), github),
+        context_manager=ContextManager(settings.recent_trace_count),
         max_steps=settings.max_steps,
     )

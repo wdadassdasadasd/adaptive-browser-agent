@@ -1,0 +1,10 @@
+{
+  "retained": [
+    {
+      "run_id": "45ecbdf2-bc98-5fb3-9fa7-3b4f505c2c1c",
+      "status": "partial",
+      "task_id": "59a0f54a-e250-48df-b2ba-bbf4834a9256"
+    }
+  ],
+  "status": "paused_no_go"
+}

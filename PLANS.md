@@ -1,10 +1,12 @@
 # Adaptive Research Agent — 现行实施计划
 
-**状态：设计和实施方案已获授权，P-00/R0 已完成；P-01 本机假任务架构关口第二轮 48/48 通过，真实研究及产品验收仍待完成。** 当前权威为[规格](SPEC.md)、[契约](docs/contracts/CURRENT_CONTRACTS.md)、[评测协议](docs/evaluation/CURRENT_EVAL_PROTOCOL.json)及[ADR-0005](docs/design/adr/0005-windows-worker-wsl-postgres.md)。旧方案[原样归档](docs/archive/target-2026-10-18/PLANS.md)。默认 V1 入口继续由 V1 规格/契约解释，P-01 差异及实际验证见[任务记录](docs/tasks/PREDEV_P01_START_PACKAGE_2026-10-20.md)；r12 No-Go、原始 SQLite、browser-use checkout 和历史审计保持原样。
+**状态：设计和实施方案已获授权，P-00/R0 已完成；P-01 本机假任务架构关口第二轮 48/48 通过；P-02 同版 B01–B03 真实 pilot 已采集诊断基线，三题均未完整成功，研究质量及产品仍为 No-Go。** 当前权威为[规格](SPEC.md)、[契约](docs/contracts/CURRENT_CONTRACTS.md)、[评测协议](docs/evaluation/CURRENT_EVAL_PROTOCOL.json)及[ADR-0005](docs/design/adr/0005-windows-worker-wsl-postgres.md)。旧方案[原样归档](docs/archive/target-2026-10-18/PLANS.md)。默认 V1 入口继续由 V1 规格/契约解释，P-01 差异及实际验证见[任务记录](docs/tasks/PREDEV_P01_START_PACKAGE_2026-10-20.md)，P-02 pilot 结果见[准备与交接记录](docs/tasks/EIGHT_MODULE_PREP_2026-10-22.md)；r12 No-Go、原始 SQLite、browser-use checkout 和历史审计保持原样。
 
 ## 阶段与停线
 
-每阶段交付可演示路径、实际命令/退出码、失败样本、资源/费用记录、未解决风险及 Go/No-Go。按 Agent Loop、工具执行、可靠性、评测、上下文、后端、业务交付七项追踪证据，前四项优先。没有前阶段证据，不进入后阶段的真实运行；离线通过不代替业务成功。
+八模块交付主线为 Agent Loop / Runtime、Context Engineering、Memory Management、Tool Calling / MCP、Evaluation / Reflection、LLM Gateway、Observability / Persistence、Backend / Product Delivery。准备整改只修复文档、构造参数、运行约定和验收映射；优化前 B01–B03 同版 pilot 之后，才以失败轨迹驱动质量行为修改。每个模块的需求/AC、契约、实现、测试、真实记录和限制应相互引用；[高星项目固定版本研究](docs/research/HIGH_STAR_AGENT_MECHANISMS_2026-10-22.md)只作取舍依据。
+
+每阶段交付可演示路径、实际命令/退出码、失败样本、资源/费用记录、未解决风险及 Go/No-Go。八模块按可复核证据追踪，研究质量、记忆和 Token 成本为优先纵切。没有前阶段证据，不进入后阶段的真实运行；离线通过不代替业务成功。
 
 | 阶段与时间 | 依赖、产物与演示 | 离线验收 | 真实验收与费用上限 | 判定与停线 |
 | --- | --- | --- | --- | --- |
@@ -29,8 +31,8 @@
 | --- | --- | --- |
 | P-00 | NFR-005 | AC-N05；唯一现行入口、历史原字节、映射与协议冻结 |
 | P-01 | FR-001、FR-002、FR-005、FR-006、NFR-001、NFR-006、NFR-007 | AC-001、AC-002、AC-005、AC-006、AC-N01、AC-N06、AC-N07；假任务闭环、唯一认领、重启、资源 |
-| P-02 | FR-002、FR-003、FR-004、FR-007、FR-010、NFR-002、NFR-004 | AC-002、AC-003、AC-004、AC-007、AC-010、AC-N02、AC-N04；上下文质量/用量、官方事实、报告、诊断和 pilot |
-| P-03 | FR-001、FR-005、FR-006、FR-009、FR-010、NFR-001、NFR-003、NFR-006、NFR-007、NFR-008、NFR-009 | AC-001、AC-005、AC-006、AC-009、AC-010、AC-N01、AC-N03、AC-N06、AC-N07、AC-N08、AC-N09；隔离、故障、容量模拟、备份恢复 |
+| P-02 | FR-002、FR-003、FR-004、FR-007、FR-010、NFR-002、NFR-004、NFR-010 | AC-002、AC-003、AC-004、AC-007、AC-010、AC-N02、AC-N04、AC-N10；上下文质量/用量、Gateway、官方事实、报告、诊断和 pilot |
+| P-03 | FR-001、FR-005、FR-006、FR-009、FR-010、FR-011、FR-012、NFR-001、NFR-003、NFR-006、NFR-007、NFR-008、NFR-009 | AC-001、AC-005、AC-006、AC-009、AC-010、AC-011、AC-012、AC-N01、AC-N03、AC-N06、AC-N07、AC-N08、AC-N09；隔离、分层记忆、MCP 实证、故障、容量模拟、备份恢复 |
 | P-04 | FR-004、FR-007、NFR-002、NFR-005 | AC-004、AC-007、AC-N02、AC-N05；15 次正式结果、人工核源、项目总账、演示/恢复包和 Go/No-Go |
 
 FR-008 / AC-008 为延期能力，不在 P-01..P-04 实施；模板、Markdown 导出、真实 LAN 部署、20 人容量、旧 SQLite UI 导入均须新需求和授权。设计或协议变更应记录原因与新 ADR/修订，不静默改写冻结题面、门槛、历史结果。LangGraph 仅在现有 AgentLoop 的持久状态/恢复故障可复现且局部修复不足时单独决定；任何替代均保持六路研究 API、所有权/事实/事件契约和正式评测口径不变。

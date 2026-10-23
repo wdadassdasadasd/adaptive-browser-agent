@@ -1,10 +1,14 @@
+import json
 from pathlib import Path
 
 import pytest
 from pydantic import ValidationError
 from sqlalchemy.engine import make_url
 
+from adaptive_research.agent.events import AgentEvent
 from adaptive_research.agent.llm.deepseek import DeepSeekClient
+from adaptive_research.agent.state import ResearchState
+from adaptive_research.application import agent_factory
 from adaptive_research.infrastructure.config import REPOSITORY_ROOT, Settings
 
 
@@ -15,6 +19,38 @@ def test_recent_trace_count_defaults_to_bounded_v1_window() -> None:
 
     with pytest.raises(ValidationError):
         Settings(_env_file=None, RECENT_TRACE_COUNT=10)
+
+
+@pytest.mark.parametrize("recent_trace_count", [3, 5])
+@pytest.mark.asyncio
+async def test_agent_factory_uses_configured_recent_trace_count(
+    monkeypatch, recent_trace_count: int
+) -> None:
+    # Construct the real loop without opening clients or a browser session.
+    monkeypatch.setattr(
+        agent_factory, "DeepSeekClient", lambda *args, **kwargs: object()
+    )
+    monkeypatch.setattr(agent_factory, "GitHubTool", lambda *args, **kwargs: object())
+    monkeypatch.setattr(agent_factory, "BrowserUseAdapter", lambda: object())
+    monkeypatch.setattr(agent_factory, "ToolRouter", lambda *args: object())
+
+    monkeypatch.setenv("RECENT_TRACE_COUNT", str(recent_trace_count))
+    settings = Settings(_env_file=None)
+    agent = agent_factory.new_agent(settings)
+
+    assert agent.context_manager.recent_trace_count == recent_trace_count
+    assert agent.max_steps == settings.max_steps
+    state = ResearchState(goal="Check context window")
+    traces = [
+        AgentEvent(
+            task_id=state.task_id, event_type="step_evaluated", message=f"trace-{i}"
+        )
+        for i in range(5)
+    ]
+    context = json.loads(await agent.context_manager.build(state, {}, traces))
+    assert [entry["message"] for entry in context["recent_traces"]] == [
+        f"trace-{i}" for i in range(5 - recent_trace_count, 5)
+    ]
 
 
 def test_blank_credentials_are_treated_as_missing() -> None:

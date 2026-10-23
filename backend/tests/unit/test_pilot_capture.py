@@ -260,6 +260,70 @@ async def test_safe_boundary_omits_html_arguments_credentials_and_sensitive_extr
 
 
 @pytest.mark.asyncio
+async def test_terminal_capture_keeps_only_safe_budget_preflight_numbers(
+    plan, tmp_path
+):
+    store = FakeReadStore(plan, unknown=0)
+    store.events.append(
+        SimpleNamespace(
+            id=2,
+            task_id="task-1",
+            event_type="task_finished",
+            step=1,
+            message="",
+            created_at=NOW,
+            payload={
+                "status": "failed",
+                "completion_level": "none",
+                "stop_reason": "token_budget",
+                "budget_preflight": {
+                    "request_kind": "structured",
+                    "remaining_tokens": 1168,
+                    "prompt_bound": 1200,
+                    "output_allowance": -32,
+                    "provider_request_started": False,
+                    "api_key": "hidden-key",
+                },
+            },
+        )
+    )
+    store.events.append(
+        SimpleNamespace(
+            id=3,
+            task_id="task-1",
+            event_type="task_finished",
+            step=1,
+            message="",
+            created_at=NOW,
+            payload={
+                "status": "failed",
+                "completion_level": "none",
+                "stop_reason": "token_budget",
+                "budget_preflight": {
+                    "request_kind": "structured",
+                    "remaining_tokens": "hidden-secret",
+                    "prompt_bound": 1200,
+                    "output_allowance": -32,
+                    "provider_request_started": False,
+                },
+            },
+        )
+    )
+    await export(store, plan, tmp_path / "attempt")
+    events = json.loads((tmp_path / "attempt/events.json").read_bytes())
+    assert events[1]["payload"]["budget_preflight"] == {
+        "request_kind": "structured",
+        "remaining_tokens": 1168,
+        "prompt_bound": 1200,
+        "output_allowance": -32,
+        "provider_request_started": False,
+    }
+    assert "hidden-key" not in json.dumps(events)
+    assert "budget_preflight" not in events[2]["payload"]
+    assert "hidden-secret" not in json.dumps(events)
+
+
+@pytest.mark.asyncio
 async def test_unknown_uncommitted_or_invisible_task_remains_unknown(plan, tmp_path):
     store = FakeReadStore(plan, visible=False)
     result = await export(store, plan, tmp_path / "attempt")

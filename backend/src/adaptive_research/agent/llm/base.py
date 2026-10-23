@@ -48,12 +48,14 @@ class LLMError(RuntimeError):
         *,
         kind: LLMFailureKind,
         provider_usage: ProviderUsage | None = None,
+        budget_preflight: dict[str, int | bool | str] | None = None,
     ) -> None:
         super().__init__(message)
         self.prompt_tokens = prompt_tokens
         self.completion_tokens = completion_tokens
         self.kind = kind
         self.provider_usage = provider_usage
+        self.budget_preflight = budget_preflight
 
 
 class StructuredOutputError(LLMError):

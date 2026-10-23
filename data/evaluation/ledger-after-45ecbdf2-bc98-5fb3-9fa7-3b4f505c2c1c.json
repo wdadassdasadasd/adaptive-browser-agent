@@ -1,0 +1,51 @@
+{
+  "protocol_version": "current-3",
+  "batches": [],
+  "entries": [
+    {
+      "run_id": "45ecbdf2-bc98-5fb3-9fa7-3b4f505c2c1c",
+      "task_id": "59a0f54a-e250-48df-b2ba-bbf4834a9256",
+      "allocation": "pilot",
+      "batch_id": null,
+      "known_cost_cny": 0.04139536,
+      "total_cost_cny": null,
+      "unknown_attempt_count": 11,
+      "evidence_artifact": {
+        "relative_path": "p02-pilot-r9-20261022/45ecbdf2-bc98-5fb3-9fa7-3b4f505c2c1c/capture/manifest.json",
+        "sha256": "ee2e9bb6f8f2f12de20354e5483692da477d7f5668a4d861b72ecceffa445569"
+      },
+      "authorization_reference": "chat:2026-10-22-p02-pilot-cny10",
+      "attempt_status": "partial"
+    }
+  ],
+  "artifact_type": "offline_project_cost_ledger",
+  "created_at": "2026-10-22T10:50:51.994184+00:00",
+  "status": "No-Go",
+  "new_paid_calls_authorized": false,
+  "unknown_attempt_count": 11,
+  "known_subtotals_cny": {
+    "pilot": "0.04139536",
+    "diagnostic": "0",
+    "formal": "0",
+    "contingency": "0"
+  },
+  "known_project_subtotal_cny": "0.04139536",
+  "declared_project_total_cny": null,
+  "allocation_limits_cny": {
+    "pilot": 49,
+    "diagnostic": 30,
+    "formal": 200,
+    "contingency": 20
+  },
+  "project_max_cny": 299,
+  "protocol_sha256": "1c18d53624c21b1e25f5cea5640b4c8b4a5e0cfc001f430c8d603a01d51a8507",
+  "validation_errors": [
+    "No-Go: ledger entry[0] cost unknown; stop new paid calls"
+  ],
+  "billing_reconciliation": "not_verified_against_provider_invoice",
+  "note": "Only declared attempts are checked; this snapshot does not authorize spending or prove completeness against provider billing.",
+  "previous_ledger_artifact": {
+    "relative_path": "p02-project-ledger-initial-20261022.json",
+    "sha256": "4d89bd28de6849be8618b2761c734f9555ca7d1d492bf16b7ac002e4558a4232"
+  }
+}

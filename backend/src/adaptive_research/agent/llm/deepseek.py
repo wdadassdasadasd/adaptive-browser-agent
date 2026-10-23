@@ -158,7 +158,17 @@ class DeepSeekClient:
             )
             output_allowance = remaining_tokens - prompt_bound
             if output_allowance < 1:
-                raise LLMError("remaining token budget is too small", kind="budget")
+                raise LLMError(
+                    "remaining token budget is too small",
+                    kind="budget",
+                    budget_preflight={
+                        "request_kind": "structured" if structured else "plain",
+                        "remaining_tokens": remaining_tokens,
+                        "prompt_bound": prompt_bound,
+                        "output_allowance": output_allowance,
+                        "provider_request_started": False,
+                    },
+                )
             body["max_tokens"] = output_allowance
         for attempt in range(2):
             try:

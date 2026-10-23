@@ -1,0 +1,20 @@
+{
+  "retained": [
+    {
+      "run_id": "39d4a2d0-8729-5b97-be65-a87d0678a0f2",
+      "status": "failed",
+      "task_id": "89d08313-5851-47e7-a4a4-6918bd596c4a"
+    },
+    {
+      "run_id": "347bd8b2-0e09-5975-8dff-e8ed4f2c1a52",
+      "status": "failed",
+      "task_id": "136c307b-a562-4ea4-8e8c-da325ceeb01a"
+    },
+    {
+      "run_id": "e4e3e822-f5f0-582d-9412-e7cb91daefe4",
+      "status": "partial",
+      "task_id": "ecad1481-a489-4c0f-b01a-04076ac01e9b"
+    }
+  ],
+  "status": "pilot_attempts_captured_review_pending"
+}

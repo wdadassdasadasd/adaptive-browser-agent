@@ -1,0 +1,10 @@
+{
+  "artifact_type": "user_reported_provider_console_amount",
+  "run_id": "45ecbdf2-bc98-5fb3-9fa7-3b4f505c2c1c",
+  "source": "user_reported_deepseek_console",
+  "displayed_cost_cny": "0.04",
+  "display_decimals": 2,
+  "currency": "CNY",
+  "itemized_requests_available": false,
+  "evidence_note": "User reported that the DeepSeek page displays 0.04. No screenshot, provider request IDs, or per-call invoice was supplied. The amount is a rounded display and is not evidence of an exact 0.04 CNY charge."
+}

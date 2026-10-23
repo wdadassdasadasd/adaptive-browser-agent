@@ -21,6 +21,7 @@ from adaptive_research.agent.llm.base import ProviderUsage
 from adaptive_research.agent.state import ResearchFact, ResearchState, ResearchStatus
 from adaptive_research.agent.state_reducer import StateReducer
 from adaptive_research.application.agent_factory import new_agent
+from adaptive_research.evaluation.current import _source_fingerprint
 from adaptive_research.infrastructure.config import (
     REPOSITORY_ROOT,
     Settings,
@@ -41,12 +42,18 @@ class PgCallObserver(CallObserver):
     """Only a fenced task and fixed operation labels cross the ledger boundary."""
 
     def __init__(
-        self, store: PgStore, task_id: str, token: int, model: str | None = None
+        self,
+        store: PgStore,
+        task_id: str,
+        token: int,
+        model: str | None = None,
+        source_sha256: str | None = None,
     ) -> None:
         self.store = store
         self.task_id = task_id
         self.token = token
         self.model = model
+        self.source_sha256 = source_sha256
 
     async def started(self, kind: str, operation: str) -> str:
         call = await self.store.start_call(
@@ -56,6 +63,7 @@ class PgCallObserver(CallObserver):
             kind=kind,
             provider="deepseek" if kind == "model" else None,
             model=self.model if kind == "model" else None,
+            execution_source_sha256=self.source_sha256,
         )
         return call.id
 
@@ -115,6 +123,12 @@ class WorkerRunner:
         self.settings = settings
         self.agent_factory = agent_factory or (lambda: new_agent(settings))
         self.worker_id = worker_id or f"{os.getpid()}-{uuid4()}"
+        # Computed when the Worker starts, before accepting any paid call.
+        self.source_sha256 = (
+            _source_fingerprint(REPOSITORY_ROOT)["sha256"]
+            if store.require_budget
+            else None
+        )
         self.lease_seconds = lease_seconds
         self.heartbeat_seconds = heartbeat_seconds
         self.active: dict[str, asyncio.Task[None]] = {}
@@ -211,6 +225,7 @@ class WorkerRunner:
                     completion_level=str(payload.get("completion_level", "none")),
                     stop_reason=payload.get("stop_reason"),
                     report=payload.get("report"),
+                    budget_preflight=payload.get("budget_preflight"),
                 )
                 terminal_written = True
                 return
@@ -238,7 +253,9 @@ class WorkerRunner:
                                 ),
                                 "claim": self._redact(fact.content),
                                 "official_source_url": str(fact.source_url),
-                                "retrieved_at": fact.created_at,
+                                # Fact.created_at is model supplied. The event
+                                # timestamp is the trusted observation boundary.
+                                "retrieved_at": event.timestamp,
                                 "machine_admission_status": "candidate_unverified_official",
                                 "evidence_excerpt": self._redact(fact.evidence),
                             }
@@ -303,6 +320,7 @@ class WorkerRunner:
                     task.id,
                     task.fencing_token,
                     self.settings.deepseek_model,
+                    self.source_sha256,
                 ),
                 **resume_kwargs,
             )

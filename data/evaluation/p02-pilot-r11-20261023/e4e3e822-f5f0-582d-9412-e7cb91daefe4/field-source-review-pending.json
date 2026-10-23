@@ -1,0 +1,121 @@
+{
+  "artifact_type": "pilot_field_source_review_packet",
+  "created_at": "2026-10-23T05:03:41.373953+00:00",
+  "case_id": "B03",
+  "run_id": "e4e3e822-f5f0-582d-9412-e7cb91daefe4",
+  "task_id": "ecad1481-a489-4c0f-b01a-04076ac01e9b",
+  "task_status": "partial",
+  "stop_reason": "token_budget",
+  "report_sha256": "860738abacbf4b07563a963e153e58f8621b08d5964c22fdbdb767edae2466b6",
+  "manifest_sha256": "a360573a18b5ba294d8943c4c29c6133687336797f4c3a2d62db8be673133dca",
+  "facts_sha256": "3694edcf770120cfc7cd03b5d4ffb5c0d4a41545e08bfd22519ec35c7b20f541",
+  "model_call_count": 9,
+  "tool_call_count": 11,
+  "provider_reported_usage": {
+    "prompt_tokens": 25146,
+    "cache_hit_tokens": 4480,
+    "cache_miss_tokens": 20666,
+    "completion_tokens": 6731
+  },
+  "known_cost_cny": "0.04767960",
+  "unknown_call_count": 0,
+  "fields": [
+    {
+      "field": "version",
+      "candidate_fact_ids": [
+        "f1",
+        "f4"
+      ],
+      "candidate_official_urls": [
+        "https://github.com/browser-use/browser-use/releases/tag/0.13.13"
+      ],
+      "reported_value": null,
+      "reviewer_verdict": null,
+      "reviewer_name": null,
+      "reviewed_at": null,
+      "official_identity_basis": null,
+      "page_locator": null,
+      "verified_excerpt": null,
+      "note": "Open the official page and compare the report and fact IDs; absent candidate facts stay unverified."
+    },
+    {
+      "field": "publication_date",
+      "candidate_fact_ids": [],
+      "candidate_official_urls": [],
+      "reported_value": null,
+      "reviewer_verdict": null,
+      "reviewer_name": null,
+      "reviewed_at": null,
+      "official_identity_basis": null,
+      "page_locator": null,
+      "verified_excerpt": null,
+      "note": "Open the official page and compare the report and fact IDs; absent candidate facts stay unverified."
+    },
+    {
+      "field": "change_1",
+      "candidate_fact_ids": [],
+      "candidate_official_urls": [],
+      "reported_value": null,
+      "reviewer_verdict": null,
+      "reviewer_name": null,
+      "reviewed_at": null,
+      "official_identity_basis": null,
+      "page_locator": null,
+      "verified_excerpt": null,
+      "note": "Open the official page and compare the report and fact IDs; absent candidate facts stay unverified."
+    },
+    {
+      "field": "change_2",
+      "candidate_fact_ids": [],
+      "candidate_official_urls": [],
+      "reported_value": null,
+      "reviewer_verdict": null,
+      "reviewer_name": null,
+      "reviewed_at": null,
+      "official_identity_basis": null,
+      "page_locator": null,
+      "verified_excerpt": null,
+      "note": "Open the official page and compare the report and fact IDs; absent candidate facts stay unverified."
+    },
+    {
+      "field": "release_source",
+      "candidate_fact_ids": [
+        "f1",
+        "f4"
+      ],
+      "candidate_official_urls": [
+        "https://github.com/browser-use/browser-use/releases/tag/0.13.13"
+      ],
+      "reported_value": null,
+      "reviewer_verdict": null,
+      "reviewer_name": null,
+      "reviewed_at": null,
+      "official_identity_basis": null,
+      "page_locator": null,
+      "verified_excerpt": null,
+      "note": "Open the official page and compare the report and fact IDs; absent candidate facts stay unverified."
+    }
+  ],
+  "candidate_facts": [
+    {
+      "id": "f1",
+      "claim": "The official GitHub release page for browser-use/browser-use shows release 0.13.13, titled '0.13.13: OpenAI browser tools and Cloud fixes', and marks it 'Latest'.",
+      "official_source_url": "https://github.com/browser-use/browser-use/releases/tag/0.13.13",
+      "retrieved_at": "2026-10-16T00:00:00+00:00",
+      "machine_admission_status": "candidate_unverified_official"
+    },
+    {
+      "id": "f4",
+      "claim": "The canonical URL of this release page is https://github.com/browser-use/browser-use/releases/tag/0.13.13.",
+      "official_source_url": "https://github.com/browser-use/browser-use/releases/tag/0.13.13",
+      "retrieved_at": "2026-10-16T00:00:00+00:00",
+      "machine_admission_status": "candidate_unverified_official"
+    }
+  ],
+  "human_review_status": "pending_user_review",
+  "access_checks": {
+    "owner_visible": null,
+    "other_member_denied": null,
+    "other_member_cancel_denied": null
+  }
+}

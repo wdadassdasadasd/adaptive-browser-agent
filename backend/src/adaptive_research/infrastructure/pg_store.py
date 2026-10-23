@@ -24,6 +24,7 @@ from adaptive_research.infrastructure.pg_models import (
     PgTask,
 )
 from adaptive_research.infrastructure.pricing import calculate_call_cost
+from adaptive_research.infrastructure.tool_billing import nonbillable_tool_basis
 
 TERMINAL = frozenset({"completed", "partial", "failed", "cancelled"})
 
@@ -95,6 +96,8 @@ class CallRecord:
     pricing_error: str | None
     pricing_tariff: str | None
     known_cost_cny: Decimal | None
+    cost_basis: str | None
+    execution_source_sha256: str | None
     failure_type: str | None
     started_at: datetime
     ended_at: datetime | None
@@ -394,6 +397,7 @@ class PgStore:
         completion_level: str = "none",
         stop_reason: str | None = None,
         report: dict[str, Any] | None = None,
+        budget_preflight: dict[str, Any] | None = None,
     ) -> TaskRecord:
         if status not in TERMINAL:
             raise ValueError("finish_task requires a terminal status")
@@ -424,6 +428,11 @@ class PgStore:
                     "completion_level": completion_level,
                     "stop_reason": stop_reason,
                     "report": report,
+                    **(
+                        {"budget_preflight": budget_preflight}
+                        if budget_preflight is not None
+                        else {}
+                    ),
                 },
                 token=token,
             )
@@ -669,6 +678,7 @@ class PgStore:
         provider: str | None = None,
         model: str | None = None,
         price_revision: str | None = None,
+        execution_source_sha256: str | None = None,
     ) -> CallRecord:
         async with self.sessions.begin() as session:
             await self._guard(session)
@@ -737,6 +747,7 @@ class PgStore:
                 provider=provider,
                 model=model,
                 price_revision=price_revision,
+                execution_source_sha256=execution_source_sha256,
             )
             session.add(call)
             await session.flush()
@@ -764,6 +775,8 @@ class PgStore:
             call.pricing_error,
             call.pricing_tariff,
             call.known_cost_cny,
+            call.cost_basis,
+            call.execution_source_sha256,
             call.failure_type,
             call.started_at,
             call.ended_at,
@@ -831,6 +844,15 @@ class PgStore:
                     known_cost_cny = None
                     call.pricing_error = "unsupported_cost_precision"
                     call.pricing_tariff = None
+                if known_cost_cny is not None:
+                    call.cost_basis = "deepseek_token_price_snapshot"
+            elif call.kind == "tool":
+                basis = nonbillable_tool_basis(call.kind, call.phase)
+                if basis is not None:
+                    known_cost_cny = Decimal(0)
+                    call.cost_basis = basis
+                else:
+                    known_cost_cny = None
             call.known_cost_cny = known_cost_cny
             call.safe_output_digest = safe_output_digest
             call.failure_type = failure_type

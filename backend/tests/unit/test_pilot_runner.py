@@ -29,7 +29,7 @@ class FakeStore:
             authorization_reference="approved-test",
             price_book_sha256=book["snapshot_sha256"],
             price_revision=book["price_revision"],
-            phase_max_cny=Decimal(49),
+            phase_max_cny=Decimal(10),
             project_max_cny=Decimal(299),
         )
         self.tasks = {}
@@ -62,7 +62,9 @@ def cohort(monkeypatch):
     return build_plan(), book, FakeStore(book)
 
 
-def fake_client(store, *, ambiguous=False, task_status="completed"):
+def fake_client(
+    store, *, ambiguous=False, task_status="completed", failure_reason=None
+):
     submissions = []
 
     def handle(request):
@@ -74,7 +76,16 @@ def fake_client(store, *, ambiguous=False, task_status="completed"):
         prompt = json.loads(request.content)["goal"]
         submissions.append(run_id)
         store.tasks[run_id] = SimpleNamespace(
-            id=f"task-{len(store.tasks) + 1}", goal=prompt, status=task_status
+            id=f"task-{len(store.tasks) + 1}",
+            goal=prompt,
+            status=task_status,
+            stop_reason=(
+                failure_reason
+                if failure_reason is not None
+                else "token_budget"
+                if task_status == "partial"
+                else None
+            ),
         )
         if ambiguous:
             raise httpx.ConnectError("synthetic lost response", request=request)
@@ -101,6 +112,11 @@ def fake_capture(*, known=True):
                 "persisted_unknown_attempt_count": 0 if known else 1,
             },
             "snapshot_consistency": "stable_task_record_non_atomic",
+            "execution_source_verified": True,
+            "goal_matches_planned_prompt": True,
+            "task_terminal": True,
+            "read_failures": {},
+            "truncated_collections": {},
         }
         (output_dir / "manifest.json").write_text(
             json.dumps(manifest), encoding="utf-8"
@@ -188,6 +204,49 @@ async def test_unknown_cost_pauses_before_next_submission(cohort, tmp_path):
 
 
 @pytest.mark.asyncio
+async def test_stable_task_level_failure_keeps_three_attempt_baseline(cohort, tmp_path):
+    plan, book, store = cohort
+    ledger = ledger_args(tmp_path)
+    client, submissions = fake_client(store, task_status="partial")
+    async with client:
+        result = await pilot_runner.run_pilot(
+            plan=plan,
+            output_dir=tmp_path / "cohort",
+            client=client,
+            store=store,
+            price_book=book,
+            authorization_reference="approved-test",
+            **ledger,
+            capture=fake_capture(),
+        )
+    assert result["status"] == "pilot_attempts_captured_review_pending"
+    assert [item["status"] for item in result["retained"]] == ["partial"] * 3
+    assert len(submissions) == 3
+
+
+@pytest.mark.asyncio
+async def test_systemic_failure_pauses_before_second_attempt(cohort, tmp_path):
+    plan, book, store = cohort
+    ledger = ledger_args(tmp_path)
+    client, submissions = fake_client(
+        store, task_status="failed", failure_reason="execution_error"
+    )
+    async with client:
+        result = await pilot_runner.run_pilot(
+            plan=plan,
+            output_dir=tmp_path / "cohort",
+            client=client,
+            store=store,
+            price_book=book,
+            authorization_reference="approved-test",
+            **ledger,
+            capture=fake_capture(),
+        )
+    assert result["status"] == "paused_no_go"
+    assert len(submissions) == 1
+
+
+@pytest.mark.asyncio
 async def test_ambiguous_http_response_reconciles_by_durable_key(cohort, tmp_path):
     plan, book, store = cohort
     ledger = ledger_args(tmp_path)
@@ -230,6 +289,18 @@ async def test_stale_plan_or_budget_refuses_before_any_submission(cohort, tmp_pa
             await pilot_runner.run_pilot(
                 plan=plan,
                 output_dir=tmp_path / "halted",
+                client=client,
+                store=store,
+                price_book=book,
+                authorization_reference="approved-test",
+                **ledger,
+            )
+        store.budget.status = "armed"
+        store.budget.phase_max_cny = Decimal(11)
+        with pytest.raises(pilot_runner.PilotRunError, match="budget"):
+            await pilot_runner.run_pilot(
+                plan=plan,
+                output_dir=tmp_path / "over-cap",
                 client=client,
                 store=store,
                 price_book=book,

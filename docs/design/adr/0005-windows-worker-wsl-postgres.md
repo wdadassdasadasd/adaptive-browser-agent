@@ -2,7 +2,7 @@
 
 - 日期：2026-10-19
 - 状态：**ACCEPTED TARGET — 未实施**
-- 覆盖：[ADR-0004](0004-portfolio-local-runtime.md)的首版组件试用与自动回退决定；不改写此前的审计、r12 或评测结果。
+- 覆盖：[ADR-0004](../../archive/design-0.3/adr/0004-portfolio-local-runtime.md)的首版组件试用与自动回退决定；不改写此前的审计、r12 或评测结果。
 - 权威：[现行规格](../../../SPEC.md)、[计划](../../../PLANS.md)、[契约](../../contracts/CURRENT_CONTRACTS.md)、[评测协议](../../evaluation/CURRENT_EVAL_PROTOCOL.json)。
 
 ## 决定与理由

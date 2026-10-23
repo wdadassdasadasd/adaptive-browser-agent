@@ -53,7 +53,7 @@ WSL 发行版/PostgreSQL 实际状态、Windows 到 WSL 的连接、本机绑定
 
 ## 开工前补充（2026-10-20）
 
-[P-01 开工任务包](PREDEV_P01_START_PACKAGE_2026-10-20.md)列出逐项实施边界、假任务测量口径和环境关口；[r12 只读症状清单](PREDEV_R12_SYMPTOM_INVENTORY_2026-10-20.md)已将 18 次真实失败及三次 UI 失败归类，未推断调用级根因。只读 WSL 探针确认 Ubuntu 24.04.1 存在，PostgreSQL 16 服务端/客户端尚未安装；Windows↔WSL 连接、CPU/内存峰值和备份恢复仍未验证。安装和本机隔离数据库配置依仓库规则等待单独授权。更新文档后再次运行校验器通过、校验器单测 19 passed；原始 SQLite 与 r12 汇总文件哈希未变化。此补充不改变 P-00 离线通过、产品 No-Go 的区分。
+[P-01 开工任务包](../tasks/PREDEV_P01_START_PACKAGE_2026-10-20.md)列出逐项实施边界、假任务测量口径和环境关口；[r12 只读症状清单](PREDEV_R12_SYMPTOM_INVENTORY_2026-10-20.md)已将 18 次真实失败及三次 UI 失败归类，未推断调用级根因。只读 WSL 探针确认 Ubuntu 24.04.1 存在，PostgreSQL 16 服务端/客户端尚未安装；Windows↔WSL 连接、CPU/内存峰值和备份恢复仍未验证。安装和本机隔离数据库配置依仓库规则等待单独授权。更新文档后再次运行校验器通过、校验器单测 19 passed；原始 SQLite 与 r12 汇总文件哈希未变化。此补充不改变 P-00 离线通过、产品 No-Go 的区分。
 
 随后用户单独授权依赖安装与本机连接探针：[环境配置记录](PREDEV_ENV_SETUP_2026-10-20.md)记载 Ubuntu 官方源 PostgreSQL 16.15、Windows `asyncpg`/Alembic 锁定、隔离库与最小权限账户。Windows 回环连接在 WSL 前台保活期间实测成功；WSL 无前台进程时自动退出导致独立连接失败，P-01 启动器须维持其生命周期。环境准备不等于 Worker/容量/恢复验收通过。
 

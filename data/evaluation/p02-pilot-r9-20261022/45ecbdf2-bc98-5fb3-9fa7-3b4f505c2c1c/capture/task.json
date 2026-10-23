@@ -1,0 +1,12 @@
+{
+  "cancellation_requested": false,
+  "completion_level": "partial",
+  "created_at": "2026-10-22T10:49:56.555338+00:00",
+  "error_message": null,
+  "fencing_token": 1,
+  "id": "59a0f54a-e250-48df-b2ba-bbf4834a9256",
+  "recovery_count": 0,
+  "status": "partial",
+  "stop_reason": "token_budget",
+  "updated_at": "2026-10-22T10:50:52.892810+00:00"
+}

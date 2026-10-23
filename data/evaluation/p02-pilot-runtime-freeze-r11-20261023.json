@@ -1,0 +1,60 @@
+{
+  "artifact_type": "p02_pilot_runtime_freeze",
+  "created_at": "2026-10-23T04:55:46.209736+00:00",
+  "status": "pre_execution_no_tasks_submitted",
+  "authorization_reference": "chat:2026-10-23-p02-pilot-cny10",
+  "pilot_max_cny": "10",
+  "planned_case_ids": [
+    "B01",
+    "B02",
+    "B03"
+  ],
+  "planned_run_ids": [
+    "39d4a2d0-8729-5b97-be65-a87d0678a0f2",
+    "347bd8b2-0e09-5975-8dff-e8ed4f2c1a52",
+    "e4e3e822-f5f0-582d-9412-e7cb91daefe4"
+  ],
+  "artifacts": {
+    "plan": {
+      "path": "data/evaluation/p02-pilot-dry-run-r11-20261023.json",
+      "sha256": "4ba96406e4494e95de75d70f9435d884ce38c474f36ccb822decd25be72b3cd1"
+    },
+    "price_book": {
+      "path": "docs/evaluation/DEEPSEEK_CNY_PRICING_2026-10-23.json",
+      "sha256": "82e7c4acd3bfb309e74bab23caeef30a686a09b75c595d58d87158da70c00127"
+    },
+    "prior_ledger": {
+      "path": "data/evaluation/ledger-after-b01-reconciliation-20261022.json",
+      "sha256": "8d04dd04fc28cf2376796b5ffdc0322ee1b362e5d6c53d7b81f16de854269d04"
+    },
+    "protocol": {
+      "path": "docs/evaluation/CURRENT_EVAL_PROTOCOL.json",
+      "sha256": "1c18d53624c21b1e25f5cea5640b4c8b4a5e0cfc001f430c8d603a01d51a8507"
+    },
+    "dependency_lock": {
+      "path": "backend/uv.lock",
+      "sha256": "3c14b9629f83f801cf61d2c1b969bb9f80c91fe99d1206e9739936741d0677bb"
+    },
+    "frontend_lock": {
+      "path": "frontend/package-lock.json",
+      "sha256": "f59cff9b0e7c91c54ce5e104b830a2905d6e5809739789cc3d8ec7b56df8a3b9"
+    }
+  },
+  "source_fingerprint_sha256": "dcd9a5ae1e993dc78f7e68653cc6517667adde3ff9a1b2472c88011b8693f6ec",
+  "price_book_snapshot_sha256": "54cb006fad1038f8b798ce56622ca9c2cc1a3a1a5fde9624034f87f00a6ae270",
+  "browser_use_git_revision": "7be96ed8bafa8dfe1eef228b59cf5c884b8b2431",
+  "node_version": "22.23.4",
+  "python_version": "3.12.13",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "pilot_database": "adaptive_agent_pilot_20261023",
+  "pilot_database_preflight": {
+    "alembic_revision": "20261022_06",
+    "app_task": 0,
+    "app_call_attempt": 0,
+    "app_budget": 0,
+    "app_report": 0
+  },
+  "balance_gate": "CNY >= 10; exact balance omitted",
+  "github_preflight": "repository GET HTTP 200, x-ratelimit-remaining 59",
+  "notes": "No secrets or exact provider balance retained. Separate paid authorization was given in the 2026-10-23 chat."
+}

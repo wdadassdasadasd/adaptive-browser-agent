@@ -1,0 +1,12 @@
+{
+  "comparison": "Insufficient evidence for a supported comparison.",
+  "findings": [],
+  "generated_at": "2026-10-23T04:59:44.349162Z",
+  "goal": "Find two publicly documented Python browser-automation projects suitable for researching web pages. For each, give its name, official repository URL, license, and documented installation command. Cite official sources.",
+  "markdown": "# Research report: Find two publicly documented Python browser-automation projects suitable for researching web pages. For each, give its name, official repository URL, license, and documented installation command. Cite official sources.\n\nInsufficient evidence; stop reason: no_progress (repeated planning found no new evidence).\n\n## Findings\nNo verified findings.\n\n## Comparison\nInsufficient evidence for a supported comparison.\n\n## Recommendation\nInsufficient evidence for a supported recommendation.\n\n## Unknown or unfinished\n- Identify two publicly documented Python browser-automation projects suitable for researching web pages and collect, for each project, its name, official repository URL, license, and documented installation command from official sources.\n- Verify that the collected name, repository URL, license, and installation command for both projects are backed by official documentation or repository sources.\n- Requested 2 project(s); verified 0.\n\n## Sources\n- No verified sources.",
+  "recommendation": "Insufficient evidence for a supported recommendation.",
+  "sources": [],
+  "summary": "Insufficient evidence; stop reason: no_progress (repeated planning found no new evidence).",
+  "task_id": "89d08313-5851-47e7-a4a4-6918bd596c4a",
+  "title": "Research report: Find two publicly documented Python browser-automation projects suitable for researching web pages. For each, give its name, official repository URL, license, and documented installation command. Cite official sources."
+}
