@@ -12,7 +12,7 @@
 
 ## Tests executed, CI, and verification evidence
 
-<!-- Give commands, exit codes, evidence links, and the actual CI result. State skipped checks and why. Offline/Mock results do not prove real Agent success. -->
+<!-- For each AC, mark verified, partial, or pending within this PR's scope. Give commands, exit codes, evidence links, and the actual CI result. State skipped checks and why. Offline/Mock results do not prove real Agent success. -->
 
 ## Agent task evidence, if applicable
 
@@ -25,6 +25,10 @@
 ## Risks / limitations / rollback
 
 <!-- Include unverified behavior and the safe rollback path. -->
+
+## Delivery and release status
+
+<!-- Distinguish code ready to commit/merge from product Go. State the current stage decision and the evidence still needed for release. -->
 
 ## Reviewer checklist
 

@@ -11,6 +11,7 @@ import hashlib
 import json
 import math
 import re
+import subprocess
 import sys
 from collections import Counter
 from datetime import datetime
@@ -138,6 +139,39 @@ def check_archive_manifest(root: Path) -> list[str]:
         return errors
     except (OSError, ValueError, TypeError, KeyError) as exc:
         return [f"archive map unreadable: {exc}"]
+
+
+def check_archive_git_index(root: Path) -> list[str]:
+    """Check that Git will publish the frozen archive bytes from this checkout."""
+
+    if not (root / ".git").exists():
+        return []
+    try:
+        data = json.loads((root / ARCHIVE_MANIFEST).read_text(encoding="utf-8"))
+        frozen = {
+            item["new_path"]: item["sha256"]
+            for item in data["entries"]
+            if item["kind"] == "historical"
+        }
+        frozen.update(ARCHIVED_TARGET_HASHES)
+    except (OSError, ValueError, TypeError, KeyError) as exc:
+        return [f"Git index archive check unreadable: {exc}"]
+
+    errors: list[str] = []
+    for relative, expected_hash in frozen.items():
+        try:
+            result = subprocess.run(
+                ["git", "-C", str(root), "show", f":{relative}"],
+                capture_output=True,
+                check=False,
+            )
+        except OSError as exc:
+            return [f"Git index archive check unavailable: {exc}"]
+        if result.returncode != 0:
+            errors.append(f"Git index missing frozen archive: {relative}")
+        elif hashlib.sha256(result.stdout).hexdigest() != expected_hash:
+            errors.append(f"Git index frozen archive bytes differ: {relative}")
+    return errors
 
 
 def check_links(root: Path, files: tuple[str, ...] = DOCS) -> list[str]:
@@ -1694,6 +1728,7 @@ def main() -> int:
         + check_versions_and_traceability(root)
         + check_skills(root)
         + check_archive_manifest(root)
+        + check_archive_git_index(root)
     )
     try:
         protocol = json.loads((root / PROTOCOL).read_text(encoding="utf-8"))

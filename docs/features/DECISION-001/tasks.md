@@ -1,6 +1,6 @@
-# DECISION-001 纵向任务包草案
+# DECISION-001 纵向任务与验收状态
 
-状态：**现行规格／契约已同步；DEC-T01 仅完成离线切片验收，真实研究仍为 No-Go，其他任务待独立验收。** 阶段顺序以 [现行计划](../../../PLANS.md)为准；每个切片通常按 1–2 个兼职工作日计划，估计须含读码、测试、Review 和修复。以下是实现范围与验收依据；[DEC-T01 实际记录](../../tasks/DEC_T01_ACCEPTANCE_2026-10-23.md)单独列出证据与限制。付费运行仍需单独授权。
+状态（2026-10-24）：**现行规格／契约已同步；DEC-T01 完成其离线切片验收，DEC-T02–T05 的代码已提交但仍有验收缺口，DEC-T06 仅备好复核模板。P-02 真实研究与产品仍为 No-Go。** 阶段顺序以 [现行计划](../../../PLANS.md)为准；每个切片通常按 1–2 个兼职工作日计划，估计须含读码、测试、Review 和修复。以下是实现范围与验收依据；实际状态逐项列在下表。付费运行仍需单独授权。
 
 | Task ID／依赖 | 独立结果与预计调用链 | 必须验证与完成证据 |
 | --- | --- | --- |
@@ -11,4 +11,17 @@
 | DEC-T05／T04 | API／UI 展示目标、比较矩阵、未知项与机器／人工核源差别，保留取消和历史路径。 | 前端交互、API、SSE、权限及部分报告检查；记录可复查截图／输出与风险。对应 DEC-AC-03、06。 |
 | DEC-T06／T05 | 对现有正式运行工件及冻结离线材料附加独立的决策质量复核，不修改正式协议。 | 逐条件记录人工判定、报告 SHA-256、fact ID、未知项、复核者与时间；额外真实运行另获授权。对应 DEC-AC-07。 |
 
-每个任务开工前复制 [单任务模板](../../engineering/TASK_TEMPLATE.md)，补具体文件、基线命令、估计与回滚。若 T01 无真实事实质量进展，后继切片不应被标为产品完成。Git Commit、Push、创建 PR 和合并各自授权；2026-10-24 用户另行授权核对本地与 GitHub、合并未合并分支并同步，不改变真实研究及正式放行的 No-Go。
+## 实施与验收状态
+
+`IMPLEMENTED` 表示代码已提交，不表示 AC 完成；`PARTIAL` 表示仅部分检查有证据。`DONE（离线）` 仅适用于明确限定为离线的切片。[离线实施记录](OFFLINE_IMPLEMENTATION_2026-10-23.md)保存既有命令与结果；本表不把其中的模拟结果提升为真实验收。
+
+| Task／对应 AC | 实施／验收状态 | 已有证据 | 完成前仍需的证据 |
+| --- | --- | --- | --- |
+| DEC-T01／DEC-AC-02、06 | `IMPLEMENTED`／`DONE（离线切片）` | [单独验收](../../tasks/DEC_T01_ACCEPTANCE_2026-10-23.md)绑定 `ec4a1496` 的离线回归与限制。 | 真实取证、人工官方核源及费用另按 P-02／正式协议验证；本切片不解除 No-Go。 |
+| DEC-T02／DEC-AC-01 | `IMPLEMENTED`／`PARTIAL` | `266a49cc` 包含可选输入、PostgreSQL 快照、Worker 传递及离线传输测试；[GitHub CI 的 PostgreSQL job](https://github.com/wdadassdasadasd/adaptive-browser-agent/actions/runs/39984876768)在 Linux 一次性库完成迁移和 4 项集成测试（整体工作流仍失败）。 | Windows／WSL 本机链路、完整 API／Worker 恢复与权限检查；逐项判定旧请求兼容和幂等。 |
+| DEC-T03／DEC-AC-02、03 | `IMPLEMENTED`／`PARTIAL` | `266a49cc` 包含矩阵构建与离线逻辑回归；见[实施记录](OFFLINE_IMPLEMENTATION_2026-10-23.md)。 | 持久恢复后 fact ID／来源稳定性、实际官方来源与冲突的人工核查。 |
+| DEC-T04／DEC-AC-04、05 | `IMPLEMENTED`／`PARTIAL` | `266a49cc` 包含条件化建议；[离线测试](../../../backend/tests/unit/test_decision.py)覆盖无证据、冲突与页面诱导文字不能新增硬条件。 | 补同一场景硬条件变化的明确对照，并在经授权真实研究后人工复核推荐价值与事实支持。 |
+| DEC-T05／DEC-AC-03、06 | `IMPLEMENTED`／`PARTIAL` | `266a49cc` 包含前端表单、矩阵展示及前端测试；见[实施记录](OFFLINE_IMPLEMENTATION_2026-10-23.md)。 | Vue → API → 历史／SSE 的端到端交互、跨账户权限及部分报告检查。 |
+| DEC-T06／DEC-AC-07 | `PENDING`／`PENDING` | [离线复核模板](OFFLINE_DECISION_REVIEW_TEMPLATE.md)已备。 | 在同一冻结报告快照上执行独立逐条件复核，记录报告哈希、fact ID、复核者和时间；正式分母保持不变。 |
+
+后续任务开工前使用[单任务模板](../../engineering/TASK_TEMPLATE.md)记录具体文件、基线命令、估计与回滚；已提交的 T02–T05 以本表追踪剩余验收，不补写不存在的开工前证据。若 T01 无真实事实质量进展，后继切片不应被标为产品完成。Git Commit、Push、创建 PR 和合并各自授权；2026-10-24 用户另行授权核对本地与 GitHub、合并未合并分支并同步，不改变真实研究及正式放行的 No-Go。

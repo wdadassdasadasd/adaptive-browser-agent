@@ -4,7 +4,7 @@
 
 ## API 与身份
 
-研究提交 DTO 增加可选 `memory_mode: "off" | "source_hints"`，省略时为 `off`，不改变六路研究 API、六态和旧请求的语义。V3 另增加可选 `decision_context`，其精确定义见下节；它是目标契约，现有 API 尚未实现。P-03 增加 owner-scoped 来源线索接口：`POST /api/memories/import`、`GET /api/memories`、`DELETE /api/memories/{memory_id}`。owner 只能从已认证会话取得；导入须校验原任务归属、报告快照 SHA-256、人工官方核源工件及 fact ID，失败原子回滚。列表不泄露他人线索；撤销后不再检索，过期线索不得注入。具体 DTO/状态码随 P-03 兼容测试固定。
+研究提交 DTO 增加可选 `memory_mode: "off" | "source_hints"`，省略时为 `off`，不改变六路研究 API、六态和旧请求的语义。V3 另增加可选 `decision_context`，其精确定义见下节；它仍是目标契约，已提交切片的实施与验收状态见[DECISION-001 任务表](../features/DECISION-001/tasks.md)。P-03 增加 owner-scoped 来源线索接口：`POST /api/memories/import`、`GET /api/memories`、`DELETE /api/memories/{memory_id}`。owner 只能从已认证会话取得；导入须校验原任务归属、报告快照 SHA-256、人工官方核源工件及 fact ID，失败原子回滚。列表不泄露他人线索；撤销后不再检索，过期线索不得注入。具体 DTO/状态码随 P-03 兼容测试固定。
 
 保持六路研究 API 与当前请求/响应核心语义：`POST /api/research`、`GET /api/research`、`GET /api/research/{task_id}`、`GET /api/research/{task_id}/traces`、`GET /api/research/{task_id}/events`、`POST /api/research/{task_id}/cancel`。`/traces` 为源码实际路径；旧目标契约的 `/trace` 是历史笔误，不作为兼容别名。任务状态继续为 `queued | running | completed | partial | failed | cancelled`，终态不可逆。提交返回持久排队任务，列表仅含当前 owner 的任务。
 

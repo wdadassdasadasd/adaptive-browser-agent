@@ -1,6 +1,18 @@
 # Keep the frozen historical source byte-identical while checking other whitespace.
 docs/archive/design-0.3/07_AI_CODING_WORKFLOW.md whitespace=-blank-at-eof
 
+# These frozen archives have original mixed or CRLF bytes. Preserve them in Git blobs.
+docs/archive/design-0.3/adr/0003-langgraph-postgres-lan.md -text whitespace=cr-at-eol
+docs/archive/target-2026-10-18/PLANS.md -text whitespace=cr-at-eol
+docs/archive/target-2026-10-18/SPEC.md -text whitespace=cr-at-eol
+docs/archive/v1-audits/V1_DELIVERY_REPORT.md -text whitespace=cr-at-eol
+docs/archive/v1-audits/V1_SOURCE_CHECKS.json -text whitespace=cr-at-eol
+docs/archive/v1-audits/V1_SOURCE_CHECKS_r10.json -text whitespace=cr-at-eol
+docs/archive/v1-audits/V1_SOURCE_CHECKS_r11.json -text whitespace=cr-at-eol
+docs/archive/v1-audits/V1_UI_ACCEPTANCE.json -text whitespace=cr-at-eol
+docs/evaluation/archive/CURRENT_EVAL_PROTOCOL_current-1.json -text whitespace=cr-at-eol
+docs/evaluation/archive/CURRENT_EVAL_PROTOCOL_current-2.json -text whitespace=cr-at-eol
+
 # These signed pilot evidence files use CRLF bytes in their recorded SHA-256.
 data/evaluation/p02-pilot-r11-20261023/budget-preflight-supplement-20261023.json -text whitespace=cr-at-eol
 data/evaluation/p02-pilot-r11-20261023/human-review-conclusion-20261023.json -text whitespace=cr-at-eol

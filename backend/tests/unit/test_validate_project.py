@@ -4,9 +4,11 @@ from __future__ import annotations
 
 import hashlib
 import json
+import subprocess
 from pathlib import Path
 
 from scripts.validate_project import (
+    check_archive_git_index,
     check_archive_manifest,
     check_ledger,
     check_links,
@@ -47,6 +49,49 @@ def test_archive_manifest_keeps_history_frozen_but_current_tasks_editable(
     assert check_archive_manifest(tmp_path) == []
     history.write_text("modified history", encoding="utf-8")
     assert any("changed bytes" in error for error in check_archive_manifest(tmp_path))
+
+
+def test_archive_git_index_detects_normalized_history_before_publish(
+    tmp_path, monkeypatch
+) -> None:
+    history = tmp_path / "docs/archive/history.md"
+    history.parent.mkdir(parents=True)
+    history.write_bytes(b"original\r\nsecond\n")
+    manifest = tmp_path / "docs/archive/R0_PATH_MAP.json"
+    manifest.write_text(
+        json.dumps(
+            {
+                "version": 1,
+                "entries": [
+                    {
+                        "old_path": "docs/old-history.md",
+                        "new_path": "docs/archive/history.md",
+                        "kind": "historical",
+                        "sha256": hashlib.sha256(history.read_bytes()).hexdigest(),
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr("scripts.validate_project.ARCHIVED_TARGET_HASHES", {})
+    subprocess.run(["git", "init", "-q", str(tmp_path)], check=True)
+    subprocess.run(
+        ["git", "-C", str(tmp_path), "-c", "core.autocrlf=input", "add", str(history)],
+        check=True,
+    )
+    assert check_archive_manifest(tmp_path) == []
+    assert any("Git index" in error for error in check_archive_git_index(tmp_path))
+
+    (tmp_path / ".gitattributes").write_text(
+        "docs/archive/history.md -text\n", encoding="utf-8"
+    )
+    subprocess.run(["git", "-C", str(tmp_path), "add", ".gitattributes"], check=True)
+    subprocess.run(
+        ["git", "-C", str(tmp_path), "add", "--renormalize", str(history)],
+        check=True,
+    )
+    assert check_archive_git_index(tmp_path) == []
 
 
 def _protocol() -> dict:

@@ -1,6 +1,6 @@
 # Adaptive Research Agent — 现行产品与技术规格
 
-**状态：已确认的开发目标；R0 与 P-01 本机假任务架构关口已验证，P-02 真实 pilot 仍为 No-Go；V3 产品方向和 DECISION-001 契约已纳入目标，尚未实现。** 2026-10-23。实施顺序以 [现行计划](PLANS.md)、接口和状态边界以[现行契约](docs/contracts/CURRENT_CONTRACTS.md)、真实验收以[现行评测协议](docs/evaluation/CURRENT_EVAL_PROTOCOL.json)为准。[ADR-0005](docs/design/adr/0005-windows-worker-wsl-postgres.md)记录运行架构，[ADR-0006](docs/design/adr/0006-python-open-source-decision-agent.md)记录产品方向。原目标规格[原样归档](docs/archive/target-2026-10-18/SPEC.md)，不再作为执行要求。现有行为仍以 [V1 规格](docs/specs/V1_SPEC.md)、[V1 契约](docs/contracts/V1_CONTRACTS.md)、源码和测试为准。用户于 2026-10-23 以“执行”授权本轮产品权威同步及相应离线业务开发；依赖安装、付费真实运行、部署、Git 提交等仍须分别授权。
+**状态：已确认的开发目标；R0 与 P-01 本机假任务架构关口已验证，P-02 真实 pilot 仍为 No-Go；V3 产品方向和 DECISION-001 契约已纳入目标，实施与真实质量验收状态见[任务表](docs/features/DECISION-001/tasks.md)。** 2026-10-24。实施顺序以 [现行计划](PLANS.md)、接口和状态边界以[现行契约](docs/contracts/CURRENT_CONTRACTS.md)、真实验收以[现行评测协议](docs/evaluation/CURRENT_EVAL_PROTOCOL.json)为准。[ADR-0005](docs/design/adr/0005-windows-worker-wsl-postgres.md)记录运行架构，[ADR-0006](docs/design/adr/0006-python-open-source-decision-agent.md)记录产品方向。原目标规格[原样归档](docs/archive/target-2026-10-18/SPEC.md)，不再作为执行要求。既有 V1 行为以 [V1 规格](docs/specs/V1_SPEC.md)与 [V1 契约](docs/contracts/V1_CONTRACTS.md)核对；新增已提交切片须同时核对现行契约、源码、测试和逐任务证据，未验证边界保持未验收。用户于 2026-10-23 以“执行”授权本轮产品权威同步及相应离线业务开发；依赖安装、付费真实运行、部署、Git 提交等仍须分别授权。
 
 ## 产品目标与边界
 

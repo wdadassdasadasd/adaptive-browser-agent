@@ -1,6 +1,6 @@
 # V3 工程配置：已选择的模块化方案 B
 
-状态：工程配置已落地，产品功能仍受[现行四入口](../README.md)约束。此页说明目录的用途与加载方式，不新增业务要求、Codex 权限或自动执行能力。旧文件去向见[迁移映射](../decisions/V3_CONFIG_MIGRATION_MAP.md)，本轮检查见[配置验收](../audits/V3_CONFIG_ACCEPTANCE_2026-10-23.md)。
+状态：工程配置已落地，产品功能仍受[现行四入口](../README.md)约束。此页说明目录的用途与加载方式，不新增业务要求、Codex 权限或自动执行能力。旧文件去向见[迁移映射](../decisions/V3_CONFIG_MIGRATION_MAP.md)；原配置批次见[2026-10-23 验收](../audits/V3_CONFIG_ACCEPTANCE_2026-10-23.md)，当前修复见[2026-10-24 复审](../audits/CONFIG_REVIEW_2026-10-24.md)。
 
 ```text
 AGENTS.md                              # Codex 仓库规则与权威入口
@@ -13,12 +13,12 @@ docs/
   decisions/                           # V3 决策、权威变更提案、迁移映射
   design/adr/                           # 0005 运行架构；0006 产品方向
   engineering/                          # G0–G7 流程、配置说明、任务模板
-  features/DECISION-001/               # 尚待正式规格／契约批准的需求与切片草案
+  features/DECISION-001/               # 已批准需求与切片；实际进度见 tasks.md
   testing/STRATEGY.md                  # 风险驱动 L0–L6 检查选择
   evaluation/CURRENT_EVAL_PROTOCOL.json # 唯一正式评测协议
   audits/                              # 按版本和范围保存实际验收
   archive/                             # 不改写的历史版本与证据
-scripts/validate_project.py            # 已有离线引用、协议和 Skill 校验
+scripts/validate_project.py            # 离线引用、协议、Skill 与归档索引字节校验
 ```
 
 ## 使用与维护
@@ -31,7 +31,7 @@ scripts/validate_project.py            # 已有离线引用、协议和 Skill �
 | `docs/decisions/`、`docs/design/adr/` | 用户作产品或架构决定时记录依据、范围和待决项；变更提案 → 获批后才更新正式规格／契约。维护者避免复制原验收门槛。 | 决策记录解释选择，`SPEC.md`、`PLANS.md`、目标契约和评测协议仍为现行要求；链接及状态可离线检查。 |
 | `docs/features/`、`docs/engineering/` | 重要需求从 AC → 可验收切片；获批任务用模板记录范围、测试与证据。小变更可合并到任务或 PR，不强制新文档。 | `AGENTS.md` 指向流程；任务执行者按需读取。需求草案不能越过现行四入口；验收检查 Task／AC 与实际证据。 |
 | `docs/testing/`、`docs/evaluation/`、`docs/audits/` | 按变更风险选 L0–L6；正式评测按冻结协议执行；审计记录指定版本的实际结果。配置变动、真实运行和阶段验收分别触发。 | 策略只决定检查方式，协议独占正式题面／门槛，审计不改历史。校验脚本锁定协议和归档哈希；真实成功仍需授权运行与人工核源。 |
-| `docs/README.md`、`scripts/validate_project.py` | 文档增删或链接变更时维护导航及离线检查列表；路径 → 可读入口与错误报告。 | README 不另立权威；CI 调用校验器，本地运行同一脚本核验引用。 |
+| `docs/README.md`、`scripts/validate_project.py` | 文档增删或链接变更时维护导航及离线检查列表；路径 → 可读入口与错误报告。 | README 不另立权威；CI 调用校验器，本地运行同一脚本核验引用、冻结协议及历史归档的工作区／Git 索引字节。 |
 
 ## Codex 实际加载边界
 

@@ -1,6 +1,6 @@
 # Adaptive Research Agent — 现行实施计划
 
-**状态：设计和实施方案已获授权，P-00/R0 已完成；P-01 本机假任务架构关口第二轮 48/48 通过；P-02 同版 B01–B03 真实 pilot 已采集诊断基线，三题均未完整成功，研究质量及产品仍为 No-Go。V3 产品方向与 DECISION-001 已纳入目标计划，尚未实现。** 当前权威为[规格](SPEC.md)、[契约](docs/contracts/CURRENT_CONTRACTS.md)、[评测协议](docs/evaluation/CURRENT_EVAL_PROTOCOL.json)、[ADR-0005](docs/design/adr/0005-windows-worker-wsl-postgres.md)及产品[ADR-0006](docs/design/adr/0006-python-open-source-decision-agent.md)。旧方案[原样归档](docs/archive/target-2026-10-18/PLANS.md)。默认 V1 入口继续由 V1 规格/契约解释，P-01 差异及实际验证见[任务记录](docs/tasks/PREDEV_P01_START_PACKAGE_2026-10-20.md)，P-02 pilot 结果见[准备与交接记录](docs/tasks/EIGHT_MODULE_PREP_2026-10-22.md)；r12 No-Go、原始 SQLite、browser-use checkout 和历史审计保持原样。
+**状态：设计和实施方案已获授权，P-00/R0 已完成；P-01 本机假任务架构关口第二轮 48/48 通过；P-02 同版 B01–B03 真实 pilot 已采集诊断基线，三题均未完整成功，研究质量及产品仍为 No-Go。V3 产品方向与 DECISION-001 已纳入目标计划，实施与验收状态见[任务表](docs/features/DECISION-001/tasks.md)。** 当前权威为[规格](SPEC.md)、[契约](docs/contracts/CURRENT_CONTRACTS.md)、[评测协议](docs/evaluation/CURRENT_EVAL_PROTOCOL.json)、[ADR-0005](docs/design/adr/0005-windows-worker-wsl-postgres.md)及产品[ADR-0006](docs/design/adr/0006-python-open-source-decision-agent.md)。旧方案[原样归档](docs/archive/target-2026-10-18/PLANS.md)。默认 V1 入口继续由 V1 规格/契约解释，P-01 差异及实际验证见[任务记录](docs/tasks/PREDEV_P01_START_PACKAGE_2026-10-20.md)，P-02 pilot 结果见[准备与交接记录](docs/tasks/EIGHT_MODULE_PREP_2026-10-22.md)；r12 No-Go、原始 SQLite、browser-use checkout 和历史审计保持原样。
 
 ## 阶段与停线
 
