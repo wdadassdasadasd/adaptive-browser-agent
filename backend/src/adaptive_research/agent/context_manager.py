@@ -147,9 +147,11 @@ class ContextManager:
             ],
             "facts": [
                 {
+                    "id": clip(item.id, 100),
                     "content": clip(item.content, 250),
                     "source_url": clip(item.source_url, 300),
                     "source_title": clip(item.source_title, 100),
+                    "subject": clip(item.subject, 100) if item.subject else None,
                 }
                 for item in state.facts[-8:]
             ],
