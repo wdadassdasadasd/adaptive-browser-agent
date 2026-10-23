@@ -7,6 +7,7 @@ import pytest
 from adaptive_research.agent.agent_loop import AgentLoop
 from adaptive_research.agent.llm.base import LLMError, StructuredCompletion
 from adaptive_research.agent.state import (
+    DecisionContext,
     EvaluationResult,
     ResearchFact,
     ResearchState,
@@ -175,6 +176,31 @@ def make_loop(
     provider: FakeProvider, github: FakeGithub, browser: FakeBrowser, **limits
 ):
     return AgentLoop(provider, ToolRouter(browser, github), **limits)
+
+
+@pytest.mark.asyncio
+async def test_decision_task_with_missing_condition_evidence_is_partial() -> None:
+    class DecisionProvider(FakeProvider):
+        async def complete_structured(self, prompt: str, schema: type):
+            if schema.__name__ == "JudgmentDraft":
+                self.calls.append(schema.__name__)
+                return StructuredCompletion(schema.model_validate({"rows": []}), 2, 1)
+            return await super().complete_structured(prompt, schema)
+
+    context = DecisionContext(
+        use_case="Python API",
+        must_have=["async handlers"],
+        candidate_projects=["FastAPI", "Flask"],
+    )
+    result = await make_loop(DecisionProvider(), FakeGithub(), FakeBrowser()).run(
+        "Choose a framework", decision_context=context
+    )
+    assert result.state.decision_context == context
+    assert result.state.status == ResearchStatus.PARTIAL
+    assert result.state.stop_reason == "insufficient_info"
+    assert result.report is not None and result.report.decision is not None
+    assert result.report.decision.recommendation is None
+    assert "insufficient_info" in result.report.summary
 
 
 @pytest.mark.asyncio

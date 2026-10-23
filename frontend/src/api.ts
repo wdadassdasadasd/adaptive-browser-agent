@@ -7,6 +7,63 @@ export interface Finding {
   source_urls: string[]
 }
 
+export interface DecisionContext {
+  use_case: string
+  must_have: string[]
+  preferences: string[]
+  candidate_projects: string[]
+}
+
+export type DecisionVerdict = 'satisfied' | 'not_satisfied' | 'unknown' | 'conflicting'
+
+export interface DecisionCandidate {
+  candidate_id: string
+  label: string
+  origin: 'user' | 'agent'
+  verified_subject: string | null
+}
+
+export interface DecisionMatrixRow {
+  candidate_id: string
+  condition_type: 'must_have' | 'preference'
+  condition: string
+  verdict: DecisionVerdict
+  supporting_fact_ids: string[]
+  contradicting_fact_ids: string[]
+  reason: string
+}
+
+export interface DecisionRecommendation {
+  candidate_id: string
+  text: string
+  supporting_fact_ids: string[]
+  verification_status: 'machine_admitted_human_unverified'
+}
+
+export interface DecisionEvidence {
+  fact_id: string
+  subject: string
+  source_url: string
+  excerpt: string
+  observed_at: string
+}
+
+export interface DecisionReport {
+  use_case: string
+  must_have: string[]
+  preferences: string[]
+  candidate_projects: string[]
+  candidates: DecisionCandidate[]
+  matrix: DecisionMatrixRow[]
+  evidence_facts?: DecisionEvidence[]
+  unknowns: string[]
+  conflicts: string[]
+  recommendation: DecisionRecommendation | null
+  change_conditions: string[]
+  no_recommendation_reason: string | null
+  verification_status: 'machine_admitted_human_unverified'
+}
+
 export interface ResearchReport {
   task_id: string
   goal: string
@@ -18,6 +75,7 @@ export interface ResearchReport {
   sources: string[]
   markdown: string
   generated_at: string
+  decision?: DecisionReport | null
 }
 
 export interface ResearchTask {
@@ -65,7 +123,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
     }
     if (response.status === 429) throw new ApiError(429, '研究任务已满，请等待任务结束或取消排队任务后重试。')
     if (response.status === 404) throw new ApiError(404, '任务不存在，可能已被删除。')
-    if (response.status === 422) throw new ApiError(422, '研究目标无效，请输入不超过 4000 字的具体目标。')
+    if (response.status === 422) throw new ApiError(422, '研究目标或选型条件无效，请检查长度、空条目与重复项。')
     if (response.status >= 500) throw new ApiError(response.status, `本地 API 暂时不可用，请检查后端服务（HTTP ${response.status}）。`)
     throw new ApiError(response.status, `请求失败（HTTP ${response.status}）。`)
   }
@@ -76,10 +134,10 @@ export const researchApi = {
   list: () => request<ResearchTask[]>(''),
   get: (id: string) => request<ResearchTask>(`/${encodeURIComponent(id)}`),
   traces: (id: string) => request<AgentEvent[]>(`/${encodeURIComponent(id)}/traces`),
-  create: (goal: string) => request<ResearchTask>('', {
+  create: (goal: string, decisionContext?: DecisionContext) => request<ResearchTask>('', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ goal }),
+    body: JSON.stringify(decisionContext ? { goal, decision_context: decisionContext } : { goal }),
   }),
   cancel: (id: string) => request<{ task_id: string; cancelled: boolean; cancellation_requested?: boolean }>(`/${encodeURIComponent(id)}/cancel`, { method: 'POST' }),
 }

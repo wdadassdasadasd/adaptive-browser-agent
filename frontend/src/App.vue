@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue'
-import { ApiError, eventUrl, researchApi, safeSourceUrl, type AgentEvent, type ResearchTask, type TaskStatus } from './api'
+import { ApiError, eventUrl, researchApi, safeSourceUrl, type AgentEvent, type DecisionContext, type DecisionVerdict, type ResearchTask, type TaskStatus } from './api'
 
 const eventTypes = ['task_queued', 'task_started', 'task_requeued', 'subgoals_initialized', 'step_evaluated', 'cancel_requested', 'task_finished']
 const terminalStatuses = new Set<TaskStatus>(['completed', 'partial', 'failed', 'cancelled'])
@@ -10,6 +10,11 @@ const statusLabels: Record<TaskStatus, string> = {
 }
 
 const goal = ref('')
+const decisionMode = ref(false)
+const useCase = ref('')
+const mustHave = ref('')
+const preferences = ref('')
+const candidateProjects = ref('')
 const tasks = ref<ResearchTask[]>([])
 const selected = ref<ResearchTask | null>(null)
 const timeline = ref<AgentEvent[]>([])
@@ -31,6 +36,42 @@ let disposed = false
 const active = computed(() => selected.value && !terminalStatuses.has(selected.value.status))
 const pendingCancellation = computed(() => Boolean(active.value && selected.value?.cancellation_requested))
 const validGoal = computed(() => goal.value.trim().length > 0 && goal.value.trim().length <= 4000)
+const verdictLabels: Record<DecisionVerdict, string> = {
+  satisfied: '满足', not_satisfied: '不满足', unknown: '未知', conflicting: '证据冲突',
+}
+
+function parseEntries(value: string, label: string, maxCount: number): { entries: string[], error: string } {
+  if (!value.trim()) return { entries: [], error: '' }
+  const entries = value.trim().split(/\r?\n/).map((item) => item.trim())
+  if (entries.length > maxCount) return { entries, error: `${label}最多 ${maxCount} 条。` }
+  if (entries.some((item) => item.length < 1 || item.length > 200)) return { entries, error: `${label}每条需为 1–200 字，不能留空行。` }
+  if (new Set(entries.map((item) => item.toLocaleLowerCase())).size !== entries.length) {
+    return { entries, error: `${label}不能有重复条目。` }
+  }
+  return { entries, error: '' }
+}
+
+const decisionInput = computed<{ context: DecisionContext | undefined, error: string }>(() => {
+  if (!decisionMode.value) return { context: undefined, error: '' }
+  const use_case = useCase.value.trim()
+  if (!use_case || use_case.length > 1000) return { context: undefined, error: '选型用途需为 1–1000 字。' }
+  const hard = parseEntries(mustHave.value, '必须条件', 12)
+  const soft = parseEntries(preferences.value, '偏好', 12)
+  const candidates = parseEntries(candidateProjects.value, '候选项目', 8)
+  const error = hard.error || soft.error || candidates.error
+  if (error) return { context: undefined, error }
+  return { context: {
+    use_case,
+    must_have: hard.entries,
+    preferences: soft.entries,
+    candidate_projects: candidates.entries,
+  }, error: '' }
+})
+const validSubmission = computed(() => validGoal.value && !decisionInput.value.error)
+const decisionReport = computed(() => selected.value?.report?.decision ?? null)
+function candidateName(id: string): string {
+  return selected.value?.report?.decision?.candidates.find((candidate) => candidate.candidate_id === id)?.label || id
+}
 const unfinishedItems = computed(() => {
   const lines = selected.value?.report?.markdown.split(/\r?\n/) ?? []
   const start = lines.findIndex((line) => line.trim() === '## Unknown or unfinished')
@@ -235,13 +276,18 @@ async function chooseTask(task: ResearchTask): Promise<void> {
 }
 
 async function start(): Promise<void> {
-  if (!validGoal.value || startBusy.value) return
+  if (!validSubmission.value || startBusy.value) return
   startBusy.value = true
   error.value = ''
   notice.value = ''
   try {
-    const created = await researchApi.create(goal.value.trim())
+    const created = await researchApi.create(goal.value.trim(), decisionInput.value.context)
     goal.value = ''
+    decisionMode.value = false
+    useCase.value = ''
+    mustHave.value = ''
+    preferences.value = ''
+    candidateProjects.value = ''
     await chooseTask(created)
     void refreshList()
   } catch (cause) {
@@ -310,7 +356,20 @@ onUnmounted(() => { disposed = true; ++selectionVersion; closeStream() })
         <form class="composer" @submit.prevent="start">
           <label for="goal">研究目标</label>
           <textarea id="goal" v-model="goal" rows="3" maxlength="4000" placeholder="例如：比较三个开源浏览器自动化项目的功能与适用场景" :disabled="startBusy" />
-          <div class="composer-actions"><small>{{ goal.trim().length }} / 4000 字</small><button class="primary" type="submit" :disabled="!validGoal || startBusy">{{ startBusy ? '正在创建…' : '开始研究' }}</button></div>
+          <label class="decision-toggle" for="decision-mode"><input id="decision-mode" v-model="decisionMode" type="checkbox" :disabled="startBusy" />加入 Python 开源选型条件</label>
+          <div v-if="decisionMode" class="decision-inputs" data-test="decision-inputs">
+            <p class="muted">以下内容是您提供的约束。每项一行；候选名称只是待核验标识，不代表官方身份已确认。</p>
+            <label for="use-case">使用场景 <span aria-hidden="true">*</span></label>
+            <textarea id="use-case" v-model="useCase" rows="2" maxlength="1000" :disabled="startBusy" placeholder="团队要解决什么问题？" />
+            <label for="must-have">必须条件（最多 12 条）</label>
+            <textarea id="must-have" v-model="mustHave" rows="3" :disabled="startBusy" placeholder="每行一条必须满足的条件" />
+            <label for="preferences">偏好（最多 12 条）</label>
+            <textarea id="preferences" v-model="preferences" rows="3" :disabled="startBusy" placeholder="每行一条可权衡的偏好" />
+            <label for="candidate-projects">已知候选项目（最多 8 个，可留空）</label>
+            <textarea id="candidate-projects" v-model="candidateProjects" rows="3" :disabled="startBusy" placeholder="每行一个项目标识；留空可由 Agent 发现候选" />
+            <p v-if="decisionInput.error" class="input-error" role="alert">{{ decisionInput.error }}</p>
+          </div>
+          <div class="composer-actions"><small>{{ goal.trim().length }} / 4000 字</small><button class="primary" type="submit" :disabled="!validSubmission || startBusy">{{ startBusy ? '正在创建…' : '开始研究' }}</button></div>
         </form>
 
         <div v-if="error" class="alert error" role="alert">{{ error }}</div>
@@ -329,6 +388,26 @@ onUnmounted(() => { disposed = true; ++selectionVersion; closeStream() })
               <section aria-labelledby="timeline-title"><h3 id="timeline-title">执行时间线 <span class="count">{{ timeline.length }}</span></h3><p v-if="timeline.length === 0" class="empty-small">等待研究事件…</p><ol v-else class="timeline"><li v-for="event in timeline" :key="event.event_id"><span class="timeline-dot"></span><div><small>{{ new Date(event.timestamp).toLocaleTimeString('zh-CN') }} · {{ event.event_type === 'step_evaluated' ? `第 ${event.step + 1} 步` : '任务事件' }}</small><p>{{ event.message || event.event_type }}</p></div></li></ol></section>
               <section aria-labelledby="report-title"><h3 id="report-title">研究报告</h3><div v-if="selected.report" class="report"><h4>{{ selected.report.title }}</h4><p>{{ selected.report.summary }}</p><template v-if="selected.report.findings.length"><h5>发现</h5><article v-for="finding in selected.report.findings" :key="finding.name"><strong>{{ finding.name }}</strong><p>{{ finding.description }}</p><ul v-if="finding.source_urls.length" class="source-list"><li v-for="url in finding.source_urls" :key="url"><a v-if="safeSourceUrl(url)" :href="safeSourceUrl(url)" target="_blank" rel="noopener noreferrer">{{ url }}</a></li></ul></article></template><h5>对比</h5><p>{{ selected.report.comparison }}</p><h5>建议</h5><p>{{ selected.report.recommendation }}</p><template v-if="unfinishedItems.length"><h5>待核实或未完成</h5><ul><li v-for="item in unfinishedItems" :key="item">{{ item }}</li></ul></template><h5>来源</h5><ul class="source-list"><li v-for="url in selected.report.sources" :key="url"><a v-if="safeSourceUrl(url)" :href="safeSourceUrl(url)" target="_blank" rel="noopener noreferrer">{{ url }}</a></li></ul><p v-if="!selected.report.sources.length" class="muted">暂无来源。</p></div><p v-else class="empty-small">{{ active ? '研究进行中，报告完成后显示。' : '此任务没有可显示的报告。' }}</p></section>
             </div>
+            <section v-if="decisionReport" class="decision-report" aria-labelledby="decision-title" data-test="decision-report">
+              <h3 id="decision-title">选型决策记录</h3>
+              <p class="verification-note">机器准入的候选分析，待人工打开官方来源逐条核实；不计作正式评测通过。</p>
+              <p><strong>使用场景：</strong>{{ decisionReport.use_case }}</p>
+              <div class="decision-constraints">
+                <div><h4>必须条件</h4><ul v-if="decisionReport.must_have.length"><li v-for="item in decisionReport.must_have" :key="item">{{ item }}</li></ul><p v-else class="muted">未提供。</p></div>
+                <div><h4>偏好</h4><ul v-if="decisionReport.preferences.length"><li v-for="item in decisionReport.preferences" :key="item">{{ item }}</li></ul><p v-else class="muted">未提供。</p></div>
+              </div>
+              <h4>候选与依据矩阵</h4>
+              <ul v-if="decisionReport.candidates.length" class="candidate-list"><li v-for="candidate in decisionReport.candidates" :key="candidate.candidate_id"><strong>{{ candidate.label }}</strong><small>{{ candidate.origin === 'user' ? '用户提供的待核验标识' : 'Agent 发现的候选' }}<span v-if="candidate.verified_subject"> · 记录主体：{{ candidate.verified_subject }}</span></small></li></ul>
+              <p v-else class="muted">尚无候选。</p>
+              <div v-if="decisionReport.matrix.length" class="matrix-scroll"><table class="decision-matrix"><caption>每项判断均需核对 fact ID 和来源；“满足”仍待人工核源。</caption><thead><tr><th scope="col">候选</th><th scope="col">条件</th><th scope="col">判断</th><th scope="col">理由及事实</th></tr></thead><tbody><tr v-for="(row, index) in decisionReport.matrix" :key="`${row.candidate_id}-${row.condition_type}-${index}`"><th scope="row">{{ candidateName(row.candidate_id) }}</th><td><small>{{ row.condition_type === 'must_have' ? '必须' : '偏好' }}</small><br />{{ row.condition }}</td><td><span class="verdict" :class="row.verdict">{{ verdictLabels[row.verdict] }}</span></td><td>{{ row.reason }}<small v-if="row.supporting_fact_ids.length" class="fact-ids">支持 fact ID：{{ row.supporting_fact_ids.join('、') }}</small><small v-if="row.contradicting_fact_ids.length" class="fact-ids">反证 fact ID：{{ row.contradicting_fact_ids.join('、') }}</small><small v-if="!row.supporting_fact_ids.length && !row.contradicting_fact_ids.length" class="fact-ids">无准入事实</small></td></tr></tbody></table></div>
+              <p v-else class="muted">尚无可展示的条件矩阵。</p>
+              <div v-if="decisionReport.evidence_facts?.length" class="decision-evidence" data-test="decision-evidence"><h4>引用事实</h4><ul><li v-for="fact in decisionReport.evidence_facts" :key="fact.fact_id"><strong>{{ fact.fact_id }} · {{ fact.subject }}</strong><p>{{ fact.excerpt }}</p><small>抓取时间：{{ new Date(fact.observed_at).toLocaleString('zh-CN') }}</small><a v-if="safeSourceUrl(fact.source_url)" :href="safeSourceUrl(fact.source_url)" target="_blank" rel="noopener noreferrer">{{ fact.source_url }}</a></li></ul></div>
+              <div v-if="decisionReport.unknowns.length || decisionReport.conflicts.length" class="decision-gaps"><div v-if="decisionReport.unknowns.length"><h4>未知项</h4><ul><li v-for="item in decisionReport.unknowns" :key="item">{{ item }}</li></ul></div><div v-if="decisionReport.conflicts.length"><h4>冲突</h4><ul><li v-for="item in decisionReport.conflicts" :key="item">{{ item }}</li></ul></div></div>
+              <h4>条件化建议</h4>
+              <div v-if="decisionReport.recommendation" class="decision-advice"><p><strong>{{ candidateName(decisionReport.recommendation.candidate_id) }}：</strong>{{ decisionReport.recommendation.text }}</p><p class="muted">支持 fact ID：{{ decisionReport.recommendation.supporting_fact_ids.join('、') || '无' }} · 待人工核实</p></div>
+              <p v-else>{{ decisionReport.no_recommendation_reason || '当前证据不足，无法推荐。' }}</p>
+              <div v-if="decisionReport.change_conditions.length"><h4>哪些条件会改变建议</h4><ul><li v-for="item in decisionReport.change_conditions" :key="item">{{ item }}</li></ul></div>
+            </section>
           </template>
         </section>
       </section>

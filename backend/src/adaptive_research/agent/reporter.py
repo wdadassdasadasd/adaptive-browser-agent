@@ -4,6 +4,7 @@ from collections import defaultdict
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from adaptive_research.agent.decision import DecisionService
 from adaptive_research.agent.goal_count import (
     parse_goal_targets,
     verified_subject_counts,
@@ -108,6 +109,13 @@ class ReporterService:
             else "Insufficient evidence for a supported comparison."
         )
         recommendation = "Insufficient evidence for a supported recommendation."
+        decision = None
+        if state.decision_context is not None:
+            decision = await DecisionService(self.llm).build(state)
+            if decision.recommendation is not None:
+                recommendation = decision.recommendation.text
+            else:
+                recommendation = decision.no_recommendation_reason or recommendation
         title = f"Research report: {state.goal}"
         lines = [f"# {title}", "", summary, "", "## Findings"]
         if findings:
@@ -128,6 +136,34 @@ class ReporterService:
         lines += [f"- {description}" for description in unresolved] or [
             "- No remaining subgoal is recorded."
         ]
+        if decision is not None:
+            lines += [
+                "",
+                "## Decision matrix",
+                "Machine-admitted; official sources require human verification.",
+            ]
+            for row in decision.matrix:
+                candidate = next(
+                    item.label
+                    for item in decision.candidates
+                    if item.candidate_id == row.candidate_id
+                )
+                cited = row.supporting_fact_ids + row.contradicting_fact_ids
+                lines.append(
+                    f"- {candidate} | {row.condition_type}: {row.condition} | "
+                    f"{row.verdict} | fact IDs: {', '.join(cited) or 'none'}"
+                )
+            if decision.no_recommendation_reason:
+                lines.append(f"- Decision gap: {decision.no_recommendation_reason}")
+            lines += [f"- Unknown: {item}" for item in decision.unknowns]
+            lines += [f"- Conflict: {item}" for item in decision.conflicts]
+            if decision.evidence_facts:
+                lines += ["", "## Decision evidence"]
+                lines += [
+                    f"- {item.fact_id} | {item.subject} | {item.source_url} | "
+                    f"{item.observed_at.isoformat()} | {item.excerpt}"
+                    for item in decision.evidence_facts
+                ]
         lines += ["", "## Sources"]
         lines += [f"- {url}" for url in sources] or ["- No verified sources."]
         return ResearchReport(
@@ -138,6 +174,7 @@ class ReporterService:
             findings=findings,
             comparison=comparison,
             recommendation=recommendation,
+            decision=decision,
             sources=sources,
             markdown="\n".join(lines),
         )

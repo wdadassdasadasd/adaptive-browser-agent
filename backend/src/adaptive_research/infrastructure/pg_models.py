@@ -78,6 +78,7 @@ class PgTask(PgBase):
         String(64), ForeignKey("app_owner.id", ondelete="RESTRICT"), nullable=False
     )
     goal: Mapped[str] = mapped_column(Text, nullable=False)
+    decision_context: Mapped[dict[str, Any] | None] = mapped_column(JSONB)
     idempotency_key: Mapped[str | None] = mapped_column(String(128))
     status: Mapped[str] = mapped_column(
         String(16), nullable=False, server_default=text("'queued'")

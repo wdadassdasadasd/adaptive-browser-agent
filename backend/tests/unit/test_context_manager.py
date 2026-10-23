@@ -25,6 +25,7 @@ async def test_context_bounds_observation_and_keeps_recent_sources() -> None:
         current_subgoal_id="s1",
         facts=[
             ResearchFact(
+                id="fact-fastapi-framework",
                 content="FastAPI is a framework",
                 source_url="https://fastapi.tiangolo.com/",
                 source_title="FastAPI",
@@ -47,6 +48,7 @@ async def test_context_bounds_observation_and_keeps_recent_sources() -> None:
     )
     assert len(rendered) <= 12000
     assert "s1" in rendered and "https://fastapi.tiangolo.com/" in rendered
+    assert "fact-fastapi-framework" in rendered
     assert "trace-3" in rendered and "trace-7" in rendered
     assert "trace-2" not in rendered
     assert "TRUNCATED" in rendered

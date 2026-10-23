@@ -50,6 +50,96 @@ beforeEach(() => {
 afterEach(() => vi.unstubAllGlobals())
 
 describe('research UI', () => {
+  it('keeps the goal-only request body unchanged', async () => {
+    const wrapper = mount(App)
+    await flushPromises()
+    await wrapper.get('#goal').setValue('  比较公开项目  ')
+    await wrapper.get('form').trigger('submit')
+    await flushPromises()
+    const post = vi.mocked(fetch).mock.calls.find(([, options]) => options?.method === 'POST')
+    expect(JSON.parse(String(post?.[1]?.body))).toEqual({ goal: '比较公开项目' })
+    wrapper.unmount()
+  })
+
+  it('submits trimmed optional decision conditions without promoting preferences to hard requirements', async () => {
+    const wrapper = mount(App)
+    await flushPromises()
+    await wrapper.get('#goal').setValue('比较两个 Python 项目')
+    await wrapper.get('#decision-mode').setValue(true)
+    await wrapper.get('#use-case').setValue('  团队异步 API  ')
+    await wrapper.get('#must-have').setValue('  Python 3.12  \n MIT 许可证  ')
+    await wrapper.get('#preferences').setValue('低学习成本')
+    await wrapper.get('#candidate-projects').setValue('  Project A\nProject B  ')
+    await wrapper.get('form').trigger('submit')
+    await flushPromises()
+    const post = vi.mocked(fetch).mock.calls.find(([, options]) => options?.method === 'POST')
+    expect(JSON.parse(String(post?.[1]?.body))).toEqual({
+      goal: '比较两个 Python 项目',
+      decision_context: {
+        use_case: '团队异步 API', must_have: ['Python 3.12', 'MIT 许可证'],
+        preferences: ['低学习成本'], candidate_projects: ['Project A', 'Project B'],
+      },
+    })
+    wrapper.unmount()
+  })
+
+  it('blocks duplicate, blank, and oversized decision entries before API submission', async () => {
+    const wrapper = mount(App)
+    await flushPromises()
+    await wrapper.get('#goal').setValue('比较项目')
+    await wrapper.get('#decision-mode').setValue(true)
+    await wrapper.get('#use-case').setValue('公开 Python 工具')
+    await wrapper.get('#must-have').setValue('MIT\nmit')
+    expect(wrapper.text()).toContain('不能有重复条目')
+    await wrapper.get('form').trigger('submit')
+    await flushPromises()
+    expect(fetchCalls).not.toContain('POST /api/research')
+    await wrapper.get('#must-have').setValue('MIT\n\nPython 3.12')
+    expect(wrapper.text()).toContain('不能留空行')
+    await wrapper.get('#must-have').setValue('x'.repeat(201))
+    expect(wrapper.text()).toContain('1–200 字')
+    wrapper.unmount()
+  })
+
+  it('restores an evidence matrix with unknowns and machine-only verification status', async () => {
+    currentTask = task({ status: 'partial', report: {
+      task_id: 'task-1', goal: '比较公开项目', title: '选型记录', summary: '证据待核实',
+      findings: [], comparison: '比较', recommendation: '条件化建议', sources: [],
+      markdown: '', generated_at: '2026-10-12T10:00:00Z',
+      decision: {
+        use_case: '团队 API', must_have: ['MIT 许可证'], preferences: ['文档清晰'],
+        candidate_projects: ['Project A'],
+        candidates: [{ candidate_id: 'a', label: 'Project A', origin: 'user', verified_subject: null }],
+        matrix: [
+          { candidate_id: 'a', condition_type: 'must_have', condition: 'MIT 许可证', verdict: 'unknown', supporting_fact_ids: [], contradicting_fact_ids: [], reason: '未找到可准入依据' },
+          { candidate_id: 'a', condition_type: 'preference', condition: '文档清晰', verdict: 'conflicting', supporting_fact_ids: ['fact-1'], contradicting_fact_ids: ['fact-2'], reason: '来源不一致' },
+        ],
+        evidence_facts: [
+          { fact_id: 'fact-1', subject: 'Project A', source_url: 'https://example.org/docs', excerpt: '官方文档片段', observed_at: '2026-10-12T09:00:00Z' },
+          { fact_id: 'fact-2', subject: 'Project A', source_url: 'javascript:alert(1)', excerpt: '冲突片段', observed_at: '2026-10-12T09:01:00Z' },
+        ],
+        unknowns: ['许可证未知'], conflicts: ['文档信息冲突'], recommendation: null,
+        change_conditions: ['核实许可证'], no_recommendation_reason: '硬条件缺证',
+        verification_status: 'machine_admitted_human_unverified',
+      },
+    } })
+    const wrapper = mount(App)
+    await flushPromises()
+    const decision = wrapper.get('[data-test="decision-report"]')
+    expect(decision.text()).toContain('待人工打开官方来源逐条核实')
+    expect(decision.text()).toContain('用户提供的待核验标识')
+    expect(decision.text()).toContain('无准入事实')
+    expect(decision.text()).toContain('证据冲突')
+    expect(decision.text()).toContain('fact-1')
+    expect(decision.text()).toContain('fact-2')
+    expect(decision.get('[data-test="decision-evidence"]').text()).toContain('官方文档片段')
+    expect(decision.get('[data-test="decision-evidence"]').text()).toContain('2026')
+    expect(decision.findAll('[data-test="decision-evidence"] a')).toHaveLength(1)
+    expect(decision.text()).toContain('硬条件缺证')
+    expect(decision.text()).toContain('核实许可证')
+    wrapper.unmount()
+  })
+
   it('restores selected task and sourced report on refresh without unsafe links', async () => {
     currentTask = task({ status: 'completed', report: {
       task_id: 'task-1', goal: '比较公开项目', title: '研究结果', summary: '总结',

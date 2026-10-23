@@ -103,13 +103,20 @@ async def test_postgres_capacity_fifo_fencing_recovery_and_events(monkeypatch) -
                 "synthetic-owner",
                 f"goal-{n}",
                 idempotency_key=f"p01-test-key-{n}",
+                decision_context=(
+                    {"use_case": "Python API", "must_have": ["MIT"]} if n == 0 else None
+                ),
             )
             for n in range(8)
         ]
         replayed = await store.create_task(
-            "synthetic-owner", "goal-0", idempotency_key="p01-test-key-0"
+            "synthetic-owner",
+            "goal-0",
+            idempotency_key="p01-test-key-0",
+            decision_context={"use_case": " Python API ", "must_have": [" MIT "]},
         )
         assert replayed.id == waiting[0].id
+        assert replayed.decision_context["must_have"] == ["MIT"]
         assert (
             await store.get_task_by_idempotency_key("synthetic-owner", "p01-test-key-0")
         ).id == waiting[0].id
@@ -120,6 +127,16 @@ async def test_postgres_capacity_fifo_fencing_recovery_and_events(monkeypatch) -
         with pytest.raises(IdempotencyConflict):
             await store.create_task(
                 "synthetic-owner", "different goal", idempotency_key="p01-test-key-0"
+            )
+        with pytest.raises(IdempotencyConflict):
+            await store.create_task(
+                "synthetic-owner",
+                "goal-0",
+                idempotency_key="p01-test-key-0",
+                decision_context={
+                    "use_case": "Python API",
+                    "must_have": ["Apache-2.0"],
+                },
             )
         first, second = await asyncio.gather(
             store.claim_next("worker-a", lease_seconds=30),

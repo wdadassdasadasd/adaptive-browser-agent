@@ -10,7 +10,7 @@ from pydantic import BaseModel
 from sqlalchemy.exc import SQLAlchemyError
 
 from adaptive_research.agent.events import AgentEvent
-from adaptive_research.agent.state import ResearchReport
+from adaptive_research.agent.state import DecisionContext, ResearchReport
 from adaptive_research.api.schemas.research import (
     ResearchCreateRequest,
     ResearchTaskResponse,
@@ -37,6 +37,7 @@ class PgCancelResponse(BaseModel):
 
 class PgTaskResponse(ResearchTaskResponse):
     cancellation_requested: bool
+    decision_context: DecisionContext | None = None
 
 
 def _store(request: Request) -> PgStore:
@@ -55,6 +56,7 @@ def _task_response(task: TaskRecord) -> PgTaskResponse:
         stop_reason=task.stop_reason,
         report=ResearchReport.model_validate(task.report) if task.report else None,
         cancellation_requested=task.cancellation_requested,
+        decision_context=task.decision_context,
     )
 
 
@@ -80,12 +82,12 @@ async def create_research(
     if settings.deepseek_api_key is None:
         raise HTTPException(503, "DeepSeek provider is not configured")
     try:
-        if idempotency_key is None:
-            task = await _store(request).create_task(LOCAL_OWNER_ID, body.goal)
-        else:
-            task = await _store(request).create_task(
-                LOCAL_OWNER_ID, body.goal, idempotency_key=idempotency_key
-            )
+        options = {}
+        if idempotency_key is not None:
+            options["idempotency_key"] = idempotency_key
+        if body.decision_context is not None:
+            options["decision_context"] = body.decision_context
+        task = await _store(request).create_task(LOCAL_OWNER_ID, body.goal, **options)
     except CapacityFull as exc:
         raise HTTPException(
             status_code=429,
@@ -93,9 +95,9 @@ async def create_research(
             headers={"Retry-After": "2"},
         ) from exc
     except IdempotencyConflict as exc:
-        raise HTTPException(409, "Idempotency key belongs to another goal") from exc
+        raise HTTPException(409, "Idempotency key belongs to another request") from exc
     except ValueError as exc:
-        raise HTTPException(422, "Invalid idempotency key") from exc
+        raise HTTPException(422, "Invalid research request") from exc
     return _task_response(task)
 
 

@@ -12,6 +12,7 @@ from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from adaptive_research.agent.llm.base import ProviderUsage
+from adaptive_research.agent.state import DecisionContext
 from adaptive_research.infrastructure.pg_models import (
     PgBudget,
     PgCallAttempt,
@@ -34,7 +35,7 @@ class CapacityFull(Exception):
 
 
 class IdempotencyConflict(Exception):
-    """A submitted key already belongs to a different research goal."""
+    """A submitted key already belongs to a different normalized request."""
 
 
 class FenceLost(Exception):
@@ -62,6 +63,7 @@ class TaskRecord:
     report: dict[str, Any] | None
     created_at: datetime
     updated_at: datetime
+    decision_context: dict[str, Any] | None = None
 
 
 @dataclass(frozen=True)
@@ -211,6 +213,7 @@ class PgStore:
             report,
             task.created_at,
             task.updated_at,
+            task.decision_context,
         )
 
     async def _live(self, session: AsyncSession, task_id: str, token: int) -> PgTask:
@@ -229,7 +232,12 @@ class PgStore:
         return task
 
     async def create_task(
-        self, owner_id: str, goal: str, *, idempotency_key: str | None = None
+        self,
+        owner_id: str,
+        goal: str,
+        *,
+        idempotency_key: str | None = None,
+        decision_context: DecisionContext | Mapping[str, Any] | None = None,
     ) -> TaskRecord:
         if not owner_id.strip() or not goal.strip():
             raise ValueError("owner_id and goal are required")
@@ -237,6 +245,11 @@ class PgStore:
             r"[A-Za-z0-9._:-]{8,128}", idempotency_key
         ):
             raise ValueError("Invalid idempotency key")
+        normalized_context = (
+            DecisionContext.model_validate(decision_context).model_dump(mode="json")
+            if decision_context is not None
+            else None
+        )
         async with self.sessions.begin() as session:
             await self._guard(session)
             if idempotency_key is not None:
@@ -247,7 +260,10 @@ class PgStore:
                     )
                 )
                 if prior is not None:
-                    if prior.goal != goal:
+                    if (
+                        prior.goal != goal
+                        or prior.decision_context != normalized_context
+                    ):
                         raise IdempotencyConflict
                     return await self._record(session, prior)
             counts = (
@@ -266,7 +282,12 @@ class PgStore:
                 .values(id=owner_id, is_synthetic=True)
                 .on_conflict_do_nothing(index_elements=[PgOwner.id])
             )
-            task = PgTask(owner_id=owner_id, goal=goal, idempotency_key=idempotency_key)
+            task = PgTask(
+                owner_id=owner_id,
+                goal=goal,
+                idempotency_key=idempotency_key,
+                decision_context=normalized_context,
+            )
             session.add(task)
             await session.flush()
             session.add(PgCost(task_id=task.id))

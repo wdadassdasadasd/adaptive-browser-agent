@@ -5,7 +5,7 @@ from typing import Annotated, Any
 
 from pydantic import BaseModel, ConfigDict, StringConstraints
 
-from adaptive_research.agent.state import ResearchReport
+from adaptive_research.agent.state import DecisionContext, ResearchReport
 
 
 class ApiModel(BaseModel):
@@ -16,6 +16,7 @@ class ResearchCreateRequest(ApiModel):
     goal: Annotated[
         str, StringConstraints(strip_whitespace=True, min_length=1, max_length=4000)
     ]
+    decision_context: DecisionContext | None = None
 
 
 class ResearchTaskResponse(ApiModel):

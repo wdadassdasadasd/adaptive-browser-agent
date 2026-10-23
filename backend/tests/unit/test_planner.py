@@ -4,7 +4,7 @@ import pytest
 from pydantic import ValidationError
 
 from adaptive_research.agent.context_manager import ContextManager
-from adaptive_research.agent.llm.base import StructuredCompletion
+from adaptive_research.agent.llm.base import LLMError, StructuredCompletion
 from adaptive_research.agent.planner import InitialSubgoals, PlannerService
 from adaptive_research.agent.state import ResearchState, Subgoal
 
@@ -269,6 +269,132 @@ async def test_next_step_repairs_one_invalid_action_contract() -> None:
     assert decision.action == "extract" and decision.element_index is None
     assert len(llm.prompts) == 2
     assert "extract action requires only a question" in llm.prompts[1]
+
+
+@pytest.mark.asyncio
+async def test_local_budget_rejection_retries_once_with_current_page_and_failures() -> (
+    None
+):
+    class BudgetLLM:
+        def __init__(self) -> None:
+            self.prompts: list[str] = []
+
+        async def complete_structured(self, prompt: str, schema: type):
+            self.prompts.append(prompt)
+            if len(self.prompts) == 1:
+                raise LLMError(
+                    "remaining token budget is too small",
+                    kind="budget",
+                    budget_preflight={
+                        "remaining_tokens": 8123,
+                        "prompt_bound": 15171,
+                        "output_allowance": -7048,
+                        "provider_request_started": False,
+                    },
+                )
+            return StructuredCompletion(
+                schema.model_validate(
+                    {
+                        "subgoal_id": "s1",
+                        "reasoning": "Extract the current source",
+                        "tool": "browser",
+                        "action": "extract",
+                        "target": "What does the official page say?",
+                        "expected_result": "A sourced answer",
+                    }
+                ),
+                3,
+                2,
+            )
+
+    llm = BudgetLLM()
+    state = ResearchState(
+        goal="Check FastAPI release information",
+        status="running",
+        subgoals=[
+            Subgoal(
+                id="s1",
+                description="Find release information",
+                completion_criteria="Official source and version",
+            )
+        ],
+    )
+    history = (
+        '{"failed_actions":[{"tool":"github","action":"list_releases",'
+        '"error_type":"technical"}],"noise":"' + "x" * 9000 + '"}'
+    )
+    decision = await PlannerService(llm).next_step(
+        state,
+        {
+            "url": "https://fastapi.tiangolo.com/release-notes/",
+            "title": "Release notes",
+        },
+        history,
+    )
+
+    assert decision.action == "extract"
+    assert len(llm.prompts) == 2
+    assert len(llm.prompts[1].encode("utf-8")) < len(llm.prompts[0].encode("utf-8"))
+    assert "Find release information" in llm.prompts[1]
+    assert "https://fastapi.tiangolo.com/release-notes/" in llm.prompts[1]
+    assert "Official source and version" in llm.prompts[1]
+    assert "list_releases" in llm.prompts[1]
+
+
+@pytest.mark.asyncio
+async def test_budget_retry_stops_after_second_local_rejection() -> None:
+    class RejectingLLM:
+        def __init__(self) -> None:
+            self.calls = 0
+
+        async def complete_structured(self, prompt: str, schema: type):
+            self.calls += 1
+            raise LLMError(
+                "remaining token budget is too small",
+                kind="budget",
+                budget_preflight={"provider_request_started": False},
+            )
+
+    llm = RejectingLLM()
+    state = ResearchState(
+        goal="Research",
+        status="running",
+        subgoals=[
+            Subgoal(id="s1", description="Find docs", completion_criteria="source")
+        ],
+    )
+    with pytest.raises(LLMError, match="remaining token budget"):
+        await PlannerService(llm).next_step(
+            state, {"url": "https://example.com/docs"}, "x" * 9000
+        )
+    assert llm.calls == 2
+
+
+@pytest.mark.asyncio
+async def test_budget_failure_after_provider_start_is_not_retried() -> None:
+    class StartedLLM:
+        def __init__(self) -> None:
+            self.calls = 0
+
+        async def complete_structured(self, prompt: str, schema: type):
+            self.calls += 1
+            raise LLMError(
+                "provider outcome unknown",
+                kind="budget",
+                budget_preflight={"provider_request_started": True},
+            )
+
+    llm = StartedLLM()
+    state = ResearchState(
+        goal="Research",
+        status="running",
+        subgoals=[
+            Subgoal(id="s1", description="Find docs", completion_criteria="source")
+        ],
+    )
+    with pytest.raises(LLMError, match="provider outcome unknown"):
+        await PlannerService(llm).next_step(state, {}, "x" * 9000)
+    assert llm.calls == 1
 
 
 @pytest.mark.asyncio

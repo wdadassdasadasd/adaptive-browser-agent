@@ -18,7 +18,12 @@ from adaptive_research.agent.agent_loop import AgentLoop
 from adaptive_research.agent.call_observer import CallObserver
 from adaptive_research.agent.events import AgentEvent
 from adaptive_research.agent.llm.base import ProviderUsage
-from adaptive_research.agent.state import ResearchFact, ResearchState, ResearchStatus
+from adaptive_research.agent.state import (
+    DecisionContext,
+    ResearchFact,
+    ResearchState,
+    ResearchStatus,
+)
 from adaptive_research.agent.state_reducer import StateReducer
 from adaptive_research.application.agent_factory import new_agent
 from adaptive_research.evaluation.current import _source_fingerprint
@@ -167,6 +172,7 @@ class WorkerRunner:
         state = ResearchState(
             task_id=task.id,
             goal=task.goal,
+            decision_context=getattr(task, "decision_context", None),
             max_steps=self.settings.max_steps,
             status=ResearchStatus.RUNNING,
         )
@@ -310,6 +316,15 @@ class WorkerRunner:
             if task.recovery_count:
                 state, history = await self._recovery_snapshot(task)
                 resume_kwargs = {"resume_state": state, "prior_events": history}
+            decision_kwargs = (
+                {
+                    "decision_context": DecisionContext.model_validate(
+                        task.decision_context
+                    )
+                }
+                if getattr(task, "decision_context", None) is not None
+                else {}
+            )
             await agent.run(
                 task.goal,
                 cancellation=cancellation,
@@ -322,6 +337,7 @@ class WorkerRunner:
                     self.settings.deepseek_model,
                     self.source_sha256,
                 ),
+                **decision_kwargs,
                 **resume_kwargs,
             )
             if not terminal_written and not lease_lost:

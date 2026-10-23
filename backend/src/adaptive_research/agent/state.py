@@ -120,11 +120,35 @@ class ResearchFact(StrictModel):
     created_at: UtcDateTime = Field(default_factory=utc_now)
 
 
+DecisionText = Annotated[
+    str, StringConstraints(strip_whitespace=True, min_length=1, max_length=200)
+]
+
+
+class DecisionContext(StrictModel):
+    """User supplied selection constraints, kept separate from page observations."""
+
+    use_case: Annotated[
+        str, StringConstraints(strip_whitespace=True, min_length=1, max_length=1000)
+    ]
+    must_have: list[DecisionText] = Field(default_factory=list, max_length=12)
+    preferences: list[DecisionText] = Field(default_factory=list, max_length=12)
+    candidate_projects: list[DecisionText] = Field(default_factory=list, max_length=8)
+
+    @model_validator(mode="after")
+    def unique_entries(self) -> "DecisionContext":
+        for values in (self.must_have, self.preferences, self.candidate_projects):
+            if len({value.casefold() for value in values}) != len(values):
+                raise ValueError("decision context entries must be unique")
+        return self
+
+
 class ResearchState(StrictModel):
     """Durable agent state only; runtime resources deliberately do not belong here."""
 
     task_id: NonEmptyText = Field(default_factory=new_id)
     goal: NonEmptyText
+    decision_context: DecisionContext | None = None
     status: ResearchStatus = ResearchStatus.QUEUED
     step: int = Field(default=0, ge=0, strict=True)
     max_steps: int = Field(default=30, ge=1, strict=True)
@@ -215,6 +239,58 @@ class Finding(StrictModel):
     source_urls: list[SourceUrl] = Field(default_factory=list)
 
 
+class DecisionCandidate(StrictModel):
+    candidate_id: NonEmptyText
+    label: NonEmptyText
+    origin: Literal["user", "agent"]
+    verified_subject: NonEmptyText | None = None
+
+
+class DecisionMatrixRow(StrictModel):
+    candidate_id: NonEmptyText
+    condition_type: Literal["must_have", "preference"]
+    condition: NonEmptyText
+    verdict: Literal["satisfied", "not_satisfied", "unknown", "conflicting"]
+    supporting_fact_ids: list[NonEmptyText] = Field(default_factory=list)
+    contradicting_fact_ids: list[NonEmptyText] = Field(default_factory=list)
+    reason: NonEmptyText
+
+
+class DecisionRecommendation(StrictModel):
+    candidate_id: NonEmptyText
+    text: NonEmptyText
+    supporting_fact_ids: list[NonEmptyText]
+    verification_status: Literal["machine_admitted_human_unverified"] = (
+        "machine_admitted_human_unverified"
+    )
+
+
+class DecisionEvidence(StrictModel):
+    fact_id: NonEmptyText
+    subject: NonEmptyText
+    source_url: SourceUrl
+    excerpt: NonEmptyText
+    observed_at: UtcDateTime
+
+
+class DecisionReport(StrictModel):
+    use_case: NonEmptyText
+    must_have: list[NonEmptyText]
+    preferences: list[NonEmptyText]
+    candidate_projects: list[NonEmptyText]
+    candidates: list[DecisionCandidate]
+    matrix: list[DecisionMatrixRow]
+    evidence_facts: list[DecisionEvidence] = Field(default_factory=list)
+    unknowns: list[NonEmptyText]
+    conflicts: list[NonEmptyText]
+    recommendation: DecisionRecommendation | None = None
+    change_conditions: list[NonEmptyText]
+    no_recommendation_reason: NonEmptyText | None = None
+    verification_status: Literal["machine_admitted_human_unverified"] = (
+        "machine_admitted_human_unverified"
+    )
+
+
 class ResearchReport(StrictModel):
     task_id: NonEmptyText
     goal: NonEmptyText
@@ -223,6 +299,7 @@ class ResearchReport(StrictModel):
     findings: list[Finding] = Field(default_factory=list)
     comparison: NonEmptyText
     recommendation: NonEmptyText
+    decision: DecisionReport | None = None
     sources: list[SourceUrl] = Field(default_factory=list)
     markdown: NonEmptyText
     generated_at: UtcDateTime = Field(default_factory=utc_now)

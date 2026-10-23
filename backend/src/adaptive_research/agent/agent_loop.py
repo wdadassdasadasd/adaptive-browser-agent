@@ -27,6 +27,7 @@ from adaptive_research.agent.llm.base import (
 from adaptive_research.agent.planner import PlannerService
 from adaptive_research.agent.reporter import ReporterService
 from adaptive_research.agent.state import (
+    DecisionContext,
     EvaluationErrorType,
     ResearchReport,
     ResearchState,
@@ -171,6 +172,7 @@ class AgentLoop:
         self,
         goal: str,
         *,
+        decision_context: DecisionContext | None = None,
         cancellation: asyncio.Event | None = None,
         task_id: str | None = None,
         on_event: Callable[[AgentEvent], Awaitable[None]] | None = None,
@@ -184,8 +186,13 @@ class AgentLoop:
             raise RuntimeError("AgentLoop is one-shot")
         self._used = True
         if resume_state is not None:
-            if resume_state.goal != goal or (
-                task_id and resume_state.task_id != task_id
+            if (
+                resume_state.goal != goal
+                or (task_id and resume_state.task_id != task_id)
+                or (
+                    decision_context is not None
+                    and resume_state.decision_context != decision_context
+                )
             ):
                 raise ValueError("Resume state does not match the claimed task")
             if resume_state.status != ResearchStatus.RUNNING:
@@ -194,6 +201,7 @@ class AgentLoop:
         else:
             state = ResearchState(
                 goal=goal,
+                decision_context=decision_context,
                 max_steps=self.max_steps,
                 **({"task_id": task_id} if task_id else {}),
             )
@@ -306,7 +314,9 @@ class AgentLoop:
                 )
                 browser_started = True
             if stop_reason is None and not state.subgoals:
-                subgoals = await bounded(planner.initialize(goal))
+                subgoals = await bounded(
+                    planner.initialize(goal, state.decision_context)
+                )
                 await emit(
                     "subgoals_initialized",
                     {
@@ -551,6 +561,25 @@ class AgentLoop:
                 }
             )
             report = await ReporterService().generate(provisional)
+        if (
+            state.decision_context is not None
+            and stop_reason in {"goal_satisfied", "target_count"}
+            and (report.decision is None or report.decision.recommendation is None)
+        ):
+            stop_reason = "insufficient_info"
+            status, level = self._terminal_outcome(stop_reason, bool(state.facts))
+            old_summary = report.summary
+            new_summary = (
+                f"{len(state.facts)} sourced fact(s) collected; stop reason: "
+                "insufficient_info (the evidence does not support a unique decision)."
+            )
+            report = ResearchReport.model_validate(
+                {
+                    **report.model_dump(),
+                    "summary": new_summary,
+                    "markdown": report.markdown.replace(old_summary, new_summary, 1),
+                }
+            )
         if stop_reason == "user_cancelled" and not state.cancellation_requested:
             await emit("cancel_requested")
         await emit(

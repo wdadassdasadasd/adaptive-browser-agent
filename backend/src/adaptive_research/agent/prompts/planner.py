@@ -13,5 +13,7 @@ PLANNER_ACTION_GUIDE = (
     "extract(target: question about the current page), go_back, wait. "
     "GitHub: search_repositories(target: query), get_repository(target: owner/repo), "
     "list_releases(target: owner/repo). Use null for unused optional fields. "
-    "To search the web with the browser, navigate to a public search URL."
+    "To search the web with the browser, navigate to a public search URL. "
+    "After reaching a page likely to answer the current subgoal, extract its evidence "
+    "before navigating away; repeated navigation without facts does not complete research."
 )
