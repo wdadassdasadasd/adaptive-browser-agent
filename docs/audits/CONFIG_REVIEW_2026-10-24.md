@@ -8,7 +8,7 @@
 | --- | --- | --- |
 | DECISION-001 批准及实施状态在多个入口漂移 | 根 `AGENTS.md`、`SPEC.md`、`PLANS.md`、现行契约、文档导航和配置说明统一指向[任务状态](../features/DECISION-001/tasks.md)；历史实施记录补实际提交 ID。 | 本地导航一致；T02–T05 仍为 `PARTIAL`，T06 为 `PENDING`。 |
 | 代码提交与产品放行混用 | [G0–G7 流程](../engineering/WORKFLOW.md)、[任务模板](../engineering/TASK_TEMPLATE.md)和 PR 模板分别记录实施、范围内验收与正式 Go。 | 本地规则明确；离线提交及 CI 不能解除 No-Go。 |
-| Linux CI 的历史归档哈希失败 | [原工作流](https://github.com/wdadassdasadasd/adaptive-browser-agent/actions/runs/39984876768)的 Python 3.12／3.13 job 各在归档校验处报 10 项失败；本地对照发现 36 个冻结路径中，10 个 Git blob 的换行被规范化，而 Windows 工作区字节符合冻结 SHA-256。`.gitattributes` 对这 10 个路径设置 `-text`，并在 Git 索引恢复其原始字节；校验器新增索引字节检查和跨平台回归测试。 | 36 个暂存 Git blob 与冻结哈希相符；10 个恢复的 blob 与旧 blob 仅换行不同。远端须在获授权提交／推送后复测。 |
+| Linux CI 的历史归档哈希失败 | [原工作流](https://github.com/wdadassdasadasd/adaptive-browser-agent/actions/runs/39984876768)的 Python 3.12／3.13 job 各在归档校验处报 10 项失败；本地对照发现 36 个冻结路径中，10 个 Git blob 的换行被规范化，而 Windows 工作区字节符合冻结 SHA-256。`.gitattributes` 对这 10 个路径设置 `-text`，并在 Git 索引恢复其原始字节；校验器新增索引字节检查和跨平台回归测试。 | 修复提交 `0d6f18f6` 的[远端 CI](https://github.com/wdadassdasadasd/adaptive-browser-agent/actions/runs/39989233382)全部通过：Python 3.12、3.13、PostgreSQL 与前端四个 job 均为 success。 |
 | PostgreSQL 验收记录缺少远端结果 | 同一工作流的 PostgreSQL job 在 Linux 一次性库完成迁移及 4 项集成测试，前端 job 通过；已补进[任务状态](../features/DECISION-001/tasks.md)和[实施记录](../features/DECISION-001/OFFLINE_IMPLEMENTATION_2026-10-23.md)。 | 只补相应远端 L3 证据；Windows／WSL、浏览器和真实研究仍待验证。 |
 
 ## 本地执行证据
@@ -26,6 +26,6 @@
 
 ## 尚待完成的门禁
 
-- 当前修复尚未提交或推送；[GitHub CI](https://github.com/wdadassdasadasd/adaptive-browser-agent/actions/runs/39984876768)仍显示旧提交失败，不能宣称远端已通过。
+- 修复已提交并推送到 `codex/config-review-fix` 分支，提交 `0d6f18f6` 的[GitHub CI](https://github.com/wdadassdasadasd/adaptive-browser-agent/actions/runs/39989233382)已通过；后续修订的 CI 以对应提交的运行结果为准。代码门禁通过不等于产品 Go。
 - 远端 `rulesets` 查询返回空列表；当前 GitHub 集成读取 `main` branch protection 返回 403，故不能断言该分支有或没有保护。PR 模板和 CI 文件本身不等于强制门禁。
 - T02–T06 的未验证 AC、Windows／WSL、本机浏览器、人工核源与正式评测继续按[任务表](../features/DECISION-001/tasks.md)和现行协议推进。
