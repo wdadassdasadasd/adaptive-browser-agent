@@ -68,23 +68,34 @@ async def test_optional_context_is_validated_and_passed_to_store() -> None:
             "decision_context": {
                 "use_case": "  Python API  ",
                 "must_have": [" MIT ", "ASGI"],
-                "candidate_projects": [" FastAPI ", "Flask"],
+                "preferences": [" Small footprint ", "Familiar API"],
+                "candidate_projects": [" Flask ", "FastAPI"],
             },
         }
         accepted = await client.post("/api/research", json=request)
         assert accepted.status_code == 202
         assert accepted.json()["decision_context"]["use_case"] == "Python API"
-        assert store.created[-1][2]["decision_context"].candidate_projects == [
-            "FastAPI",
-            "Flask",
-        ]
+        context = store.created[-1][2]["decision_context"]
+        assert context.must_have == ["MIT", "ASGI"]
+        assert context.preferences == ["Small footprint", "Familiar API"]
+        assert context.candidate_projects == ["Flask", "FastAPI"]
 
         invalid_contexts = [
+            "Python API",
+            [],
             {},
             {"use_case": " "},
+            {"use_case": 1},
+            {"use_case": "x" * 1001},
             {"use_case": "Python", "unknown": 1},
             {"use_case": "Python", "must_have": ["MIT", " mit "]},
+            {"use_case": "Python", "must_have": [1]},
+            {"use_case": "Python", "must_have": ["x"] * 13},
+            {"use_case": "Python", "must_have": ["x" * 201]},
+            {"use_case": "Python", "preferences": ["fast", " FAST "]},
             {"use_case": "Python", "candidate_projects": [" "]},
+            {"use_case": "Python", "candidate_projects": ["A", " a "]},
+            {"use_case": "Python", "candidate_projects": ["x"] * 9},
             {"use_case": "Python", "preferences": ["x"] * 13},
             {"use_case": "Python", "candidate_projects": "FastAPI"},
         ]
@@ -94,11 +105,17 @@ async def test_optional_context_is_validated_and_passed_to_store() -> None:
                 json={"goal": "Choose", "decision_context": context},
             )
             assert invalid.status_code == 422
+        for goal in ("", " ", 1, "x" * 4001):
+            invalid = await client.post("/api/research", json={"goal": goal})
+            assert invalid.status_code == 422
         assert len(store.created) == 3
 
 
 @pytest.mark.asyncio
-async def test_recovery_preserves_context_and_worker_passes_it_to_agent() -> None:
+@pytest.mark.parametrize("recovery_count", [0, 1])
+async def test_worker_passes_persisted_context_to_initial_and_recovered_agent(
+    recovery_count: int,
+) -> None:
     store = RecordingStore()
     settings = Settings(
         _env_file=None,
@@ -115,9 +132,9 @@ async def test_recovery_preserves_context_and_worker_passes_it_to_agent() -> Non
             task_id,
             on_event,
             call_observer,
-            resume_state,
-            prior_events,
             decision_context,
+            resume_state=None,
+            prior_events=(),
         ):
             observed.append((decision_context, resume_state, prior_events))
             await on_event(
@@ -138,7 +155,7 @@ async def test_recovery_preserves_context_and_worker_passes_it_to_agent() -> Non
         owner_id="owner-1",
         goal="Choose a framework",
         fencing_token=2,
-        recovery_count=1,
+        recovery_count=recovery_count,
         decision_context={
             "use_case": "Python API",
             "must_have": ["MIT"],
@@ -151,6 +168,9 @@ async def test_recovery_preserves_context_and_worker_passes_it_to_agent() -> Non
     context, state, history = observed[0]
     assert isinstance(context, DecisionContext)
     assert context.must_have == ["MIT"]
-    assert state.decision_context == context
+    if recovery_count:
+        assert state.decision_context == context
+    else:
+        assert state is None
     assert history == ()
     assert store.events[0][0] == "failed"
