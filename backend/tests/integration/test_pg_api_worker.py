@@ -13,6 +13,7 @@ from sqlalchemy.engine import make_url
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
 from adaptive_research.agent.events import AgentEvent
+from adaptive_research.agent.state import DecisionContext
 from adaptive_research.api.pg_main import create_app
 from adaptive_research.infrastructure.config import Settings
 from adaptive_research.infrastructure.pg_models import PgFact
@@ -42,6 +43,35 @@ class FakeAgent:
                 event_type="task_finished",
                 task_id=task_id,
                 step=1,
+                payload={
+                    "status": "failed",
+                    "completion_level": "none",
+                    "stop_reason": "insufficient_info",
+                },
+            )
+        )
+
+
+class ContextCapturingAgent:
+    def __init__(self) -> None:
+        self.received: list[tuple[DecisionContext, object, object]] = []
+
+    async def run(
+        self,
+        goal,
+        *,
+        task_id,
+        on_event,
+        decision_context,
+        resume_state=None,
+        prior_events=(),
+        **kwargs,
+    ):
+        self.received.append((decision_context, resume_state, prior_events))
+        await on_event(
+            AgentEvent(
+                event_type="task_finished",
+                task_id=task_id,
                 payload={
                     "status": "failed",
                     "completion_level": "none",
@@ -112,7 +142,7 @@ async def test_postgres_api_worker_replay_and_capacity(monkeypatch) -> None:
             assert created.json()["status"] == "queued"
             retry = await client.post(
                 "/api/research",
-                json={"goal": "offline"},
+                json={"goal": "offline", "decision_context": None},
                 headers={"Idempotency-Key": "pilot-test-run-001"},
             )
             assert retry.status_code == 202 and retry.json()["id"] == task_id
@@ -178,6 +208,81 @@ async def test_postgres_api_worker_replay_and_capacity(monkeypatch) -> None:
             assert restored_state.facts
             assert any(event.event_type == "step_evaluated" for event in history)
 
+            context_body = {
+                "goal": "Choose a framework",
+                "decision_context": {
+                    "use_case": " Python API ",
+                    "must_have": [" MIT "],
+                    "preferences": [" test-secret-marker-642 "],
+                    "candidate_projects": ["Flask", "FastAPI"],
+                },
+            }
+            context_created = await client.post(
+                "/api/research",
+                json=context_body,
+                headers={"Idempotency-Key": "decision-context-001"},
+            )
+            assert context_created.status_code == 202
+            context_id = context_created.json()["id"]
+            assert context_created.json()["decision_context"] == {
+                "use_case": "Python API",
+                "must_have": ["MIT"],
+                "preferences": ["test-secret-marker-642"],
+                "candidate_projects": ["Flask", "FastAPI"],
+            }
+            context_replay = await client.post(
+                "/api/research",
+                json={
+                    "goal": " Choose a framework ",
+                    "decision_context": context_created.json()["decision_context"],
+                },
+                headers={"Idempotency-Key": "decision-context-001"},
+            )
+            assert context_replay.status_code == 202
+            assert context_replay.json()["id"] == context_id
+            context_conflict = await client.post(
+                "/api/research",
+                json={
+                    "goal": "Choose a framework",
+                    "decision_context": {
+                        **context_created.json()["decision_context"],
+                        "preferences": ["different preference"],
+                    },
+                },
+                headers={"Idempotency-Key": "decision-context-001"},
+            )
+            assert context_conflict.status_code == 409
+            assert len(await store.list_tasks("p01-local-owner")) == 3
+            persisted_context = await store.get_task("p01-local-owner", context_id)
+            assert (
+                persisted_context.decision_context
+                == context_created.json()["decision_context"]
+            )
+            context_agent = ContextCapturingAgent()
+            context_runner = WorkerRunner(
+                store, settings, agent_factory=lambda: context_agent
+            )
+            assert await context_runner.tick() == 1
+            await asyncio.gather(*context_runner.active.values())
+            assert context_agent.received == [
+                (
+                    DecisionContext.model_validate(persisted_context.decision_context),
+                    None,
+                    (),
+                )
+            ]
+            persisted_context = await store.get_task("p01-local-owner", context_id)
+            recovered_context, _ = await context_runner._recovery_snapshot(
+                persisted_context
+            )
+            assert recovered_context.decision_context == context_agent.received[0][0]
+            assert "test-secret-marker-642" not in str(
+                [
+                    event.payload
+                    for event in await store.list_events("p01-local-owner", context_id)
+                ]
+            )
+
             gate = asyncio.Event()
             blocked = WorkerRunner(
                 store, settings, agent_factory=lambda: FakeAgent(gate)
@@ -195,7 +300,7 @@ async def test_postgres_api_worker_replay_and_capacity(monkeypatch) -> None:
             rejected = await client.post("/api/research", json={"goal": "eleventh"})
             assert rejected.status_code == 429
             assert rejected.headers["Retry-After"] == "2"
-            assert len(await store.list_tasks("p01-local-owner")) == 12
+            assert len(await store.list_tasks("p01-local-owner")) == 13
             cancelled = await client.post(f"/api/research/{initial[-1]['id']}/cancel")
             assert cancelled.json()["cancelled"] is True
             assert (
