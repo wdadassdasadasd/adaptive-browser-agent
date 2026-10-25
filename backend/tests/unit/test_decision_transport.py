@@ -42,6 +42,9 @@ class RecordingStore:
     async def list_calls(self, owner_id, task_id):
         return []
 
+    async def list_facts(self, owner_id, task_id):
+        return []
+
     async def mark_unknown_calls(self, task_id, token):
         return None
 

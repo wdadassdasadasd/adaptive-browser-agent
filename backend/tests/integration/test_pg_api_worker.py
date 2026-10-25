@@ -12,6 +12,7 @@ from sqlalchemy import func, inspect, select, text
 from sqlalchemy.engine import make_url
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
+from adaptive_research.agent.decision import DecisionService
 from adaptive_research.agent.events import AgentEvent
 from adaptive_research.agent.state import DecisionContext
 from adaptive_research.api.pg_main import create_app
@@ -25,6 +26,7 @@ from tests.integration.test_agent_loop import (
     FakeProvider,
     make_loop,
 )
+from tests.unit.test_decision import JudgmentLLM, row
 
 
 class FakeAgent:
@@ -207,6 +209,65 @@ async def test_postgres_api_worker_replay_and_capacity(monkeypatch) -> None:
             restored_state, history = await fact_runner._recovery_snapshot(persisted)
             assert restored_state.facts
             assert any(event.event_type == "step_evaluated" for event in history)
+            stored_facts = await store.list_facts("p01-local-owner", fact_id)
+            assert [item.id for item in stored_facts] == [
+                item.id for item in restored_state.facts
+            ]
+            assert len(stored_facts) == 1
+            assert stored_facts[0].subject == restored_state.facts[0].subject
+            assert stored_facts[0].official_source_url == str(
+                restored_state.facts[0].source_url
+            )
+            assert stored_facts[0].evidence_excerpt == restored_state.facts[0].evidence
+            assert stored_facts[0].retrieved_at == restored_state.facts[0].created_at
+            assert stored_facts[0].machine_admission_status == (
+                "candidate_unverified_official"
+            )
+            assert stored_facts[0].human_review_status is None
+            matrix_state = restored_state.model_copy(
+                update={
+                    "decision_context": DecisionContext(
+                        use_case="Offline framework comparison",
+                        must_have=["documented framework", "unknown license"],
+                        candidate_projects=["FastAPI", "Flask"],
+                    )
+                }
+            )
+            candidates = (await DecisionService().build(matrix_state)).candidates
+            fastapi_id = next(
+                item.candidate_id for item in candidates if item.label == "FastAPI"
+            )
+            flask_id = next(
+                item.candidate_id for item in candidates if item.label == "Flask"
+            )
+            matrix = await DecisionService(
+                JudgmentLLM(
+                    [
+                        row(
+                            fastapi_id,
+                            "documented framework",
+                            "satisfied",
+                            [stored_facts[0].id],
+                        ),
+                        row(
+                            flask_id,
+                            "documented framework",
+                            "satisfied",
+                            [stored_facts[0].id],
+                        ),
+                    ]
+                )
+            ).build(matrix_state)
+            assert [item.verdict for item in matrix.matrix] == [
+                "satisfied",
+                "unknown",
+                "unknown",
+                "unknown",
+            ]
+            assert matrix.matrix[0].supporting_fact_ids == [stored_facts[0].id]
+            assert matrix.evidence_facts[0].fact_id == stored_facts[0].id
+            assert matrix.evidence_facts[0].observed_at == stored_facts[0].retrieved_at
+            assert matrix.verification_status == "machine_admitted_human_unverified"
 
             context_body = {
                 "goal": "Choose a framework",
