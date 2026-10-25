@@ -66,39 +66,39 @@ async def test_research_goal_produces_one_sourced_step_and_closes_http_client() 
             source_url=source,
             source_title="FastAPI documentation",
         )
-        state = reducer.reduce(
-            state,
-            AgentEvent(
-                task_id=state.task_id,
-                event_type="step_evaluated",
-                step=state.step,
-                payload={
-                    "decision": decision.model_dump(mode="json"),
-                    "tool_result": {
-                        "tool": "browser",
-                        "action": "navigate",
-                        "success": True,
-                        "content": "FastAPI supports ASGI",
-                        "source_url": source,
-                        "error_type": "none",
-                    },
-                    "evaluation": {
-                        "success": True,
-                        "reason": "Official source supports the goal",
-                        "subgoal_completed": True,
-                        "facts": [fact.model_dump(mode="json")],
-                        "error_type": "none",
-                    },
-                    "prompt_tokens": 11,
-                    "completion_tokens": 5,
+        step_event = AgentEvent(
+            task_id=state.task_id,
+            event_type="step_evaluated",
+            step=state.step,
+            payload={
+                "decision": decision.model_dump(mode="json"),
+                "tool_result": {
+                    "tool": "browser",
+                    "action": "navigate",
+                    "success": True,
+                    "content": "FastAPI supports ASGI",
+                    "source_url": source,
+                    "error_type": "none",
                 },
-            ),
+                "evaluation": {
+                    "success": True,
+                    "reason": "Official source supports the goal",
+                    "subgoal_completed": True,
+                    "facts": [fact.model_dump(mode="json")],
+                    "error_type": "none",
+                },
+                "prompt_tokens": 11,
+                "completion_tokens": 5,
+            },
         )
+        state = reducer.reduce(state, step_event)
         assert decision.action == "navigate"
         assert decision.target == source
         assert state.step == 1
         assert state.subgoals[0].status == "completed"
-        assert state.facts == [fact]
+        assert state.facts == [
+            fact.model_copy(update={"created_at": step_event.timestamp})
+        ]
         assert state.visited_urls == [source]
         assert (state.prompt_tokens, state.completion_tokens) == (11, 5)
         assert len(requests) == 2
