@@ -19,7 +19,7 @@
 | --- | --- | --- | --- |
 | DEC-T01／DEC-AC-02、06 | `IMPLEMENTED`／`DONE（离线切片）` | [单独验收](../../tasks/DEC_T01_ACCEPTANCE_2026-10-23.md)绑定 `ec4a1496` 的离线回归与限制。 | 真实取证、人工官方核源及费用另按 P-02／正式协议验证；本切片不解除 No-Go。 |
 | DEC-T02／DEC-AC-01 | `IMPLEMENTED`／`PARTIAL` | `266a49cc` 包含可选输入、PostgreSQL 快照、Worker 传递及离线传输测试；[GitHub CI 的 PostgreSQL job](https://github.com/wdadassdasadasd/adaptive-browser-agent/actions/runs/39984876768)在 Linux 一次性库完成迁移和 4 项集成测试（整体工作流仍失败）。[DEC-T02-01](../../tasks/DEC_T02_01_ACCEPTANCE_2026-10-24.md)补 API／Schema、幂等及快照回归；本机一次性 PostgreSQL 测试 `4 passed`。 | Windows／WSL 冷启动、真实失租恢复与跨账户权限检查仍待证据。 |
-| DEC-T03／DEC-AC-02、03 | `IMPLEMENTED`／`PARTIAL` | `266a49cc` 包含矩阵构建与离线逻辑回归；见[实施记录](OFFLINE_IMPLEMENTATION_2026-10-23.md)。 | 持久恢复后 fact ID／来源稳定性、实际官方来源与冲突的人工核查。 |
+| DEC-T03／DEC-AC-02、03 | `IMPLEMENTED`／`PARTIAL`（DEC-T03-01 离线切片 `DONE`） | `266a49cc` 包含矩阵构建与离线逻辑回归；[DEC-T03-01 记录](../../tasks/DEC_T03_01_ACCEPTANCE_2026-10-25.md)包含事实去重、时间及恢复对账定点验证、一次性 PostgreSQL 库集成 `4 passed`、只读独立 Review 与项目校验通过证据。 | 真实官方来源及冲突仍须人工逐条核查；Windows／WSL 实际进程崩溃恢复和正式门槛另行验证。 |
 | DEC-T04／DEC-AC-04、05 | `IMPLEMENTED`／`PARTIAL` | `266a49cc` 包含条件化建议；[离线测试](../../../backend/tests/unit/test_decision.py)覆盖无证据、冲突与页面诱导文字不能新增硬条件。 | 补同一场景硬条件变化的明确对照，并在经授权真实研究后人工复核推荐价值与事实支持。 |
 | DEC-T05／DEC-AC-03、06 | `IMPLEMENTED`／`PARTIAL` | `266a49cc` 包含前端表单、矩阵展示及前端测试；见[实施记录](OFFLINE_IMPLEMENTATION_2026-10-23.md)。 | Vue → API → 历史／SSE 的端到端交互、跨账户权限及部分报告检查。 |
 | DEC-T06／DEC-AC-07 | `PENDING`／`PENDING` | [离线复核模板](OFFLINE_DECISION_REVIEW_TEMPLATE.md)已备。 | 在同一冻结报告快照上执行独立逐条件复核，记录报告哈希、fact ID、复核者和时间；正式分母保持不变。 |

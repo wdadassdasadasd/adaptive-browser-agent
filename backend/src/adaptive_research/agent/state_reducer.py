@@ -228,7 +228,9 @@ class StateReducer:
                 if fact.id in fact_ids and fact_ids[fact.id] != key:
                     raise ValueError("fact ID already identifies different evidence")
                 if key not in fact_keys:
-                    facts.append(fact)
+                    facts.append(
+                        fact.model_copy(update={"created_at": event.timestamp})
+                    )
                     fact_keys.add(key)
                     fact_ids[fact.id] = key
 

@@ -20,7 +20,6 @@ from adaptive_research.agent.events import AgentEvent
 from adaptive_research.agent.llm.base import ProviderUsage
 from adaptive_research.agent.state import (
     DecisionContext,
-    ResearchFact,
     ResearchState,
     ResearchStatus,
 )
@@ -192,6 +191,39 @@ class WorkerRunner:
             )
             state = reducer.reduce(state, event)
             history.append(event)
+        persisted_facts = await self.store.list_facts(task.owner_id, task.id)
+        if persisted_facts is None:
+            raise ValueError("Claimed task facts are not visible to its owner")
+        admitted = {
+            fact.id: (
+                fact.subject or fact.source_title,
+                fact.content,
+                str(fact.source_url),
+                fact.evidence,
+            )
+            for fact in state.facts
+        }
+        stored = {
+            fact.id: (
+                fact.subject,
+                fact.claim,
+                fact.official_source_url,
+                fact.evidence_excerpt,
+            )
+            for fact in persisted_facts
+            if fact.machine_admission_status == "candidate_unverified_official"
+        }
+        if admitted != stored or len(stored) != len(persisted_facts):
+            raise ValueError("Committed facts differ from admitted event history")
+        by_id = {fact.id: fact for fact in persisted_facts}
+        state = state.model_copy(
+            update={
+                "facts": [
+                    fact.model_copy(update={"created_at": by_id[fact.id].retrieved_at})
+                    for fact in state.facts
+                ]
+            }
+        )
         calls = await self.store.list_calls(task.owner_id, task.id)
         # A provider response may commit before its corresponding step event.
         # Retain that known usage on recovery without counting it twice.
@@ -213,9 +245,16 @@ class WorkerRunner:
         cancellation = asyncio.Event()
         terminal_written = False
         lease_lost = False
+        admitted_state = ResearchState(
+            task_id=task.id,
+            goal=task.goal,
+            decision_context=getattr(task, "decision_context", None),
+            max_steps=self.settings.max_steps,
+            status=ResearchStatus.RUNNING,
+        )
 
         async def on_event(event: AgentEvent) -> None:
-            nonlocal terminal_written
+            nonlocal admitted_state, terminal_written
             if lease_lost:
                 raise FenceLost(task.id)
             if event.event_type == "task_started":
@@ -245,27 +284,27 @@ class WorkerRunner:
                 > 64_000
             ):
                 raise ValueError("Agent event exceeds the storage limit")
+            next_state = admitted_state
             facts: list[dict[str, Any]] = []
-            if event.event_type == "step_evaluated":
-                evaluation = event.payload.get("evaluation", {})
-                if evaluation.get("success"):
-                    for raw in evaluation.get("facts", []):
-                        fact = ResearchFact.model_validate(raw)
-                        facts.append(
-                            {
-                                "id": fact.id,
-                                "subject": self._redact(
-                                    fact.subject or fact.source_title
-                                ),
-                                "claim": self._redact(fact.content),
-                                "official_source_url": str(fact.source_url),
-                                # Fact.created_at is model supplied. The event
-                                # timestamp is the trusted observation boundary.
-                                "retrieved_at": event.timestamp,
-                                "machine_admission_status": "candidate_unverified_official",
-                                "evidence_excerpt": self._redact(fact.evidence),
-                            }
-                        )
+            if event.event_type == "subgoals_initialized" or (
+                event.event_type == "step_evaluated" and event.payload
+            ):
+                next_state = StateReducer().reduce(admitted_state, event)
+                prior_ids = {fact.id for fact in admitted_state.facts}
+                for fact in next_state.facts:
+                    if fact.id in prior_ids:
+                        continue
+                    facts.append(
+                        {
+                            "id": fact.id,
+                            "subject": self._redact(fact.subject or fact.source_title),
+                            "claim": self._redact(fact.content),
+                            "official_source_url": str(fact.source_url),
+                            "retrieved_at": fact.created_at,
+                            "machine_admission_status": "candidate_unverified_official",
+                            "evidence_excerpt": self._redact(fact.evidence),
+                        }
+                    )
             await self.store.append_event(
                 task.id,
                 task.fencing_token,
@@ -275,6 +314,7 @@ class WorkerRunner:
                 payload=safe_payload,
                 facts=facts,
             )
+            admitted_state = next_state
 
         async def heartbeat() -> None:
             nonlocal lease_lost
@@ -315,6 +355,7 @@ class WorkerRunner:
             resume_kwargs = {}
             if task.recovery_count:
                 state, history = await self._recovery_snapshot(task)
+                admitted_state = state
                 resume_kwargs = {"resume_state": state, "prior_events": history}
             decision_kwargs = (
                 {

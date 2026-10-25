@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import UTC, datetime, timedelta
 
 import pytest
 
@@ -360,6 +360,32 @@ def test_evaluated_step_merges_sourced_facts_usage_and_normalized_history() -> N
     assert first.visited_urls == ["https://example.com/page"]
     assert first.consecutive_no_progress_replans == 0
     assert state.model_dump() == initial
+
+
+def test_admitted_fact_uses_observation_time_instead_of_model_time() -> None:
+    state = ResearchState(goal="Research", status="running", subgoals=[subgoal()])
+    model_time = datetime(2026, 10, 16, tzinfo=UTC)
+    observed_at = datetime(2026, 10, 23, tzinfo=UTC)
+    sourced = ResearchFact(
+        id="fact-observed",
+        content="FastAPI supports async",
+        source_url="https://example.com/page",
+        source_title="Documentation",
+        subject="FastAPI",
+        subject_kind="project",
+        evidence="FastAPI supports async",
+        subgoal_id="s1",
+        created_at=model_time,
+    )
+    step = AgentEvent(
+        event_type="step_evaluated",
+        task_id=state.task_id,
+        step=0,
+        timestamp=observed_at,
+        payload=evaluated_payload(facts=[sourced]),
+    )
+    advanced = StateReducer().reduce(state, step)
+    assert advanced.facts[0].created_at == observed_at
 
 
 def test_evaluated_step_rejects_reused_fact_id_for_different_evidence() -> None:

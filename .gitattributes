@@ -1,4 +1,5 @@
 # Keep the frozen historical source byte-identical while checking other whitespace.
+docs/archive/** -text whitespace=cr-at-eol
 docs/archive/design-0.3/07_AI_CODING_WORKFLOW.md whitespace=-blank-at-eof
 
 # These frozen archives have original mixed or CRLF bytes. Preserve them in Git blobs.
