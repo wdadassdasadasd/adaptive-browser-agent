@@ -5,11 +5,11 @@
 | Task／需求／AC | DEC-T03-01；DECISION-001、FR-003／004、DEC-AC-02／03 |
 | 状态 | 实施 `IMPLEMENTED`（本地提交）；本次验收 `DONE（离线切片）`。真实官方人工核源与进程崩溃恢复仍属于后续验收。 |
 | 用户价值 | 已准入事实从事件到 PostgreSQL、恢复状态和决策矩阵保持同一 fact ID、主体、来源、片段与时间；冲突和未知不被掩盖。 |
-| 依赖与授权 | PR #2 合并提交 `7289065d`；用户批准本切片的离线开发与一次性测试库，并于 2026-10-25 明确要求继续直至 Commit。Push、PR、Merge、依赖安装及付费运行仍未授权。 |
+| 依赖与授权 | PR #2 合并提交 `7289065d`；用户批准本切片的离线开发与一次性测试库，要求继续直至 Commit，并于 2026-10-25 单独授权 Push 与创建 PR。Merge、依赖安装及付费运行仍未授权。 |
 | 范围与复用 | 复用 StateReducer、Worker、PgStore 和 DecisionService；只修改归约时间、Worker 准入事实入库／恢复对账及定点测试。无公开 API、Schema 或冻结协议改动。 |
 | 工作量与不确定性 | 原计划约 1–2 个兼职工作日；主要不确定性是 Windows 到 WSL PostgreSQL 的本机连接。 |
 | 风险与回滚 | 修改限于本工作区的六个代码／测试文件和任务记录；回滚可撤销 scoped diff。若已提交历史事实与事件不一致，恢复失败关闭，不据此生成新结论。 |
-| Git 交付 | `codex/dec-t03-01` 隔离工作区；本记录随本地提交交付，未 Push／建 PR。 |
+| Git 交付 | `codex/dec-t03-01` 隔离工作区已 Push；[PR #3](https://github.com/wdadassdasadasd/adaptive-browser-agent/pull/3) 针对 `main` 开放，尚未合并。 |
 
 ## 基线与审计
 
