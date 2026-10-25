@@ -355,6 +355,109 @@ def check_skills(root: Path) -> list[str]:
     return errors
 
 
+SPECKIT_FEATURES = (
+    "decision-001",
+    "p02-research-evidence",
+    "p03-isolation-resilience",
+    "p04-formal-release",
+)
+SPECKIT_REQUIRED_TASKS = {
+    "decision-001": ("DEC-T01", "DEC-T02", "DEC-T03", "DEC-T04", "DEC-T05", "DEC-T06"),
+    "p02-research-evidence": (
+        "P02-PILOT",
+        "P02-LOOP-TOOLS",
+        "P02-CONTEXT",
+        "P02-FACT-REPORT",
+        "P02-GATEWAY",
+        "P02-CTX-ABLATION",
+    ),
+    "p03-isolation-resilience": (
+        "P03-ACCOUNTS",
+        "P03-RECOVERY-BACKUP",
+        "P03-DIAGNOSE",
+        "P03-MEMORY",
+        "P03-MCP",
+    ),
+    "p04-formal-release": ("P04-FORMAL", "P04-HANDOFF"),
+}
+
+
+def check_speckit(root: Path) -> list[str]:
+    """Check Spec Kit artifacts preserve authority and original task IDs."""
+    errors: list[str] = []
+    authority = (
+        "SPEC.md",
+        "PLANS.md",
+        "docs/contracts/CURRENT_CONTRACTS.md",
+        "docs/evaluation/CURRENT_EVAL_PROTOCOL.json",
+    )
+    constitution = root / ".specify" / "memory" / "constitution.md"
+    if not constitution.is_file():
+        errors.append("missing Spec Kit constitution: .specify/memory/constitution.md")
+    else:
+        text = constitution.read_text(encoding="utf-8")
+        if not re.search(r"\*\*Version\*\*:\s*\d+\.\d+\.\d+", text):
+            errors.append("constitution: missing semantic Version")
+        if not re.search(r"\*\*Ratified\*\*:\s*\d{4}-\d{2}-\d{2}", text):
+            errors.append("constitution: missing Ratified date")
+        for name in ("Authority Order", "Frozen Evidence", "Implementation"):
+            if name not in text:
+                errors.append(f"constitution: missing core principle {name}")
+        for entry in authority:
+            if entry not in text:
+                errors.append(f"constitution: must cite authority entry {entry}")
+    for name in ("spec", "plan", "tasks"):
+        override = root / ".specify" / "templates" / "overrides" / f"{name}-template.md"
+        if not override.is_file():
+            errors.append(f"{name} override: missing project override template")
+            continue
+        if "Repository Authority" not in override.read_text(encoding="utf-8"):
+            errors.append(f"{name} override: missing Repository Authority clause")
+    skills_root = root / ".agents" / "skills"
+    speckit_skill_dirs = sorted(
+        path for path in skills_root.glob("speckit-*") if path.is_dir()
+    )
+    if not speckit_skill_dirs:
+        errors.append("missing Spec Kit skills: .agents/skills/speckit-*")
+    for skill in speckit_skill_dirs:
+        manifest = skill / "SKILL.md"
+        if not manifest.is_file():
+            errors.append(f"speckit skill {skill.name}: missing SKILL.md")
+            continue
+        front = re.match(
+            r"\A---\r?\n(.*?)\r?\n---", manifest.read_text(encoding="utf-8"), re.DOTALL
+        )
+        if not front:
+            errors.append(f"speckit skill {skill.name}: invalid frontmatter")
+            continue
+        block = front.group(1)
+        declared = re.search(r'^name:\s*"?([^"\r\n]+)"?\s*$', block, re.MULTILINE)
+        if not declared or declared.group(1) != skill.name:
+            errors.append(f"speckit skill {skill.name}: name must match directory")
+        if not re.search(r"^description:\s*\S", block, re.MULTILINE):
+            errors.append(f"speckit skill {skill.name}: missing description trigger")
+    for feature in SPECKIT_FEATURES:
+        base = root / "specs" / feature
+        for kind in ("spec.md", "plan.md", "tasks.md"):
+            if not (base / kind).is_file():
+                errors.append(f"missing Spec Kit artifact: specs/{feature}/{kind}")
+        tasks = base / "tasks.md"
+        if not tasks.is_file():
+            continue
+        text = tasks.read_text(encoding="utf-8")
+        for task_id in SPECKIT_REQUIRED_TASKS[feature]:
+            if not re.search(rf"(?<![\w-]){re.escape(task_id)}(?![\w-])", text):
+                errors.append(f"specs/{feature}/tasks.md: lost original task ID {task_id}")
+        if feature != "decision-001" or "DEC-T01" in text:
+            lowered = text.lower()
+            if feature == "p02-research-evidence" and "no-go" not in lowered:
+                errors.append("specs/p02-research-evidence/tasks.md: must keep No-Go state")
+        pointed = any(entry in text for entry in ("SPEC.md", "PLANS.md", "../../PLANS.md"))
+        if not pointed:
+            errors.append(f"specs/{feature}/tasks.md: must reference current authority")
+    return errors
+
+
 def check_protocol(
     protocol: dict,
     historical_prompts: str | None = None,
@@ -1727,6 +1830,7 @@ def main() -> int:
         check_links(root, project_document_files(root))
         + check_versions_and_traceability(root)
         + check_skills(root)
+        + check_speckit(root)
         + check_archive_manifest(root)
         + check_archive_git_index(root)
     )

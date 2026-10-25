@@ -14,6 +14,7 @@ from scripts.validate_project import (
     check_links,
     check_protocol,
     check_results,
+    check_speckit,
     check_versions_and_traceability,
 )
 
@@ -929,3 +930,61 @@ def test_review_bundle_content_must_match_attempt_even_with_valid_hash(
     artifact["sha256"] = hashlib.sha256(path.read_bytes()).hexdigest()
     findings = check_results(protocol, batch, tmp_path)
     assert any("review bundle differs from attempt record" in item for item in findings)
+
+
+def _speckit_tree(root: Path) -> None:
+    from scripts.validate_project import SPECKIT_FEATURES, SPECKIT_REQUIRED_TASKS
+
+    base = root / ".specify"
+    (base / "memory").mkdir(parents=True)
+    (base / "templates" / "overrides").mkdir(parents=True)
+    (base / "memory" / "constitution.md").write_text(
+        "**Version**: 1.0.0 | **Ratified**: 2026-10-25\n"
+        "### I. Authority Order\n### II. Frozen Evidence Is Immutable\n"
+        "### III. Implementation != Acceptance\n"
+        "SPEC.md PLANS.md docs/contracts/CURRENT_CONTRACTS.md "
+        "docs/evaluation/CURRENT_EVAL_PROTOCOL.json\n",
+        encoding="utf-8",
+    )
+    for kind in ("spec", "plan", "tasks"):
+        (base / "templates" / "overrides" / f"{kind}-template.md").write_text(
+            "**Repository Authority (override)**: text\n", encoding="utf-8"
+        )
+    skill = root / ".agents" / "skills" / "speckit-plan"
+    skill.mkdir(parents=True)
+    (skill / "SKILL.md").write_text(
+        '---\nname: "speckit-plan"\ndescription: "Plan a feature."\n---\n',
+        encoding="utf-8",
+    )
+    for feature in SPECKIT_FEATURES:
+        directory = root / "specs" / feature
+        directory.mkdir(parents=True)
+        for kind in ("spec.md", "plan.md"):
+            (directory / kind).write_text("text\n", encoding="utf-8")
+        ids = " ".join(SPECKIT_REQUIRED_TASKS[feature])
+        (directory / "tasks.md").write_text(
+            f"{ids} No-Go SPEC.md\n", encoding="utf-8"
+        )
+
+
+def test_speckit_artifacts_preserve_authority_and_original_ids(tmp_path) -> None:
+    _speckit_tree(tmp_path)
+    assert check_speckit(tmp_path) == []
+
+
+def test_speckit_rejects_lost_task_id_and_missing_no_go(tmp_path) -> None:
+    _speckit_tree(tmp_path)
+    tasks = tmp_path / "specs" / "p02-research-evidence" / "tasks.md"
+    tasks.write_text("P02-PILOT SPEC.md\n", encoding="utf-8")
+    findings = check_speckit(tmp_path)
+    assert any("P02-GATEWAY" in item for item in findings)
+    assert any("No-Go" in item for item in findings)
+
+
+def test_speckit_rejects_missing_constitution_and_override(tmp_path) -> None:
+    _speckit_tree(tmp_path)
+    (tmp_path / ".specify" / "memory" / "constitution.md").unlink()
+    (tmp_path / ".specify" / "templates" / "overrides" / "plan-template.md").unlink()
+    findings = check_speckit(tmp_path)
+    assert any("constitution" in item for item in findings)
+    assert any("plan override" in item for item in findings)

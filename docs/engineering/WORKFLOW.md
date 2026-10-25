@@ -1,6 +1,6 @@
 # G0–G7 工程执行流程
 
-本页是重复执行的步骤与关口，不另立产品、API 或评测门槛。权威顺序见根 `AGENTS.md`；每个新任务从[任务模板](TASK_TEMPLATE.md)建立唯一 Task ID，重要需求链接自己的 Spec。工作开始与结束均检查 Git 状态、证据和未完成事项。
+本页是重复执行的步骤与关口，不另立产品、API 或评测门槛。权威顺序见根 `AGENTS.md`；**Spec Kit（`.specify/` + `.agents/skills/speckit-*`，v1.2.3，constitution 见 `.specify/memory/constitution.md`）是功能开发的主编排**：新功能经 `$speckit-specify/plan/tasks/implement/converge` 逐条在任务内执行并逐结果复核（尚无一次实际任务内运行证据，以首次实际执行复核为准）；G0–G7 的授权、停线与证据关口继续叠加适用，不因编排切换而豁免。存量任务包按[任务模板](TASK_TEMPLATE.md)管理，重要需求链接自己的 Spec。工作开始与结束均检查 Git 状态、证据和未完成事项。
 
 | 关口 | 输入 → 动作 → 可核验输出 | 停线／人的决定 |
 | --- | --- | --- |
