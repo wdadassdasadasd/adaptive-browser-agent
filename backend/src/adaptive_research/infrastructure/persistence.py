@@ -12,6 +12,7 @@ from adaptive_research.agent.events import AgentEvent
 from adaptive_research.agent.normalization import normalize_query, normalize_url
 from adaptive_research.agent.reporter import ReporterService
 from adaptive_research.agent.state import (
+    DecisionContext,
     EvaluationResult,
     PlanDecision,
     ResearchFact,
@@ -65,8 +66,17 @@ class PersistenceService:
             raise ValueError("Agent trace exceeds the storage limit")
         return safe
 
-    async def create_task(self, goal: str) -> ResearchTaskModel:
-        task = ResearchTaskModel(goal=goal)
+    async def create_task(
+        self, goal: str, decision_context: DecisionContext | None = None
+    ) -> ResearchTaskModel:
+        task = ResearchTaskModel(
+            goal=goal,
+            decision_context=(
+                decision_context.model_dump(mode="json")
+                if decision_context is not None
+                else None
+            ),
+        )
         async with self.session.begin():
             self.session.add(task)
             await self.session.flush()
@@ -390,6 +400,11 @@ class PersistenceService:
             state = ResearchState(
                 task_id=task_id,
                 goal=task.goal,
+                decision_context=(
+                    DecisionContext.model_validate(task.decision_context)
+                    if task.decision_context is not None
+                    else None
+                ),
                 status=status,
                 completion_level=level,
                 stop_reason="server_restart",

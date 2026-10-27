@@ -79,15 +79,25 @@ async def create_research(
     idempotency_key: str | None = Header(default=None, alias="Idempotency-Key"),
 ) -> PgTaskResponse:
     settings = request.app.state.settings
-    if settings.deepseek_api_key is None:
-        raise HTTPException(503, "DeepSeek provider is not configured")
     try:
         options = {}
         if idempotency_key is not None:
             options["idempotency_key"] = idempotency_key
         if body.decision_context is not None:
             options["decision_context"] = body.decision_context
-        task = await _store(request).create_task(LOCAL_OWNER_ID, body.goal, **options)
+        store = _store(request)
+        if idempotency_key is not None:
+            replay = await store.get_idempotent_task(
+                LOCAL_OWNER_ID,
+                body.goal,
+                idempotency_key,
+                decision_context=body.decision_context,
+            )
+            if replay is not None:
+                return _task_response(replay)
+        if settings.deepseek_api_key is None:
+            raise HTTPException(503, "DeepSeek provider is not configured")
+        task = await store.create_task(LOCAL_OWNER_ID, body.goal, **options)
     except CapacityFull as exc:
         raise HTTPException(
             status_code=429,

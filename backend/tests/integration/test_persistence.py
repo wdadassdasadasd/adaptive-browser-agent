@@ -4,7 +4,7 @@ import pytest
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
 from adaptive_research.agent.events import AgentEvent
-from adaptive_research.agent.state import ResearchFact, ResearchReport
+from adaptive_research.agent.state import DecisionContext, ResearchFact, ResearchReport
 from adaptive_research.infrastructure.db.base import Base
 from adaptive_research.infrastructure.persistence import PersistenceService
 
@@ -98,6 +98,43 @@ async def test_restart_report_keeps_fact_subject_and_source(tmp_path) -> None:
             assert report is not None
             assert report.findings[0].name == "FastAPI"
             assert report.sources == ["https://fastapi.tiangolo.com/"]
+    finally:
+        await engine.dispose()
+
+
+@pytest.mark.asyncio
+async def test_restart_report_keeps_persisted_decision_context(tmp_path) -> None:
+    engine = create_async_engine(f"sqlite+aiosqlite:///{tmp_path / 'context.db'}")
+    async with engine.begin() as connection:
+        await connection.run_sync(Base.metadata.create_all)
+    sessions = async_sessionmaker(engine, expire_on_commit=False)
+    context = DecisionContext(
+        use_case="Async web API",
+        must_have=["async handlers"],
+        candidate_projects=["FastAPI", "Flask"],
+    )
+    try:
+        async with sessions() as session:
+            task_id = (
+                await PersistenceService(session).create_task(
+                    "Choose a framework", context
+                )
+            ).id
+        async with sessions() as session:
+            assert await PersistenceService(session).finalize_unfinished() == 1
+        async with sessions() as session:
+            service = PersistenceService(session)
+            task = await service.get_task(task_id)
+            report = await service.report_for_task(task_id)
+            assert task is not None and task.decision_context == context.model_dump(
+                mode="json"
+            )
+            assert report is not None and report.decision is not None
+            assert report.decision.use_case == context.use_case
+            assert report.decision.must_have == context.must_have
+            assert report.decision.preferences == context.preferences
+            assert report.decision.candidate_projects == context.candidate_projects
+            assert report.decision.recommendation is None
     finally:
         await engine.dispose()
 

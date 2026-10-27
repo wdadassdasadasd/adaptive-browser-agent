@@ -8,7 +8,7 @@ from fastapi import APIRouter, Header, HTTPException, Request, status
 from fastapi.responses import StreamingResponse
 
 from adaptive_research.agent.events import AgentEvent
-from adaptive_research.agent.state import ResearchReport
+from adaptive_research.agent.state import DecisionContext, ResearchReport
 from adaptive_research.api.schemas.research import (
     CancelResponse,
     ResearchCreateRequest,
@@ -41,6 +41,11 @@ async def _response(service: ResearchService, task) -> ResearchTaskResponse:
     return ResearchTaskResponse(
         id=task.id,
         goal=task.goal,
+        decision_context=(
+            DecisionContext.model_validate(task.decision_context)
+            if task.decision_context is not None
+            else None
+        ),
         status=status_value,
         error_message=task.error_message,
         created_at=task.created_at.replace(tzinfo=UTC)
@@ -63,12 +68,13 @@ async def create_research(
 ) -> ResearchTaskResponse:
     service = _service(http)
     try:
-        task = await service.create(request.goal)
+        task = await service.create(request.goal, request.decision_context)
     except MissingProviderKeyError as exc:
         raise HTTPException(503, "DeepSeek provider is not configured") from exc
     return ResearchTaskResponse(
         id=task.id,
         goal=task.goal,
+        decision_context=request.decision_context,
         status="queued",
         created_at=task.created_at.replace(tzinfo=UTC)
         if task.created_at.tzinfo is None

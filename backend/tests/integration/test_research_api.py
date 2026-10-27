@@ -9,6 +9,12 @@ from fastapi.testclient import TestClient
 
 from adaptive_research.agent.events import AgentEvent
 from adaptive_research.agent.llm.base import StructuredCompletion
+from adaptive_research.agent.reporter import ReporterService
+from adaptive_research.agent.state import (
+    DecisionContext,
+    ResearchState,
+    ResearchStatus,
+)
 from adaptive_research.api.main import create_app
 from adaptive_research.api.research import _response
 from adaptive_research.infrastructure.config import Settings
@@ -54,6 +60,38 @@ class WaitingAgent:
         )
 
 
+class DecisionContextAgent:
+    def __init__(self) -> None:
+        self.received: list[tuple[str, DecisionContext | None]] = []
+
+    async def run(
+        self, goal, *, decision_context=None, cancellation, task_id, on_event
+    ):
+        self.received.append((goal, decision_context))
+        await on_event(AgentEvent(event_type="task_started", task_id=task_id))
+        state = ResearchState(
+            task_id=task_id,
+            goal=goal,
+            decision_context=decision_context,
+            status=ResearchStatus.PARTIAL,
+            completion_level="partial",
+            stop_reason="insufficient_info",
+        )
+        report = await ReporterService().generate(state)
+        await on_event(
+            AgentEvent(
+                event_type="task_finished",
+                task_id=task_id,
+                payload={
+                    "status": "partial",
+                    "completion_level": "partial",
+                    "stop_reason": "insufficient_info",
+                    "report": report.model_dump(mode="json"),
+                },
+            )
+        )
+
+
 def test_missing_provider_key_creates_no_task(tmp_path) -> None:
     settings = Settings(
         _env_file=None,
@@ -71,6 +109,67 @@ def test_missing_provider_key_creates_no_task(tmp_path) -> None:
         assert client.get("/api/research/unknown/traces").status_code == 404
         assert client.post("/api/research/unknown/cancel").status_code == 404
         assert client.get("/api/research/unknown/events").status_code == 404
+
+
+def test_decision_context_persists_through_sqlite_agent_and_report(tmp_path) -> None:
+    settings = Settings(
+        _env_file=None,
+        DATABASE_URL=f"sqlite+aiosqlite:///{tmp_path / 'decision-context.db'}",
+        DEEPSEEK_API_KEY="fake-key",
+    )
+    agent = DecisionContextAgent()
+    context = {
+        "use_case": "  Async web API  ",
+        "must_have": [" async handlers "],
+        "preferences": ["  small ecosystem "],
+        "candidate_projects": ["FastAPI", "Flask"],
+    }
+    expected = DecisionContext.model_validate(context)
+
+    with TestClient(
+        create_app(settings=settings, agent_factory=lambda: agent)
+    ) as client:
+        invalid = client.post(
+            "/api/research",
+            json={"goal": "Choose a framework", "decision_context": {}},
+        )
+        assert invalid.status_code == 422
+        assert client.get("/api/research").json() == []
+
+        created = client.post(
+            "/api/research",
+            json={"goal": "Choose a framework", "decision_context": context},
+        )
+        assert created.status_code == 202
+        task_id = created.json()["id"]
+        assert created.json()["decision_context"] == expected.model_dump(mode="json")
+        for _ in range(100):
+            detail = client.get(f"/api/research/{task_id}")
+            if detail.json()["status"] == "partial":
+                break
+            time.sleep(0.01)
+
+        assert agent.received == [("Choose a framework", expected)]
+        assert detail.json()["decision_context"] == expected.model_dump(mode="json")
+        listed = next(
+            item for item in client.get("/api/research").json() if item["id"] == task_id
+        )
+        assert listed["decision_context"] == expected.model_dump(mode="json")
+        decision = detail.json()["report"]["decision"]
+        assert decision["use_case"] == expected.use_case
+        assert decision["must_have"] == expected.must_have
+        assert decision["preferences"] == expected.preferences
+        assert decision["candidate_projects"] == expected.candidate_projects
+
+    with TestClient(
+        create_app(settings=settings, agent_factory=lambda: agent)
+    ) as client:
+        restored = client.get(f"/api/research/{task_id}").json()
+        assert restored["decision_context"] == expected.model_dump(mode="json")
+        assert restored["report"]["decision"]["candidate_projects"] == [
+            "FastAPI",
+            "Flask",
+        ]
 
 
 def test_create_list_detail_traces_and_cancel(tmp_path) -> None:

@@ -22,6 +22,7 @@ class ResearchCreateRequest(ApiModel):
 class ResearchTaskResponse(ApiModel):
     id: str
     goal: str
+    decision_context: DecisionContext | None = None
     status: str
     error_message: str | None = None
     created_at: datetime

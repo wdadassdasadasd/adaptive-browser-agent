@@ -10,6 +10,7 @@ from adaptive_research.agent.agent_loop import AgentLoop
 from adaptive_research.agent.events import AgentEvent
 from adaptive_research.agent.llm.deepseek import DeepSeekClient
 from adaptive_research.agent.runtime.task_manager import TaskManager
+from adaptive_research.agent.state import DecisionContext
 from adaptive_research.agent.tools.github_tool import GitHubTool
 from adaptive_research.agent.tools.router import ToolRouter
 from adaptive_research.infrastructure.config import Settings
@@ -66,19 +67,17 @@ class ResearchService:
         async with self.sessions() as session:
             return await self._persistence(session).finalize_unfinished()
 
-    async def create(self, goal: str) -> ResearchTaskModel:
+    async def create(
+        self, goal: str, decision_context: DecisionContext | None = None
+    ) -> ResearchTaskModel:
         if self.settings.deepseek_api_key is None:
             raise MissingProviderKeyError
         async with self.sessions() as session:
-            task = await self._persistence(session).create_task(goal)
-        self.manager.submit(
-            task.id, lambda cancel: self._execute(task.id, goal, cancel)
-        )
+            task = await self._persistence(session).create_task(goal, decision_context)
+        self.manager.submit(task.id, lambda cancel: self._execute(task.id, cancel))
         return task
 
-    async def _execute(
-        self, task_id: str, goal: str, cancellation: asyncio.Event
-    ) -> None:
+    async def _execute(self, task_id: str, cancellation: asyncio.Event) -> None:
         async def on_event(event: AgentEvent) -> None:
             if self._shutting_down:
                 # Shutdown cancels the in-process runner. Recovery must classify
@@ -92,10 +91,20 @@ class ResearchService:
                 await self.manager.publish(event)
 
         try:
+            task = await self.get(task_id)
+            if task is None:
+                raise ValueError("Research task disappeared before execution")
             agent = self.agent_factory()
-            await agent.run(
-                goal, cancellation=cancellation, task_id=task_id, on_event=on_event
-            )
+            run_options = {
+                "cancellation": cancellation,
+                "task_id": task_id,
+                "on_event": on_event,
+            }
+            if task.decision_context is not None:
+                run_options["decision_context"] = DecisionContext.model_validate(
+                    task.decision_context
+                )
+            await agent.run(task.goal, **run_options)
         except asyncio.CancelledError:
             # Queued tasks are terminalized by cancel(); running tasks by AgentLoop.
             pass

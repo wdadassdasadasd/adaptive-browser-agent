@@ -296,6 +296,37 @@ class PgStore:
             )
             return await self._record(session, task)
 
+    async def get_idempotent_task(
+        self,
+        owner_id: str,
+        goal: str,
+        idempotency_key: str,
+        *,
+        decision_context: DecisionContext | Mapping[str, Any] | None = None,
+    ) -> TaskRecord | None:
+        """Return a matching task or reject reuse of its key for another request."""
+        if not owner_id.strip() or not goal.strip():
+            raise ValueError("owner_id and goal are required")
+        if not re.fullmatch(r"[A-Za-z0-9._:-]{8,128}", idempotency_key):
+            raise ValueError("Invalid idempotency key")
+        normalized_context = (
+            DecisionContext.model_validate(decision_context).model_dump(mode="json")
+            if decision_context is not None
+            else None
+        )
+        async with self.sessions.begin() as session:
+            prior = await session.scalar(
+                select(PgTask).where(
+                    PgTask.owner_id == owner_id,
+                    PgTask.idempotency_key == idempotency_key,
+                )
+            )
+            if prior is None:
+                return None
+            if prior.goal != goal or prior.decision_context != normalized_context:
+                raise IdempotencyConflict
+            return await self._record(session, prior)
+
     async def claim_next(
         self, worker_id: str, lease_seconds: int = 30
     ) -> TaskRecord | None:

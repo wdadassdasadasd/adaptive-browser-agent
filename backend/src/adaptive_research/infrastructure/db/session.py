@@ -32,16 +32,20 @@ async def init_db() -> None:
 
 
 async def initialize_schema(target_engine: AsyncEngine) -> None:
-    """Reject incompatible existing tables before create_all can touch the DB."""
+    """Apply safe additive upgrades, then reject incompatible tables."""
 
     from adaptive_research.infrastructure.db import models  # noqa: F401
 
     async with target_engine.begin() as connection:
 
-        def missing_columns(sync_connection):
+        def prepare_schema(sync_connection) -> None:
+            if sync_connection.dialect.name == "sqlite":
+                # Serialize startup migrations before inspecting the schema.
+                # SQLite starts transactions lazily, so acquire its write lock.
+                sync_connection.exec_driver_sql("BEGIN IMMEDIATE")
             inspector = inspect(sync_connection)
             existing = set(inspector.get_table_names())
-            return {
+            missing = {
                 table.name: sorted(
                     {column.name for column in table.columns}
                     - {column["name"] for column in inspector.get_columns(table.name)}
@@ -49,15 +53,27 @@ async def initialize_schema(target_engine: AsyncEngine) -> None:
                 for table in Base.metadata.sorted_tables
                 if table.name in existing
             }
+            incompatible = {
+                table: columns for table, columns in missing.items() if columns
+            }
+            additive_upgrade = {"research_task": ["decision_context"]}
+            if incompatible and incompatible != additive_upgrade:
+                detail = "; ".join(
+                    f"{table}: {', '.join(columns)}"
+                    for table, columns in incompatible.items()
+                )
+                raise RuntimeError(
+                    f"Incompatible SQLite schema, missing columns: {detail}"
+                )
+            if (
+                sync_connection.dialect.name == "sqlite"
+                and incompatible == additive_upgrade
+            ):
+                sync_connection.exec_driver_sql(
+                    "ALTER TABLE research_task ADD COLUMN decision_context JSON"
+                )
 
-        missing = await connection.run_sync(missing_columns)
-        incompatible = {table: columns for table, columns in missing.items() if columns}
-        if incompatible:
-            detail = "; ".join(
-                f"{table}: {', '.join(columns)}"
-                for table, columns in incompatible.items()
-            )
-            raise RuntimeError(f"Incompatible SQLite schema, missing columns: {detail}")
+        await connection.run_sync(prepare_schema)
         await connection.run_sync(Base.metadata.create_all)
 
 

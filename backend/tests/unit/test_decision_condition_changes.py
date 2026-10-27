@@ -61,6 +61,10 @@ class FixedJudgmentLLM:
     def __init__(self, candidate_ids: dict[str, str]):
         self.schemas: list[type] = []
         self.rows = []
+        facts_by_candidate = {
+            "AtlasAPI": {"atlas-async", "atlas-embedded", "atlas-size"},
+            "BirchAPI": {"birch-async", "birch-embedded", "birch-size"},
+        }
         for label, condition, kind, verdict, fact_id in [
             ("AtlasAPI", ASYNC, "must_have", "satisfied", "atlas-async"),
             ("AtlasAPI", EMBEDDED, "must_have", "not_satisfied", "atlas-embedded"),
@@ -79,6 +83,10 @@ class FixedJudgmentLLM:
                     "contradicting_fact_ids": [fact_id]
                     if verdict == "not_satisfied"
                     else [],
+                    "irrelevant_fact_ids": sorted(
+                        facts_by_candidate[label] - {fact_id}
+                    ),
+                    "unresolved_fact_ids": [],
                     "reason": "Scripted judgment over synthetic offline evidence.",
                 }
             )
@@ -132,15 +140,12 @@ async def build_sample_reports():
 
 
 @pytest.mark.asyncio
-async def test_same_facts_with_changed_hard_condition_switch_winner() -> None:
+async def test_unclassified_candidate_facts_keep_changed_hard_conditions_unknown() -> (
+    None
+):
     cases = await build_sample_reports()
     initial = cases[0][1].model_dump(mode="json", exclude={"decision_context"})
-    for (_, state, report), winner, fact_ids in zip(
-        cases[:2],
-        ["AtlasAPI", "BirchAPI"],
-        [{"atlas-async", "atlas-size"}, {"birch-embedded", "birch-size"}],
-        strict=True,
-    ):
+    for (_, state, report), condition in zip(cases[:2], [ASYNC, EMBEDDED], strict=True):
         assert state.model_dump(mode="json", exclude={"decision_context"}) == initial
         decision = report.decision
         assert decision is not None
@@ -148,32 +153,24 @@ async def test_same_facts_with_changed_hard_condition_switch_winner() -> None:
         assert decision.preferences == [PREFERENCE]
         assert decision.candidate_projects == ["AtlasAPI", "BirchAPI"]
         recommendation = decision.recommendation
-        assert recommendation is not None
-        label = next(
-            item.label
-            for item in decision.candidates
-            if item.candidate_id == recommendation.candidate_id
-        )
-        assert label == winner
-        assert set(recommendation.supporting_fact_ids) == fact_ids
-        assert report.recommendation == recommendation.text
-        assert winner in report.recommendation
+        assert recommendation is None
+        assert report.recommendation == decision.no_recommendation_reason
         hard_rows = [
             row for row in decision.matrix if row.condition_type == "must_have"
         ]
         assert len(hard_rows) == 2
         assert {row.condition for row in hard_rows} == set(decision.must_have)
-        assert sorted(row.verdict for row in hard_rows) == [
-            "not_satisfied",
-            "satisfied",
+        assert sorted(row.verdict for row in hard_rows) == ["unknown", "unknown"]
+        assert decision.unknowns == [
+            f"AtlasAPI: {condition}",
+            f"BirchAPI: {condition}",
         ]
-        assert decision.no_recommendation_reason is None
+        assert decision.no_recommendation_reason is not None
         assert len(decision.change_conditions) == 1
         assert decision.must_have[0] in decision.change_conditions[0]
-    # Birch's satisfied preference cannot override its failed hard condition.
-    assert "small footprint: not_satisfied" in cases[0][2].recommendation
-    assert "small footprint: satisfied" in cases[1][2].recommendation
-    assert cases[0][2].recommendation != cases[1][2].recommendation
+    # Preference evidence cannot override unresolved hard-condition evidence.
+    assert cases[0][2].decision.recommendation is None
+    assert cases[1][2].decision.recommendation is None
 
 
 @pytest.mark.asyncio
@@ -197,7 +194,7 @@ async def test_combined_hard_conditions_reject_both_candidates_with_reason() -> 
             and row.condition_type == "must_have"
         ]
         assert {row.condition for row in rows} == {ASYNC, EMBEDDED}
-        assert sorted(row.verdict for row in rows) == ["not_satisfied", "satisfied"]
+        assert sorted(row.verdict for row in rows) == ["unknown", "unknown"]
     assert len(decision.change_conditions) == 2
     for condition in (ASYNC, EMBEDDED):
         assert any(condition in item for item in decision.change_conditions)
@@ -227,7 +224,7 @@ async def test_contrast_reports_keep_fact_provenance_and_human_review_status() -
             for fact_id in row.supporting_fact_ids + row.contradicting_fact_ids
         }
         assert set(evidence) == cited
-        assert decision.unknowns == []
+        assert decision.unknowns
         assert decision.conflicts == []
         for fact_id, item in evidence.items():
             fact = facts[fact_id]

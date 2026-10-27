@@ -81,6 +81,7 @@ export interface ResearchReport {
 export interface ResearchTask {
   id: string
   goal: string
+  decision_context?: DecisionContext | null
   status: TaskStatus
   cancellation_requested?: boolean
   error_message: string | null

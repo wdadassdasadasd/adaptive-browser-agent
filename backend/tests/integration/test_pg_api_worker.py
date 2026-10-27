@@ -142,11 +142,14 @@ async def test_postgres_api_worker_replay_and_capacity(monkeypatch) -> None:
             assert created.status_code == 202
             task_id = created.json()["id"]
             assert created.json()["status"] == "queued"
+            configured_settings = app.state.settings
+            app.state.settings = Settings(_env_file=None, P01_DATABASE_URL=url)
             retry = await client.post(
                 "/api/research",
                 json={"goal": "offline", "decision_context": None},
                 headers={"Idempotency-Key": "pilot-test-run-001"},
             )
+            app.state.settings = configured_settings
             assert retry.status_code == 202 and retry.json()["id"] == task_id
             conflict = await client.post(
                 "/api/research",

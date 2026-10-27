@@ -100,10 +100,8 @@ class PgCallObserver(CallObserver):
                 completion_tokens=completion_tokens,
                 provider_usage=provider_usage,
             )
-        if (
-            self.store.price_book is not None
-            and call.kind == "model"
-            and (call.known_cost_cny is None or call.pricing_error is not None)
+        if call.kind == "model" and (
+            call.known_cost_cny is None or call.pricing_error is not None
         ):
             # The result and unknown expense are already durable. Stop the
             # shared recorder so no retry, repair or report call can follow.

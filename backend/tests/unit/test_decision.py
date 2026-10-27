@@ -38,6 +38,8 @@ def row(candidate_id: str, condition: str, verdict: str, support=(), oppose=()):
         "verdict": verdict,
         "supporting_fact_ids": list(support),
         "contradicting_fact_ids": list(oppose),
+        "irrelevant_fact_ids": [],
+        "unresolved_fact_ids": [],
         "reason": "Machine judgment from cited facts",
     }
 
@@ -117,6 +119,131 @@ async def test_conflicting_evidence_is_preserved_without_winner() -> None:
     assert decision.matrix[0].contradicting_fact_ids == ["f2"]
     assert decision.recommendation is None
     assert decision.conflicts == ["FastAPI: async handlers"]
+
+
+@pytest.mark.parametrize(
+    "classification", ["irrelevant_fact_ids", "unresolved_fact_ids"]
+)
+@pytest.mark.asyncio
+async def test_non_decisive_fact_makes_hard_condition_conflict_unknown(
+    classification: str,
+) -> None:
+    state = ResearchState(
+        goal="Choose a framework",
+        decision_context=DecisionContext(
+            use_case="Python API",
+            must_have=["async handlers"],
+            candidate_projects=["FastAPI"],
+        ),
+        facts=[
+            fact("f1", "FastAPI", "Supports async", evidence="Supports async"),
+            fact(
+                "f2",
+                "FastAPI",
+                "Does not support async",
+                evidence="Does not support async",
+            ),
+            fact("f3", "FastAPI", "Has a blue logo", evidence="Blue logo"),
+        ],
+    )
+    candidate_id = (await DecisionService().build(state)).candidates[0].candidate_id
+    judgment = row(candidate_id, "async handlers", "conflicting", ["f1"], ["f2"])
+    judgment[classification] = ["f3"]
+
+    decision = await DecisionService(JudgmentLLM([judgment])).build(state)
+
+    assert decision.matrix[0].verdict == "unknown"
+    assert decision.matrix[0].supporting_fact_ids == []
+    assert decision.matrix[0].contradicting_fact_ids == []
+    assert decision.recommendation is None
+    assert decision.conflicts == []
+
+
+@pytest.mark.asyncio
+async def test_omitted_contradiction_prevents_hard_condition_recommendation() -> None:
+    state = ResearchState(
+        goal="Choose a framework",
+        decision_context=DecisionContext(
+            use_case="Python API",
+            must_have=["async handlers"],
+            candidate_projects=["FastAPI", "Flask"],
+        ),
+        facts=[
+            fact("f1", "FastAPI", "Supports async", evidence="Supports async"),
+            fact(
+                "f2",
+                "FastAPI",
+                "Does not support async",
+                evidence="Does not support async",
+            ),
+            fact(
+                "f3",
+                "Flask",
+                "Does not support async",
+                evidence="Does not support async",
+            ),
+        ],
+    )
+    ids = {
+        item.label: item.candidate_id
+        for item in (await DecisionService().build(state)).candidates
+    }
+    llm = JudgmentLLM(
+        [
+            row(ids["FastAPI"], "async handlers", "satisfied", ["f1"]),
+            row(ids["Flask"], "async handlers", "not_satisfied", oppose=["f3"]),
+        ]
+    )
+
+    decision = await DecisionService(llm).build(state)
+
+    assert decision.matrix[0].verdict == "unknown"
+    assert decision.recommendation is None
+
+
+@pytest.mark.asyncio
+async def test_irrelevant_hard_condition_fact_prevents_recommendation() -> None:
+    state = ResearchState(
+        goal="Choose a framework",
+        decision_context=DecisionContext(
+            use_case="Python API",
+            must_have=["async handlers"],
+            candidate_projects=["FastAPI", "Flask"],
+        ),
+        facts=[
+            fact("f1", "FastAPI", "Supports async", evidence="Supports async"),
+            fact(
+                "f2",
+                "FastAPI",
+                "Does not support async",
+                evidence="Does not support async",
+            ),
+            fact(
+                "f3",
+                "Flask",
+                "Does not support async",
+                evidence="Does not support async",
+            ),
+        ],
+    )
+    ids = {
+        item.label: item.candidate_id
+        for item in (await DecisionService().build(state)).candidates
+    }
+    llm = JudgmentLLM(
+        [
+            {
+                **row(ids["FastAPI"], "async handlers", "satisfied", ["f1"]),
+                "irrelevant_fact_ids": ["f2"],
+            },
+            row(ids["Flask"], "async handlers", "not_satisfied", oppose=["f3"]),
+        ]
+    )
+
+    decision = await DecisionService(llm).build(state)
+
+    assert decision.matrix[0].verdict == "unknown"
+    assert decision.recommendation is None
 
 
 @pytest.mark.asyncio

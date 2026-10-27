@@ -19,6 +19,7 @@ class ResearchTaskModel(Base):
 
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_uuid)
     goal: Mapped[str] = mapped_column(Text, nullable=False)
+    decision_context: Mapped[dict[str, Any] | None] = mapped_column(JSON, nullable=True)
     status: Mapped[str] = mapped_column(
         String(32), nullable=False, default="queued", index=True
     )
