@@ -1,0 +1,47 @@
+{
+  "source_id": "voice-cosyvoice-readme",
+  "source_url": "https://github.com/QwenAudio/CosyVoice/blob/074ca6dc9e80a2f424f1f74b48bdd7d3fea531cc/README.md",
+  "repository": "QwenAudio/CosyVoice",
+  "version_ref": "074ca6dc9e80a2f424f1f74b48bdd7d3fea531cc",
+  "upstream_blob_sha1": "ef8829e0e981678cd95cb1d4c88465ae97804b88",
+  "observed_at": "2026-10-27T09:37:38+00:00",
+  "extraction_kind": "verbatim_noncontiguous_source_lines",
+  "hash_scope": "local_UTF8_artifact_bytes_not_full_upstream_file_or_wire",
+  "excerpts": [
+    {
+      "locator": {
+        "kind": "source_file_lines",
+        "first_line": 5,
+        "last_line": 9
+      },
+      "text": "**Fun-CosyVoice 3.0**: [Demos](https://funaudiollm.github.io/cosyvoice3/); [Paper](https://arxiv.org/pdf/2505.17589); [Modelscope](https://www.modelscope.cn/models/FunAudioLLM/Fun-CosyVoice3-0.5B-2512); [Huggingface](https://huggingface.co/FunAudioLLM/Fun-CosyVoice3-0.5B-2512); [CV3-Eval](https://github.com/FunAudioLLM/CV3-Eval)\n\n**CosyVoice 2.0**: [Demos](https://funaudiollm.github.io/cosyvoice2/); [Paper](https://arxiv.org/pdf/2412.10117); [Modelscope](https://www.modelscope.cn/models/iic/CosyVoice2-0.5B); [HuggingFace](https://huggingface.co/FunAudioLLM/CosyVoice2-0.5B)\n\n**CosyVoice 1.0**: [Demos](https://fun-audio-llm.github.io); [Paper](https://funaudiollm.github.io/pdf/CosyVoice_v1.pdf); [Modelscope](https://www.modelscope.cn/models/iic/CosyVoice-300M); [HuggingFace](https://huggingface.co/FunAudioLLM/CosyVoice-300M)"
+    },
+    {
+      "locator": {
+        "kind": "source_file_lines",
+        "first_line": 113,
+        "last_line": 119
+      },
+      "text": "We strongly recommend that you download our pretrained `Fun-CosyVoice3-0.5B` `CosyVoice2-0.5B` `CosyVoice-300M` `CosyVoice-300M-SFT` `CosyVoice-300M-Instruct` model and `CosyVoice-ttsfrd` resource.\n\n``` python\n# modelscope SDK model download\nfrom modelscope import snapshot_download\nsnapshot_download('FunAudioLLM/Fun-CosyVoice3-0.5B-2512', local_dir='pretrained_models/Fun-CosyVoice3-0.5B')\nsnapshot_download('iic/CosyVoice2-0.5B', local_dir='pretrained_models/CosyVoice2-0.5B')"
+    },
+    {
+      "locator": {
+        "kind": "source_file_lines",
+        "first_line": 125,
+        "last_line": 129
+      },
+      "text": "# for oversea users, huggingface SDK model download\nfrom huggingface_hub import snapshot_download\nsnapshot_download('FunAudioLLM/Fun-CosyVoice3-0.5B-2512', local_dir='pretrained_models/Fun-CosyVoice3-0.5B')\nsnapshot_download('FunAudioLLM/CosyVoice2-0.5B', local_dir='pretrained_models/CosyVoice2-0.5B')\nsnapshot_download('FunAudioLLM/CosyVoice-300M', local_dir='pretrained_models/CosyVoice-300M')"
+    }
+  ],
+  "limitations": [
+    "Only the selected lines are frozen; omission is not evidence that an upstream capability is absent.",
+    "Prepared source material is not an admitted research fact or a human-verified report."
+  ],
+  "license_observation": {
+    "url": "https://github.com/QwenAudio/CosyVoice/blob/074ca6dc9e80a2f424f1f74b48bdd7d3fea531cc/LICENSE",
+    "upstream_blob_sha1": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+    "artifact": "sources/licenses/QwenAudio-CosyVoice.txt",
+    "applies_to": "repository_source_only_not_all_model_weights_or_cloud_terms"
+  }
+}
+

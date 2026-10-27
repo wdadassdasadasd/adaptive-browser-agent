@@ -1,0 +1,39 @@
+{
+  "source_id": "orm-drizzle-pg-driver",
+  "source_url": "https://github.com/drizzle-team/drizzle-orm/blob/eab8bedbb65d5429c54e612ddbd88aa23091d398/drizzle-orm/src/node-postgres/driver.ts",
+  "repository": "drizzle-team/drizzle-orm",
+  "version_ref": "eab8bedbb65d5429c54e612ddbd88aa23091d398",
+  "upstream_blob_sha1": "1e425d102cdf7f50cbdb214fc14c7c4b7edf5d64",
+  "observed_at": "2026-10-27T09:37:38+00:00",
+  "extraction_kind": "verbatim_noncontiguous_source_lines",
+  "hash_scope": "local_UTF8_artifact_bytes_not_full_upstream_file_or_wire",
+  "excerpts": [
+    {
+      "locator": {
+        "kind": "source_file_lines",
+        "first_line": 1,
+        "last_line": 10
+      },
+      "text": "import pg, { type Pool, type PoolConfig } from 'pg';\nimport type { Cache } from '~/cache/core/cache.ts';\nimport { entityKind } from '~/entity.ts';\nimport type { Logger } from '~/logger.ts';\nimport { DefaultLogger } from '~/logger.ts';\nimport { PgDatabase } from '~/pg-core/db.ts';\nimport { PgDialect } from '~/pg-core/dialect.ts';\nimport {\n\tcreateTableRelationsHelpers,\n\textractTablesRelationalConfig,"
+    },
+    {
+      "locator": {
+        "kind": "source_file_lines",
+        "first_line": 52,
+        "last_line": 61
+      },
+      "text": ">(\n\tclient: TClient,\n\tconfig: DrizzleConfig<TSchema> = {},\n): NodePgDatabase<TSchema> & {\n\t$client: NodePgClient extends TClient ? Pool : TClient;\n} {\n\tconst dialect = new PgDialect({ casing: config.casing });\n\tlet logger;\n\tif (config.logger === true) {\n\t\tlogger = new DefaultLogger();"
+    }
+  ],
+  "limitations": [
+    "Only the selected lines are frozen; omission is not evidence that an upstream capability is absent.",
+    "Prepared source material is not an admitted research fact or a human-verified report."
+  ],
+  "license_observation": {
+    "url": "https://github.com/drizzle-team/drizzle-orm/blob/eab8bedbb65d5429c54e612ddbd88aa23091d398/LICENSE",
+    "upstream_blob_sha1": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+    "artifact": "sources/licenses/drizzle-team-drizzle-orm.txt",
+    "applies_to": "repository_source_only_not_all_model_weights_or_cloud_terms"
+  }
+}
+

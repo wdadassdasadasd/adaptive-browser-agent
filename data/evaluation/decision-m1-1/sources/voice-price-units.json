@@ -1,0 +1,15 @@
+{
+  "source_id": "voice-price-units",
+  "source_url": "https://help.aliyun.com/zh/model-studio/model-pricing",
+  "observed_at": "2026-10-27T09:37:38+00:00",
+  "extraction_kind": "verbatim_rendered_text_excerpt",
+  "locator": "模型调用价格；计费规则；具体ASR/TTS/文本生成条目需运行核源",
+  "excerpt": "模型调用默认 按量计费 ，涵盖各类模型的计费规则与价格。",
+  "hash_scope": "local_UTF8_excerpt_artifact_bytes_only_not_HTML_or_wire",
+  "limitations": [
+    "No current unit price or total component cost is frozen by this short excerpt.",
+    "Required per-model units/region/currency and usage assumptions must be researched; Agent expenditure is separate.",
+    "This preparation observation is not a human source-check attestation for a future report."
+  ]
+}
+

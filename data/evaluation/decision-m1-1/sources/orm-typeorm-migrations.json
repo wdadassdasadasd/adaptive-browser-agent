@@ -1,0 +1,39 @@
+{
+  "source_id": "orm-typeorm-migrations",
+  "source_url": "https://github.com/typeorm/typeorm/blob/a0ea55323662dcd3cff1fa5ab6153be43ded80a7/docs/docs/migrations/01-why.md",
+  "repository": "typeorm/typeorm",
+  "version_ref": "a0ea55323662dcd3cff1fa5ab6153be43ded80a7",
+  "upstream_blob_sha1": "9857cc6e8459537ea791501d01f5015659a4be8a",
+  "observed_at": "2026-10-27T09:37:38+00:00",
+  "extraction_kind": "verbatim_noncontiguous_source_lines",
+  "hash_scope": "local_UTF8_artifact_bytes_not_full_upstream_file_or_wire",
+  "excerpts": [
+    {
+      "locator": {
+        "kind": "source_file_lines",
+        "first_line": 1,
+        "last_line": 12
+      },
+      "text": "# How migrations work?\n\nOnce you get into production you'll need to synchronize model changes into the database.\nTypically, it is unsafe to use `synchronize: true` for schema synchronization on production once\nyou get data in your database. Here is where migrations come to help.\n\nA migration is just a single file with SQL queries to update a database schema\nand apply new changes to an existing database.\n\nLet's say you already have a database and a `Post` entity:\n\n```typescript"
+    },
+    {
+      "locator": {
+        "kind": "source_file_lines",
+        "first_line": 30,
+        "last_line": 42
+      },
+      "text": "\nNow you need to make a new release and rename `title` to `name`.\nWhat would you do?\n\nYou need to create a new migration with the following SQL query (PostgreSQL dialect):\n\n```sql\nALTER TABLE \"post\" RENAME COLUMN \"title\" TO \"name\";\n```\n\nOnce you run this SQL query your database schema is ready to work with your new codebase.\nTypeORM provides a place where you can write such sql queries and run them when needed.\nThis place is called \"migrations\"."
+    }
+  ],
+  "limitations": [
+    "Only the selected lines are frozen; omission is not evidence that an upstream capability is absent.",
+    "Prepared source material is not an admitted research fact or a human-verified report."
+  ],
+  "license_observation": {
+    "url": "https://github.com/typeorm/typeorm/blob/a0ea55323662dcd3cff1fa5ab6153be43ded80a7/LICENSE",
+    "upstream_blob_sha1": "cb028e11b91c644494a85ac42e91b90154dcbc23",
+    "artifact": "sources/licenses/typeorm-typeorm.txt",
+    "applies_to": "repository_source_only_not_all_model_weights_or_cloud_terms"
+  }
+}
+

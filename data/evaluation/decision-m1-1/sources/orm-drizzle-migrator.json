@@ -1,0 +1,39 @@
+{
+  "source_id": "orm-drizzle-migrator",
+  "source_url": "https://github.com/drizzle-team/drizzle-orm/blob/eab8bedbb65d5429c54e612ddbd88aa23091d398/drizzle-orm/src/migrator.ts",
+  "repository": "drizzle-team/drizzle-orm",
+  "version_ref": "eab8bedbb65d5429c54e612ddbd88aa23091d398",
+  "upstream_blob_sha1": "8b7636a44e84b99f3edec79431238acaeefbfbd7",
+  "observed_at": "2026-10-27T09:37:38+00:00",
+  "extraction_kind": "verbatim_noncontiguous_source_lines",
+  "hash_scope": "local_UTF8_artifact_bytes_not_full_upstream_file_or_wire",
+  "excerpts": [
+    {
+      "locator": {
+        "kind": "source_file_lines",
+        "first_line": 1,
+        "last_line": 22
+      },
+      "text": "import crypto from 'node:crypto';\nimport fs from 'node:fs';\n\nexport interface KitConfig {\n\tout: string;\n\tschema: string;\n}\n\nexport interface MigrationConfig {\n\tmigrationsFolder: string;\n\tmigrationsTable?: string;\n\tmigrationsSchema?: string;\n}\n\nexport interface MigrationMeta {\n\tsql: string[];\n\tfolderMillis: number;\n\thash: string;\n\tbps: boolean;\n}\n\nexport function readMigrationFiles(config: MigrationConfig): MigrationMeta[] {"
+    },
+    {
+      "locator": {
+        "kind": "source_file_lines",
+        "first_line": 30,
+        "last_line": 51
+      },
+      "text": "\t}\n\n\tconst journalAsString = fs.readFileSync(`${migrationFolderTo}/meta/_journal.json`).toString();\n\n\tconst journal = JSON.parse(journalAsString) as {\n\t\tentries: { idx: number; when: number; tag: string; breakpoints: boolean }[];\n\t};\n\n\tfor (const journalEntry of journal.entries) {\n\t\tconst migrationPath = `${migrationFolderTo}/${journalEntry.tag}.sql`;\n\n\t\ttry {\n\t\t\tconst query = fs.readFileSync(`${migrationFolderTo}/${journalEntry.tag}.sql`).toString();\n\n\t\t\tconst result = query.split('--> statement-breakpoint').map((it) => {\n\t\t\t\treturn it;\n\t\t\t});\n\n\t\t\tmigrationQueries.push({\n\t\t\t\tsql: result,\n\t\t\t\tbps: journalEntry.breakpoints,\n\t\t\t\tfolderMillis: journalEntry.when,"
+    }
+  ],
+  "limitations": [
+    "Only the selected lines are frozen; omission is not evidence that an upstream capability is absent.",
+    "Prepared source material is not an admitted research fact or a human-verified report."
+  ],
+  "license_observation": {
+    "url": "https://github.com/drizzle-team/drizzle-orm/blob/eab8bedbb65d5429c54e612ddbd88aa23091d398/LICENSE",
+    "upstream_blob_sha1": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+    "artifact": "sources/licenses/drizzle-team-drizzle-orm.txt",
+    "applies_to": "repository_source_only_not_all_model_weights_or_cloud_terms"
+  }
+}
+

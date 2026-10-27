@@ -1,0 +1,15 @@
+{
+  "source_id": "voice-local-tts-model",
+  "source_url": "https://huggingface.co/FunAudioLLM/CosyVoice2-0.5B/tree/eec1ae6c79877dbd9379285cf8789c9e0879293d",
+  "observed_at": "2026-10-27T09:37:38+00:00",
+  "extraction_kind": "verbatim_rendered_text_excerpt",
+  "locator": "fixed model tree header, revision and files list",
+  "excerpt": "CosyVoice2-0.5B\nLicense: apache-2.0",
+  "hash_scope": "local_UTF8_excerpt_artifact_bytes_only_not_HTML_or_wire",
+  "limitations": [
+    "Model tree revision was readable; raw README endpoint was unavailable in this collection.",
+    "Model revision is not a local weight-download integrity result.",
+    "This preparation observation is not a human source-check attestation for a future report."
+  ]
+}
+

@@ -1,0 +1,39 @@
+{
+  "source_id": "orm-drizzle-sqlite-driver",
+  "source_url": "https://github.com/drizzle-team/drizzle-orm/blob/eab8bedbb65d5429c54e612ddbd88aa23091d398/drizzle-orm/src/better-sqlite3/driver.ts",
+  "repository": "drizzle-team/drizzle-orm",
+  "version_ref": "eab8bedbb65d5429c54e612ddbd88aa23091d398",
+  "upstream_blob_sha1": "fc91b8f9348a0548fdf7001c635d33867c8bb1aa",
+  "observed_at": "2026-10-27T09:37:38+00:00",
+  "extraction_kind": "verbatim_noncontiguous_source_lines",
+  "hash_scope": "local_UTF8_artifact_bytes_not_full_upstream_file_or_wire",
+  "excerpts": [
+    {
+      "locator": {
+        "kind": "source_file_lines",
+        "first_line": 1,
+        "last_line": 13
+      },
+      "text": "import Client, { type Database, type Options, type RunResult } from 'better-sqlite3';\nimport { entityKind } from '~/entity.ts';\nimport { DefaultLogger } from '~/logger.ts';\nimport {\n\tcreateTableRelationsHelpers,\n\textractTablesRelationalConfig,\n\ttype RelationalSchemaConfig,\n\ttype TablesRelationalConfig,\n} from '~/relations.ts';\nimport { BaseSQLiteDatabase } from '~/sqlite-core/db.ts';\nimport { SQLiteSyncDialect } from '~/sqlite-core/dialect.ts';\nimport { type DrizzleConfig, isConfig } from '~/utils.ts';\nimport { BetterSQLiteSession } from './session.ts';"
+    },
+    {
+      "locator": {
+        "kind": "source_file_lines",
+        "first_line": 31,
+        "last_line": 39
+      },
+      "text": "\tclient: Database,\n\tconfig: Omit<DrizzleConfig<TSchema>, 'cache'> = {},\n): BetterSQLite3Database<TSchema> & {\n\t$client: Database;\n} {\n\tconst dialect = new SQLiteSyncDialect({ casing: config.casing });\n\tlet logger;\n\tif (config.logger === true) {\n\t\tlogger = new DefaultLogger();"
+    }
+  ],
+  "limitations": [
+    "Only the selected lines are frozen; omission is not evidence that an upstream capability is absent.",
+    "Prepared source material is not an admitted research fact or a human-verified report."
+  ],
+  "license_observation": {
+    "url": "https://github.com/drizzle-team/drizzle-orm/blob/eab8bedbb65d5429c54e612ddbd88aa23091d398/LICENSE",
+    "upstream_blob_sha1": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+    "artifact": "sources/licenses/drizzle-team-drizzle-orm.txt",
+    "applies_to": "repository_source_only_not_all_model_weights_or_cloud_terms"
+  }
+}
+

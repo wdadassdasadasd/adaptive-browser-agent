@@ -60,3 +60,138 @@ Token 有三种不同数字：**调用前估算**用于压缩和保守预留，*
 3. 对 Gateway、MCP、跨任务记忆和账户层分别保留离线合同测试和实际系统验证；冻结正式批次中关闭跨任务记忆。正式九题的 15 次、人工核源、费用和 Go/No-Go 仍由[现行协议](../evaluation/CURRENT_EVAL_PROTOCOL.json)裁决。
 
 参考源码表明机制可供借鉴；是否在本仓库正确运行，须看本仓库实际测试、真实任务、人工核源和资源记录。
+
+## 2026-10-26 固定版本复核：产品、框架与基础设施
+
+本节观察日期为 **2026-10-26**。本次实际读取固定提交的核心源码、相关测试和评测脚本，未安装或运行上游项目、测试、模型、浏览器或数据集。上文保留 2026-10-22 观察；例如当时的 pilot 状态和 ContextManager 描述不能直接当作今日现状。
+
+### 样本选择与版本
+
+选择一个研究产品、一个小型 Agent 框架和一个浏览器基础设施项目，分别观察完整研究链、最小执行语义和真实工具环境边界。Star 是发现样本的关注度信号，以下数值为本轮官方 GitHub API 观察，不用于质量排名或效果结论。
+
+| 官方仓库 | 固定提交／提交日期 | 2026-10-26 Star | 选择理由 |
+| --- | --- | ---: | --- |
+| [GPT Researcher](https://github.com/assafelovic/gpt-researcher) | [3582a6841fe7dc801e2a34e34ee408641aea9bce](https://github.com/assafelovic/gpt-researcher/commit/3582a6841fe7dc801e2a34e34ee408641aea9bce)／2026-10-10 | 30,292 | 研究产品，能核查查询规划、来源、上下文和报告评测之间的边界。 |
+| [smolagents](https://github.com/huggingface/smolagents) | [96f33faaf028479119ec8d34507b47694cf14e34](https://github.com/huggingface/smolagents/commit/96f33faaf028479119ec8d34507b47694cf14e34)／2026-10-06 | 30,054 | 框架，以显式步骤、工具／代码动作和记忆观察小型运行循环的取舍。 |
+| [browser-use](https://github.com/browser-use/browser-use) | [aa093a843da5edbf323c0b4145c9b6a0db3ecde8](https://github.com/browser-use/browser-use/commit/aa093a843da5edbf323c0b4145c9b6a0db3ecde8)／2026-10-17 | 119,142 | 工具基础设施，重点是浏览器状态变化、动作失效、超时和上下文压缩。 |
+
+关注度来源：[GPT Researcher API](https://api.github.com/repos/assafelovic/gpt-researcher)、[smolagents API](https://api.github.com/repos/huggingface/smolagents)、[browser-use API](https://api.github.com/repos/browser-use/browser-use)。固定提交及上述日期用于复查，不能将默认分支后续行为混入本次结论。
+
+### GPT Researcher：研究产品的链路与评测边界
+
+- **源码事实——调用与数据归属：** [agent.py](https://github.com/assafelovic/gpt-researcher/blob/3582a6841fe7dc801e2a34e34ee408641aea9bce/gpt_researcher/agent.py#L141)的研究实例持有 context、visited_urls、research_sources、costs 等运行数据，并组合 conductor、context manager、scraper、curator、report generator。[ResearchConductor](https://github.com/assafelovic/gpt-researcher/blob/3582a6841fe7dc801e2a34e34ee408641aea9bce/gpt_researcher/skills/researcher.py#L97)根据来源类型规划查询、检索／抓取、选取上下文，再把资料交给报告链。已读类中这些运行字段的存在，不足以证明整个部署具备持久恢复。
+- **源码事实——来源与工具：** [researcher.py](https://github.com/assafelovic/gpt-researcher/blob/3582a6841fe7dc801e2a34e34ee408641aea9bce/gpt_researcher/skills/researcher.py#L836)保留用于规划的初始搜索来源，区分待抓取预览与已抓取正文，visited_urls 去重；MCP 缓存人口由锁保护。其[规划来源测试](https://github.com/assafelovic/gpt-researcher/blob/3582a6841fe7dc801e2a34e34ee408641aea9bce/tests/test_planning_sources.py)覆盖后续搜索为空、初始页失败和其他检索器来源保留；[检索回归](https://github.com/assafelovic/gpt-researcher/blob/3582a6841fe7dc801e2a34e34ee408641aea9bce/tests/test_research_conductor_retrieval.py)区分预览与正文及已访问标记。
+- **源码事实——上下文与失败：** [context/select.py](https://github.com/assafelovic/gpt-researcher/blob/3582a6841fe7dc801e2a34e34ee408641aea9bce/gpt_researcher/context/select.py)统一选择 keyword、embeddings、Jev 或不滤；Jev／embedding 路径出错时回退词项排序。[SourceCurator](https://github.com/assafelovic/gpt-researcher/blob/3582a6841fe7dc801e2a34e34ee408641aea9bce/gpt_researcher/skills/curator.py#L38)用模型整理来源并尝试恢复 JSON，非法非列表结果或异常回退原材料；[回归测试](https://github.com/assafelovic/gpt-researcher/blob/3582a6841fe7dc801e2a34e34ee408641aea9bce/tests/test_source_curator_json_parsing.py)覆盖围栏 JSON、普通 JSON 和非法结果。来源整理成功不是逐事实人工核源。
+- **源码事实——评测：** [replay.py L115](https://github.com/assafelovic/gpt-researcher/blob/3582a6841fe7dc801e2a34e34ee408641aea9bce/evals/context_filter/replay.py#L115)在已保存资料上重建不同上下文策略，再生成报告，分开记录过滤／写作耗时、成本、context_chars、编码器计算的 context_tokens 与异常。这里的上下文 Token 计数不是 provider 实际输入用量，更不是运行前的金额硬上限。
+- **源码事实——指标限制：** [metrics.py L68](https://github.com/assafelovic/gpt-researcher/blob/3582a6841fe7dc801e2a34e34ee408641aea9bce/evals/quality_eval/metrics.py#L68)的 citation_faithfulness 比较正文和参考列表中的域名集合；它衡量引用纪律，不证明每条主张正确。另有逐主张支持判断，但本次未执行评测或验证评分可靠性。
+- **本项目推论：** 适合用冻结来源比较证据选择和上下文成本；应分别验证来源保留、引用对应与结论支持。回退保留材料有利于继续执行，也可能保留低质量资料，不能把“报告生成了”当成成功。
+
+### smolagents：步骤记忆、执行状态与终止
+
+- **源码事实——循环：** [agents.py L540](https://github.com/huggingface/smolagents/blob/96f33faaf028479119ec8d34507b47694cf14e34/src/smolagents/agents.py#L540)按步进行可选规划、动作、final_answer_checks、回调和记忆追加。生成错误直接抛出，其他 AgentError 放入步骤；达到步数上限仍可生成最终回答，但保留 AgentMaxStepsError。[步数耗尽测试](https://github.com/huggingface/smolagents/blob/96f33faaf028479119ec8d34507b47694cf14e34/tests/test_agents.py#L501)及[答案检查测试](https://github.com/huggingface/smolagents/blob/96f33faaf028479119ec8d34507b47694cf14e34/tests/test_agents.py#L664)体现这些语义。“有回答”和正常完成是不同状态。
+- **源码事实——记忆归属：** [AgentMemory](https://github.com/huggingface/smolagents/blob/96f33faaf028479119ec8d34507b47694cf14e34/src/smolagents/memory.py#L214)保存系统提示及 task／action／planning 步骤，按顺序构造模型消息；[LocalPythonExecutor](https://github.com/huggingface/smolagents/blob/96f33faaf028479119ec8d34507b47694cf14e34/src/smolagents/local_python_executor.py#L1688)另有跨调用变量 state 和工具。源码明确其导入／内置函数限制不等于安全沙箱。
+- **源码事实——评测：** [benchmark/run.py L125](https://github.com/huggingface/smolagents/blob/96f33faaf028479119ec8d34507b47694cf14e34/examples/smolagents_benchmark/run.py#L125)支持 code／tool-calling／vanilla 对照，记录问题、答案、来源、消息轨迹、时间和 Token 等；本次未运行数据集、核查评分 notebook 或证明哪种动作更优。
+- **本项目推论：** 工具组合和变量复用带来表达能力，同时增加执行权限及隔离责任。选型场景已有足够机会展示循环与状态深度，无需为展示而引入代码执行器。
+
+### browser-use：真实浏览器环境的失效与压缩
+
+- **源码事实——核心调用链：** [agent/service.py L1036](https://github.com/browser-use/browser-use/blob/aa093a843da5edbf323c0b4145c9b6a0db3ecde8/browser_use/agent/service.py#L1036)获取浏览器状态／截图、按 URL 构造动作模型、加入上轮结果、处理压缩及预算／循环提示，然后调用模型、执行并在 finally 记录。[批量动作 L2755](https://github.com/browser-use/browser-use/blob/aa093a843da5edbf323c0b4145c9b6a0db3ecde8/browser_use/agent/service.py#L2755)结合动作终止标记与 URL／焦点 target 变化停止后续动作，保留已执行的部分结果。
+- **源码事实——状态与记忆：** [AgentState](https://github.com/browser-use/browser-use/blob/aa093a843da5edbf323c0b4145c9b6a0db3ecde8/browser_use/agent/views.py#L251)保存步数、连续失败、计划、上次输出和消息状态；[消息压缩 L216](https://github.com/browser-use/browser-use/blob/aa093a843da5edbf323c0b4145c9b6a0db3ecde8/browser_use/agent/message_manager/service.py#L216)按步数／字符门槛触发，先过滤敏感值，失败保留旧状态，成功后保留摘要与近期历史。[摘要注入 L153](https://github.com/browser-use/browser-use/blob/aa093a843da5edbf323c0b4145c9b6a0db3ecde8/browser_use/agent/message_manager/service.py#L153)明确作为未验证上下文。
+- **源码事实——测试与失败：** [压缩测试](https://github.com/browser-use/browser-use/blob/aa093a843da5edbf323c0b4145c9b6a0db3ecde8/tests/ci/test_message_compaction.py)、[实例状态隔离测试](https://github.com/browser-use/browser-use/blob/aa093a843da5edbf323c0b4145c9b6a0db3ecde8/tests/ci/test_message_manager_state_isolation.py)不等于摘要语义保真测试。[动作超时测试](https://github.com/browser-use/browser-use/blob/aa093a843da5edbf323c0b4145c9b6a0db3ecde8/tests/ci/test_action_timeout.py#L36)用挂起 handler 验证及时返回和错误结构；[工具超时实现](https://github.com/browser-use/browser-use/blob/aa093a843da5edbf323c0b4145c9b6a0db3ecde8/browser_use/tools/service.py#L2178)把超时转为动作错误，不证明外部动作没有发生。
+- **源码事实——CI 解释边界：** [evaluate_tasks.py L61](https://github.com/browser-use/browser-use/blob/aa093a843da5edbf323c0b4145c9b6a0db3ecde8/tests/ci/evaluate_tasks.py#L61)在缺少所需密钥时跳过并返回 success:true；有密钥时[模型判定 L157](https://github.com/browser-use/browser-use/blob/aa093a843da5edbf323c0b4145c9b6a0db3ecde8/tests/ci/evaluate_tasks.py#L157)读取任务、最终输出及简要信息。本次没有核查该提交实际 CI 结果；不能把脚本成功、Agent 自报完成和外部事实验证混同。
+- **本项目推论：** 浏览器状态变化、失效动作、压缩后的证据保持和失败恢复都可以在一个真实技术选型流程中验证。预算提示和事后累计不能直接借用为本项目的调用前硬额度。
+
+### 当前本地事实与设计采用范围
+
+[DEC-T01 验收](../tasks/DEC_T01_ACCEPTANCE_2026-10-23.md)及[任务表](../features/DECISION-001/tasks.md)已记录 fact ID／来源上下文及预算预检的一次压缩离线修复；因此，上文 ContextManager“模型投影未保留 fact ID”是 2026-10-22 的旧观察。后续 pilot 三题与人工核源状态见[交接记录](../tasks/EIGHT_MODULE_PREP_2026-10-22.md)，不再采用早期预检停线作为最新研究状态。最新代码或离线切片也没有解除 P-02／r12 No-Go。
+
+用户已批准 [ADR-0007](../design/adr/0007-interactive-evidence-decision-sessions.md)中的方案 B，保留现有运行底座，以选型会话拥有意图／修订／报告历史，每轮有限任务承担执行和调用记录。本次仅同步文档，尚未实现会话、三类组件及组合比较。采用的是可核验机制与边界，而不是把上游测试成绩或 Star 计入本项目证据。
+
+新选型场景中，工作上下文、持久执行记录和同会话证据引用分别处理；同会话复用不等于原有跨任务来源线索功能已完成。用户条件、事实来源、抓取时间、模型／地域适用范围、人工核源与实际调用支出均须保持可追溯。API 协议、执行上下文、预算、恢复和组合的精确定义仍由[现行契约](../contracts/CURRENT_CONTRACTS.md)管理。
+
+本轮检查范围为只读源码／测试／官方 API 和文档核查；没有跑上游测试或复现公开指标。未知项包括本项目真实成功率、压缩质量、重复运行稳定性、语音候选在目标家庭环境中的效果以及招聘竞争力。新增对话／语音验收单列，原[正式协议](../evaluation/CURRENT_EVAL_PROTOCOL.json)保持不变；真实运行、费用及实施继续按对应授权和阶段证据推进。
+
+## 2026-10-26 开发流程、记忆及优化证据补充
+
+范围：本轮为优化后续推进提示词而做公开资料只读研究，只追加本节，不变更产品规格、契约、任务授权、冻结评测或业务代码。两名 researcher 分别独立调查真实 PR 流程与记忆评测适配；角色仅执行只读操作，但有效权限仍是共享 workspace-write，不宣称沙箱隔离。以下是源码／公开讨论观察与本项目方法建议，不是已实施目标或效果证据；没有运行上游测试、模型或 benchmark。
+
+### 可核查的维护与优化流程
+
+[smolagents 贡献指南](https://github.com/huggingface/smolagents/blob/96f33faaf028479119ec8d34507b47694cf14e34/CONTRIBUTING.md)要求非微小变更先有被维护者接受的问题，并要求 AI 辅助贡献的人读过改动、运行测试、解释正确性并回应审查。这里借鉴问题定义、范围和个人责任，不照搬外部 issue 审批到本项目。研究对象为有公开证据的维护者贡献流程，不据 GitHub 身份推定个人资历，也不概括所有公司的流程。
+
+| 案例／固定提交 | 实际观察 | 可借鉴与限制 |
+| --- | --- | --- |
+| GPT Researcher [Issue #2144](https://github.com/assafelovic/gpt-researcher/issues/2144) → [PR #2145](https://github.com/assafelovic/gpt-researcher/pull/2145)，2026-09-26 合并，`816e893e34c6f63d782a60e858c309b4218404af` | 初始搜索发现来源、规划使用它，但后续 DNS／空搜索使来源未入抓取，writer 缺目标上下文。修复让规划来源继续走原抓取、内容校验、去重和压缩链，并保留后续搜索，不直接把预览当网页事实。[源码 L364–405](https://github.com/assafelovic/gpt-researcher/blob/816e893e34c6f63d782a60e858c309b4218404af/gpt_researcher/skills/researcher.py#L364)、[确定性回归](https://github.com/assafelovic/gpt-researcher/blob/816e893e34c6f63d782a60e858c309b4218404af/tests/test_planning_sources.py)。 | 从真实错误跨阶段定位，再做旧基线失败／修复通过的隔离复现与相邻回归。[维护者审查](https://github.com/assafelovic/gpt-researcher/pull/2145#pullrequestreview-5325729784)记录单独／组合测试及一次 live 对照；本轮未复跑，未取得足以计算稳定改善的完整结果；原问题还有机构歧义，不能宣称唯一根因。 |
+| GPT Researcher [PR #2161](https://github.com/assafelovic/gpt-researcher/pull/2161)，2026-09-26 合并，`a5a56797465205f9a6d69b0bec2363bf59609839` | [实验说明](https://github.com/assafelovic/gpt-researcher/blob/a5a56797465205f9a6d69b0bec2363bf59609839/evals/context_filter/README.md)固定收集资料与 writer，比较过滤策略，含 none／truncate 简单对照；[replay L94–141](https://github.com/assafelovic/gpt-researcher/blob/a5a56797465205f9a6d69b0bec2363bf59609839/evals/context_filter/replay.py#L94)区分过滤／写作时间、费用、编码器上下文 Token 和异常；[judge](https://github.com/assafelovic/gpt-researcher/blob/a5a56797465205f9a6d69b0bec2363bf59609839/evals/context_filter/judge.py)交换成对报告顺序。 | 把上下文选用变成设计问题，按任务类型看质量／成本。小题量、单 writer／报告类型、裁判同模型家族、原网页报告未随结果提交，限制复现与外推；不引用为本项目收益，也不据此引入该服务。 |
+| browser-use [PR #5401](https://github.com/browser-use/browser-use/pull/5401)，2026-08-06 合并，`32601887cfbc9f4f1e3cad3e2b678e56aeaeaae4` | 显式零阈值被 truthy fallback 覆盖，导致仅按步数触发压缩失效；[实现 L238–245](https://github.com/browser-use/browser-use/blob/32601887cfbc9f4f1e3cad3e2b678e56aeaeaae4/browser_use/agent/message_manager/service.py#L238)区分 None 和 0，[回归测试](https://github.com/browser-use/browser-use/blob/32601887cfbc9f4f1e3cad3e2b678e56aeaeaae4/tests/ci/test_message_compaction.py)验证按步触发、模型调用及摘要保存。 | 控制逻辑正确不证明摘要语义正确；还要分别检验硬条件、证据、冲突、时间和未完成状态保留，再看最终任务结果。未运行测试。 |
+
+### 记忆与 benchmark 的适配和陷阱
+
+LangGraph 固定 `3cd57c038ad827d05f80c6488adea9994156c58c`：[Checkpoint](https://github.com/langchain-ai/langgraph/blob/3cd57c038ad827d05f80c6488adea9994156c58c/libs/checkpoint/langgraph/checkpoint/base/__init__.py#L105)保存 channel values／versions／pending writes 等执行材料；[Store](https://github.com/langchain-ai/langgraph/blob/3cd57c038ad827d05f80c6488adea9994156c58c/libs/checkpoint/langgraph/store/base/__init__.py#L578)是 namespace／key 数据及可选索引。两者不是同一个记忆对象。[TTLConfig L542](https://github.com/langchain-ai/langgraph/blob/3cd57c038ad827d05f80c6488adea9994156c58c/libs/checkpoint/langgraph/store/base/__init__.py#L542)默认 refresh_on_read=true、omit_expired=false；[namespace 测试 L357](https://github.com/langchain-ai/langgraph/blob/3cd57c038ad827d05f80c6488adea9994156c58c/libs/checkpoint-postgres/tests/test_store.py#L357)及[到期／刷新测试 L1020](https://github.com/langchain-ai/langgraph/blob/3cd57c038ad827d05f80c6488adea9994156c58c/libs/checkpoint-postgres/tests/test_store.py#L1020)表明应用仍需控制检索边界和过期策略。本项目推论：存储 TTL 不等于来源证据新鲜度，namespace 不等于 owner 授权，读取旧记录不能伪装成新观测；不因此采用 LangGraph。
+
+[LongMemEval 固定 README](https://github.com/xiaowu0162/LongMemEval/blob/9e0b455f4ef0e2ab8f2e582289761153549043fc/README.md)，commit `9e0b455f4ef0e2ab8f2e582289761153549043fc`（2026-05-11），及[原论文 v2](https://arxiv.org/abs/2410.10813v2)面向长期对话的信息抽取、跨 session、知识更新、时间推理和弃答；原版 500 题，检索和回答分开评测，不直接测本项目官方取证、选型或实时网页研究。README 已指向 V2，本轮未审阅 V2，不声称覆盖最新研究。
+
+[evaluate_qa.py](https://github.com/xiaowu0162/LongMemEval/blob/9e0b455f4ef0e2ab8f2e582289761153549043fc/src/evaluation/evaluate_qa.py)按提交 hypotheses 循环，未知 ID 跳过，均值来自实际评分记录；没有替使用者核对所有参考 ID 是否覆盖，也不拒绝重复。默认裁判使用 gpt-4o 别名映射的具体版本并逐题调用，仍有费用。[检索脚本](https://github.com/xiaowu0162/LongMemEval/blob/9e0b455f4ef0e2ab8f2e582289761153549043fc/src/evaluation/print_retrieval_metrics.py)排除 _abs；[eval_utils.py](https://github.com/xiaowu0162/LongMemEval/blob/9e0b455f4ef0e2ab8f2e582289761153549043fc/src/retrieval/eval_utils.py)的 recall_all@k 表示全部所需证据是否齐全，而非一般命中条数比例。本项目需独立冻结题目／尝试台账和指标公式，缺失／失败／取消／超时不能静默消失。子集只称已声明子集；金标和证据位置不能注入被测 Agent。未下载／核定实际数据修订，未运行裁判，不承诺费用或数据无噪声。
+
+### 对后续提示词的建议（不是新产品授权）
+
+Anthropic 的[上下文工程](https://www.anthropic.com/research/effective-context-engineering-for-ai-agents)（2025-09-29）讨论有界信息选择、按需加载与压缩损失；[评测工程](https://www.anthropic.com/research/demystifying-evals-for-ai-agents)（2026-01-09）区分任务／尝试、轨迹／最终结果、能力／回归及人工校准；[工具工程](https://www.anthropic.com/research/writing-tools-for-agents)（2025-09-11）从工具结果、错误和调用效率迭代。它们是团队公开经验，不是招聘统一要求，不能据此承诺项目效果。
+
+本地 [ContextManager](../../backend/src/adaptive_research/agent/context_manager.py)当前有确定性裁剪、最近事实／来源及失败线索，[测试](../../backend/tests/unit/test_context_manager.py)覆盖界限和保留行为；[P-02 失败诊断](../audits/P02_PILOT_R11_FAILURE_TRIAGE_2026-10-23.md)区分无进展、取证缺口和请求前预算拒绝，修复仍只有离线证据。因此后续应做针对性实验，不把“最近窗口”自动写成最优上下文策略，也不把数据库持久化当完整记忆系统。
+
+重点深度应围绕：条件／证据记忆生命周期、相关上下文选用及事实支持，贯通工具、执行恢复、调用成本和评测。每项优化保留用户问题／原始症状、第一处可观察偏差、替代解释、可证伪预测、简单基线、固定资料对照、原可用场景回归、经授权真实复查、独立审查及采用／放弃决定。本人先给出判断或预测，再由 AI 帮助验证，保留被推翻的假设与亲手改动，不能事后编写独立贡献。
+
+正式九题及既有 G0–G7、AC、费用、No-Go 不变；新增长期记忆、框架、付费评测及实现仍按各自授权。研究完成只支持优化提示词，未完成开发准备或业务验收。
+
+## PREP-BASELINE-v4.3：OpenCode / DeepSeek 与记忆上下文的定点研究
+
+资料观察日 **2026-10-26**，2026-10-27同步。本节回应负责人深入研究OpenCode Token方案的要求；版本固定，未运行上游、未复现作者测试/成绩。上文8–12周/校招/语音固定分类保留历史；当前M1目标/实习适配以SPEC/ADR8为准。Star仅关注度信号，选择项目是因为具体问题相关；源码事实、作者观点、本项目推论与待验证假设分别标注。
+
+### OpenCode：调用链与Token事实
+
+固定 [anomalyco/opencode ed74ec82ce1fe3a36da6c0815a935473ef4bb0fb](https://github.com/anomalyco/opencode/tree/ed74ec82ce1fe3a36da6c0815a935473ef4bb0fb)，dev观察根版本2.1.4。V2路径为 packages/core 与 packages/ai，不能套用旧V1 session/processor源码。
+
+| 具体源码/测试（均为固定commit） | 源码事实 | 本项目取舍/待验证 |
+| --- | --- | --- |
+| [session/context.ts](https://github.com/anomalyco/opencode/blob/ed74ec82ce1fe3a36da6c0815a935473ef4bb0fb/packages/core/src/session/context.ts)、[util/token.ts](https://github.com/anomalyco/opencode/blob/ed74ec82ce1fe3a36da6c0815a935473ef4bb0fb/packages/core/src/util/token.ts) | 估算round(JS string.length/4)，在模型窗口/输出额度/累计消息上计算room；给估算留ceil(×1.15)等buffer，最小输出1024，模型元数据缺失存在fallback。不是精确tokenizer。 | 中文/JSON/schema/工具描述分布不同，不能复制chars/4或15%为40000累计/人民币硬保证。参考其把完整请求与输出容量统一考虑，保留provider实报锚点。 |
+| [session/model-request.ts](https://github.com/anomalyco/opencode/blob/ed74ec82ce1fe3a36da6c0815a935473ef4bb0fb/packages/core/src/session/model-request.ts)、[runner/llm.ts](https://github.com/anomalyco/opencode/blob/ed74ec82ce1fe3a36da6c0815a935473ef4bb0fb/packages/core/src/session/runner/llm.ts)、[runner/step.ts](https://github.com/anomalyco/opencode/blob/ed74ec82ce1fe3a36da6c0815a935473ef4bb0fb/packages/core/src/session/runner/step.ts) | 编译消息、system/tool schema/模型设置→provider流→持久步骤/usage→下一轮；输入预算关联完整模型请求。最近provider响应usage锚定同provider/model历史，再估算新增delta。新输入需重新prepare，不能偷插旧step。 | 我们冻结完整编译输入/模板/工件以重建哈希；不能以工具输出字符数代替最终请求。条件revision必须显式，重新编译保护集合。 |
+| [session/compaction.ts](https://github.com/anomalyco/opencode/blob/ed74ec82ce1fe3a36da6c0815a935473ef4bb0fb/packages/core/src/session/compaction.ts) | 分级损失旧内容：先保留整份、再旧tool输出首尾2000、再去输出/裁输入、再只保留用户2000、最后省略最旧；尽量保留最新。摘要过大存在85/70/50/35%目标的进一步尝试，可能增加调用。 | 首尾/新近不等于语义反证保护。我们的C2先完整eligible索引保护支持/反证/限定语，最低证据不够则分批/partial，不同时引入后台摘要让效果不可归因。 |
+| [runner/retry.ts](https://github.com/anomalyco/opencode/blob/ed74ec82ce1fe3a36da6c0815a935473ef4bb0fb/packages/core/src/session/runner/retry.ts)、[session-runner.test.ts](https://github.com/anomalyco/opencode/blob/ed74ec82ce1fe3a36da6c0815a935473ef4bb0fb/packages/core/test/session-runner.test.ts) | context overflow仅在尚无输出/工具副作用等允许边界走压缩恢复，次数有界；再次overflow、关闭auto或已持久输出不能任意继续。 | 不把“有重试”当安全；外部结果unknown停线，最终决策阶段禁technical retry/repair。压缩后的调用仍是新物理请求和费用。 |
+| [providers/deepseek.ts](https://github.com/anomalyco/opencode/blob/ed74ec82ce1fe3a36da6c0815a935473ef4bb0fb/packages/ai/src/providers/deepseek.ts)、[openai-chat.ts](https://github.com/anomalyco/opencode/blob/ed74ec82ce1fe3a36da6c0815a935473ef4bb0fb/packages/ai/src/protocols/openai-chat.ts)、[session/usage.ts](https://github.com/anomalyco/opencode/blob/ed74ec82ce1fe3a36da6c0815a935473ef4bb0fb/packages/core/src/session/usage.ts) | 有DeepSeek原生适配：Bearer/OpenAI Chat兼容、api.deepseek.com/v1、max_tokens；usage映射缓存命中等，reasoning为输出子项需防重复累计。部分缺失/非法usage或价格路径可归0。 | “也接DeepSeek”不等于token完全相同，更不等于本项目可靠。未知价格/usage不能复制归0逻辑；我们保留null/预留/停线，实际cache hit/miss计算费用。 |
+| [session-compaction.test.ts](https://github.com/anomalyco/opencode/blob/ed74ec82ce1fe3a36da6c0815a935473ef4bb0fb/packages/core/test/session-compaction.test.ts)、[session-model-request.test.ts](https://github.com/anomalyco/opencode/blob/ed74ec82ce1fe3a36da6c0815a935473ef4bb0fb/packages/core/test/session-model-request.test.ts)、[specs/v2/session.md](https://github.com/anomalyco/opencode/blob/ed74ec82ce1fe3a36da6c0815a935473ef4bb0fb/specs/v2/session.md) | 工程测试覆盖预算/编译/压缩和步骤持久边界；原历史与投影/摘要有不同归属。 | 其测试存在不是本项目对中文技术决策、反证保持或恢复资金安全的证据；本项目仍需离线＋真实跨任务对照。 |
+
+### OpenCode维护/修复讨论，按观察日状态而非宣传采信
+
+| PR/Issue及状态（2026-10-26） | 背景、参与证据和限制 | 迁移判断 |
+| --- | --- | --- |
+| [PR58015](https://github.com/anomalyco/opencode/pull/58015)，merged ac68d6a929bcc0b107b37f0d0c01b659f0160903，10-22 | 老历史分级丢失修复。机器人报告262测试是PR证据，不是本次执行；不能给机器人或作者虚构资历。 | 用真实失败理解裁剪层级，不视为语义反证问题已解决。 |
+| [PR58313](https://github.com/anomalyco/opencode/pull/58313)，merged33726e8fc190a8c634a186c3f9eed530e806e1e3，10-23 | buffer≥context等非法配置可导致总压缩，修正边界行为。 | 运行配置必须失败可见/资格验证，buffer不能随意增大就声称安全。 |
+| [PR57444](https://github.com/anomalyco/opencode/pull/57444)，merged6a5973d2636936317de15726ab37e3681f678be3，10-22 | experimental后台摘要默认off；作者/合并者neriousy有MEMBER关联，能说明维护参与，不能据此认定高级工程师。作者测试不是我们复测。 | 后台摘要即使未用也可能花费、内存缓存重启会丢；M1不采用，避免无收益调用/恢复歧义。 |
+| [PR58492](https://github.com/anomalyco/opencode/pull/58492)，open/unmerged | 讨论阈值/输出限额反转、不同input limit和buffer覆盖；普通评论者不自动是维护者。 | 候选补丁/观点，不得写已修复或默认行为。 |
+| [PR56845](https://github.com/anomalyco/opencode/pull/56845)、[PR51767](https://github.com/anomalyco/opencode/pull/51767)，open/unmerged | 前者早期后台摘要提议，后者overflow原因处理；与后来合并方案不等同。 | 不用未合并提议证明当前可用。 |
+| [Issue42363](https://github.com/anomalyco/opencode/issues/42363)，closed | 用户报告V1.18.15的DeepSeek reasoning/tool-history循环；成员thdxr按V1退役关闭并要求V2复报。两个用户复现不证明我们根因。 | 关闭不是技术修复证据；不能宣称V2解决同问题或我们已复现。 |
+
+### DeepSeek官方Tokenizer、缓存与价格的资格设计
+
+[官方Token说明](https://api-docs.deepseek.com/zh-cn/quick_start/token_usage/)的英文/中文字符换算只是估算，实际usage才是线上结果。[KV cache](https://api-docs.deepseek.com/guides/kv_cache/)按前缀、best-effort工作，不能从字符减少推出费用降低；须记录实际hit/miss和新增调用。[官方价格](https://api-docs.deepseek.com/zh-cn/quick_start/pricing/)在观察时列deepseek-flash/V4.1 Flash1017的人民币缓存命中0.04、未命中2、输出8元/百万Token及分时价格，模型别名/时段/单价可能变化。此处是观察快照，运行前≤24h重新固定计价并核对实际模型，不能当当前到账或运行授权；额外Search/Fetch不自动等于本项目工具成本。
+
+固定官方 [deepseek-ai/DeepSeek-recipe 935817c66f5d6e64838f419692545f06787e485f](https://github.com/deepseek-ai/DeepSeek-recipe/tree/935817c66f5d6e64838f419692545f06787e485f)，0.2.0；具体读 [docs/tokenizer.md](https://github.com/deepseek-ai/DeepSeek-recipe/blob/935817c66f5d6e64838f419692545f06787e485f/docs/tokenizer.md)、[Rust tokenizer](https://github.com/deepseek-ai/DeepSeek-recipe/blob/935817c66f5d6e64838f419692545f06787e485f/deepseek-recipe-encoding/src/tokenizer.rs)和README/Python tests/test_bindings.py。源码将模板特殊token范围与用户字面文本区分；应使用完整匹配模型的prompt template和tokenizer，不仅对拼接正文encode。
+
+[Issue5](https://github.com/deepseek-ai/DeepSeek-recipe/issues/5)报告0.1.1特殊字面token计数差异；协作者zhu-he称0.2.0修复，对应发布commit93b0fd229cc9ffa6b1a8c63d42b0bf741bbec170；当前固定提交更后，不把旧问题当当前缺陷。[0.2.0发行文件](https://pypi.org/project/deepseek-recipe/0.2.0/#files)观察有Linux/mac wheels、无Windows wheel；Python≥3.10，Maturin/Rust源码构建还涉及OpenCV4/Clang。当前Windows Py3.12不能据Python版本便宣称可装；本轮未安装、不自动源码构建或迁移Worker。
+
+**本项目批准方案**是M1离线影子资格：准备中文/英文/混合代码、JSON/schema/tools、普通文本含特殊字面token和模板控制token、大小边界；锁模型别名deepseek-flash与V4.1映射/模板/版本/依赖；重建完整请求分别核对语义/字节与可取得usage，记录误差/失败，比较原预检与影子预检的拒绝/放行差异。隔离Linux只是候选，安装/环境写入另授权，不新增付费验证。影子结果不足时保留原硬准入；正式采用须误差证据和新设计决定。
+
+r11 B02已用24467、剩15533、报告预检界15576（差-43）；B03已用31877、剩8123、界15171（差-7048）。这些是历史本地预检证据，**没有完整raw prompt**可精确复算，不能声称官方tokenizer必能修复。B03还缺发布日期/两项变化并有检索时间语义问题，Token不是唯一质量根因。见[P02原诊断](../audits/P02_PILOT_R11_FAILURE_TRIAGE_2026-10-23.md)。
+
+### 其他定点参照：状态、记忆、证据保持及维护反馈
+
+| 固定版本/关键位置 | 事实/作者观点/未运行限制 | 本项目迁移边界 |
+| --- | --- | --- |
+| [GPT Researcher 3582a684](https://github.com/assafelovic/gpt-researcher/tree/3582a6841fe7dc801e2a34e34ee408641aea9bce)，research conductor/source curator；[PR2145](https://github.com/assafelovic/gpt-researcher/pull/2145) merged816e893e34c6f63d782a60e858c309b4218404af | 初始规划来源在后续失败后丢失；维护者assafelovic参与评审，作者14离线测试/真实比较是作者证据；[PR2161](https://github.com/assafelovic/gpt-researcher/pull/2161)相关context改动a5a56797465205f9a6d69b0bec2363bf59609839 | 来源事实与投影/后续调用失败分开；不能用报告引用域名集合证明逐主张支持，原证据不可随失败丢弃。 |
+| [DeepAgents bb6d4316](https://github.com/langchain-ai/deepagents/tree/bb6d4316eb59b368b862e5517b888e5e70b1c3ae)，libs/deepagents/deepagents/middleware/summarization.py、backends/store.py、tests/unit_tests/middleware/test_compaction_recovery.py | 完整system/tool容量、overflow一次更小恢复；archive写失败存在无archive继续路径。[PR6267](https://github.com/langchain-ai/deepagents/pull/6267)维护者MikeMerrill评审/JohnKennedy合并、121tests是作者证据 | 可借鉴严格缩小/有界恢复，不照搬无法持久原证据仍继续。本项目Pg原证据和call ledger先提交，恢复不重复物理请求。 |
+| DeepAgents [PR6779](https://github.com/langchain-ai/deepagents/pull/6779) closed/unmerged，[Issue6470](https://github.com/langchain-ai/deepagents/issues/6470) open；[OpenSWE PR2678](https://github.com/langchain-ai/open-swe/pull/2678) closed/unmerged | 前者namespace精确过滤提议未合并，后者空content/超长单行摘要边界为用户报告；OpenSWE评审提问不是已接受修复 | namespace默认值不是鉴权；未合并补丁/单个边界不能写所有用户受影响或已解决。 |
+| [Letta Code b849473f](https://github.com/letta-ai/letta-code/tree/b849473fe69bc9b6813b31449f1161104beca8e9)，package0.32.3；src/agent/prompts/letta.md、memory-filesystem.ts、memory-constraints.ts、system-prompt-versioning.ts、memory-git.precommit.test.ts、memory-constraints-audit.test.ts | 文件记忆、提交/重编译后影响后续prompt，检查staged而非dirty，audit HEAD；默认单文件20kchars是约束非质量证明。memory-prompt.integration.test.ts需API key可skip。旧Python Letta主分支已提示retired，不能混成当前实现。 | 学习可审计变更/版本与编译边界，不将其自治记忆Git/程序规则直接移植。我们条件仅用户接受、来源线索显式导入，撤销/owner/过期要应用表控制。 |
+| [LangGraph 3cd57c03](https://github.com/langchain-ai/langgraph/tree/3cd57c038ad827d05f80c6488adea9994156c58c) Store TTL配置 | refresh_on_read默认true、omit_expired存在默认边界；namespace/TTL API本身不是用户隔离/撤销策略 | 我们绝对7天/读不续期、过期先排除；checkpoint只是恢复助手，不能替代当前事实和资金。 |
+| [browser-use PR5401](https://github.com/browser-use/browser-use/pull/5401)，merged32601887cfbc9f4f1e3cad3e2b678e56aeaeaae4；[smolagents固定版](https://github.com/huggingface/smolagents/tree/96f33faaf028479119ec8d34507b47694cf14e34) | 0与None预算边界修复；ActionStep/计划步骤结构化记忆分别有代码，不自动拥有owner生命周期 | 空/零/未知不可混用；日志/ActionStep不等于产品来源记忆。 |
+
+这些项目按问题分批选择：OpenCode回答完整请求/压缩/DeepSeek，DeepSeek recipe回答token资格，GPT Researcher回答来源丢失，DeepAgents回答溢出/存储边界，Letta回答记忆变更编译，LangGraph回答恢复归属。不会继续无界收集项目。复杂度取舍是保留现有AgentLoop/Pg、确定性投影和单供应商，真实证据证明失败后再讨论框架替代。首版验证/对照见[补充协议](../evaluation/DECISION_M1_PROTOCOL.json)和[测试策略](../testing/STRATEGY.md)；本研究不授权安装、真实运行、费用或Git写。

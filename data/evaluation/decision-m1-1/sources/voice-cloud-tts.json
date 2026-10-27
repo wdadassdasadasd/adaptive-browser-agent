@@ -1,0 +1,16 @@
+{
+  "source_id": "voice-cloud-tts",
+  "source_url": "https://help.aliyun.com/zh/model-studio/cosyvoice-client-events",
+  "observed_at": "2026-10-27T09:37:38+00:00",
+  "extraction_kind": "verbatim_rendered_text_excerpt",
+  "locator": "run-task：model与voice必选参数",
+  "excerpt": "启动语音合成任务，设置模型、音色、采样率等参数。\nmodel `string`（必选）模型名称。",
+  "hash_scope": "local_UTF8_excerpt_artifact_bytes_only_not_HTML_or_wire",
+  "limitations": [
+    "This is a rendered-text excerpt, not a full-page or transport-byte snapshot.",
+    "The excerpt does not establish equivalence with open-source CosyVoice2 weights.",
+    "This preparation observation is not a human source-check attestation for a future report."
+  ],
+  "backend_revision": null
+}
+

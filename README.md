@@ -19,17 +19,32 @@ demo verify code paths, not live source quality. The product remains No-Go;
 individual implementation and acceptance states are in the [task index](docs/tasks/README.md).
 See the [historical design index](docs/archive/design-0.3/00_DESIGN_INDEX.md) for archived plans.
 
-The confirmed first-release target is a Windows API, independent Worker,
-existing AgentLoop and browser with PostgreSQL in WSL. It includes a full local
-admin UI for five accounts including the administrator, a two-running/eight-
-queued capacity simulation, one safe Worker recovery, and one encrypted
-removable-media backup and independent restore. B01 open-source tool selection
-is the first interview demonstration. [ADR-0005](docs/design/adr/0005-windows-worker-wsl-postgres.md)
-records the decision and the two-week fake-task stop gate. The current
-[`current-3` evaluation protocol](docs/evaluation/CURRENT_EVAL_PROTOCOL.json)
-retains all nine frozen prompts and the 15-attempt release gate. The V1 commands
-below do not exercise the separate P-01 development path or the P-02 pilot;
-their implementation and actual acceptance states are recorded separately.
+
+The approved **PREP-BASELINE-v4.3** targets an interactive, evidence-supported
+technical decision assistant for developers. Voice components, ORM selection and
+PDF generation are evaluation tasks; the latter two are publicly derived needs.
+M1 includes meaningful memory and context comparisons, real evaluation and one
+verified real-failure optimization loop, persistent execution/cost evidence and
+the owner's recorded hands-on practice. These are approved targets, not current
+implemented or accepted capabilities. See [ADR-0008](docs/design/adr/0008-m1-engineering-baseline.md),
+[requirements](docs/features/DECISION-001/spec.md), [plan](PLANS.md) and the
+[supplementary M1 protocol](docs/evaluation/DECISION_M1_PROTOCOL.json).
+
+Documentation synchronization is authorized on 2026-10-27; actual checks and
+independent file review are recorded in the [continuous task record](docs/features/DECISION-001/tasks.md).
+Business implementation, installations, real model/browser runs and Git writes
+require their own scoped authorization. The next proposed slice is DEC-T07-01
+(operation_kind and old Worker fencing), not yet authorized.
+
+M1 is a local demonstration with two member accounts and local account CLI.
+Formal product Go still requires five accounts including an administrator and
+the full account-management UI, two-running/eight-queued capacity simulation,
+safe recovery, encrypted offline backup/restore, and all nine frozen prompts in
+the 15-attempt [current-3 release protocol](docs/evaluation/CURRENT_EVAL_PROTOCOL.json).
+[ADR-0005](docs/design/adr/0005-windows-worker-wsl-postgres.md) retains Windows
+API/Worker and WSL PostgreSQL. The V1 commands below do not run the unimplemented
+session target or establish research quality. Real paid pilot remains blocked
+by funding/ledger/reservation prerequisites and separate run authorization.
 
 The [P-01 task record](docs/tasks/PREDEV_P01_START_PACKAGE_2026-10-20.md),
 [measured acceptance evidence](docs/tasks/P01_ACCEPTANCE_2026-10-21.md)

@@ -1,0 +1,39 @@
+{
+  "source_id": "orm-typeorm-options",
+  "source_url": "https://github.com/typeorm/typeorm/blob/a0ea55323662dcd3cff1fa5ab6153be43ded80a7/docs/docs/data-source/2-data-source-options.md",
+  "repository": "typeorm/typeorm",
+  "version_ref": "a0ea55323662dcd3cff1fa5ab6153be43ded80a7",
+  "upstream_blob_sha1": "f56723beeedbf43276fbc39db3ef41fb4ed23648",
+  "observed_at": "2026-10-27T09:37:38+00:00",
+  "extraction_kind": "verbatim_noncontiguous_source_lines",
+  "hash_scope": "local_UTF8_artifact_bytes_not_full_upstream_file_or_wire",
+  "excerpts": [
+    {
+      "locator": {
+        "kind": "source_file_lines",
+        "first_line": 1,
+        "last_line": 13
+      },
+      "text": "# Data Source Options\n\n## What is DataSourceOptions?\n\n`DataSourceOptions` is a data source configuration you pass when you create a new `DataSource` instance.\nDifferent RDBMS-es have their own specific options.\n\n## Common data source options\n\n- `type` - RDBMS type. You must specify what database engine you use.\n  Possible values are:\n  \"mysql\", \"postgres\", \"cockroachdb\", \"sap\", \"spanner\", \"mariadb\", \"cordova\", \"react-native\", \"nativescript\", \"sqljs\", \"oracle\", \"mssql\", \"mongodb\", \"aurora-mysql\", \"aurora-postgres\", \"expo\", \"better-sqlite3\", \"capacitor\".\n  This option is **required**."
+    },
+    {
+      "locator": {
+        "kind": "source_file_lines",
+        "first_line": 56,
+        "last_line": 67
+      },
+      "text": "\n- `synchronize` - Indicates if database schema should be auto created on every application launch.\n  Be careful with this option and don't use this in production - otherwise you can lose production data.\n  This option is useful during debug and development.\n  As an alternative to it, you can use CLI and run schema:sync command.\n  Note that for MongoDB database it does not create schema, because MongoDB is schemaless.\n  Instead, it syncs just by creating indexes.\n\n- `migrations` - [Migrations](../migrations/01-why.md) to be loaded and used for this data source\n\n- `migrationsRun` - Indicates if [migrations](../migrations/01-why.md) should be auto-run on every application launch.\n"
+    }
+  ],
+  "limitations": [
+    "Only the selected lines are frozen; omission is not evidence that an upstream capability is absent.",
+    "Prepared source material is not an admitted research fact or a human-verified report."
+  ],
+  "license_observation": {
+    "url": "https://github.com/typeorm/typeorm/blob/a0ea55323662dcd3cff1fa5ab6153be43ded80a7/LICENSE",
+    "upstream_blob_sha1": "cb028e11b91c644494a85ac42e91b90154dcbc23",
+    "artifact": "sources/licenses/typeorm-typeorm.txt",
+    "applies_to": "repository_source_only_not_all_model_weights_or_cloud_terms"
+  }
+}
+

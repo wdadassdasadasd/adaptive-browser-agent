@@ -1,0 +1,16 @@
+{
+  "source_id": "voice-cloud-dialogue",
+  "source_url": "https://help.aliyun.com/zh/model-studio/qwen-plus",
+  "observed_at": "2026-10-27T09:37:38+00:00",
+  "extraction_kind": "verbatim_rendered_text_excerpt",
+  "locator": "推理服务供应商；模型能力：华北2（北京）/新加坡；intro snapshot id",
+  "excerpt": "该模型版本功能等同于快照模型 qwen-plus-2025-12-01。\n`qwen-plus`模型的推理服务供应商为阿里云百炼。",
+  "hash_scope": "local_UTF8_excerpt_artifact_bytes_only_not_HTML_or_wire",
+  "limitations": [
+    "Public dated alias is fixed, backend weights/hash remain unknown.",
+    "Capabilities and prices vary by region; run-time availability requires fresh observation.",
+    "This preparation observation is not a human source-check attestation for a future report."
+  ],
+  "backend_revision": null
+}
+

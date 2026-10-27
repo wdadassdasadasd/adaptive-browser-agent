@@ -1,0 +1,16 @@
+{
+  "source_id": "voice-cloud-asr",
+  "source_url": "https://help.aliyun.com/zh/model-studio/paraformer-real-time-speech-recognition-java-sdk",
+  "observed_at": "2026-10-27T09:37:38+00:00",
+  "extraction_kind": "verbatim_rendered_text_excerpt",
+  "locator": "模型列表；快速开始；北京配置示例",
+  "excerpt": "paraformer-realtime-v2（推荐）\nRecognition类提供了非流式调用和双向流式调用接口。",
+  "hash_scope": "local_UTF8_excerpt_artifact_bytes_only_not_HTML_or_wire",
+  "limitations": [
+    "The page is dynamic; no public backend weight revision is supplied.",
+    "Region examples are supply observations, not accepted user requirements.",
+    "This preparation observation is not a human source-check attestation for a future report."
+  ],
+  "backend_revision": null
+}
+

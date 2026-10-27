@@ -1,0 +1,39 @@
+{
+  "source_id": "pdf-puppeteer-installation",
+  "source_url": "https://github.com/puppeteer/puppeteer/blob/a207faf527ce4305b33a6c0f9706b090c21c115e/docs/guides/installation.md",
+  "repository": "puppeteer/puppeteer",
+  "version_ref": "a207faf527ce4305b33a6c0f9706b090c21c115e",
+  "upstream_blob_sha1": "f4d1e7135eb7183d8dc11eb5f7c9067d851a00fb",
+  "observed_at": "2026-10-27T09:37:38+00:00",
+  "extraction_kind": "verbatim_noncontiguous_source_lines",
+  "hash_scope": "local_UTF8_artifact_bytes_not_full_upstream_file_or_wire",
+  "excerpts": [
+    {
+      "locator": {
+        "kind": "source_file_lines",
+        "first_line": 1,
+        "last_line": 12
+      },
+      "text": "# Installation\n\nTo use Puppeteer in your project, run:\n\n```bash npm2yarn\nnpm i puppeteer\n```\n\nWhen you install Puppeteer, it automatically downloads a recent version of\n[Chrome for Testing](https://developer.chrome.com/blog/chrome-for-testing/) (~170MB macOS, ~282MB Linux, ~280MB Windows) and a `chrome-headless-shell` binary (starting with Puppeteer v21.6.0) that is [guaranteed to\nwork](https://pptr.dev/faq#q-why-doesnt-puppeteer-vxxx-work-with-a-certain-version-of-chrome-or-firefox)\nwith Puppeteer. The browser is downloaded to the `$HOME/.cache/puppeteer` folder"
+    },
+    {
+      "locator": {
+        "kind": "source_file_lines",
+        "first_line": 48,
+        "last_line": 55
+      },
+      "text": "`puppeteer-core` is a _library_ to help drive anything that supports DevTools\nprotocol. Being a library, `puppeteer-core` is fully driven through its\nprogrammatic interface implying no defaults are assumed and `puppeteer-core`\nwill not download Chrome when installed.\n\nYou should use `puppeteer-core` if you are\n[connecting to a remote browser](https://pptr.dev/api/puppeteer.puppeteer.connect)\nor [managing browsers yourself](https://pptr.dev/browsers-api)."
+    }
+  ],
+  "limitations": [
+    "Only the selected lines are frozen; omission is not evidence that an upstream capability is absent.",
+    "Prepared source material is not an admitted research fact or a human-verified report."
+  ],
+  "license_observation": {
+    "url": "https://github.com/puppeteer/puppeteer/blob/a207faf527ce4305b33a6c0f9706b090c21c115e/LICENSE",
+    "upstream_blob_sha1": "d2c171df74e931892e20f9395041bf8529e45330",
+    "artifact": "sources/licenses/puppeteer-puppeteer.txt",
+    "applies_to": "repository_source_only_not_all_model_weights_or_cloud_terms"
+  }
+}
+

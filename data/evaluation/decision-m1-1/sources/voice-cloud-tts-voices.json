@@ -1,0 +1,15 @@
+{
+  "source_id": "voice-cloud-tts-voices",
+  "source_url": "https://help.aliyun.com/zh/model-studio/cosyvoice-voice-list",
+  "observed_at": "2026-10-27T09:37:38+00:00",
+  "extraction_kind": "verbatim_rendered_text_excerpt",
+  "locator": "cosyvoice-v2 heading and model/voice requirement",
+  "excerpt": "所选音色（`voice`）须在当前模型（`model`）的音色列表中。\n## cosyvoice-v2",
+  "hash_scope": "local_UTF8_excerpt_artifact_bytes_only_not_HTML_or_wire",
+  "limitations": [
+    "A voice and its region/language must be rechecked individually; no voice is accepted by this task yet.",
+    "This preparation observation is not a human source-check attestation for a future report."
+  ],
+  "backend_revision": null
+}
+

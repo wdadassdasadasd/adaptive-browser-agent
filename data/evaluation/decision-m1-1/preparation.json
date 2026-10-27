@@ -1,0 +1,2999 @@
+{
+  "schema_version": "decision-m1-preparation-1",
+  "baseline": "PREP-BASELINE-v4.3",
+  "prepared_on": "2026-10-27",
+  "preparation_state": "materials_prepared_not_executed_review_status_in_continuous_task_record",
+  "authority": "supplementary_M1_execution_materials_not_formal_release_or_runtime_authorization",
+  "approvals": {
+    "owner_plan": "PLEASE IMPLEMENT THIS PLAN: v4.3 开发准备补齐与首任务开工基线",
+    "scope": "six_named_documents_and_this_material_directory_only",
+    "approved_inputs_and_rubric": "owner_confirmed_during_preparation",
+    "independent_actual_file_review": {
+      "status": "see actual review and final supplement in continuous task record, no pass asserted here",
+      "path": "../../../docs/features/DECISION-001/tasks.md"
+    }
+  },
+  "authorization": {
+    "business_implementation": false,
+    "dependency_install": false,
+    "real_model_browser_run": false,
+    "paid_evaluation": false,
+    "balance_query": false,
+    "database_write": false,
+    "git_write": false
+  },
+  "agent_input": {
+    "allowlist_paths": [
+      "#/agent_input/cases/{case_id}/turns/{current_round_only}",
+      "#/agent_input/cases/{case_id}/candidates",
+      "#/agent_input/cases/{case_id}/allowed_unknown_policy",
+      "#/agent_input/conditions/{condition_id}",
+      "#/agent_input/comparison_groups/{group_id}/source_hints/turns/{current_round_only}",
+      "#/agent_input/comparison_groups/{group_id}/context/material_order",
+      "#/agent_input/comparison_groups/{group_id}/context/current_condition_id",
+      "#/agent_input/comparison_groups/{group_id}/context/history",
+      "#/agent_input/comparison_groups/{group_id}/context/failure_records",
+      "#/agent_input/comparison_groups/{group_id}/context/budget_policy",
+      "material_manifest.independent[].path (selected official source excerpt plus identity/locator metadata only)"
+    ],
+    "construction_rule": "读取上述明确白名单；按source_ids和material_order选取原片段及身份/定位元数据。不得序列化本JSON整体、评分、金标、候选预期断言、运行前置或license到模型。运行器实现后用捕获的完整编译输入验证隔离。 控制端持有完整评测脚本；input_ref只定位控制端脚本，不表示注入整个数组。第n轮仅发送当前用户消息、此前已提交的真实历史和截至该轮显式接受的结构化条件；未来轮消息、尚未接受的条件及预定变化不得提前编译。先前条件提议与用户接受分别记录，不能因控制端知道未来脚本而生效。对照context组只提交该组已明确接受/修订的冻结历史和当前条件，不能注入其他组或后续slot。",
+    "cases": {
+      "M1-VOICE": {
+        "origin": "owner_actual_requirement_with_evaluation_condition_exercise",
+        "owner_alias": "member-A",
+        "candidates": [
+          {
+            "stable_id": "VOICE-ASR-LOCAL",
+            "name": "FunASR + funasr/paraformer-zh-streaming",
+            "version": "v1.4.14",
+            "code_commit": "a23946a8b3e9146f9bf80e18f768298f0cd000b7",
+            "model_revision": "fd2af606b37d7fb8b3b8a218c5be5b07b53ef6ba",
+            "role": "ASR",
+            "deployment": "local",
+            "source_ids": [
+              "voice-funasr-readme",
+              "voice-local-asr-model"
+            ],
+            "region": null,
+            "region_status": "unknown_not_assumed",
+            "backend_revision": "not_applicable",
+            "runtime_verified": false
+          },
+          {
+            "stable_id": "VOICE-ASR-CLOUD",
+            "name": "paraformer-realtime-v2",
+            "version": "paraformer-realtime-v2",
+            "code_commit": null,
+            "model_revision": null,
+            "role": "ASR",
+            "deployment": "cloud",
+            "source_ids": [
+              "voice-cloud-asr"
+            ],
+            "region": null,
+            "region_status": "unknown_not_assumed",
+            "backend_revision": null,
+            "runtime_verified": false
+          },
+          {
+            "stable_id": "VOICE-TTS-LOCAL",
+            "name": "FunAudioLLM/CosyVoice2-0.5B",
+            "version": "CosyVoice2-0.5B",
+            "code_commit": "074ca6dc9e80a2f424f1f74b48bdd7d3fea531cc",
+            "model_revision": "eec1ae6c79877dbd9379285cf8789c9e0879293d",
+            "role": "TTS",
+            "deployment": "local",
+            "source_ids": [
+              "voice-cosyvoice-readme",
+              "voice-local-tts-model"
+            ],
+            "region": null,
+            "region_status": "unknown_not_assumed",
+            "backend_revision": "not_applicable",
+            "runtime_verified": false
+          },
+          {
+            "stable_id": "VOICE-TTS-CLOUD",
+            "name": "cosyvoice-v2",
+            "version": "cosyvoice-v2",
+            "code_commit": null,
+            "model_revision": null,
+            "role": "TTS",
+            "deployment": "cloud",
+            "source_ids": [
+              "voice-cloud-tts",
+              "voice-cloud-tts-voices"
+            ],
+            "region": null,
+            "region_status": "unknown_not_assumed",
+            "backend_revision": null,
+            "runtime_verified": false
+          },
+          {
+            "stable_id": "VOICE-DIALOGUE-LOCAL",
+            "name": "Qwen/Qwen2.5-7B-Instruct",
+            "version": "Qwen2.5-7B-Instruct",
+            "code_commit": null,
+            "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+            "role": "dialogue",
+            "deployment": "local",
+            "source_ids": [
+              "voice-local-dialogue-model"
+            ],
+            "region": null,
+            "region_status": "unknown_not_assumed",
+            "backend_revision": "not_applicable",
+            "runtime_verified": false
+          },
+          {
+            "stable_id": "VOICE-DIALOGUE-CLOUD",
+            "name": "qwen-plus-2025-12-01",
+            "version": "qwen-plus-2025-12-01",
+            "code_commit": null,
+            "model_revision": null,
+            "role": "dialogue",
+            "deployment": "cloud",
+            "source_ids": [
+              "voice-cloud-dialogue",
+              "voice-price-units"
+            ],
+            "region": null,
+            "region_status": "unknown_not_assumed",
+            "backend_revision": null,
+            "runtime_verified": false
+          }
+        ],
+        "source_ids": [
+          "voice-cloud-asr",
+          "voice-cloud-dialogue",
+          "voice-cloud-tts-voices",
+          "voice-cloud-tts",
+          "voice-cosyvoice-readme",
+          "voice-funasr-readme",
+          "voice-local-asr-model",
+          "voice-local-dialogue-model",
+          "voice-local-tts-model",
+          "voice-price-units"
+        ],
+        "turns": [
+          {
+            "round": 1,
+            "operation": "clarify",
+            "text": "我想为居家老人陪伴问答应用选择语音识别、语音合成和对话组件及组合。请先帮我澄清会影响技术选择的条件；不知道的先保留未知，不要代我接受条件。候选是本地FunASR v1.4.14配paraformer-zh-streaming与云paraformer-realtime-v2、本地CosyVoice2-0.5B与云cosyvoice-v2、本地Qwen2.5-7B-Instruct与云qwen-plus-2025-12-01。",
+            "accepted_condition_id": null,
+            "report_required": false
+          },
+          {
+            "round": 2,
+            "operation": "research",
+            "text": "我接受普通话和只依据公开资料这两项；云端还是本地暂时未定。设备、地域、用量、音色和费用上限仍未知，方言要求也未确定。请基于这些条件研究上述候选，说明各角色与组合的证据、限制、未知和下一步验证。",
+            "accepted_condition_id": "VOICE-OPEN",
+            "report_required": true
+          },
+          {
+            "round": 3,
+            "operation": "research",
+            "text": "现在把硬条件改为：ASR、TTS、对话三个角色都必须在本地处理，不上传音频。普通话和公开资料条件保留，其余未知不变。这是本次评测的条件变化演练，不代表实际部署决定。请重新判断候选与组合，并说明与上一份报告的变化和仍需验证的事项。",
+            "accepted_condition_id": "VOICE-LOCAL",
+            "report_required": true
+          }
+        ],
+        "allowed_unknown_policy": "保留未知并指出影响和具体下一验证，不将未知写成满足；全部unknown且无证据/行动路径不能自动通过",
+        "product_boundary": "角色、候选及专属条件仅此输入，不固化到通用产品结构",
+        "forbidden_claims": [
+          "runtime_integration_verified",
+          "audio_or_layout_quality_measured",
+          "human_source_review_already_passed"
+        ]
+      },
+      "M1-ORM": {
+        "origin": "public_requirement_derived_not_owner_actual_need",
+        "owner_alias": "member-A",
+        "candidates": [
+          {
+            "stable_id": "ORM-TYPEORM",
+            "name": "TypeORM",
+            "version": "1.1.2",
+            "code_commit": "a0ea55323662dcd3cff1fa5ab6153be43ded80a7",
+            "model_revision": null,
+            "role": "database_access",
+            "deployment": "local_library",
+            "source_ids": [
+              "orm-typeorm-migrations",
+              "orm-typeorm-options",
+              "orm-typeorm-pg",
+              "orm-typeorm-sqlite"
+            ],
+            "region": null,
+            "region_status": "unknown_not_assumed",
+            "backend_revision": "not_applicable",
+            "runtime_verified": false
+          },
+          {
+            "stable_id": "ORM-DRIZZLE",
+            "name": "Drizzle ORM",
+            "version": "0.45.4",
+            "code_commit": "eab8bedbb65d5429c54e612ddbd88aa23091d398",
+            "model_revision": null,
+            "role": "database_access",
+            "deployment": "local_library",
+            "source_ids": [
+              "orm-drizzle-kit",
+              "orm-drizzle-migrator",
+              "orm-drizzle-pg-driver",
+              "orm-drizzle-pg-schema",
+              "orm-drizzle-sqlite-driver",
+              "orm-drizzle-sqlite-schema"
+            ],
+            "region": null,
+            "region_status": "unknown_not_assumed",
+            "backend_revision": "not_applicable",
+            "runtime_verified": false,
+            "companion": {
+              "name": "drizzle-kit",
+              "version": "0.31.11",
+              "commit": "eab8bedbb65d5429c54e612ddbd88aa23091d398",
+              "source_id": "orm-drizzle-kit"
+            }
+          }
+        ],
+        "source_ids": [
+          "orm-drizzle-kit",
+          "orm-drizzle-migrator",
+          "orm-drizzle-pg-driver",
+          "orm-drizzle-pg-schema",
+          "orm-drizzle-sqlite-driver",
+          "orm-drizzle-sqlite-schema",
+          "orm-typeorm-migrations",
+          "orm-typeorm-options",
+          "orm-typeorm-pg",
+          "orm-typeorm-sqlite"
+        ],
+        "turns": [
+          {
+            "round": 1,
+            "operation": "clarify",
+            "text": "我要比较TypeORM 1.1.2与Drizzle ORM 0.45.4（drizzle-kit 0.31.11）。请先确认影响SQLite/PostgreSQL选择的条件，不替我接受假设；我偏好减少schema和迁移维护。",
+            "accepted_condition_id": null,
+            "report_required": false
+          },
+          {
+            "round": 2,
+            "operation": "research",
+            "text": "我接受同时支持SQLite和PostgreSQL作为硬条件；减少schema及迁移维护是偏好。现有schema、查询、部署和团队经验未知，不假设跨数据库schema或SQL迁移直接通用。请研究两个固定版本的驱动、schema、迁移和切换代价，给出有证据的选择路径。",
+            "accepted_condition_id": "ORM-DUAL",
+            "report_required": true
+          },
+          {
+            "round": 3,
+            "operation": "research",
+            "text": "我现在撤掉SQLite要求，只要求PostgreSQL；减少schema及迁移维护的偏好保留，其余未知不变。请重新比较，引用上一份报告说明哪些条件和结论改变，哪些证据仍适用。",
+            "accepted_condition_id": "ORM-PG",
+            "report_required": true
+          }
+        ],
+        "allowed_unknown_policy": "保留未知并指出影响和具体下一验证，不将未知写成满足；全部unknown且无证据/行动路径不能自动通过",
+        "product_boundary": "角色、候选及专属条件仅此输入，不固化到通用产品结构",
+        "forbidden_claims": [
+          "runtime_integration_verified",
+          "audio_or_layout_quality_measured",
+          "human_source_review_already_passed"
+        ]
+      },
+      "M1-PDF": {
+        "origin": "public_requirement_derived_not_owner_actual_need",
+        "owner_alias": "member-B",
+        "candidates": [
+          {
+            "stable_id": "PDF-PUPPETEER",
+            "name": "Puppeteer",
+            "version": "25.16.0",
+            "code_commit": "a207faf527ce4305b33a6c0f9706b090c21c115e",
+            "model_revision": null,
+            "role": "pdf_generation",
+            "deployment": "browser_driven",
+            "source_ids": [
+              "pdf-puppeteer-generation",
+              "pdf-puppeteer-installation"
+            ],
+            "region": null,
+            "region_status": "unknown_not_assumed",
+            "backend_revision": "not_applicable",
+            "runtime_verified": false
+          },
+          {
+            "stable_id": "PDF-PDFKIT",
+            "name": "PDFKit",
+            "version": "0.20.2",
+            "code_commit": "8d72a71c3e2b03f3253c221065e9efcc69ca5b7d",
+            "model_revision": null,
+            "role": "pdf_generation",
+            "deployment": "local_library",
+            "source_ids": [
+              "pdf-pdfkit-getting-started"
+            ],
+            "region": null,
+            "region_status": "unknown_not_assumed",
+            "backend_revision": "not_applicable",
+            "runtime_verified": false
+          }
+        ],
+        "source_ids": [
+          "pdf-pdfkit-getting-started",
+          "pdf-puppeteer-generation",
+          "pdf-puppeteer-installation"
+        ],
+        "turns": [
+          {
+            "round": 1,
+            "operation": "clarify",
+            "text": "我要在Puppeteer 25.16.0与PDFKit 0.20.2之间选择PDF生成方案，偏好复用已有HTML/CSS。请先澄清部署限制和未知项，不替我接受条件，不宣称实际版式质量已测试。",
+            "accepted_condition_id": null,
+            "report_required": false
+          },
+          {
+            "round": 2,
+            "operation": "research",
+            "text": "我接受以下硬限制：禁止本地或远程Chromium，没有现成HTML到PDF服务。复用HTML/CSS只是偏好，具体版式、字体、流量和可接受的重写成本未知。请基于公开证据比较两候选，说明可行路径、排除或未知及下一步验证。",
+            "accepted_condition_id": "PDF-NO-BROWSER",
+            "report_required": true
+          },
+          {
+            "round": 3,
+            "operation": "research",
+            "text": "现在允许自管Chromium；没有现成HTML到PDF服务，复用HTML/CSS仍为偏好，其余未知保留。请重新判断两候选，引用上一份报告说明条件变化及其影响，不预设赢家。",
+            "accepted_condition_id": "PDF-ALLOW-BROWSER",
+            "report_required": true
+          }
+        ],
+        "allowed_unknown_policy": "保留未知并指出影响和具体下一验证，不将未知写成满足；全部unknown且无证据/行动路径不能自动通过",
+        "product_boundary": "角色、候选及专属条件仅此输入，不固化到通用产品结构",
+        "forbidden_claims": [
+          "runtime_integration_verified",
+          "audio_or_layout_quality_measured",
+          "human_source_review_already_passed"
+        ]
+      }
+    },
+    "conditions": {
+      "VOICE-OPEN": {
+        "hard": {
+          "language": "普通话",
+          "source_scope": "公开资料",
+          "deployment": "cloud_or_local_undecided"
+        },
+        "preferences": {},
+        "unknown": [
+          "device",
+          "region",
+          "usage",
+          "voice",
+          "cost_ceiling",
+          "dialect_support"
+        ],
+        "origin": "evaluation_user_explicit_acceptance"
+      },
+      "VOICE-LOCAL": {
+        "hard": {
+          "language": "普通话",
+          "source_scope": "公开资料",
+          "ASR_processing": "local",
+          "TTS_processing": "local",
+          "dialogue_processing": "local",
+          "audio_upload": false
+        },
+        "preferences": {},
+        "unknown": [
+          "device",
+          "region",
+          "usage",
+          "voice",
+          "cost_ceiling",
+          "dialect_support"
+        ],
+        "origin": "evaluation_exercise_not_owner_deployment_requirement"
+      },
+      "ORM-DUAL": {
+        "hard": {
+          "databases": [
+            "SQLite",
+            "PostgreSQL"
+          ]
+        },
+        "preferences": {
+          "schema_and_migration_maintenance": "reduce"
+        },
+        "unknown": [
+          "schema",
+          "query_shapes",
+          "deployment",
+          "team_experience",
+          "migration_strategy"
+        ],
+        "no_assumption": "schema_and_SQL_migrations_portable_without_changes"
+      },
+      "ORM-PG": {
+        "hard": {
+          "databases": [
+            "PostgreSQL"
+          ]
+        },
+        "preferences": {
+          "schema_and_migration_maintenance": "reduce"
+        },
+        "unknown": [
+          "schema",
+          "query_shapes",
+          "deployment",
+          "team_experience",
+          "migration_strategy"
+        ],
+        "replaces": "ORM-DUAL"
+      },
+      "PDF-NO-BROWSER": {
+        "hard": {
+          "local_Chromium": false,
+          "remote_Chromium": false,
+          "existing_HTML_to_PDF_service": false
+        },
+        "preferences": {
+          "reuse_HTML_CSS": true
+        },
+        "unknown": [
+          "layout",
+          "fonts",
+          "volume",
+          "hosting",
+          "acceptable_rewrite_cost"
+        ]
+      },
+      "PDF-ALLOW-BROWSER": {
+        "hard": {
+          "self_managed_Chromium": "allowed",
+          "existing_HTML_to_PDF_service": false
+        },
+        "preferences": {
+          "reuse_HTML_CSS": true
+        },
+        "unknown": [
+          "layout",
+          "fonts",
+          "volume",
+          "hosting",
+          "acceptable_rewrite_cost"
+        ],
+        "replaces": "PDF-NO-BROWSER"
+      }
+    },
+    "comparison_groups": {
+      "ORM-G1": {
+        "case_id": "M1-ORM",
+        "owner_alias": "member-A",
+        "source_hints": {
+          "turns": [
+            {
+              "round": 1,
+              "operation": "research",
+              "text": "现在我明确接受条件 ORM-DUAL（以下结构化条件为完整原文）。请在该条件下研究上述固定候选；未知不代填。",
+              "condition_id": "ORM-DUAL"
+            },
+            {
+              "round": 2,
+              "operation": "research",
+              "text": "现在将条件变为 ORM-PG（以下结构化条件替代先前同项硬条件）。请重新研究并说明与本侧第一份报告的变化。",
+              "condition_id": "ORM-PG"
+            },
+            {
+              "round": 3,
+              "operation": "explain_report",
+              "text": "请解释本session第一份研究报告当时的选择、证据和未知，并说明它与当前条件的关系。只使用已保存报告及其来源引用，不新研究或隐式调用研究工具。",
+              "condition_id": "ORM-PG",
+              "target": "this_session_first_report_snapshot",
+              "research_allowed": false
+            }
+          ],
+          "conditions": [
+            "ORM-DUAL",
+            "ORM-PG"
+          ],
+          "modes_order": [
+            "off",
+            "on"
+          ]
+        },
+        "context": {
+          "material_order": [
+            "orm-drizzle-kit",
+            "orm-drizzle-migrator",
+            "orm-drizzle-pg-driver",
+            "orm-drizzle-pg-schema",
+            "orm-drizzle-sqlite-driver",
+            "orm-drizzle-sqlite-schema",
+            "orm-typeorm-migrations",
+            "orm-typeorm-options",
+            "orm-typeorm-pg",
+            "orm-typeorm-sqlite"
+          ],
+          "current_condition_id": "ORM-PG",
+          "history": [
+            {
+              "kind": "user_accepted_conditions",
+              "condition_id": "ORM-DUAL",
+              "text": "现在我明确接受条件 ORM-DUAL（以下结构化条件为完整原文）。请在该条件下研究上述固定候选；未知不代填。"
+            },
+            {
+              "kind": "user_revised_conditions",
+              "condition_id": "ORM-PG",
+              "text": "现在将条件变为 ORM-PG（以下结构化条件替代先前同项硬条件）。请重新研究并说明与本侧第一份报告的变化。"
+            }
+          ],
+          "failure_records": [],
+          "failure_records_status": "frozen empty list: no real failure is asserted for this prepared group; any actual group history/failure addition must be recorded and identical across C0/C1/C2 after owner confirms affected freeze",
+          "renderer_version": null,
+          "strategy_order": [
+            0,
+            1,
+            2
+          ],
+          "only_changed_variable": "strategy",
+          "realization": "material snippets are finite natural material; no guaranteed selection pressure",
+          "budget_policy": {
+            "cumulative_turn_token_cap": 40000,
+            "policy_source": "docs/design/adr/0008-m1-engineering-baseline.md and CURRENT_CONTRACTS.md",
+            "context_window_and_output_reserve": "use actual model/compiler hard admission limits; runtime binding pending",
+            "money": "single F1 authority, real grant and whole-batch funded coverage required; 30 CNY allocation is no grant",
+            "do_not_reduce_product_limits_to_force_selection": true
+          },
+          "frozen_now": [
+            "ordered source IDs mapping to manifest hash",
+            "two exact accepted/revised condition messages plus structured conditions",
+            "empty actual failure record list without fabrication",
+            "40000 cumulative turn cap and F1 policy; no limit manipulation"
+          ],
+          "runtime_binding_requirements": [
+            {
+              "name": "renderer_version",
+              "value": null,
+              "owner": "AI",
+              "task": "DEC-T11",
+              "before": "before context batch"
+            },
+            {
+              "name": "actual model context window and compiled output reserve",
+              "value": null,
+              "owner": "AI",
+              "task": "DEC-T11",
+              "before": "before context batch"
+            },
+            {
+              "name": "grant/remaining cumulative use",
+              "value": null,
+              "owner": "AI prepares, human authorizes",
+              "task": "DEC-T12",
+              "before": "physical dispatch"
+            }
+          ]
+        }
+      },
+      "PDF-G1": {
+        "case_id": "M1-PDF",
+        "owner_alias": "member-B",
+        "source_hints": {
+          "turns": [
+            {
+              "round": 1,
+              "operation": "research",
+              "text": "现在我明确接受条件 PDF-NO-BROWSER（以下结构化条件为完整原文）。请在该条件下研究上述固定候选；未知不代填。",
+              "condition_id": "PDF-NO-BROWSER"
+            },
+            {
+              "round": 2,
+              "operation": "research",
+              "text": "现在将条件变为 PDF-ALLOW-BROWSER（以下结构化条件替代先前同项硬条件）。请重新研究并说明与本侧第一份报告的变化。",
+              "condition_id": "PDF-ALLOW-BROWSER"
+            },
+            {
+              "round": 3,
+              "operation": "explain_report",
+              "text": "请解释本session第一份研究报告当时的选择、证据和未知，并说明它与当前条件的关系。只使用已保存报告及其来源引用，不新研究或隐式调用研究工具。",
+              "condition_id": "PDF-ALLOW-BROWSER",
+              "target": "this_session_first_report_snapshot",
+              "research_allowed": false
+            }
+          ],
+          "conditions": [
+            "PDF-NO-BROWSER",
+            "PDF-ALLOW-BROWSER"
+          ],
+          "modes_order": [
+            "off",
+            "on"
+          ]
+        },
+        "context": {
+          "material_order": [
+            "pdf-pdfkit-getting-started",
+            "pdf-puppeteer-generation",
+            "pdf-puppeteer-installation"
+          ],
+          "current_condition_id": "PDF-ALLOW-BROWSER",
+          "history": [
+            {
+              "kind": "user_accepted_conditions",
+              "condition_id": "PDF-NO-BROWSER",
+              "text": "现在我明确接受条件 PDF-NO-BROWSER（以下结构化条件为完整原文）。请在该条件下研究上述固定候选；未知不代填。"
+            },
+            {
+              "kind": "user_revised_conditions",
+              "condition_id": "PDF-ALLOW-BROWSER",
+              "text": "现在将条件变为 PDF-ALLOW-BROWSER（以下结构化条件替代先前同项硬条件）。请重新研究并说明与本侧第一份报告的变化。"
+            }
+          ],
+          "failure_records": [],
+          "failure_records_status": "frozen empty list: no real failure is asserted for this prepared group; any actual group history/failure addition must be recorded and identical across C0/C1/C2 after owner confirms affected freeze",
+          "renderer_version": null,
+          "strategy_order": [
+            1,
+            2,
+            0
+          ],
+          "only_changed_variable": "strategy",
+          "realization": "material snippets are finite natural material; no guaranteed selection pressure",
+          "budget_policy": {
+            "cumulative_turn_token_cap": 40000,
+            "policy_source": "docs/design/adr/0008-m1-engineering-baseline.md and CURRENT_CONTRACTS.md",
+            "context_window_and_output_reserve": "use actual model/compiler hard admission limits; runtime binding pending",
+            "money": "single F1 authority, real grant and whole-batch funded coverage required; 30 CNY allocation is no grant",
+            "do_not_reduce_product_limits_to_force_selection": true
+          },
+          "frozen_now": [
+            "ordered source IDs mapping to manifest hash",
+            "two exact accepted/revised condition messages plus structured conditions",
+            "empty actual failure record list without fabrication",
+            "40000 cumulative turn cap and F1 policy; no limit manipulation"
+          ],
+          "runtime_binding_requirements": [
+            {
+              "name": "renderer_version",
+              "value": null,
+              "owner": "AI",
+              "task": "DEC-T11",
+              "before": "before context batch"
+            },
+            {
+              "name": "actual model context window and compiled output reserve",
+              "value": null,
+              "owner": "AI",
+              "task": "DEC-T11",
+              "before": "before context batch"
+            },
+            {
+              "name": "grant/remaining cumulative use",
+              "value": null,
+              "owner": "AI prepares, human authorizes",
+              "task": "DEC-T12",
+              "before": "physical dispatch"
+            }
+          ]
+        }
+      },
+      "ORM-G2": {
+        "case_id": "M1-ORM",
+        "owner_alias": "member-A",
+        "source_hints": {
+          "turns": [
+            {
+              "round": 1,
+              "operation": "research",
+              "text": "现在我明确接受条件 ORM-PG（以下结构化条件为完整原文）。请在该条件下研究上述固定候选；未知不代填。",
+              "condition_id": "ORM-PG"
+            },
+            {
+              "round": 2,
+              "operation": "research",
+              "text": "现在将条件变为 ORM-DUAL（以下结构化条件替代先前同项硬条件）。请重新研究并说明与本侧第一份报告的变化。",
+              "condition_id": "ORM-DUAL"
+            },
+            {
+              "round": 3,
+              "operation": "explain_report",
+              "text": "请解释本session第一份研究报告当时的选择、证据和未知，并说明它与当前条件的关系。只使用已保存报告及其来源引用，不新研究或隐式调用研究工具。",
+              "condition_id": "ORM-DUAL",
+              "target": "this_session_first_report_snapshot",
+              "research_allowed": false
+            }
+          ],
+          "conditions": [
+            "ORM-PG",
+            "ORM-DUAL"
+          ],
+          "modes_order": [
+            "on",
+            "off"
+          ]
+        },
+        "context": {
+          "material_order": [
+            "orm-drizzle-kit",
+            "orm-drizzle-migrator",
+            "orm-drizzle-pg-driver",
+            "orm-drizzle-pg-schema",
+            "orm-drizzle-sqlite-driver",
+            "orm-drizzle-sqlite-schema",
+            "orm-typeorm-migrations",
+            "orm-typeorm-options",
+            "orm-typeorm-pg",
+            "orm-typeorm-sqlite"
+          ],
+          "current_condition_id": "ORM-DUAL",
+          "history": [
+            {
+              "kind": "user_accepted_conditions",
+              "condition_id": "ORM-PG",
+              "text": "现在我明确接受条件 ORM-PG（以下结构化条件为完整原文）。请在该条件下研究上述固定候选；未知不代填。"
+            },
+            {
+              "kind": "user_revised_conditions",
+              "condition_id": "ORM-DUAL",
+              "text": "现在将条件变为 ORM-DUAL（以下结构化条件替代先前同项硬条件）。请重新研究并说明与本侧第一份报告的变化。"
+            }
+          ],
+          "failure_records": [],
+          "failure_records_status": "frozen empty list: no real failure is asserted for this prepared group; any actual group history/failure addition must be recorded and identical across C0/C1/C2 after owner confirms affected freeze",
+          "renderer_version": null,
+          "strategy_order": [
+            2,
+            0,
+            1
+          ],
+          "only_changed_variable": "strategy",
+          "realization": "material snippets are finite natural material; no guaranteed selection pressure",
+          "budget_policy": {
+            "cumulative_turn_token_cap": 40000,
+            "policy_source": "docs/design/adr/0008-m1-engineering-baseline.md and CURRENT_CONTRACTS.md",
+            "context_window_and_output_reserve": "use actual model/compiler hard admission limits; runtime binding pending",
+            "money": "single F1 authority, real grant and whole-batch funded coverage required; 30 CNY allocation is no grant",
+            "do_not_reduce_product_limits_to_force_selection": true
+          },
+          "frozen_now": [
+            "ordered source IDs mapping to manifest hash",
+            "two exact accepted/revised condition messages plus structured conditions",
+            "empty actual failure record list without fabrication",
+            "40000 cumulative turn cap and F1 policy; no limit manipulation"
+          ],
+          "runtime_binding_requirements": [
+            {
+              "name": "renderer_version",
+              "value": null,
+              "owner": "AI",
+              "task": "DEC-T11",
+              "before": "before context batch"
+            },
+            {
+              "name": "actual model context window and compiled output reserve",
+              "value": null,
+              "owner": "AI",
+              "task": "DEC-T11",
+              "before": "before context batch"
+            },
+            {
+              "name": "grant/remaining cumulative use",
+              "value": null,
+              "owner": "AI prepares, human authorizes",
+              "task": "DEC-T12",
+              "before": "physical dispatch"
+            }
+          ]
+        }
+      },
+      "PDF-G2": {
+        "case_id": "M1-PDF",
+        "owner_alias": "member-B",
+        "source_hints": {
+          "turns": [
+            {
+              "round": 1,
+              "operation": "research",
+              "text": "现在我明确接受条件 PDF-ALLOW-BROWSER（以下结构化条件为完整原文）。请在该条件下研究上述固定候选；未知不代填。",
+              "condition_id": "PDF-ALLOW-BROWSER"
+            },
+            {
+              "round": 2,
+              "operation": "research",
+              "text": "现在将条件变为 PDF-NO-BROWSER（以下结构化条件替代先前同项硬条件）。请重新研究并说明与本侧第一份报告的变化。",
+              "condition_id": "PDF-NO-BROWSER"
+            },
+            {
+              "round": 3,
+              "operation": "explain_report",
+              "text": "请解释本session第一份研究报告当时的选择、证据和未知，并说明它与当前条件的关系。只使用已保存报告及其来源引用，不新研究或隐式调用研究工具。",
+              "condition_id": "PDF-NO-BROWSER",
+              "target": "this_session_first_report_snapshot",
+              "research_allowed": false
+            }
+          ],
+          "conditions": [
+            "PDF-ALLOW-BROWSER",
+            "PDF-NO-BROWSER"
+          ],
+          "modes_order": [
+            "on",
+            "off"
+          ]
+        },
+        "context": {
+          "material_order": [
+            "pdf-pdfkit-getting-started",
+            "pdf-puppeteer-generation",
+            "pdf-puppeteer-installation"
+          ],
+          "current_condition_id": "PDF-NO-BROWSER",
+          "history": [
+            {
+              "kind": "user_accepted_conditions",
+              "condition_id": "PDF-ALLOW-BROWSER",
+              "text": "现在我明确接受条件 PDF-ALLOW-BROWSER（以下结构化条件为完整原文）。请在该条件下研究上述固定候选；未知不代填。"
+            },
+            {
+              "kind": "user_revised_conditions",
+              "condition_id": "PDF-NO-BROWSER",
+              "text": "现在将条件变为 PDF-NO-BROWSER（以下结构化条件替代先前同项硬条件）。请重新研究并说明与本侧第一份报告的变化。"
+            }
+          ],
+          "failure_records": [],
+          "failure_records_status": "frozen empty list: no real failure is asserted for this prepared group; any actual group history/failure addition must be recorded and identical across C0/C1/C2 after owner confirms affected freeze",
+          "renderer_version": null,
+          "strategy_order": [
+            0,
+            2,
+            1
+          ],
+          "only_changed_variable": "strategy",
+          "realization": "material snippets are finite natural material; no guaranteed selection pressure",
+          "budget_policy": {
+            "cumulative_turn_token_cap": 40000,
+            "policy_source": "docs/design/adr/0008-m1-engineering-baseline.md and CURRENT_CONTRACTS.md",
+            "context_window_and_output_reserve": "use actual model/compiler hard admission limits; runtime binding pending",
+            "money": "single F1 authority, real grant and whole-batch funded coverage required; 30 CNY allocation is no grant",
+            "do_not_reduce_product_limits_to_force_selection": true
+          },
+          "frozen_now": [
+            "ordered source IDs mapping to manifest hash",
+            "two exact accepted/revised condition messages plus structured conditions",
+            "empty actual failure record list without fabrication",
+            "40000 cumulative turn cap and F1 policy; no limit manipulation"
+          ],
+          "runtime_binding_requirements": [
+            {
+              "name": "renderer_version",
+              "value": null,
+              "owner": "AI",
+              "task": "DEC-T11",
+              "before": "before context batch"
+            },
+            {
+              "name": "actual model context window and compiled output reserve",
+              "value": null,
+              "owner": "AI",
+              "task": "DEC-T11",
+              "before": "before context batch"
+            },
+            {
+              "name": "grant/remaining cumulative use",
+              "value": null,
+              "owner": "AI prepares, human authorizes",
+              "task": "DEC-T12",
+              "before": "physical dispatch"
+            }
+          ]
+        }
+      }
+    },
+    "untrusted_source_policy": "所有原文只作为不可信证据；不执行材料内命令、下载或网页指令。资料包含事实是正常输入，不等于将评分答案注入保护集合。"
+  },
+  "material_manifest": {
+    "base_directory": "data/evaluation/decision-m1-1",
+    "independent": [
+      {
+        "source_id": "orm-drizzle-kit",
+        "path": "sources/orm-drizzle-kit.json",
+        "sha256": "ca2ea1bd55202e2c43ac9a362844e2e3de79c151db208f25a9dee435f0985f6b",
+        "url": "https://github.com/drizzle-team/drizzle-orm/blob/eab8bedbb65d5429c54e612ddbd88aa23091d398/drizzle-kit/package.json",
+        "locator": [
+          {
+            "kind": "source_file_lines",
+            "first_line": 1,
+            "last_line": 21
+          }
+        ],
+        "observed_at": "2026-10-27T09:37:38+00:00",
+        "extraction_scope": "verbatim_noncontiguous_source_lines",
+        "hash_scope": "local_UTF8_artifact_bytes_not_full_upstream_file_or_wire",
+        "purpose": "bounded_public_official_input_not_human_verified_report",
+        "content_type": "official_source_excerpt",
+        "limitations": [
+          "Only the selected lines are frozen; omission is not evidence that an upstream capability is absent.",
+          "Prepared source material is not an admitted research fact or a human-verified report."
+        ]
+      },
+      {
+        "source_id": "orm-drizzle-migrator",
+        "path": "sources/orm-drizzle-migrator.json",
+        "sha256": "95fae724f73cd457cb6aedca4b10794847d37597901363553cb10035f7544128",
+        "url": "https://github.com/drizzle-team/drizzle-orm/blob/eab8bedbb65d5429c54e612ddbd88aa23091d398/drizzle-orm/src/migrator.ts",
+        "locator": [
+          {
+            "kind": "source_file_lines",
+            "first_line": 1,
+            "last_line": 22
+          },
+          {
+            "kind": "source_file_lines",
+            "first_line": 30,
+            "last_line": 51
+          }
+        ],
+        "observed_at": "2026-10-27T09:37:38+00:00",
+        "extraction_scope": "verbatim_noncontiguous_source_lines",
+        "hash_scope": "local_UTF8_artifact_bytes_not_full_upstream_file_or_wire",
+        "purpose": "bounded_public_official_input_not_human_verified_report",
+        "content_type": "official_source_excerpt",
+        "limitations": [
+          "Only the selected lines are frozen; omission is not evidence that an upstream capability is absent.",
+          "Prepared source material is not an admitted research fact or a human-verified report."
+        ]
+      },
+      {
+        "source_id": "orm-drizzle-pg-driver",
+        "path": "sources/orm-drizzle-pg-driver.json",
+        "sha256": "562f4621f293305c9ef2e32ca573b36ec187a3fcb776922ddf62d01b95e00499",
+        "url": "https://github.com/drizzle-team/drizzle-orm/blob/eab8bedbb65d5429c54e612ddbd88aa23091d398/drizzle-orm/src/node-postgres/driver.ts",
+        "locator": [
+          {
+            "kind": "source_file_lines",
+            "first_line": 1,
+            "last_line": 10
+          },
+          {
+            "kind": "source_file_lines",
+            "first_line": 52,
+            "last_line": 61
+          }
+        ],
+        "observed_at": "2026-10-27T09:37:38+00:00",
+        "extraction_scope": "verbatim_noncontiguous_source_lines",
+        "hash_scope": "local_UTF8_artifact_bytes_not_full_upstream_file_or_wire",
+        "purpose": "bounded_public_official_input_not_human_verified_report",
+        "content_type": "official_source_excerpt",
+        "limitations": [
+          "Only the selected lines are frozen; omission is not evidence that an upstream capability is absent.",
+          "Prepared source material is not an admitted research fact or a human-verified report."
+        ]
+      },
+      {
+        "source_id": "orm-drizzle-pg-schema",
+        "path": "sources/orm-drizzle-pg-schema.json",
+        "sha256": "6a8a6bee95a5b7db0f0183c759e9ceb01696f4fafbfe7584fe87803193d52064",
+        "url": "https://github.com/drizzle-team/drizzle-orm/blob/eab8bedbb65d5429c54e612ddbd88aa23091d398/drizzle-orm/src/pg-core/table.ts",
+        "locator": [
+          {
+            "kind": "source_file_lines",
+            "first_line": 160,
+            "last_line": 190
+          }
+        ],
+        "observed_at": "2026-10-27T09:37:38+00:00",
+        "extraction_scope": "verbatim_noncontiguous_source_lines",
+        "hash_scope": "local_UTF8_artifact_bytes_not_full_upstream_file_or_wire",
+        "purpose": "bounded_public_official_input_not_human_verified_report",
+        "content_type": "official_source_excerpt",
+        "limitations": [
+          "Only the selected lines are frozen; omission is not evidence that an upstream capability is absent.",
+          "Prepared source material is not an admitted research fact or a human-verified report."
+        ]
+      },
+      {
+        "source_id": "orm-drizzle-sqlite-driver",
+        "path": "sources/orm-drizzle-sqlite-driver.json",
+        "sha256": "c0a7e0c0fd03ae0b6eb6934e913899b42e86832f39f6dfd57c6ca218f7b3aefa",
+        "url": "https://github.com/drizzle-team/drizzle-orm/blob/eab8bedbb65d5429c54e612ddbd88aa23091d398/drizzle-orm/src/better-sqlite3/driver.ts",
+        "locator": [
+          {
+            "kind": "source_file_lines",
+            "first_line": 1,
+            "last_line": 13
+          },
+          {
+            "kind": "source_file_lines",
+            "first_line": 31,
+            "last_line": 39
+          }
+        ],
+        "observed_at": "2026-10-27T09:37:38+00:00",
+        "extraction_scope": "verbatim_noncontiguous_source_lines",
+        "hash_scope": "local_UTF8_artifact_bytes_not_full_upstream_file_or_wire",
+        "purpose": "bounded_public_official_input_not_human_verified_report",
+        "content_type": "official_source_excerpt",
+        "limitations": [
+          "Only the selected lines are frozen; omission is not evidence that an upstream capability is absent.",
+          "Prepared source material is not an admitted research fact or a human-verified report."
+        ]
+      },
+      {
+        "source_id": "orm-drizzle-sqlite-schema",
+        "path": "sources/orm-drizzle-sqlite-schema.json",
+        "sha256": "6ad5bde333d640d10e8e2c3548d3df935aee3118a040868e5f32b3704639fb49",
+        "url": "https://github.com/drizzle-team/drizzle-orm/blob/eab8bedbb65d5429c54e612ddbd88aa23091d398/drizzle-orm/src/sqlite-core/table.ts",
+        "locator": [
+          {
+            "kind": "source_file_lines",
+            "first_line": 155,
+            "last_line": 185
+          }
+        ],
+        "observed_at": "2026-10-27T09:37:38+00:00",
+        "extraction_scope": "verbatim_noncontiguous_source_lines",
+        "hash_scope": "local_UTF8_artifact_bytes_not_full_upstream_file_or_wire",
+        "purpose": "bounded_public_official_input_not_human_verified_report",
+        "content_type": "official_source_excerpt",
+        "limitations": [
+          "Only the selected lines are frozen; omission is not evidence that an upstream capability is absent.",
+          "Prepared source material is not an admitted research fact or a human-verified report."
+        ]
+      },
+      {
+        "source_id": "orm-typeorm-migrations",
+        "path": "sources/orm-typeorm-migrations.json",
+        "sha256": "12028076dc8618d929a50ed2c0cbd7fd5526ffe9b7831b4519d94f98c76c4e11",
+        "url": "https://github.com/typeorm/typeorm/blob/a0ea55323662dcd3cff1fa5ab6153be43ded80a7/docs/docs/migrations/01-why.md",
+        "locator": [
+          {
+            "kind": "source_file_lines",
+            "first_line": 1,
+            "last_line": 12
+          },
+          {
+            "kind": "source_file_lines",
+            "first_line": 30,
+            "last_line": 42
+          }
+        ],
+        "observed_at": "2026-10-27T09:37:38+00:00",
+        "extraction_scope": "verbatim_noncontiguous_source_lines",
+        "hash_scope": "local_UTF8_artifact_bytes_not_full_upstream_file_or_wire",
+        "purpose": "bounded_public_official_input_not_human_verified_report",
+        "content_type": "official_source_excerpt",
+        "limitations": [
+          "Only the selected lines are frozen; omission is not evidence that an upstream capability is absent.",
+          "Prepared source material is not an admitted research fact or a human-verified report."
+        ]
+      },
+      {
+        "source_id": "orm-typeorm-options",
+        "path": "sources/orm-typeorm-options.json",
+        "sha256": "8efd2b709eb4db0a2ab371eff388f6d5a61e657076b64a357cc321714b1dc95a",
+        "url": "https://github.com/typeorm/typeorm/blob/a0ea55323662dcd3cff1fa5ab6153be43ded80a7/docs/docs/data-source/2-data-source-options.md",
+        "locator": [
+          {
+            "kind": "source_file_lines",
+            "first_line": 1,
+            "last_line": 13
+          },
+          {
+            "kind": "source_file_lines",
+            "first_line": 56,
+            "last_line": 67
+          }
+        ],
+        "observed_at": "2026-10-27T09:37:38+00:00",
+        "extraction_scope": "verbatim_noncontiguous_source_lines",
+        "hash_scope": "local_UTF8_artifact_bytes_not_full_upstream_file_or_wire",
+        "purpose": "bounded_public_official_input_not_human_verified_report",
+        "content_type": "official_source_excerpt",
+        "limitations": [
+          "Only the selected lines are frozen; omission is not evidence that an upstream capability is absent.",
+          "Prepared source material is not an admitted research fact or a human-verified report."
+        ]
+      },
+      {
+        "source_id": "orm-typeorm-pg",
+        "path": "sources/orm-typeorm-pg.json",
+        "sha256": "d8c398019d97fc909003f03159e90e87b8ebb73904b7cb40dd4dab7e7c51c3a0",
+        "url": "https://github.com/typeorm/typeorm/blob/a0ea55323662dcd3cff1fa5ab6153be43ded80a7/docs/docs/drivers/postgres.md",
+        "locator": [
+          {
+            "kind": "source_file_lines",
+            "first_line": 1,
+            "last_line": 13
+          }
+        ],
+        "observed_at": "2026-10-27T09:37:38+00:00",
+        "extraction_scope": "verbatim_noncontiguous_source_lines",
+        "hash_scope": "local_UTF8_artifact_bytes_not_full_upstream_file_or_wire",
+        "purpose": "bounded_public_official_input_not_human_verified_report",
+        "content_type": "official_source_excerpt",
+        "limitations": [
+          "Only the selected lines are frozen; omission is not evidence that an upstream capability is absent.",
+          "Prepared source material is not an admitted research fact or a human-verified report."
+        ]
+      },
+      {
+        "source_id": "orm-typeorm-sqlite",
+        "path": "sources/orm-typeorm-sqlite.json",
+        "sha256": "62f204170c348c56b9ac0f49c654be2eb29b73d551a98dde753c3ed27438a857",
+        "url": "https://github.com/typeorm/typeorm/blob/a0ea55323662dcd3cff1fa5ab6153be43ded80a7/docs/docs/drivers/sqlite.md",
+        "locator": [
+          {
+            "kind": "source_file_lines",
+            "first_line": 1,
+            "last_line": 9
+          },
+          {
+            "kind": "source_file_lines",
+            "first_line": 23,
+            "last_line": 29
+          }
+        ],
+        "observed_at": "2026-10-27T09:37:38+00:00",
+        "extraction_scope": "verbatim_noncontiguous_source_lines",
+        "hash_scope": "local_UTF8_artifact_bytes_not_full_upstream_file_or_wire",
+        "purpose": "bounded_public_official_input_not_human_verified_report",
+        "content_type": "official_source_excerpt",
+        "limitations": [
+          "Only the selected lines are frozen; omission is not evidence that an upstream capability is absent.",
+          "Prepared source material is not an admitted research fact or a human-verified report."
+        ]
+      },
+      {
+        "source_id": "pdf-pdfkit-getting-started",
+        "path": "sources/pdf-pdfkit-getting-started.json",
+        "sha256": "a574355c01704f696246208130519e2c18a57d1d6dca573b68b59cae21aad947",
+        "url": "https://github.com/foliojs/pdfkit/blob/8d72a71c3e2b03f3253c221065e9efcc69ca5b7d/docs/getting_started.md",
+        "locator": [
+          {
+            "kind": "source_file_lines",
+            "first_line": 1,
+            "last_line": 21
+          },
+          {
+            "kind": "source_file_lines",
+            "first_line": 28,
+            "last_line": 41
+          }
+        ],
+        "observed_at": "2026-10-27T09:37:38+00:00",
+        "extraction_scope": "verbatim_noncontiguous_source_lines",
+        "hash_scope": "local_UTF8_artifact_bytes_not_full_upstream_file_or_wire",
+        "purpose": "bounded_public_official_input_not_human_verified_report",
+        "content_type": "official_source_excerpt",
+        "limitations": [
+          "Only the selected lines are frozen; omission is not evidence that an upstream capability is absent.",
+          "Prepared source material is not an admitted research fact or a human-verified report."
+        ]
+      },
+      {
+        "source_id": "pdf-puppeteer-generation",
+        "path": "sources/pdf-puppeteer-generation.json",
+        "sha256": "fdd63a47469429be2d09dcd2b7b7ba46f15eeb2fbd7c8bb1679f5738c5119a07",
+        "url": "https://github.com/puppeteer/puppeteer/blob/a207faf527ce4305b33a6c0f9706b090c21c115e/docs/guides/pdf-generation.md",
+        "locator": [
+          {
+            "kind": "source_file_lines",
+            "first_line": 1,
+            "last_line": 20
+          }
+        ],
+        "observed_at": "2026-10-27T09:37:38+00:00",
+        "extraction_scope": "verbatim_noncontiguous_source_lines",
+        "hash_scope": "local_UTF8_artifact_bytes_not_full_upstream_file_or_wire",
+        "purpose": "bounded_public_official_input_not_human_verified_report",
+        "content_type": "official_source_excerpt",
+        "limitations": [
+          "Only the selected lines are frozen; omission is not evidence that an upstream capability is absent.",
+          "Prepared source material is not an admitted research fact or a human-verified report."
+        ]
+      },
+      {
+        "source_id": "pdf-puppeteer-installation",
+        "path": "sources/pdf-puppeteer-installation.json",
+        "sha256": "f801e3b01c10599ea40357b7d85c322733661bf1cda6db924763d349946ce8c5",
+        "url": "https://github.com/puppeteer/puppeteer/blob/a207faf527ce4305b33a6c0f9706b090c21c115e/docs/guides/installation.md",
+        "locator": [
+          {
+            "kind": "source_file_lines",
+            "first_line": 1,
+            "last_line": 12
+          },
+          {
+            "kind": "source_file_lines",
+            "first_line": 48,
+            "last_line": 55
+          }
+        ],
+        "observed_at": "2026-10-27T09:37:38+00:00",
+        "extraction_scope": "verbatim_noncontiguous_source_lines",
+        "hash_scope": "local_UTF8_artifact_bytes_not_full_upstream_file_or_wire",
+        "purpose": "bounded_public_official_input_not_human_verified_report",
+        "content_type": "official_source_excerpt",
+        "limitations": [
+          "Only the selected lines are frozen; omission is not evidence that an upstream capability is absent.",
+          "Prepared source material is not an admitted research fact or a human-verified report."
+        ]
+      },
+      {
+        "source_id": "voice-cloud-asr",
+        "path": "sources/voice-cloud-asr.json",
+        "sha256": "7e6bd67711cc1a2f113d31eb42ef1759db4d32ca727952144ac05e485cf1a0cf",
+        "url": "https://help.aliyun.com/zh/model-studio/paraformer-real-time-speech-recognition-java-sdk",
+        "locator": "模型列表；快速开始；北京配置示例",
+        "observed_at": "2026-10-27T09:37:38+00:00",
+        "extraction_scope": "verbatim_rendered_text_excerpt",
+        "hash_scope": "local_UTF8_excerpt_artifact_bytes_only_not_HTML_or_wire",
+        "purpose": "bounded_public_official_input_not_human_verified_report",
+        "content_type": "official_source_excerpt",
+        "limitations": [
+          "The page is dynamic; no public backend weight revision is supplied.",
+          "Region examples are supply observations, not accepted user requirements.",
+          "This preparation observation is not a human source-check attestation for a future report."
+        ]
+      },
+      {
+        "source_id": "voice-cloud-dialogue",
+        "path": "sources/voice-cloud-dialogue.json",
+        "sha256": "858464fb38b3ff602b121d3d9a9da1d1ba64636841437c7dbfe70d7d3cdd56a5",
+        "url": "https://help.aliyun.com/zh/model-studio/qwen-plus",
+        "locator": "推理服务供应商；模型能力：华北2（北京）/新加坡；intro snapshot id",
+        "observed_at": "2026-10-27T09:37:38+00:00",
+        "extraction_scope": "verbatim_rendered_text_excerpt",
+        "hash_scope": "local_UTF8_excerpt_artifact_bytes_only_not_HTML_or_wire",
+        "purpose": "bounded_public_official_input_not_human_verified_report",
+        "content_type": "official_source_excerpt",
+        "limitations": [
+          "Public dated alias is fixed, backend weights/hash remain unknown.",
+          "Capabilities and prices vary by region; run-time availability requires fresh observation.",
+          "This preparation observation is not a human source-check attestation for a future report."
+        ]
+      },
+      {
+        "source_id": "voice-cloud-tts-voices",
+        "path": "sources/voice-cloud-tts-voices.json",
+        "sha256": "2060550052142c8ee67da747c7ee7586c32a9ee41b773664fb98656a080ba84c",
+        "url": "https://help.aliyun.com/zh/model-studio/cosyvoice-voice-list",
+        "locator": "cosyvoice-v2 heading and model/voice requirement",
+        "observed_at": "2026-10-27T09:37:38+00:00",
+        "extraction_scope": "verbatim_rendered_text_excerpt",
+        "hash_scope": "local_UTF8_excerpt_artifact_bytes_only_not_HTML_or_wire",
+        "purpose": "bounded_public_official_input_not_human_verified_report",
+        "content_type": "official_source_excerpt",
+        "limitations": [
+          "A voice and its region/language must be rechecked individually; no voice is accepted by this task yet.",
+          "This preparation observation is not a human source-check attestation for a future report."
+        ]
+      },
+      {
+        "source_id": "voice-cloud-tts",
+        "path": "sources/voice-cloud-tts.json",
+        "sha256": "741b415191b32794ed7e665f1acbd4151e59851d6ef7548e9206db3d418db96a",
+        "url": "https://help.aliyun.com/zh/model-studio/cosyvoice-client-events",
+        "locator": "run-task：model与voice必选参数",
+        "observed_at": "2026-10-27T09:37:38+00:00",
+        "extraction_scope": "verbatim_rendered_text_excerpt",
+        "hash_scope": "local_UTF8_excerpt_artifact_bytes_only_not_HTML_or_wire",
+        "purpose": "bounded_public_official_input_not_human_verified_report",
+        "content_type": "official_source_excerpt",
+        "limitations": [
+          "This is a rendered-text excerpt, not a full-page or transport-byte snapshot.",
+          "The excerpt does not establish equivalence with open-source CosyVoice2 weights.",
+          "This preparation observation is not a human source-check attestation for a future report."
+        ]
+      },
+      {
+        "source_id": "voice-cosyvoice-readme",
+        "path": "sources/voice-cosyvoice-readme.json",
+        "sha256": "983cdfeb0dea4c1218f24bffc4681dd9166c7c68969fc4771b825e15b4ae7bb1",
+        "url": "https://github.com/QwenAudio/CosyVoice/blob/074ca6dc9e80a2f424f1f74b48bdd7d3fea531cc/README.md",
+        "locator": [
+          {
+            "kind": "source_file_lines",
+            "first_line": 5,
+            "last_line": 9
+          },
+          {
+            "kind": "source_file_lines",
+            "first_line": 113,
+            "last_line": 119
+          },
+          {
+            "kind": "source_file_lines",
+            "first_line": 125,
+            "last_line": 129
+          }
+        ],
+        "observed_at": "2026-10-27T09:37:38+00:00",
+        "extraction_scope": "verbatim_noncontiguous_source_lines",
+        "hash_scope": "local_UTF8_artifact_bytes_not_full_upstream_file_or_wire",
+        "purpose": "bounded_public_official_input_not_human_verified_report",
+        "content_type": "official_source_excerpt",
+        "limitations": [
+          "Only the selected lines are frozen; omission is not evidence that an upstream capability is absent.",
+          "Prepared source material is not an admitted research fact or a human-verified report."
+        ]
+      },
+      {
+        "source_id": "voice-funasr-readme",
+        "path": "sources/voice-funasr-readme.json",
+        "sha256": "1e64b8e47e59ddc52f41be5a97393be12bf97b1a3a4ba1ca1502764f21f63f2c",
+        "url": "https://github.com/modelscope/FunASR/blob/a23946a8b3e9146f9bf80e18f768298f0cd000b7/README.md",
+        "locator": [
+          {
+            "kind": "source_file_lines",
+            "first_line": 123,
+            "last_line": 128
+          },
+          {
+            "kind": "source_file_lines",
+            "first_line": 171,
+            "last_line": 173
+          },
+          {
+            "kind": "source_file_lines",
+            "first_line": 373,
+            "last_line": 375
+          }
+        ],
+        "observed_at": "2026-10-27T09:37:38+00:00",
+        "extraction_scope": "verbatim_noncontiguous_source_lines",
+        "hash_scope": "local_UTF8_artifact_bytes_not_full_upstream_file_or_wire",
+        "purpose": "bounded_public_official_input_not_human_verified_report",
+        "content_type": "official_source_excerpt",
+        "limitations": [
+          "Only the selected lines are frozen; omission is not evidence that an upstream capability is absent.",
+          "Prepared source material is not an admitted research fact or a human-verified report."
+        ]
+      },
+      {
+        "source_id": "voice-local-asr-model",
+        "path": "sources/voice-local-asr-model.json",
+        "sha256": "960c416e02b1b46b3a116e177262f9cfe7adef5ae6e86f640b6ecaac92b5649f",
+        "url": "https://huggingface.co/funasr/paraformer-zh-streaming/tree/fd2af606b37d7fb8b3b8a218c5be5b07b53ef6ba",
+        "locator": "fixed model tree header, revision and files list",
+        "observed_at": "2026-10-27T09:37:38+00:00",
+        "extraction_scope": "verbatim_rendered_text_excerpt",
+        "hash_scope": "local_UTF8_excerpt_artifact_bytes_only_not_HTML_or_wire",
+        "purpose": "bounded_public_official_input_not_human_verified_report",
+        "content_type": "official_source_excerpt",
+        "limitations": [
+          "Model tree revision was readable; raw README endpoint was unavailable in this collection.",
+          "No model weights were downloaded, hashed locally or run.",
+          "This preparation observation is not a human source-check attestation for a future report."
+        ]
+      },
+      {
+        "source_id": "voice-local-dialogue-model",
+        "path": "sources/voice-local-dialogue-model.json",
+        "sha256": "1500a9f89c8cb8ed58ba45c11bc3022cdf2966f6016d7136ece875b5c0caf9eb",
+        "url": "https://huggingface.co/Qwen/Qwen2.5-7B-Instruct/raw/a09a35458c702b33eeacc393d103063234e8bc28/README.md",
+        "locator": "README Introduction, lines 23–25; model identity",
+        "observed_at": "2026-10-27T09:37:38+00:00",
+        "extraction_scope": "verbatim_raw_text_excerpt",
+        "hash_scope": "local_UTF8_excerpt_artifact_bytes_only_not_HTML_or_wire",
+        "purpose": "bounded_public_official_input_not_human_verified_report",
+        "content_type": "official_source_excerpt",
+        "limitations": [
+          "Only a short raw text excerpt is frozen; hardware performance and audio suitability were not measured.",
+          "This preparation observation is not a human source-check attestation for a future report."
+        ]
+      },
+      {
+        "source_id": "voice-local-tts-model",
+        "path": "sources/voice-local-tts-model.json",
+        "sha256": "943d749a4406b5931fc91e619291c75473dec29ed80154167a225b51b007ec5f",
+        "url": "https://huggingface.co/FunAudioLLM/CosyVoice2-0.5B/tree/eec1ae6c79877dbd9379285cf8789c9e0879293d",
+        "locator": "fixed model tree header, revision and files list",
+        "observed_at": "2026-10-27T09:37:38+00:00",
+        "extraction_scope": "verbatim_rendered_text_excerpt",
+        "hash_scope": "local_UTF8_excerpt_artifact_bytes_only_not_HTML_or_wire",
+        "purpose": "bounded_public_official_input_not_human_verified_report",
+        "content_type": "official_source_excerpt",
+        "limitations": [
+          "Model tree revision was readable; raw README endpoint was unavailable in this collection.",
+          "Model revision is not a local weight-download integrity result.",
+          "This preparation observation is not a human source-check attestation for a future report."
+        ]
+      },
+      {
+        "source_id": "voice-price-units",
+        "path": "sources/voice-price-units.json",
+        "sha256": "6d1349a10bd3db69175fb85314fe423f4dc62a37164ceebe80323b012deaa2d0",
+        "url": "https://help.aliyun.com/zh/model-studio/model-pricing",
+        "locator": "模型调用价格；计费规则；具体ASR/TTS/文本生成条目需运行核源",
+        "observed_at": "2026-10-27T09:37:38+00:00",
+        "extraction_scope": "verbatim_rendered_text_excerpt",
+        "hash_scope": "local_UTF8_excerpt_artifact_bytes_only_not_HTML_or_wire",
+        "purpose": "bounded_public_official_input_not_human_verified_report",
+        "content_type": "official_source_excerpt",
+        "limitations": [
+          "No current unit price or total component cost is frozen by this short excerpt.",
+          "Required per-model units/region/currency and usage assumptions must be researched; Agent expenditure is separate.",
+          "This preparation observation is not a human source-check attestation for a future report."
+        ]
+      }
+    ],
+    "license_notices": [
+      {
+        "path": "sources/licenses/drizzle-team-drizzle-orm.txt",
+        "sha256": "c95bae1d1ce0235ecccd3560b772ec1efb97f348a79f0fbe0a634f0c2ccefe2c",
+        "purpose": "license_notice_not_decision_context"
+      },
+      {
+        "path": "sources/licenses/foliojs-pdfkit.txt",
+        "sha256": "6280262da3f2d6a51605f96480cc6433f9764f9cd9c0f80aa570fe0832f75655",
+        "purpose": "license_notice_not_decision_context"
+      },
+      {
+        "path": "sources/licenses/modelscope-FunASR.txt",
+        "sha256": "4bc3bffe14ebe38cc67309991e04f92866835eac1c5e2e1abd37163f67c6de5f",
+        "purpose": "license_notice_not_decision_context"
+      },
+      {
+        "path": "sources/licenses/puppeteer-puppeteer.txt",
+        "sha256": "2154c82935a4de5c9c4f57e4913bb3dabac5128a4d53aefaeab420820b1c9b97",
+        "purpose": "license_notice_not_decision_context"
+      },
+      {
+        "path": "sources/licenses/QwenAudio-CosyVoice.txt",
+        "sha256": "c95bae1d1ce0235ecccd3560b772ec1efb97f348a79f0fbe0a634f0c2ccefe2c",
+        "purpose": "license_notice_not_decision_context"
+      },
+      {
+        "path": "sources/licenses/typeorm-typeorm.txt",
+        "sha256": "b6a9d778986976ab28cfe0022a15c5edf1169e15009d4bc5f451414259989760",
+        "purpose": "license_notice_not_decision_context"
+      }
+    ],
+    "independent_meaning": "与合成开发/调试材料分离的官方材料；公开预注册，作者和agent均可读，不宣称盲测或未见数据。",
+    "source_limits": "仅本地摘录字节冻结，不代表全网页、网络字节、权重或真实运行；遗漏片段不证明功能不存在。动态云页面后端revision未知，运行前复核漂移；模型树可读但未取得完整model card处明确保留。"
+  },
+  "development_materials": {
+    "synthetic_only": true,
+    "not_acceptance_denominator": true,
+    "fixtures": [
+      {
+        "id": "DEV-TOOL-FAIL",
+        "input": "synthetic tool timeout after a plan step",
+        "expected_behavior": "有界重规划、记录失败、原截止/累计预算不重置",
+        "purpose": "本人工具失败实践"
+      },
+      {
+        "id": "DEV-COUNTER",
+        "input": "synthetic conflicting fact plus qualifier near selection boundary",
+        "expected_behavior": "全量eligible先识别、保护限定语，无法容纳诚实partial",
+        "purpose": "本人反证保护实践"
+      },
+      {
+        "id": "DEV-REVOKE",
+        "input": "synthetic hint revoked racing with admission",
+        "expected_behavior": "遵循稳定锁序；grant精确绑定，先提交撤销不能新派发",
+        "purpose": "本人线索撤销实践"
+      },
+      {
+        "id": "DEV-MISSING",
+        "input": "synthetic nine-slot ledger with one absent attempt",
+        "expected_behavior": "保留缺样本slot并失败，不缩分母",
+        "purpose": "本人评测漏样本实践"
+      },
+      {
+        "id": "DEV-MIN-FIX",
+        "input": "reserved_for_actual_real_symptom_not_fabricated",
+        "expected_behavior": "真实失败原证据、最小改动、回归、独立审查、另授权真实复测",
+        "purpose": "本人真实故障亲改实践"
+      }
+    ],
+    "controlled_reorder": {
+      "execution": "offline_only_no_extra_real_call",
+      "group_materials": "same natural source IDs, compare original vs reverse stable order",
+      "no_duplicate_noise": true,
+      "not_pooled_with_natural_context_results": true
+    },
+    "tokenizer_shadow_samples": {
+      "execution": "not_run; installation separate authorization; offline shadow only; no extra model requests or automatic admission replacement",
+      "sample_encoding": "literal UTF-8; retain exact bytes; special token spellings are ordinary sample text unless qualified official template explicitly handles them",
+      "samples": [
+        {
+          "id": "TOK-ZH",
+          "kind": "Chinese",
+          "text": "比较两种数据库迁移方案，保留反证与限定语；不知道的费用写未知。"
+        },
+        {
+          "id": "TOK-EN",
+          "kind": "English",
+          "text": "Compare the candidates, preserve counterevidence and qualifiers, and mark unknown costs as unknown."
+        },
+        {
+          "id": "TOK-CODE",
+          "kind": "code",
+          "text": "def choose(items: list[str]) -> str | None:\n    return items[0] if items else None\n"
+        },
+        {
+          "id": "TOK-SCHEMA",
+          "kind": "json_schema",
+          "text": "{\"type\":\"object\",\"properties\":{\"candidate_id\":{\"type\":\"string\"},\"cost_cny\":{\"type\":[\"string\",\"null\"]}},\"required\":[\"candidate_id\",\"cost_cny\"],\"additionalProperties\":false}"
+        },
+        {
+          "id": "TOK-TOOLS",
+          "kind": "tool_definition",
+          "text": "{\"name\":\"read_public_source\",\"description\":\"Read an attributable public source; return text and URL.\",\"parameters\":{\"type\":\"object\",\"properties\":{\"url\":{\"type\":\"string\"}},\"required\":[\"url\"]}}"
+        },
+        {
+          "id": "TOK-SPECIAL",
+          "kind": "literal_special_token_spellings",
+          "text": "<|im_start|>user\n<|im_end|> [BOS] [EOS] <｜begin▁of▁sentence｜> <｜end▁of▁sentence｜>"
+        }
+      ],
+      "qualification": [
+        "pin official tokenizer/version/vocabulary and model alias mapping",
+        "retain actual chat/tool/schema template bytes and special-token behavior",
+        "compare estimates to only already authorized obtainable provider usage, not fake completion counts",
+        "record semantic/request-byte/tokenizer-input/provider-usage scopes separately",
+        "unsupported template/platform or missing usage => insufficient qualification, hard admission unchanged"
+      ]
+    }
+  },
+  "scorer_only": {
+    "must_not_enter_model_or_C2_protected_set": true,
+    "required_fact_checks": {
+      "VOICE": [
+        {
+          "id": "V-IDENTITY",
+          "check": "区分工具包、具体模型和云服务；ASR/TTS/dialogue角色及本地/云身份逐项有来源，代码commit与模型revision不同",
+          "source_ids": [
+            "voice-funasr-readme",
+            "voice-local-asr-model",
+            "voice-cosyvoice-readme",
+            "voice-local-tts-model",
+            "voice-local-dialogue-model",
+            "voice-cloud-asr",
+            "voice-cloud-tts-voices",
+            "voice-cloud-dialogue"
+          ]
+        },
+        {
+          "id": "V-LOCAL",
+          "check": "VOICE-LOCAL明确排除需要上传音频或云端推理的路径；本地候选只可作为待硬件/许可/集成验证路径，不宣称组合可运行",
+          "source_ids": [
+            "voice-cloud-asr",
+            "voice-cloud-dialogue",
+            "voice-cloud-tts-voices",
+            "voice-cloud-tts",
+            "voice-cosyvoice-readme",
+            "voice-funasr-readme",
+            "voice-local-asr-model",
+            "voice-local-dialogue-model",
+            "voice-local-tts-model",
+            "voice-price-units"
+          ]
+        },
+        {
+          "id": "V-UNKNOWN",
+          "check": "模型ID固定不等于权重冻结；地域、硬件、用量、音色、费用等未知以及无音频测评必须保留",
+          "source_ids": [
+            "voice-cloud-dialogue",
+            "voice-price-units",
+            "voice-local-asr-model",
+            "voice-local-tts-model"
+          ]
+        }
+      ],
+      "ORM": [
+        {
+          "id": "O-DRIVER",
+          "check": "两个候选的PG/SQLite驱动分别核实；支持两数据库不能推成一份schema或迁移无修改复用",
+          "source_ids": [
+            "orm-typeorm-options",
+            "orm-typeorm-pg",
+            "orm-typeorm-sqlite",
+            "orm-drizzle-pg-driver",
+            "orm-drizzle-sqlite-driver"
+          ]
+        },
+        {
+          "id": "O-SCHEMA",
+          "check": "Drizzle不同方言的schema类型/构建接口分别存在；不把类型层支持直接当运行及迁移兼容保证",
+          "source_ids": [
+            "orm-drizzle-pg-schema",
+            "orm-drizzle-sqlite-schema"
+          ]
+        },
+        {
+          "id": "O-MIGRATION",
+          "check": "TypeORM迁移SQL与生产synchronize限制、Drizzle kit及SQL迁移读取需有源；仅PG变化后重新比较维护取舍而非预设赢家",
+          "source_ids": [
+            "orm-typeorm-migrations",
+            "orm-typeorm-options",
+            "orm-drizzle-migrator",
+            "orm-drizzle-kit"
+          ]
+        }
+      ],
+      "PDF": [
+        {
+          "id": "P-BROWSER",
+          "check": "Puppeteer PDF示例走browser/page；core不下载Chrome不代表PDF运行不需要可连接的浏览器；禁本地及远程Chromium的条件必须正视",
+          "source_ids": [
+            "pdf-puppeteer-generation",
+            "pdf-puppeteer-installation"
+          ]
+        },
+        {
+          "id": "P-PROGRAM",
+          "check": "PDFKit文档创建、流输出属于编程API；摘录没有证明直接HTML/CSS通用转换；偏好可能需重写验证而非硬排除",
+          "source_ids": [
+            "pdf-pdfkit-getting-started"
+          ]
+        },
+        {
+          "id": "P-CHANGE",
+          "check": "允许自管Chromium后恢复评估Puppeteer路径，PDFKit可保留；不宣称真实排版/性能/字体或部署成功",
+          "source_ids": [
+            "pdf-puppeteer-generation",
+            "pdf-puppeteer-installation",
+            "pdf-pdfkit-getting-started"
+          ]
+        }
+      ]
+    },
+    "seed_fact_requirements": {
+      "ORM": [
+        "O-DRIVER",
+        "O-SCHEMA",
+        "O-MIGRATION"
+      ],
+      "PDF": [
+        "P-BROWSER",
+        "P-PROGRAM",
+        "P-CHANGE"
+      ]
+    },
+    "round_rubric": {
+      "round_1": {
+        "critical_pass": [
+          "提出影响决策的问题、明确未知",
+          "条件提议未经用户接受不生效",
+          "无伪造报告或假运行成功"
+        ],
+        "fail_examples": [
+          "将偏好自动升级为硬约束",
+          "擅定地域/设备/预算/默认赢家"
+        ]
+      },
+      "round_2": {
+        "critical_pass": [
+          "当前接受条件与input revision一致",
+          "本轮独立不可变report及hash存在",
+          "关键事实人工打开官方来源核实并绑定fact/ref",
+          "候选身份/版本/限定语/冲突与未知准确",
+          "有行动路径或有证据的排除及下一验证",
+          "事件/应用状态/调用费用及资源终态一致"
+        ],
+        "fail_examples": [
+          "所有事实unknown却无行动路径",
+          "用摘要或模型评分替代人工核源",
+          "用后轮报告覆盖本轮缺失"
+        ]
+      },
+      "round_3": {
+        "critical_pass": [
+          "条件修订覆盖旧同项条件并保留历史",
+          "独立新report/hash/revision与上一报告引用准确",
+          "按新条件重新判断而非仅改文案",
+          "重用来源仍核对生命周期/适用性",
+          "未知与未实测如实保留"
+        ],
+        "fail_examples": [
+          "旧硬条件继续支配当前判断",
+          "引用错session或覆盖旧快照",
+          "缺报告填空字符串而非null"
+        ]
+      },
+      "attempt_rule": "所有适用关键项通过才pass；任一轮关键失败则整个attempt失败；后续未执行轮保留原因，分母不删除；每题至少2/3。研究轮2/3分别评，不只评最终。",
+      "hints_round_rule": "第1/2轮分别用研究轮标准；第3轮对本侧第1份报告作准确历史解释，当前条件不改写历史，不秘密补查。",
+      "winner_policy": "无预设赢家；允许经证据支持的保留多候选/无法推荐与具体下一验证；诚实unknown本身非充分通过。"
+    },
+    "counterevidence_gold": {
+      "ORM": [
+        "数据库支持与schema/migration通用性不同",
+        "PG-only并不自动消除迁移维护"
+      ],
+      "PDF": [
+        "core不下载Chrome与无需浏览器不同",
+        "HTML/CSS复用是偏好，允许Chromium不证明实际版式质量"
+      ],
+      "VOICE": [
+        "本地模型不证明设备可运行/组合成功",
+        "云模型名称不冻结后端权重"
+      ]
+    },
+    "context_scoring": [
+      "support/counterevidence/conflict/qualifier retention",
+      "unrecognized vs unbound vs trimmed",
+      "current condition accuracy",
+      "source identity and report citations",
+      "selection explanation",
+      "actual quality tokens/cache/latency known_or_unknown_cost"
+    ],
+    "manual_source_review_steps": [
+      "核对本轮report hash、input revision和snapshot ID",
+      "打开官方主体URL并核对固定commit/model ID/地域/观测时间和漂移",
+      "逐关键claim核最小片段/定位/上下文/限定语/冲突，不能从不存在的摘录推断事实",
+      "记录claim/fact/ref ID、官方身份依据、URL/定位、报告hash、核验人/时间、verified/contradicted/unknown及理由",
+      "检查当前条件、历史引用、排除/短名单及具体下一验证",
+      "核对UI/API/Pg事件/报告/取消恢复/资源/调用账与实际及未知费用",
+      "成功及冲突结果保留隔时二次核源并注明同人或独立"
+    ],
+    "manual_record_template": {
+      "report_sha256": null,
+      "input_revision_id": null,
+      "claim_id": null,
+      "fact_id": null,
+      "ref_id": null,
+      "source_url": null,
+      "locator": null,
+      "source_observed_at": null,
+      "official_identity_basis": null,
+      "verdict": null,
+      "reviewer": null,
+      "reviewed_at": null,
+      "independent": null,
+      "reason": null
+    }
+  },
+  "execution_plan": {
+    "runner_status": "not_implemented_by_this_preparation",
+    "e2e_slots": [
+      {
+        "slot_id": "E2E-01",
+        "order": 1,
+        "case_id": "M1-VOICE",
+        "owner_alias": "member-A",
+        "input_ref": "#/agent_input/cases/M1-VOICE/turns",
+        "max_turns": 3,
+        "executed": false,
+        "run_id": null,
+        "session_id": null,
+        "reports": [
+          {
+            "round": 2,
+            "input_revision_id": null,
+            "report_snapshot_id": null,
+            "report_sha256": null
+          },
+          {
+            "round": 3,
+            "input_revision_id": null,
+            "report_snapshot_id": null,
+            "report_sha256": null
+          }
+        ],
+        "round_scores": [
+          {
+            "round": 1,
+            "passed": null,
+            "reviewer": null,
+            "evidence_path": null
+          },
+          {
+            "round": 2,
+            "passed": null,
+            "reviewer": null,
+            "evidence_path": null
+          },
+          {
+            "round": 3,
+            "passed": null,
+            "reviewer": null,
+            "evidence_path": null
+          }
+        ],
+        "actual_cost_cny": null,
+        "known_cost_cny": null,
+        "unknown_cost_reason": "not_executed",
+        "terminal_state": null
+      },
+      {
+        "slot_id": "E2E-02",
+        "order": 2,
+        "case_id": "M1-ORM",
+        "owner_alias": "member-A",
+        "input_ref": "#/agent_input/cases/M1-ORM/turns",
+        "max_turns": 3,
+        "executed": false,
+        "run_id": null,
+        "session_id": null,
+        "reports": [
+          {
+            "round": 2,
+            "input_revision_id": null,
+            "report_snapshot_id": null,
+            "report_sha256": null
+          },
+          {
+            "round": 3,
+            "input_revision_id": null,
+            "report_snapshot_id": null,
+            "report_sha256": null
+          }
+        ],
+        "round_scores": [
+          {
+            "round": 1,
+            "passed": null,
+            "reviewer": null,
+            "evidence_path": null
+          },
+          {
+            "round": 2,
+            "passed": null,
+            "reviewer": null,
+            "evidence_path": null
+          },
+          {
+            "round": 3,
+            "passed": null,
+            "reviewer": null,
+            "evidence_path": null
+          }
+        ],
+        "actual_cost_cny": null,
+        "known_cost_cny": null,
+        "unknown_cost_reason": "not_executed",
+        "terminal_state": null
+      },
+      {
+        "slot_id": "E2E-03",
+        "order": 3,
+        "case_id": "M1-PDF",
+        "owner_alias": "member-B",
+        "input_ref": "#/agent_input/cases/M1-PDF/turns",
+        "max_turns": 3,
+        "executed": false,
+        "run_id": null,
+        "session_id": null,
+        "reports": [
+          {
+            "round": 2,
+            "input_revision_id": null,
+            "report_snapshot_id": null,
+            "report_sha256": null
+          },
+          {
+            "round": 3,
+            "input_revision_id": null,
+            "report_snapshot_id": null,
+            "report_sha256": null
+          }
+        ],
+        "round_scores": [
+          {
+            "round": 1,
+            "passed": null,
+            "reviewer": null,
+            "evidence_path": null
+          },
+          {
+            "round": 2,
+            "passed": null,
+            "reviewer": null,
+            "evidence_path": null
+          },
+          {
+            "round": 3,
+            "passed": null,
+            "reviewer": null,
+            "evidence_path": null
+          }
+        ],
+        "actual_cost_cny": null,
+        "known_cost_cny": null,
+        "unknown_cost_reason": "not_executed",
+        "terminal_state": null
+      },
+      {
+        "slot_id": "E2E-04",
+        "order": 4,
+        "case_id": "M1-ORM",
+        "owner_alias": "member-A",
+        "input_ref": "#/agent_input/cases/M1-ORM/turns",
+        "max_turns": 3,
+        "executed": false,
+        "run_id": null,
+        "session_id": null,
+        "reports": [
+          {
+            "round": 2,
+            "input_revision_id": null,
+            "report_snapshot_id": null,
+            "report_sha256": null
+          },
+          {
+            "round": 3,
+            "input_revision_id": null,
+            "report_snapshot_id": null,
+            "report_sha256": null
+          }
+        ],
+        "round_scores": [
+          {
+            "round": 1,
+            "passed": null,
+            "reviewer": null,
+            "evidence_path": null
+          },
+          {
+            "round": 2,
+            "passed": null,
+            "reviewer": null,
+            "evidence_path": null
+          },
+          {
+            "round": 3,
+            "passed": null,
+            "reviewer": null,
+            "evidence_path": null
+          }
+        ],
+        "actual_cost_cny": null,
+        "known_cost_cny": null,
+        "unknown_cost_reason": "not_executed",
+        "terminal_state": null
+      },
+      {
+        "slot_id": "E2E-05",
+        "order": 5,
+        "case_id": "M1-PDF",
+        "owner_alias": "member-B",
+        "input_ref": "#/agent_input/cases/M1-PDF/turns",
+        "max_turns": 3,
+        "executed": false,
+        "run_id": null,
+        "session_id": null,
+        "reports": [
+          {
+            "round": 2,
+            "input_revision_id": null,
+            "report_snapshot_id": null,
+            "report_sha256": null
+          },
+          {
+            "round": 3,
+            "input_revision_id": null,
+            "report_snapshot_id": null,
+            "report_sha256": null
+          }
+        ],
+        "round_scores": [
+          {
+            "round": 1,
+            "passed": null,
+            "reviewer": null,
+            "evidence_path": null
+          },
+          {
+            "round": 2,
+            "passed": null,
+            "reviewer": null,
+            "evidence_path": null
+          },
+          {
+            "round": 3,
+            "passed": null,
+            "reviewer": null,
+            "evidence_path": null
+          }
+        ],
+        "actual_cost_cny": null,
+        "known_cost_cny": null,
+        "unknown_cost_reason": "not_executed",
+        "terminal_state": null
+      },
+      {
+        "slot_id": "E2E-06",
+        "order": 6,
+        "case_id": "M1-VOICE",
+        "owner_alias": "member-A",
+        "input_ref": "#/agent_input/cases/M1-VOICE/turns",
+        "max_turns": 3,
+        "executed": false,
+        "run_id": null,
+        "session_id": null,
+        "reports": [
+          {
+            "round": 2,
+            "input_revision_id": null,
+            "report_snapshot_id": null,
+            "report_sha256": null
+          },
+          {
+            "round": 3,
+            "input_revision_id": null,
+            "report_snapshot_id": null,
+            "report_sha256": null
+          }
+        ],
+        "round_scores": [
+          {
+            "round": 1,
+            "passed": null,
+            "reviewer": null,
+            "evidence_path": null
+          },
+          {
+            "round": 2,
+            "passed": null,
+            "reviewer": null,
+            "evidence_path": null
+          },
+          {
+            "round": 3,
+            "passed": null,
+            "reviewer": null,
+            "evidence_path": null
+          }
+        ],
+        "actual_cost_cny": null,
+        "known_cost_cny": null,
+        "unknown_cost_reason": "not_executed",
+        "terminal_state": null
+      },
+      {
+        "slot_id": "E2E-07",
+        "order": 7,
+        "case_id": "M1-PDF",
+        "owner_alias": "member-B",
+        "input_ref": "#/agent_input/cases/M1-PDF/turns",
+        "max_turns": 3,
+        "executed": false,
+        "run_id": null,
+        "session_id": null,
+        "reports": [
+          {
+            "round": 2,
+            "input_revision_id": null,
+            "report_snapshot_id": null,
+            "report_sha256": null
+          },
+          {
+            "round": 3,
+            "input_revision_id": null,
+            "report_snapshot_id": null,
+            "report_sha256": null
+          }
+        ],
+        "round_scores": [
+          {
+            "round": 1,
+            "passed": null,
+            "reviewer": null,
+            "evidence_path": null
+          },
+          {
+            "round": 2,
+            "passed": null,
+            "reviewer": null,
+            "evidence_path": null
+          },
+          {
+            "round": 3,
+            "passed": null,
+            "reviewer": null,
+            "evidence_path": null
+          }
+        ],
+        "actual_cost_cny": null,
+        "known_cost_cny": null,
+        "unknown_cost_reason": "not_executed",
+        "terminal_state": null
+      },
+      {
+        "slot_id": "E2E-08",
+        "order": 8,
+        "case_id": "M1-VOICE",
+        "owner_alias": "member-A",
+        "input_ref": "#/agent_input/cases/M1-VOICE/turns",
+        "max_turns": 3,
+        "executed": false,
+        "run_id": null,
+        "session_id": null,
+        "reports": [
+          {
+            "round": 2,
+            "input_revision_id": null,
+            "report_snapshot_id": null,
+            "report_sha256": null
+          },
+          {
+            "round": 3,
+            "input_revision_id": null,
+            "report_snapshot_id": null,
+            "report_sha256": null
+          }
+        ],
+        "round_scores": [
+          {
+            "round": 1,
+            "passed": null,
+            "reviewer": null,
+            "evidence_path": null
+          },
+          {
+            "round": 2,
+            "passed": null,
+            "reviewer": null,
+            "evidence_path": null
+          },
+          {
+            "round": 3,
+            "passed": null,
+            "reviewer": null,
+            "evidence_path": null
+          }
+        ],
+        "actual_cost_cny": null,
+        "known_cost_cny": null,
+        "unknown_cost_reason": "not_executed",
+        "terminal_state": null
+      },
+      {
+        "slot_id": "E2E-09",
+        "order": 9,
+        "case_id": "M1-ORM",
+        "owner_alias": "member-A",
+        "input_ref": "#/agent_input/cases/M1-ORM/turns",
+        "max_turns": 3,
+        "executed": false,
+        "run_id": null,
+        "session_id": null,
+        "reports": [
+          {
+            "round": 2,
+            "input_revision_id": null,
+            "report_snapshot_id": null,
+            "report_sha256": null
+          },
+          {
+            "round": 3,
+            "input_revision_id": null,
+            "report_snapshot_id": null,
+            "report_sha256": null
+          }
+        ],
+        "round_scores": [
+          {
+            "round": 1,
+            "passed": null,
+            "reviewer": null,
+            "evidence_path": null
+          },
+          {
+            "round": 2,
+            "passed": null,
+            "reviewer": null,
+            "evidence_path": null
+          },
+          {
+            "round": 3,
+            "passed": null,
+            "reviewer": null,
+            "evidence_path": null
+          }
+        ],
+        "actual_cost_cny": null,
+        "known_cost_cny": null,
+        "unknown_cost_reason": "not_executed",
+        "terminal_state": null
+      }
+    ],
+    "source_hint_slots": [
+      {
+        "slot_id": "HINT-ORM-G1-OFF",
+        "order": 1,
+        "case_id": "M1-ORM",
+        "group_id": "ORM-G1",
+        "owner_alias": "member-A",
+        "input_ref": "#/agent_input/comparison_groups/ORM-G1/source_hints/turns",
+        "mode": "off",
+        "max_turns": 3,
+        "session_must_be_distinct": true,
+        "executed": false,
+        "run_id": null,
+        "session_id": null,
+        "first_report_sha256": null,
+        "changed_report_sha256": null,
+        "explanation_target_report_sha256": null,
+        "round_scores": [
+          {
+            "round": 1,
+            "passed": null
+          },
+          {
+            "round": 2,
+            "passed": null
+          },
+          {
+            "round": 3,
+            "passed": null
+          }
+        ],
+        "known_cost_cny": null,
+        "actual_cost_cny": null,
+        "comparability": null
+      },
+      {
+        "slot_id": "HINT-ORM-G1-ON",
+        "order": 2,
+        "case_id": "M1-ORM",
+        "group_id": "ORM-G1",
+        "owner_alias": "member-A",
+        "input_ref": "#/agent_input/comparison_groups/ORM-G1/source_hints/turns",
+        "mode": "on",
+        "max_turns": 3,
+        "session_must_be_distinct": true,
+        "executed": false,
+        "run_id": null,
+        "session_id": null,
+        "first_report_sha256": null,
+        "changed_report_sha256": null,
+        "explanation_target_report_sha256": null,
+        "round_scores": [
+          {
+            "round": 1,
+            "passed": null
+          },
+          {
+            "round": 2,
+            "passed": null
+          },
+          {
+            "round": 3,
+            "passed": null
+          }
+        ],
+        "known_cost_cny": null,
+        "actual_cost_cny": null,
+        "comparability": null
+      },
+      {
+        "slot_id": "HINT-PDF-G1-OFF",
+        "order": 3,
+        "case_id": "M1-PDF",
+        "group_id": "PDF-G1",
+        "owner_alias": "member-B",
+        "input_ref": "#/agent_input/comparison_groups/PDF-G1/source_hints/turns",
+        "mode": "off",
+        "max_turns": 3,
+        "session_must_be_distinct": true,
+        "executed": false,
+        "run_id": null,
+        "session_id": null,
+        "first_report_sha256": null,
+        "changed_report_sha256": null,
+        "explanation_target_report_sha256": null,
+        "round_scores": [
+          {
+            "round": 1,
+            "passed": null
+          },
+          {
+            "round": 2,
+            "passed": null
+          },
+          {
+            "round": 3,
+            "passed": null
+          }
+        ],
+        "known_cost_cny": null,
+        "actual_cost_cny": null,
+        "comparability": null
+      },
+      {
+        "slot_id": "HINT-PDF-G1-ON",
+        "order": 4,
+        "case_id": "M1-PDF",
+        "group_id": "PDF-G1",
+        "owner_alias": "member-B",
+        "input_ref": "#/agent_input/comparison_groups/PDF-G1/source_hints/turns",
+        "mode": "on",
+        "max_turns": 3,
+        "session_must_be_distinct": true,
+        "executed": false,
+        "run_id": null,
+        "session_id": null,
+        "first_report_sha256": null,
+        "changed_report_sha256": null,
+        "explanation_target_report_sha256": null,
+        "round_scores": [
+          {
+            "round": 1,
+            "passed": null
+          },
+          {
+            "round": 2,
+            "passed": null
+          },
+          {
+            "round": 3,
+            "passed": null
+          }
+        ],
+        "known_cost_cny": null,
+        "actual_cost_cny": null,
+        "comparability": null
+      },
+      {
+        "slot_id": "HINT-ORM-G2-ON",
+        "order": 5,
+        "case_id": "M1-ORM",
+        "group_id": "ORM-G2",
+        "owner_alias": "member-A",
+        "input_ref": "#/agent_input/comparison_groups/ORM-G2/source_hints/turns",
+        "mode": "on",
+        "max_turns": 3,
+        "session_must_be_distinct": true,
+        "executed": false,
+        "run_id": null,
+        "session_id": null,
+        "first_report_sha256": null,
+        "changed_report_sha256": null,
+        "explanation_target_report_sha256": null,
+        "round_scores": [
+          {
+            "round": 1,
+            "passed": null
+          },
+          {
+            "round": 2,
+            "passed": null
+          },
+          {
+            "round": 3,
+            "passed": null
+          }
+        ],
+        "known_cost_cny": null,
+        "actual_cost_cny": null,
+        "comparability": null
+      },
+      {
+        "slot_id": "HINT-ORM-G2-OFF",
+        "order": 6,
+        "case_id": "M1-ORM",
+        "group_id": "ORM-G2",
+        "owner_alias": "member-A",
+        "input_ref": "#/agent_input/comparison_groups/ORM-G2/source_hints/turns",
+        "mode": "off",
+        "max_turns": 3,
+        "session_must_be_distinct": true,
+        "executed": false,
+        "run_id": null,
+        "session_id": null,
+        "first_report_sha256": null,
+        "changed_report_sha256": null,
+        "explanation_target_report_sha256": null,
+        "round_scores": [
+          {
+            "round": 1,
+            "passed": null
+          },
+          {
+            "round": 2,
+            "passed": null
+          },
+          {
+            "round": 3,
+            "passed": null
+          }
+        ],
+        "known_cost_cny": null,
+        "actual_cost_cny": null,
+        "comparability": null
+      },
+      {
+        "slot_id": "HINT-PDF-G2-ON",
+        "order": 7,
+        "case_id": "M1-PDF",
+        "group_id": "PDF-G2",
+        "owner_alias": "member-B",
+        "input_ref": "#/agent_input/comparison_groups/PDF-G2/source_hints/turns",
+        "mode": "on",
+        "max_turns": 3,
+        "session_must_be_distinct": true,
+        "executed": false,
+        "run_id": null,
+        "session_id": null,
+        "first_report_sha256": null,
+        "changed_report_sha256": null,
+        "explanation_target_report_sha256": null,
+        "round_scores": [
+          {
+            "round": 1,
+            "passed": null
+          },
+          {
+            "round": 2,
+            "passed": null
+          },
+          {
+            "round": 3,
+            "passed": null
+          }
+        ],
+        "known_cost_cny": null,
+        "actual_cost_cny": null,
+        "comparability": null
+      },
+      {
+        "slot_id": "HINT-PDF-G2-OFF",
+        "order": 8,
+        "case_id": "M1-PDF",
+        "group_id": "PDF-G2",
+        "owner_alias": "member-B",
+        "input_ref": "#/agent_input/comparison_groups/PDF-G2/source_hints/turns",
+        "mode": "off",
+        "max_turns": 3,
+        "session_must_be_distinct": true,
+        "executed": false,
+        "run_id": null,
+        "session_id": null,
+        "first_report_sha256": null,
+        "changed_report_sha256": null,
+        "explanation_target_report_sha256": null,
+        "round_scores": [
+          {
+            "round": 1,
+            "passed": null
+          },
+          {
+            "round": 2,
+            "passed": null
+          },
+          {
+            "round": 3,
+            "passed": null
+          }
+        ],
+        "known_cost_cny": null,
+        "actual_cost_cny": null,
+        "comparability": null
+      }
+    ],
+    "context_slots": [
+      {
+        "slot_id": "CTX-ORM-G1-C0",
+        "order": 1,
+        "case_id": "M1-ORM",
+        "group_id": "ORM-G1",
+        "owner_alias": "member-A",
+        "input_ref": "#/agent_input/comparison_groups/ORM-G1/context",
+        "strategy": "C0",
+        "physical_call_limit": 1,
+        "hidden_retry_repair_polish_research_limit": 0,
+        "executed": false,
+        "call_id": null,
+        "request_audit_ref": null,
+        "report_sha256": null,
+        "selection_pressure": null,
+        "comparison_result": null,
+        "usage_tokens": null,
+        "actual_cost_cny": null
+      },
+      {
+        "slot_id": "CTX-ORM-G1-C1",
+        "order": 2,
+        "case_id": "M1-ORM",
+        "group_id": "ORM-G1",
+        "owner_alias": "member-A",
+        "input_ref": "#/agent_input/comparison_groups/ORM-G1/context",
+        "strategy": "C1",
+        "physical_call_limit": 1,
+        "hidden_retry_repair_polish_research_limit": 0,
+        "executed": false,
+        "call_id": null,
+        "request_audit_ref": null,
+        "report_sha256": null,
+        "selection_pressure": null,
+        "comparison_result": null,
+        "usage_tokens": null,
+        "actual_cost_cny": null
+      },
+      {
+        "slot_id": "CTX-ORM-G1-C2",
+        "order": 3,
+        "case_id": "M1-ORM",
+        "group_id": "ORM-G1",
+        "owner_alias": "member-A",
+        "input_ref": "#/agent_input/comparison_groups/ORM-G1/context",
+        "strategy": "C2",
+        "physical_call_limit": 1,
+        "hidden_retry_repair_polish_research_limit": 0,
+        "executed": false,
+        "call_id": null,
+        "request_audit_ref": null,
+        "report_sha256": null,
+        "selection_pressure": null,
+        "comparison_result": null,
+        "usage_tokens": null,
+        "actual_cost_cny": null
+      },
+      {
+        "slot_id": "CTX-PDF-G1-C1",
+        "order": 4,
+        "case_id": "M1-PDF",
+        "group_id": "PDF-G1",
+        "owner_alias": "member-B",
+        "input_ref": "#/agent_input/comparison_groups/PDF-G1/context",
+        "strategy": "C1",
+        "physical_call_limit": 1,
+        "hidden_retry_repair_polish_research_limit": 0,
+        "executed": false,
+        "call_id": null,
+        "request_audit_ref": null,
+        "report_sha256": null,
+        "selection_pressure": null,
+        "comparison_result": null,
+        "usage_tokens": null,
+        "actual_cost_cny": null
+      },
+      {
+        "slot_id": "CTX-PDF-G1-C2",
+        "order": 5,
+        "case_id": "M1-PDF",
+        "group_id": "PDF-G1",
+        "owner_alias": "member-B",
+        "input_ref": "#/agent_input/comparison_groups/PDF-G1/context",
+        "strategy": "C2",
+        "physical_call_limit": 1,
+        "hidden_retry_repair_polish_research_limit": 0,
+        "executed": false,
+        "call_id": null,
+        "request_audit_ref": null,
+        "report_sha256": null,
+        "selection_pressure": null,
+        "comparison_result": null,
+        "usage_tokens": null,
+        "actual_cost_cny": null
+      },
+      {
+        "slot_id": "CTX-PDF-G1-C0",
+        "order": 6,
+        "case_id": "M1-PDF",
+        "group_id": "PDF-G1",
+        "owner_alias": "member-B",
+        "input_ref": "#/agent_input/comparison_groups/PDF-G1/context",
+        "strategy": "C0",
+        "physical_call_limit": 1,
+        "hidden_retry_repair_polish_research_limit": 0,
+        "executed": false,
+        "call_id": null,
+        "request_audit_ref": null,
+        "report_sha256": null,
+        "selection_pressure": null,
+        "comparison_result": null,
+        "usage_tokens": null,
+        "actual_cost_cny": null
+      },
+      {
+        "slot_id": "CTX-ORM-G2-C2",
+        "order": 7,
+        "case_id": "M1-ORM",
+        "group_id": "ORM-G2",
+        "owner_alias": "member-A",
+        "input_ref": "#/agent_input/comparison_groups/ORM-G2/context",
+        "strategy": "C2",
+        "physical_call_limit": 1,
+        "hidden_retry_repair_polish_research_limit": 0,
+        "executed": false,
+        "call_id": null,
+        "request_audit_ref": null,
+        "report_sha256": null,
+        "selection_pressure": null,
+        "comparison_result": null,
+        "usage_tokens": null,
+        "actual_cost_cny": null
+      },
+      {
+        "slot_id": "CTX-ORM-G2-C0",
+        "order": 8,
+        "case_id": "M1-ORM",
+        "group_id": "ORM-G2",
+        "owner_alias": "member-A",
+        "input_ref": "#/agent_input/comparison_groups/ORM-G2/context",
+        "strategy": "C0",
+        "physical_call_limit": 1,
+        "hidden_retry_repair_polish_research_limit": 0,
+        "executed": false,
+        "call_id": null,
+        "request_audit_ref": null,
+        "report_sha256": null,
+        "selection_pressure": null,
+        "comparison_result": null,
+        "usage_tokens": null,
+        "actual_cost_cny": null
+      },
+      {
+        "slot_id": "CTX-ORM-G2-C1",
+        "order": 9,
+        "case_id": "M1-ORM",
+        "group_id": "ORM-G2",
+        "owner_alias": "member-A",
+        "input_ref": "#/agent_input/comparison_groups/ORM-G2/context",
+        "strategy": "C1",
+        "physical_call_limit": 1,
+        "hidden_retry_repair_polish_research_limit": 0,
+        "executed": false,
+        "call_id": null,
+        "request_audit_ref": null,
+        "report_sha256": null,
+        "selection_pressure": null,
+        "comparison_result": null,
+        "usage_tokens": null,
+        "actual_cost_cny": null
+      },
+      {
+        "slot_id": "CTX-PDF-G2-C0",
+        "order": 10,
+        "case_id": "M1-PDF",
+        "group_id": "PDF-G2",
+        "owner_alias": "member-B",
+        "input_ref": "#/agent_input/comparison_groups/PDF-G2/context",
+        "strategy": "C0",
+        "physical_call_limit": 1,
+        "hidden_retry_repair_polish_research_limit": 0,
+        "executed": false,
+        "call_id": null,
+        "request_audit_ref": null,
+        "report_sha256": null,
+        "selection_pressure": null,
+        "comparison_result": null,
+        "usage_tokens": null,
+        "actual_cost_cny": null
+      },
+      {
+        "slot_id": "CTX-PDF-G2-C2",
+        "order": 11,
+        "case_id": "M1-PDF",
+        "group_id": "PDF-G2",
+        "owner_alias": "member-B",
+        "input_ref": "#/agent_input/comparison_groups/PDF-G2/context",
+        "strategy": "C2",
+        "physical_call_limit": 1,
+        "hidden_retry_repair_polish_research_limit": 0,
+        "executed": false,
+        "call_id": null,
+        "request_audit_ref": null,
+        "report_sha256": null,
+        "selection_pressure": null,
+        "comparison_result": null,
+        "usage_tokens": null,
+        "actual_cost_cny": null
+      },
+      {
+        "slot_id": "CTX-PDF-G2-C1",
+        "order": 12,
+        "case_id": "M1-PDF",
+        "group_id": "PDF-G2",
+        "owner_alias": "member-B",
+        "input_ref": "#/agent_input/comparison_groups/PDF-G2/context",
+        "strategy": "C1",
+        "physical_call_limit": 1,
+        "hidden_retry_repair_polish_research_limit": 0,
+        "executed": false,
+        "call_id": null,
+        "request_audit_ref": null,
+        "report_sha256": null,
+        "selection_pressure": null,
+        "comparison_result": null,
+        "usage_tokens": null,
+        "actual_cost_cny": null
+      }
+    ],
+    "schedule": "E2E frozen order first; human source-check then choose seed; hint and context slots follow their frozen order. No extra setup model call.",
+    "seed_selection": {
+      "algorithm": "按e2e_slots冻结order，选同owner最早具有该组所需全部已人工核实事实的研究报告；同一slot内round2先于round3。整体attempt失败不自动排除逐项已核实facts，其他结论不继承。",
+      "same_pair_bindings": [
+        "owner",
+        "immutable_report_sha256",
+        "verified_fact_ids",
+        "source_set_sha256",
+        "hint_version",
+        "eligible_state"
+      ],
+      "off_behavior": "only injection disabled; session identity distinct; structured current conditions always provided",
+      "other_test_seeds": "explicit revoke with audit, do not delete history",
+      "read_refreshes_ttl": false,
+      "auto_memory_write": false,
+      "keep_times": [
+        "source_observed_at",
+        "human_verified_at",
+        "imported_at",
+        "expires_at",
+        "revoked_at",
+        "side_started_at"
+      ],
+      "clock_policy": "真实时钟；不改观测或导入时间凑可比；TTL/eligible不匹配阻塞或记不可比；cache/elapsed差异明记",
+      "missing_valid_seed": "blocked_no_automatic_additional_model_calls"
+    },
+    "context_policy": {
+      "strategies": {
+        "C0": "recent_window",
+        "C1": "deterministic_relevance",
+        "C2": "relevance_with_protected_evidence_from_full_eligible_index"
+      },
+      "same_group_fixed": [
+        "ordered_sources",
+        "current_conditions",
+        "history",
+        "failure_records",
+        "budget_policy",
+        "renderer_version",
+        "model_and_compiler_versions"
+      ],
+      "forbid_gold_injection": true,
+      "physical_calls_per_slot": 1,
+      "hidden_retry_repair_polish_research_calls": 0,
+      "pressure_required": true,
+      "pressure_absent_result": "insufficient_information",
+      "no_noise_duplication_or_product_limit_reduction": true,
+      "record": [
+        "full_bounded_compilation_input",
+        "selected_and_trimmed_ids",
+        "protection_identification_and_binding",
+        "semantic_vs_byte_vs_token_hash_scopes",
+        "available_capacity",
+        "provider_usage_or_null",
+        "cache_or_null",
+        "cost_or_null"
+      ]
+    },
+    "evidence_directory_template": "data/evaluation/decision-m1-runs/<authorized-batch-id>/<slot-id>/<attempt-id>/",
+    "artifact_names": [
+      "binding.json",
+      "input-revisions.json",
+      "events.json",
+      "calls.json",
+      "request-audit/",
+      "reports/round-2.json or null",
+      "reports/round-3.json or null",
+      "source-review.json",
+      "scoring.json",
+      "funding.json",
+      "terminal-resources.json"
+    ],
+    "retain_all": [
+      "failed",
+      "cancelled",
+      "interrupted",
+      "missing",
+      "unknown_outcome",
+      "unknown_usage",
+      "unknown_cost",
+      "version_or_condition_differences"
+    ],
+    "stop_conditions": [
+      "missing exact per-run authorization, code/model/environment/renderer binding or funding preflight",
+      "unknown outcome/usage/cost",
+      "unverifiable pricing identity/snapshot",
+      "reservation/ledger conflict",
+      "insufficient money to finish complete authorized batch",
+      "systemic permission/source/resource failure",
+      "code/model/material change within frozen batch",
+      "no eligible seed for hint pair"
+    ],
+    "change_policy": "版本/条件/材料变化保留旧attempt，受影响冻结另确认并另授权新完整批次；不得替换失败、补成功或自动增加次数。",
+    "optimization": "至少1真实症状经诊断、最小修改、离线回归、独立审查、另授权真实复测纠正；调试材料与独立验收材料分开。",
+    "hint_group_bindings": {
+      "ORM-G1": {
+        "seed_fact_requirements": "#/scorer_only/seed_fact_requirements/ORM",
+        "seed_report_sha256": null,
+        "seed_fact_ids": null,
+        "seed_hint_version": null,
+        "seed_source_set_sha256": null,
+        "eligible_inventory_before_each_side": null,
+        "same_owner_seed_and_eligible_required": true
+      },
+      "PDF-G1": {
+        "seed_fact_requirements": "#/scorer_only/seed_fact_requirements/PDF",
+        "seed_report_sha256": null,
+        "seed_fact_ids": null,
+        "seed_hint_version": null,
+        "seed_source_set_sha256": null,
+        "eligible_inventory_before_each_side": null,
+        "same_owner_seed_and_eligible_required": true
+      },
+      "ORM-G2": {
+        "seed_fact_requirements": "#/scorer_only/seed_fact_requirements/ORM",
+        "seed_report_sha256": null,
+        "seed_fact_ids": null,
+        "seed_hint_version": null,
+        "seed_source_set_sha256": null,
+        "eligible_inventory_before_each_side": null,
+        "same_owner_seed_and_eligible_required": true
+      },
+      "PDF-G2": {
+        "seed_fact_requirements": "#/scorer_only/seed_fact_requirements/PDF",
+        "seed_report_sha256": null,
+        "seed_fact_ids": null,
+        "seed_hint_version": null,
+        "seed_source_set_sha256": null,
+        "eligible_inventory_before_each_side": null,
+        "same_owner_seed_and_eligible_required": true
+      }
+    },
+    "per_round_input_isolation": {
+      "controller_only": "full script and future round messages",
+      "model_input": "current round message + previously committed actual history + currently accepted conditions + authorized current evidence",
+      "forbidden": [
+        "future round text",
+        "not-yet-accepted conditions",
+        "future change script",
+        "scorer_only and gold"
+      ],
+      "input_ref_meaning": "controller script locator, never whole script injection",
+      "implementation_check": "capture full compiled input for every round; assert current expected message present and future messages/unaccepted condition fields absent; persist revision/history provenance",
+      "task": "DEC-T08/DEC-T11/DEC-T13",
+      "status": "runtime enforcement pending implementation; required before real evaluation"
+    }
+  },
+  "prerequisites": {
+    "first_engineering_task": "DEC-T07-01 separate code and exact isolated PostgreSQL scope authorization; no funding required for fake engineering tests",
+    "real_pilot": "T09 runnable path, real accounts, F1, complete history/unknown/inflight reconciliation, complete batch coverage, <=24h pricing snapshot and exact grants",
+    "M1_independent": "before each batch, satisfy actual review and the applicable bindings due at that batch with blocks_real_execution=true; fixed slots and material/scorer separation apply throughout; actual E2E-derived seed is due before source hints, and human source review/acceptance/practice records are due at their stated scoring or M1 acceptance gates",
+    "runtime_binding_gate_policy": "Evaluate each binding by its before time and applicability to the current operation. Only applicable, currently due bindings with blocks_real_execution=true block dispatch; later-batch bindings do not block an earlier prerequisite batch. Missing first-run funding/code/account/authorization evidence always blocks the first paid run. The E2E-derived seed cannot be required before E2E; blocks_real_execution=false human acceptance/practice evidence remains mandatory for M1 acceptance, never prefilled or waived.",
+    "formal_Go": "unchanged formal15 attempts plus full five accounts/admin, capacity, safe recovery, encrypted offline backup restore; r12/P02/product No-Go",
+    "source_drift": "AI before run re-observes URLs and fixed identity, records changes; human confirms material or condition changes affecting scoring before exact run grant",
+    "human_facts_pending": [
+      "accounts and billing time coverage",
+      "out-of-project usage",
+      "billing precision",
+      "inflight call entry points",
+      "independent latest ledger/grant/revocation highwater custodian/location",
+      "backup media and key recovery custodian"
+    ],
+    "historical_billing_availability": "unknown_owner_answer",
+    "funding_facts": {
+      "historical_balance_snapshot_cny": "10.57",
+      "observed_at": "2026-10-26T21:39:41+08:00",
+      "is_grant": false,
+      "project_ceiling_cny": "299",
+      "allocations_cny": {
+        "pilot": "49",
+        "diagnostic": "30",
+        "formal": "200",
+        "contingency": "20"
+      },
+      "illustrative_model_only_cny": "22.08",
+      "illustrative_equivalent_turns": 69,
+      "complete_batch_coverage_ready": false,
+      "no_repeated_balance_query": true
+    }
+  },
+  "runtime_bindings": {
+    "code_commit_and_worktree_hash": {
+      "value": null,
+      "status": "pending_implementation_or_run_preflight",
+      "task": "DEC-T13",
+      "before": "first real run",
+      "human_confirmation": true,
+      "blocks_real_execution": true,
+      "owner": "AI prepares evidence; human confirms where human_confirmation=true"
+    },
+    "model_provider_alias_region_backend_known_unknown": {
+      "value": null,
+      "status": "pending_implementation_or_run_preflight",
+      "task": "DEC-T12",
+      "before": "first real run",
+      "human_confirmation": true,
+      "blocks_real_execution": true,
+      "owner": "AI prepares evidence; human confirms where human_confirmation=true"
+    },
+    "environment_and_dependencies_browser": {
+      "value": null,
+      "status": "pending_implementation_or_run_preflight",
+      "task": "DEC-T09",
+      "before": "first real run",
+      "human_confirmation": false,
+      "blocks_real_execution": true,
+      "owner": "AI prepares evidence; human confirms where human_confirmation=true"
+    },
+    "compiler_renderer_and_policy_versions": {
+      "value": null,
+      "status": "pending_implementation_or_run_preflight",
+      "task": "DEC-T11",
+      "before": "context batch",
+      "human_confirmation": false,
+      "blocks_real_execution": true,
+      "owner": "AI prepares evidence; human confirms where human_confirmation=true"
+    },
+    "material_manifest_sha256_and_drift": {
+      "value": null,
+      "status": "pending_implementation_or_run_preflight",
+      "task": "DEC-T13",
+      "before": "all frozen batches",
+      "human_confirmation": true,
+      "blocks_real_execution": true,
+      "owner": "AI prepares evidence; human confirms where human_confirmation=true"
+    },
+    "actual_history_failure_records_and_order_hash": {
+      "value": null,
+      "status": "pending_implementation_or_run_preflight",
+      "task": "DEC-T11",
+      "before": "context batch",
+      "human_confirmation": true,
+      "blocks_real_execution": true,
+      "name_scope": "bind frozen accepted condition history + empty failure list and source order to compiled request; additions require affected freeze confirmation, not automatic invented failures",
+      "owner": "AI prepares evidence; human confirms where human_confirmation=true"
+    },
+    "account_alias_to_real_owner_ids": {
+      "value": null,
+      "status": "pending_implementation_or_run_preflight",
+      "task": "P03-MIN-01",
+      "before": "first real run",
+      "human_confirmation": true,
+      "blocks_real_execution": true,
+      "owner": "AI prepares evidence; human confirms where human_confirmation=true"
+    },
+    "seed_report_facts_hints_eligible_times": {
+      "value": null,
+      "status": "pending_implementation_or_run_preflight",
+      "task": "DEC-T10",
+      "before": "source hints batch",
+      "human_confirmation": true,
+      "blocks_real_execution": true,
+      "owner": "AI prepares evidence; human confirms where human_confirmation=true"
+    },
+    "pricing_snapshot_full_batch_coverage_reservations": {
+      "value": null,
+      "status": "pending_implementation_or_run_preflight",
+      "task": "DEC-T12",
+      "before": "each paid batch",
+      "human_confirmation": true,
+      "blocks_real_execution": true,
+      "owner": "AI prepares evidence; human confirms where human_confirmation=true"
+    },
+    "exact_run_grants_and_generation": {
+      "value": null,
+      "status": "pending_implementation_or_run_preflight",
+      "task": "DEC-T12",
+      "before": "each physical dispatch",
+      "human_confirmation": true,
+      "blocks_real_execution": true,
+      "owner": "AI prepares evidence; human confirms where human_confirmation=true"
+    },
+    "independent_highwater_and_recovery_reconciliation": {
+      "value": null,
+      "status": "pending_implementation_or_run_preflight",
+      "task": "DEC-T12",
+      "before": "first paid authority promotion and restore",
+      "human_confirmation": true,
+      "blocks_real_execution": true,
+      "owner": "AI prepares evidence; human confirms where human_confirmation=true"
+    },
+    "actual_batch_id_and_evidence_directory": {
+      "value": null,
+      "status": "pending_implementation_or_run_preflight",
+      "task": "DEC-T13",
+      "before": "each batch",
+      "human_confirmation": false,
+      "blocks_real_execution": true,
+      "owner": "AI prepares evidence; human confirms where human_confirmation=true"
+    },
+    "human_acceptance_and_practice_records": {
+      "value": null,
+      "status": "pending_implementation_or_run_preflight",
+      "task": "DEC-T13",
+      "before": "M1 acceptance",
+      "human_confirmation": true,
+      "blocks_real_execution": false,
+      "owner": "AI prepares evidence; human confirms where human_confirmation=true"
+    }
+  }
+}

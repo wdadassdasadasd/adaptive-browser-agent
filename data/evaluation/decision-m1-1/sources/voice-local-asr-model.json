@@ -1,0 +1,15 @@
+{
+  "source_id": "voice-local-asr-model",
+  "source_url": "https://huggingface.co/funasr/paraformer-zh-streaming/tree/fd2af606b37d7fb8b3b8a218c5be5b07b53ef6ba",
+  "observed_at": "2026-10-27T09:37:38+00:00",
+  "extraction_kind": "verbatim_rendered_text_excerpt",
+  "locator": "fixed model tree header, revision and files list",
+  "excerpt": "paraformer-zh-streaming\nLicense: apache-2.0",
+  "hash_scope": "local_UTF8_excerpt_artifact_bytes_only_not_HTML_or_wire",
+  "limitations": [
+    "Model tree revision was readable; raw README endpoint was unavailable in this collection.",
+    "No model weights were downloaded, hashed locally or run.",
+    "This preparation observation is not a human source-check attestation for a future report."
+  ]
+}
+

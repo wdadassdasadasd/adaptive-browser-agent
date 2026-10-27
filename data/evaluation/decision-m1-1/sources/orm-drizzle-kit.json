@@ -1,0 +1,31 @@
+{
+  "source_id": "orm-drizzle-kit",
+  "source_url": "https://github.com/drizzle-team/drizzle-orm/blob/eab8bedbb65d5429c54e612ddbd88aa23091d398/drizzle-kit/package.json",
+  "repository": "drizzle-team/drizzle-orm",
+  "version_ref": "eab8bedbb65d5429c54e612ddbd88aa23091d398",
+  "upstream_blob_sha1": "fe986a73b204d3fe09aaf0d4890c10e4269112ff",
+  "observed_at": "2026-10-27T09:37:38+00:00",
+  "extraction_kind": "verbatim_noncontiguous_source_lines",
+  "hash_scope": "local_UTF8_artifact_bytes_not_full_upstream_file_or_wire",
+  "excerpts": [
+    {
+      "locator": {
+        "kind": "source_file_lines",
+        "first_line": 1,
+        "last_line": 21
+      },
+      "text": "{\n\t\"name\": \"drizzle-kit\",\n\t\"version\": \"0.31.11\",\n\t\"homepage\": \"https://orm.drizzle.team\",\n\t\"keywords\": [\n\t\t\"drizzle\",\n\t\t\"orm\",\n\t\t\"pg\",\n\t\t\"mysql\",\n\t\t\"singlestore\",\n\t\t\"postgresql\",\n\t\t\"postgres\",\n\t\t\"sqlite\",\n\t\t\"database\",\n\t\t\"sql\",\n\t\t\"typescript\",\n\t\t\"ts\",\n\t\t\"drizzle-kit\",\n\t\t\"migrations\",\n\t\t\"schema\"\n\t],"
+    }
+  ],
+  "limitations": [
+    "Only the selected lines are frozen; omission is not evidence that an upstream capability is absent.",
+    "Prepared source material is not an admitted research fact or a human-verified report."
+  ],
+  "license_observation": {
+    "url": "https://github.com/drizzle-team/drizzle-orm/blob/eab8bedbb65d5429c54e612ddbd88aa23091d398/LICENSE",
+    "upstream_blob_sha1": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+    "artifact": "sources/licenses/drizzle-team-drizzle-orm.txt",
+    "applies_to": "repository_source_only_not_all_model_weights_or_cloud_terms"
+  }
+}
+

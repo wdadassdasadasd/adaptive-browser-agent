@@ -1,0 +1,47 @@
+{
+  "source_id": "voice-funasr-readme",
+  "source_url": "https://github.com/modelscope/FunASR/blob/a23946a8b3e9146f9bf80e18f768298f0cd000b7/README.md",
+  "repository": "modelscope/FunASR",
+  "version_ref": "a23946a8b3e9146f9bf80e18f768298f0cd000b7",
+  "upstream_blob_sha1": "f6ccc0a8a9ab47fd61cc3226b45f581fdcd85015",
+  "observed_at": "2026-10-27T09:37:38+00:00",
+  "extraction_kind": "verbatim_noncontiguous_source_lines",
+  "hash_scope": "local_UTF8_artifact_bytes_not_full_upstream_file_or_wire",
+  "excerpts": [
+    {
+      "locator": {
+        "kind": "source_file_lines",
+        "first_line": 123,
+        "last_line": 128
+      },
+      "text": "Whisper is a single model; **FunASR is a toolkit** — you pick the right model\nper job: **Fun-ASR-Nano** (Chinese, English, Japanese, and Chinese dialects;\nGPU), **Fun-ASR-MLT-Nano** (31 languages), **SenseVoiceSmall** (five-language\nASR plus emotion and audio events), and **Paraformer** (low-latency streaming).\nThe table shows toolkit-level capabilities and names the model or pipeline that\nprovides each one:"
+    },
+    {
+      "locator": {
+        "kind": "source_file_lines",
+        "first_line": 171,
+        "last_line": 173
+      },
+      "text": "| **Paraformer-zh** | ASR + timestamps | zh/en | 220M | [⭐](https://www.modelscope.cn/models/iic/speech_paraformer-large-vad-punc_asr_nat-zh-cn-16k-common-vocab8404-pytorch/summary) [🤗](https://huggingface.co/funasr/paraformer-zh) |\n| Paraformer-zh-streaming | Streaming ASR | zh/en | 220M | [⭐](https://modelscope.cn/models/iic/speech_paraformer-large_asr_nat-zh-cn-16k-common-vocab8404-online/summary) [🤗](https://huggingface.co/funasr/paraformer-zh-streaming) |\n| Qwen3-ASR | ASR, 52 languages | multilingual | 1.7B | [usage](examples/industrial_data_pretraining/qwen3_asr) |"
+    },
+    {
+      "locator": {
+        "kind": "source_file_lines",
+        "first_line": 373,
+        "last_line": 375
+      },
+      "text": "- FunASR toolkit source code in this repository: [MIT License](./LICENSE).\n- Pretrained model weights are licensed separately. Check the license shown on each model card; when a model card links to the [FunASR Model Open Source License Agreement](./MODEL_LICENSE), those terms apply.\n"
+    }
+  ],
+  "limitations": [
+    "Only the selected lines are frozen; omission is not evidence that an upstream capability is absent.",
+    "Prepared source material is not an admitted research fact or a human-verified report."
+  ],
+  "license_observation": {
+    "url": "https://github.com/modelscope/FunASR/blob/a23946a8b3e9146f9bf80e18f768298f0cd000b7/LICENSE",
+    "upstream_blob_sha1": "26b5e09e91ef525769c209eabcf58a6e2448ddce",
+    "artifact": "sources/licenses/modelscope-FunASR.txt",
+    "applies_to": "repository_source_only_not_all_model_weights_or_cloud_terms"
+  }
+}
+

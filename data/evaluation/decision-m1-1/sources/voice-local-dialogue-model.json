@@ -1,0 +1,14 @@
+{
+  "source_id": "voice-local-dialogue-model",
+  "source_url": "https://huggingface.co/Qwen/Qwen2.5-7B-Instruct/raw/a09a35458c702b33eeacc393d103063234e8bc28/README.md",
+  "observed_at": "2026-10-27T09:37:38+00:00",
+  "extraction_kind": "verbatim_raw_text_excerpt",
+  "locator": "README Introduction, lines 23–25; model identity",
+  "excerpt": "**This repo contains the instruction-tuned 7B Qwen2.5 model**, which has the following features:\n- Type: Causal Language Models",
+  "hash_scope": "local_UTF8_excerpt_artifact_bytes_only_not_HTML_or_wire",
+  "limitations": [
+    "Only a short raw text excerpt is frozen; hardware performance and audio suitability were not measured.",
+    "This preparation observation is not a human source-check attestation for a future report."
+  ]
+}
+

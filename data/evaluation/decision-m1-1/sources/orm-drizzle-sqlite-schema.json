@@ -1,0 +1,31 @@
+{
+  "source_id": "orm-drizzle-sqlite-schema",
+  "source_url": "https://github.com/drizzle-team/drizzle-orm/blob/eab8bedbb65d5429c54e612ddbd88aa23091d398/drizzle-orm/src/sqlite-core/table.ts",
+  "repository": "drizzle-team/drizzle-orm",
+  "version_ref": "eab8bedbb65d5429c54e612ddbd88aa23091d398",
+  "upstream_blob_sha1": "290605b66ca5ee2ebaafde493f733d7804f1c17b",
+  "observed_at": "2026-10-27T09:37:38+00:00",
+  "extraction_kind": "verbatim_noncontiguous_source_lines",
+  "hash_scope": "local_UTF8_artifact_bytes_not_full_upstream_file_or_wire",
+  "excerpts": [
+    {
+      "locator": {
+        "kind": "source_file_lines",
+        "first_line": 155,
+        "last_line": 185
+      },
+      "text": "\t\tname: TTableName;\n\t\tschema: TSchema;\n\t\tcolumns: BuildColumns<TTableName, TColumnsMap, 'sqlite'>;\n\t\tdialect: 'sqlite';\n\t}>;\n}\n\nfunction sqliteTableBase<\n\tTTableName extends string,\n\tTColumnsMap extends Record<string, SQLiteColumnBuilderBase>,\n\tTSchema extends string | undefined,\n>(\n\tname: TTableName,\n\tcolumns: TColumnsMap | ((columnTypes: SQLiteColumnBuilders) => TColumnsMap),\n\textraConfig:\n\t\t| ((\n\t\t\tself: BuildColumns<TTableName, TColumnsMap, 'sqlite'>,\n\t\t) => SQLiteTableExtraConfig | SQLiteTableExtraConfigValue[])\n\t\t| undefined,\n\tschema?: TSchema,\n\tbaseName = name,\n): SQLiteTableWithColumns<{\n\tname: TTableName;\n\tschema: TSchema;\n\tcolumns: BuildColumns<TTableName, TColumnsMap, 'sqlite'>;\n\tdialect: 'sqlite';\n}> {\n\tconst rawTable = new SQLiteTable<{\n\t\tname: TTableName;\n\t\tschema: TSchema;\n\t\tcolumns: BuildColumns<TTableName, TColumnsMap, 'sqlite'>;"
+    }
+  ],
+  "limitations": [
+    "Only the selected lines are frozen; omission is not evidence that an upstream capability is absent.",
+    "Prepared source material is not an admitted research fact or a human-verified report."
+  ],
+  "license_observation": {
+    "url": "https://github.com/drizzle-team/drizzle-orm/blob/eab8bedbb65d5429c54e612ddbd88aa23091d398/LICENSE",
+    "upstream_blob_sha1": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+    "artifact": "sources/licenses/drizzle-team-drizzle-orm.txt",
+    "applies_to": "repository_source_only_not_all_model_weights_or_cloud_terms"
+  }
+}
+

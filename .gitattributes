@@ -19,3 +19,9 @@ data/evaluation/p02-pilot-r11-20261023/budget-preflight-supplement-20261023.json
 data/evaluation/p02-pilot-r11-20261023/human-review-conclusion-20261023.json -text whitespace=cr-at-eol
 data/evaluation/p02-pilot-r11-20261023/predev-handoff-20261023.json -text whitespace=cr-at-eol
 data/evaluation/p02-pilot-r11-20261023/provider-console-attestation-20261023.json -text whitespace=cr-at-eol
+
+# New frozen materials and review evidence bind hashes to original file bytes.
+data/evaluation/decision-m1-1/** -text whitespace=cr-at-eol
+# Preserve frozen upstream excerpts/licenses, including their trailing blank lines.
+data/evaluation/decision-m1-1/sources/** whitespace=cr-at-eol,-blank-at-eof
+docs/evaluation/DECISION_M1_PROTOCOL.json -text whitespace=cr-at-eol

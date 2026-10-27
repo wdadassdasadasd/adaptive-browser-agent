@@ -1,0 +1,39 @@
+{
+  "source_id": "orm-typeorm-sqlite",
+  "source_url": "https://github.com/typeorm/typeorm/blob/a0ea55323662dcd3cff1fa5ab6153be43ded80a7/docs/docs/drivers/sqlite.md",
+  "repository": "typeorm/typeorm",
+  "version_ref": "a0ea55323662dcd3cff1fa5ab6153be43ded80a7",
+  "upstream_blob_sha1": "ce181519f47ff9243101ee1e1ca8b0838e4875df",
+  "observed_at": "2026-10-27T09:37:38+00:00",
+  "extraction_kind": "verbatim_noncontiguous_source_lines",
+  "hash_scope": "local_UTF8_artifact_bytes_not_full_upstream_file_or_wire",
+  "excerpts": [
+    {
+      "locator": {
+        "kind": "source_file_lines",
+        "first_line": 1,
+        "last_line": 9
+      },
+      "text": "# SQLite\n\n## Installation\n\n- for **Better SQLite**:\n\n```shell\nnpm install better-sqlite3\n```"
+    },
+    {
+      "locator": {
+        "kind": "source_file_lines",
+        "first_line": 23,
+        "last_line": 29
+      },
+      "text": "### `better-sqlite3` data source options\n\n- `database` - Database path. For example, `\"mydb.sqlite\"`.\n- `enableWAL` - Enables WAL mode (default `false`). See [SQLite WAL mode](https://www.sqlite.org/wal.html).\n- `fileMustExist` - If the database does not exist, an Error will be thrown instead of creating a new file. Does not affect in-memory or readonly connections (default `false`).\n- `key` - Encryption key for SQLCipher.\n- `nativeBinding` - Relative or absolute path to the native addon (`better_sqlite3.node`)."
+    }
+  ],
+  "limitations": [
+    "Only the selected lines are frozen; omission is not evidence that an upstream capability is absent.",
+    "Prepared source material is not an admitted research fact or a human-verified report."
+  ],
+  "license_observation": {
+    "url": "https://github.com/typeorm/typeorm/blob/a0ea55323662dcd3cff1fa5ab6153be43ded80a7/LICENSE",
+    "upstream_blob_sha1": "cb028e11b91c644494a85ac42e91b90154dcbc23",
+    "artifact": "sources/licenses/typeorm-typeorm.txt",
+    "applies_to": "repository_source_only_not_all_model_weights_or_cloud_terms"
+  }
+}
+
