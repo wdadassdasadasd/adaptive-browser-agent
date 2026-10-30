@@ -1,0 +1,964 @@
+{
+  "schema_version": "discovery-m1-cases-1",
+  "protocol_version": "discovery-m1-1",
+  "prepared_on": "2026-10-29",
+  "authority": "execution_materials_not_a_second_protocol_or_run_authorization",
+  "preparation_state": "materials_prepared_not_executed",
+  "disclosure_policy": {
+    "owner_reveal": "one_current_case_at_formal_first_display_with_active_timer",
+    "preparation_reports": "case_ids_hashes_and_review_findings_only_no_prompt_or_gold",
+    "public_repo_not_technically_blind": true,
+    "premature_exposure": "record_actual_first_exposure_and_contamination; never conceal or silently substitute a case"
+  },
+  "readiness": {
+    "independent_actual_file_review": "done",
+    "review_artifact_ref": ".tmp/predev-reopen-20261028/config-20261029/evaluation-actual-review-r1.json",
+    "reviewed_material_sha256": "877957864118169fa18a65bc7955e57260e623c0acb25146b262f0c239fd07a0",
+    "executed": false,
+    "formal_seed": null,
+    "formal_attempts": 0,
+    "provider_calls": 0,
+    "review_artifact_sha256": "d686eaf7dd6ce1049a52e33ec51c37d99791b82f177aef8a97b5943d74f7dc9f",
+    "review_binding": "Review hashes identify the immutable r1 snapshot before this metadata update. The metadata-only delta requires separate independent review recorded by the local final-delivery.json; no execution qualification is asserted."
+  },
+  "domains": [
+    {
+      "id": "scheduling",
+      "case_ids": [
+        "SCH-A",
+        "SCH-B"
+      ],
+      "equivalence": {
+        "goal": "同领域不同实际任务，从零发现、比较路线、核查决定性限制、给验证计划。",
+        "hard_condition_count_each": 4,
+        "decisive_question_groups_each": 3,
+        "expected_shortlist_max_each": 3,
+        "official_evidence_burden": "两题都核部署/依赖、版本/主体、功能与失败边界、组合/转换责任、许可及验证限制，不按统一事实数打分。",
+        "route_findability": "准备者只读官方来源确认至少两条实质路线可研究；没有保证所有路线满足硬条件。",
+        "remaining_inequality": "A决定性问题为周期时间/misfire合并与实例限制，B为未来预约改期取消与旧触发竞争；两题均有持久/故障/部署核源负担，仍需披露候选来源和知识迁移，不称严格同难。"
+      },
+      "equivalence_review_status": "done_independent_actual_file_review"
+    },
+    {
+      "id": "data_migration",
+      "case_ids": [
+        "DAT-A",
+        "DAT-B"
+      ],
+      "equivalence": {
+        "goal": "同领域不同实际任务，从零发现、比较路线、核查决定性限制、给验证计划。",
+        "hard_condition_count_each": 4,
+        "decisive_question_groups_each": 3,
+        "expected_shortlist_max_each": 3,
+        "official_evidence_burden": "两题都核部署/依赖、版本/主体、功能与失败边界、组合/转换责任、许可及验证限制，不按统一事实数打分。",
+        "route_findability": "准备者只读官方来源确认至少两条实质路线可研究；没有保证所有路线满足硬条件。",
+        "remaining_inequality": "SQLite动态类型与MySQL类型/认证差异无法完全相消；需披露熟悉度和知识迁移，不宣称严格同难。"
+      },
+      "equivalence_review_status": "done_independent_actual_file_review"
+    },
+    {
+      "id": "document_processing",
+      "case_ids": [
+        "DOC-A",
+        "DOC-B"
+      ],
+      "equivalence": {
+        "goal": "同领域不同实际任务，从零发现、比较路线、核查决定性限制、给验证计划。",
+        "hard_condition_count_each": 4,
+        "decisive_question_groups_each": 3,
+        "expected_shortlist_max_each": 3,
+        "official_evidence_burden": "两题都核部署/依赖、版本/主体、功能与失败边界、组合/转换责任、许可及验证限制，不按统一事实数打分。",
+        "route_findability": "准备者只读官方来源确认至少两条实质路线可研究；没有保证所有路线满足硬条件。",
+        "remaining_inequality": "PDF定位/表格与DOCX结构/字体渲染的困难不同；两题均含解析和生成两角色，效果未实测。"
+      },
+      "equivalence_review_status": "done_independent_actual_file_review"
+    }
+  ],
+  "agent_input": {
+    "allowlist_paths": [
+      "#/agent_input/cases/{current_case_only}",
+      "#/controller_only/clarification_cards/{current_case_only}/answer_units/{current_question_only}",
+      "#/controller_only/clarification_cards/{current_case_only}/accepted_conditions (only after owner explicitly accepts)"
+    ],
+    "prohibited_inputs": [
+      "scorer_only",
+      "source_manifest",
+      "other_case_text",
+      "future_changes",
+      "equivalence_answers",
+      "future_method_output"
+    ],
+    "cases": [
+      {
+        "case_id": "SCH-A",
+        "domain_id": "scheduling",
+        "variant": "A",
+        "prompt": "我在做一个单机Python技术资料工具，需要每天定时生成一份公开资料摘要，也会安排少量一次性生成任务。请从零调研合适的后台调度路线，帮助我缩小实现选择并提出下一步验证方案。我没有候选名单；先问清关键条件。此次只做调研，不写代码或运行服务。",
+        "output_requirements": [
+          "先澄清并确认硬条件、偏好、未知与本次调查范围；不预置候选。",
+          "说明路线、发现依据、短名单和有源排除理由；只推荐已深查范围，不声称全局最优。",
+          "逐硬条件和推荐/排除依赖的关键主张提供官方主体、版本、适用时间/地域、URL及定位；反证和缺口并列。",
+          "给出有限的下一步验证计划及失败/回滚标准；本题只研究，不安装、运行、迁移或生成真实业务产物。"
+        ]
+      },
+      {
+        "case_id": "SCH-B",
+        "domain_id": "scheduling",
+        "variant": "B",
+        "prompt": "我在做一个单机Python内容工具，用户可以预约稍后发布一条公开内容，也需要定期整理过期预约。请从零调研适合的后台任务路线，帮助我缩小实现选择并提出下一步验证方案。我没有候选名单；先问清关键条件。此次只做调研，不写代码或运行服务。",
+        "output_requirements": [
+          "先澄清并确认硬条件、偏好、未知与本次调查范围；不预置候选。",
+          "说明路线、发现依据、短名单和有源排除理由；只推荐已深查范围，不声称全局最优。",
+          "逐硬条件和推荐/排除依赖的关键主张提供官方主体、版本、适用时间/地域、URL及定位；反证和缺口并列。",
+          "给出有限的下一步验证计划及失败/回滚标准；本题只研究，不安装、运行、迁移或生成真实业务产物。"
+        ]
+      },
+      {
+        "case_id": "DAT-A",
+        "domain_id": "data_migration",
+        "variant": "A",
+        "prompt": "我有一个小型资料目录工具，准备把现有SQLite中的数据迁到PostgreSQL。请从零调研可用的迁移路线，比较数据含义、恢复和维护风险，缩小选择并给出验证计划。我没有候选工具；先澄清条件。此次不连接数据库、不执行迁移。",
+        "output_requirements": [
+          "先澄清并确认硬条件、偏好、未知与本次调查范围；不预置候选。",
+          "说明路线、发现依据、短名单和有源排除理由；只推荐已深查范围，不声称全局最优。",
+          "逐硬条件和推荐/排除依赖的关键主张提供官方主体、版本、适用时间/地域、URL及定位；反证和缺口并列。",
+          "给出有限的下一步验证计划及失败/回滚标准；本题只研究，不安装、运行、迁移或生成真实业务产物。"
+        ]
+      },
+      {
+        "case_id": "DAT-B",
+        "domain_id": "data_migration",
+        "variant": "B",
+        "prompt": "我有一个小型库存记录工具，准备把现有MySQL中的数据迁到PostgreSQL。请从零调研可用的迁移路线，比较数据含义、恢复和维护风险，缩小选择并给出验证计划。我没有候选工具；先澄清条件。此次不连接数据库、不执行迁移。",
+        "output_requirements": [
+          "先澄清并确认硬条件、偏好、未知与本次调查范围；不预置候选。",
+          "说明路线、发现依据、短名单和有源排除理由；只推荐已深查范围，不声称全局最优。",
+          "逐硬条件和推荐/排除依赖的关键主张提供官方主体、版本、适用时间/地域、URL及定位；反证和缺口并列。",
+          "给出有限的下一步验证计划及失败/回滚标准；本题只研究，不安装、运行、迁移或生成真实业务产物。"
+        ]
+      },
+      {
+        "case_id": "DOC-A",
+        "domain_id": "document_processing",
+        "variant": "A",
+        "prompt": "我需要在本机把一批技术手册PDF里的文字和表格整理出来，再生成便于人工复核的DOCX简报。请从零调研解析与生成的组合路线，缩小选择并提出验证计划。我没有候选组件；先问清输入、输出和限制。此次只调研，不读取实际文件或生成文档。",
+        "output_requirements": [
+          "先澄清并确认硬条件、偏好、未知与本次调查范围；不预置候选。",
+          "说明路线、发现依据、短名单和有源排除理由；只推荐已深查范围，不声称全局最优。",
+          "逐硬条件和推荐/排除依赖的关键主张提供官方主体、版本、适用时间/地域、URL及定位；反证和缺口并列。",
+          "给出有限的下一步验证计划及失败/回滚标准；本题只研究，不安装、运行、迁移或生成真实业务产物。"
+        ]
+      },
+      {
+        "case_id": "DOC-B",
+        "domain_id": "document_processing",
+        "variant": "B",
+        "prompt": "我需要在本机把一批业务说明DOCX里的文字和表格整理出来，再生成便于人工复核的PDF简报。请从零调研解析与生成的组合路线，缩小选择并提出验证计划。我没有候选组件；先问清输入、输出和限制。此次只调研，不读取实际文件或生成文档。",
+        "output_requirements": [
+          "先澄清并确认硬条件、偏好、未知与本次调查范围；不预置候选。",
+          "说明路线、发现依据、短名单和有源排除理由；只推荐已深查范围，不声称全局最优。",
+          "逐硬条件和推荐/排除依赖的关键主张提供官方主体、版本、适用时间/地域、URL及定位；反证和缺口并列。",
+          "给出有限的下一步验证计划及失败/回滚标准；本题只研究，不安装、运行、迁移或生成真实业务产物。"
+        ]
+      }
+    ]
+  },
+  "controller_only": {
+    "clarification_cards": {
+      "SCH-A": {
+        "decisive_questions": [
+          "运行环境、可用存储与可新增服务是什么？",
+          "任务规模、时间语义及最重要的调度行为是什么？",
+          "重启、竞争、重复副作用与调研执行边界是什么？"
+        ],
+        "answer_units": [
+          {
+            "question_group": 1,
+            "answer": "运行目标是Linux x86-64与Python3.12的单机服务；已有PostgreSQL16，可接受本机SQLite，但不新增Redis、RabbitMQ或托管队列。"
+          },
+          {
+            "question_group": 2,
+            "answer": "每天约30个周期任务，另有最多100个一次性生成任务，通常1分钟内。统一以UTC保存和解释执行时间，须区分固定间隔与指定日历时间的路线；服务停机错过多个周期后允许合并为一次补做，但要明确过期宽限和不可补做边界。"
+          },
+          {
+            "question_group": 3,
+            "answer": "已安排任务须跨正常服务重启保留；应解释misfire/coalescing和同一周期任务最大在途实例的机制或应用责任，并说明执行中崩溃与重复副作用，不能声称exactly-once。取消未来任务不是本题决定性比较项。 路线必须可本机自托管、不依赖付费托管服务；本题只提供调研与验证方案，不能把文档说明称为已实测。"
+          }
+        ],
+        "accepted_conditions": {
+          "hard_conditions": [
+            {
+              "id": "H1",
+              "text": "运行目标是Linux x86-64与Python3.12的单机服务；已有PostgreSQL16，可接受本机SQLite，但不新增Redis、RabbitMQ或托管队列。"
+            },
+            {
+              "id": "H2",
+              "text": "每天约30个周期任务，另有最多100个一次性生成任务，通常1分钟内。统一以UTC保存和解释执行时间，须区分固定间隔与指定日历时间的路线；服务停机错过多个周期后允许合并为一次补做，但要明确过期宽限和不可补做边界。"
+            },
+            {
+              "id": "H3",
+              "text": "已安排任务须跨正常服务重启保留；应解释misfire/coalescing和同一周期任务最大在途实例的机制或应用责任，并说明执行中崩溃与重复副作用，不能声称exactly-once。取消未来任务不是本题决定性比较项。"
+            },
+            {
+              "id": "H4",
+              "text": "路线必须可本机自托管、不依赖付费托管服务；本题只提供调研与验证方案，不能把文档说明称为已实测。"
+            }
+          ],
+          "preferences": [
+            "少运维组件优先。",
+            "公开文档清楚、能定位失败任务与便于解释优先。"
+          ],
+          "unknowns": [
+            "尚无真实服务故障和吞吐测量。",
+            "现有任务能否完全幂等未知，外部副作用验证留下一步。"
+          ],
+          "scope": "只调研、核源和下一步验证，不执行实现或实际业务操作。"
+        },
+        "delivery_rule": "当前题揭示后按问题给对应完整答题单元；在任一方法接受研究条件前向本人呈现完整统一条件卡并明确接受，避免未透露隐藏要求。提供/阅读/确认全计主动时间。不能向Agent注入scorer_only或来源参照。"
+      },
+      "SCH-B": {
+        "decisive_questions": [
+          "运行环境、可用存储与可新增服务是什么？",
+          "任务规模、时间语义及最重要的调度行为是什么？",
+          "重启、竞争、重复副作用与调研执行边界是什么？"
+        ],
+        "answer_units": [
+          {
+            "question_group": 1,
+            "answer": "运行目标是Linux x86-64与Python3.12的单机服务；已有PostgreSQL16，可接受本机SQLite，但不新增Redis、RabbitMQ或托管队列。"
+          },
+          {
+            "question_group": 2,
+            "answer": "每天最多100个未来一次性预约及约30个到期清理任务，单次通常1分钟内，统一UTC。用户可在任务尚未开始时改期或取消；须说明任务已被执行者认领、正在执行及刚完成时各自还能做什么，不能把删除预约等同撤回已发生副作用。"
+          },
+          {
+            "question_group": 3,
+            "answer": "预约和改期/取消结果须跨正常服务重启保留；应设计稳定预约身份、旧时间触发与新版本的竞争核对，解释投递或重试导致重复发布的应用责任。周期清理仅是简单附带需求，不要求深入日历/misfire合并策略；不能声称exactly-once。 路线必须可本机自托管、不依赖付费托管服务；本题只提供调研与验证方案，不能把文档说明称为已实测。"
+          }
+        ],
+        "accepted_conditions": {
+          "hard_conditions": [
+            {
+              "id": "H1",
+              "text": "运行目标是Linux x86-64与Python3.12的单机服务；已有PostgreSQL16，可接受本机SQLite，但不新增Redis、RabbitMQ或托管队列。"
+            },
+            {
+              "id": "H2",
+              "text": "每天最多100个未来一次性预约及约30个到期清理任务，单次通常1分钟内，统一UTC。用户可在任务尚未开始时改期或取消；须说明任务已被执行者认领、正在执行及刚完成时各自还能做什么，不能把删除预约等同撤回已发生副作用。"
+            },
+            {
+              "id": "H3",
+              "text": "预约和改期/取消结果须跨正常服务重启保留；应设计稳定预约身份、旧时间触发与新版本的竞争核对，解释投递或重试导致重复发布的应用责任。周期清理仅是简单附带需求，不要求深入日历/misfire合并策略；不能声称exactly-once。"
+            },
+            {
+              "id": "H4",
+              "text": "路线必须可本机自托管、不依赖付费托管服务；本题只提供调研与验证方案，不能把文档说明称为已实测。"
+            }
+          ],
+          "preferences": [
+            "少运维组件优先。",
+            "公开文档清楚、能定位失败任务与便于解释优先。"
+          ],
+          "unknowns": [
+            "尚无真实服务故障和吞吐测量。",
+            "现有任务能否完全幂等未知，外部副作用验证留下一步。"
+          ],
+          "scope": "只调研、核源和下一步验证，不执行实现或实际业务操作。"
+        },
+        "delivery_rule": "当前题揭示后按问题给对应完整答题单元；在任一方法接受研究条件前向本人呈现完整统一条件卡并明确接受，避免未透露隐藏要求。提供/阅读/确认全计主动时间。不能向Agent注入scorer_only或来源参照。"
+      },
+      "DAT-A": {
+        "decisive_questions": [
+          "源/目标版本、数据规模与允许停写窗口是什么？",
+          "哪些关系和数值/时间语义必须保留？",
+          "可否修改原库、如何验证和回退、是否现在执行？"
+        ],
+        "answer_units": [
+          {
+            "question_group": 1,
+            "answer": "从SQLite3，源表不是STRICT表迁往新空PostgreSQL16目标库；本机Linux x86-64，Python3.12是维护团队熟悉的语言，非硬性限定工具实现语言。 可以停写2小时，不要求在线CDC；原库保持只读、可回退，不允许直接在原库试删改或覆盖。 数据规模为5张表、约10万行、总量约200MiB。"
+          },
+          {
+            "question_group": 2,
+            "answer": "5张表、约10万行、总量约200MiB，含整数主键、外键、唯一键、中文文本、JSON文本与ISO8601文本时间；源数据中是否有混合类型尚未知。 必须说明主/外/唯一键、序列或生成键、Unicode、JSON和时间/数值含义的迁移校验；未知脏数据不可假定不存在。"
+          },
+          {
+            "question_group": 3,
+            "answer": "可以停写2小时，不要求在线CDC；原库保持只读、可回退，不允许直接在原库试删改或覆盖。 选择可自托管、无付费托管依赖的路线；给预演、计数/抽样/约束检查和失败回退设计，本题不执行数据库操作。"
+          }
+        ],
+        "accepted_conditions": {
+          "hard_conditions": [
+            {
+              "id": "H1",
+              "text": "从SQLite3，源表不是STRICT表迁往新空PostgreSQL16目标库；本机Linux x86-64，Python3.12是维护团队熟悉的语言，非硬性限定工具实现语言。 5张表、约10万行、总量约200MiB，含整数主键、外键、唯一键、中文文本、JSON文本与ISO8601文本时间；源数据中是否有混合类型尚未知。"
+            },
+            {
+              "id": "H2",
+              "text": "可以停写2小时，不要求在线CDC；原库保持只读、可回退，不允许直接在原库试删改或覆盖。"
+            },
+            {
+              "id": "H3",
+              "text": "必须说明主/外/唯一键、序列或生成键、Unicode、JSON和时间/数值含义的迁移校验；未知脏数据不可假定不存在。"
+            },
+            {
+              "id": "H4",
+              "text": "选择可自托管、无付费托管依赖的路线；给预演、计数/抽样/约束检查和失败回退设计，本题不执行数据库操作。"
+            }
+          ],
+          "preferences": [
+            "尽量减少长期维护的自写转换代码。",
+            "可审查映射、错误定位和重复预演流程优先。"
+          ],
+          "unknowns": [
+            "未提供真实schema、数据样本或迁移耗时，不保证2小时足够。",
+            "数据清洗规则须实际抽样后由负责人批准，不默认把异常值改成null。"
+          ],
+          "scope": "只调研、核源和下一步验证，不执行实现或实际业务操作。"
+        },
+        "delivery_rule": "当前题揭示后按问题给对应完整答题单元；在任一方法接受研究条件前向本人呈现完整统一条件卡并明确接受，避免未透露隐藏要求。提供/阅读/确认全计主动时间。不能向Agent注入scorer_only或来源参照。"
+      },
+      "DAT-B": {
+        "decisive_questions": [
+          "源/目标版本、数据规模与允许停写窗口是什么？",
+          "哪些关系和数值/时间语义必须保留？",
+          "可否修改原库、如何验证和回退、是否现在执行？"
+        ],
+        "answer_units": [
+          {
+            "question_group": 1,
+            "answer": "从MySQL8.0，源表使用InnoDB迁往新空PostgreSQL16目标库；本机Linux x86-64，Python3.12是维护团队熟悉的语言，非硬性限定工具实现语言。 可以停写2小时，不要求在线CDC；原库保持只读、可回退，不允许直接在原库试删改或覆盖。 数据规模为5张表、约10万行、总量约200MiB。"
+          },
+          {
+            "question_group": 2,
+            "answer": "5张表、约10万行、总量约200MiB，含整数主键、外键、唯一键、中文文本、JSON字段与DATETIME时间；源数据中是否有零日期或越界无符号数尚未知。 必须说明主/外/唯一键、序列或生成键、Unicode、JSON和时间/数值含义的迁移校验；未知脏数据不可假定不存在。"
+          },
+          {
+            "question_group": 3,
+            "answer": "可以停写2小时，不要求在线CDC；原库保持只读、可回退，不允许直接在原库试删改或覆盖。 选择可自托管、无付费托管依赖的路线；给预演、计数/抽样/约束检查和失败回退设计，本题不执行数据库操作。"
+          }
+        ],
+        "accepted_conditions": {
+          "hard_conditions": [
+            {
+              "id": "H1",
+              "text": "从MySQL8.0，源表使用InnoDB迁往新空PostgreSQL16目标库；本机Linux x86-64，Python3.12是维护团队熟悉的语言，非硬性限定工具实现语言。 5张表、约10万行、总量约200MiB，含整数主键、外键、唯一键、中文文本、JSON字段与DATETIME时间；源数据中是否有零日期或越界无符号数尚未知。"
+            },
+            {
+              "id": "H2",
+              "text": "可以停写2小时，不要求在线CDC；原库保持只读、可回退，不允许直接在原库试删改或覆盖。"
+            },
+            {
+              "id": "H3",
+              "text": "必须说明主/外/唯一键、序列或生成键、Unicode、JSON和时间/数值含义的迁移校验；未知脏数据不可假定不存在。"
+            },
+            {
+              "id": "H4",
+              "text": "选择可自托管、无付费托管依赖的路线；给预演、计数/抽样/约束检查和失败回退设计，本题不执行数据库操作。"
+            }
+          ],
+          "preferences": [
+            "尽量减少长期维护的自写转换代码。",
+            "可审查映射、错误定位和重复预演流程优先。"
+          ],
+          "unknowns": [
+            "未提供真实schema、数据样本或迁移耗时，不保证2小时足够。",
+            "数据清洗规则须实际抽样后由负责人批准，不默认把异常值改成null。"
+          ],
+          "scope": "只调研、核源和下一步验证，不执行实现或实际业务操作。"
+        },
+        "delivery_rule": "当前题揭示后按问题给对应完整答题单元；在任一方法接受研究条件前向本人呈现完整统一条件卡并明确接受，避免未透露隐藏要求。提供/阅读/确认全计主动时间。不能向Agent注入scorer_only或来源参照。"
+      },
+      "DOC-A": {
+        "decisive_questions": [
+          "输入文档类型、规模与版式复杂度是什么？",
+          "输出需要保留哪些结构，是否要求原版面复现？",
+          "运行环境、联网/许可限制和验证边界是什么？"
+        ],
+        "answer_units": [
+          {
+            "question_group": 1,
+            "answer": "输入是10–30页的机器生成PDF，中文/英文混合、普通段落及有线框表格；无扫描/OCR需求，尚无实际样本，跨页表格和合并单元格实际出现比例未知。输出DOCX含来源页码/片段索引和可编辑表格。"
+          },
+          {
+            "question_group": 2,
+            "answer": "保留文字与表格的结构关系及可回查的输入位置；对无法可靠解释的跨页/合并/嵌套结构显式标记，不静默伪造数据。 输出可人工阅读的规定格式简报，不要求原文版式/分页像素级复现；需要说明字体、中文与表格分页的实际验证办法。"
+          },
+          {
+            "question_group": 3,
+            "answer": "拟在Linux x86-64、Python3.12本机运行，内容不得上传云端处理；不依赖已安装的Microsoft Office或付费文档服务。 调研解析和生成两角色的组合与许可/平台依赖，不能只找到一个组件就声称流程完成；本题不安装、不解析样例、不生成真实文档。"
+          }
+        ],
+        "accepted_conditions": {
+          "hard_conditions": [
+            {
+              "id": "H1",
+              "text": "拟在Linux x86-64、Python3.12本机运行，内容不得上传云端处理；不依赖已安装的Microsoft Office或付费文档服务。"
+            },
+            {
+              "id": "H2",
+              "text": "输入是10–30页的机器生成PDF，中文/英文混合、普通段落及有线框表格；无扫描/OCR需求，尚无实际样本，跨页表格和合并单元格实际出现比例未知。输出DOCX含来源页码/片段索引和可编辑表格。 保留文字与表格的结构关系及可回查的输入位置；对无法可靠解释的跨页/合并/嵌套结构显式标记，不静默伪造数据。"
+            },
+            {
+              "id": "H3",
+              "text": "输出可人工阅读的规定格式简报，不要求原文版式/分页像素级复现；需要说明字体、中文与表格分页的实际验证办法。"
+            },
+            {
+              "id": "H4",
+              "text": "调研解析和生成两角色的组合与许可/平台依赖，不能只找到一个组件就声称流程完成；本题不安装、不解析样例、不生成真实文档。"
+            }
+          ],
+          "preferences": [
+            "开放许可证和长期可维护的依赖组合优先，不能把许可证当运行授权。",
+            "少平台组件、错误可定位和人工复核方便优先。"
+          ],
+          "unknowns": [
+            "未取得原始样本，不能保证提取准确率或生成版式效果。",
+            "可用中文字体及目标文档查看器尚未核验。"
+          ],
+          "scope": "只调研、核源和下一步验证，不执行实现或实际业务操作。"
+        },
+        "delivery_rule": "当前题揭示后按问题给对应完整答题单元；在任一方法接受研究条件前向本人呈现完整统一条件卡并明确接受，避免未透露隐藏要求。提供/阅读/确认全计主动时间。不能向Agent注入scorer_only或来源参照。"
+      },
+      "DOC-B": {
+        "decisive_questions": [
+          "输入文档类型、规模与版式复杂度是什么？",
+          "输出需要保留哪些结构，是否要求原版面复现？",
+          "运行环境、联网/许可限制和验证边界是什么？"
+        ],
+        "answer_units": [
+          {
+            "question_group": 1,
+            "answer": "输入是10–30页的DOCX，中文/英文混合、普通段落及表格；无图片文字识别需求，尚无实际样本，嵌套/合并单元格实际出现比例未知。输出PDF含来源段落/表格索引和可读表格。"
+          },
+          {
+            "question_group": 2,
+            "answer": "保留文字与表格的结构关系及可回查的输入位置；对无法可靠解释的跨页/合并/嵌套结构显式标记，不静默伪造数据。 输出可人工阅读的规定格式简报，不要求原文版式/分页像素级复现；需要说明字体、中文与表格分页的实际验证办法。"
+          },
+          {
+            "question_group": 3,
+            "answer": "拟在Linux x86-64、Python3.12本机运行，内容不得上传云端处理；不依赖已安装的Microsoft Office或付费文档服务。 调研解析和生成两角色的组合与许可/平台依赖，不能只找到一个组件就声称流程完成；本题不安装、不解析样例、不生成真实文档。"
+          }
+        ],
+        "accepted_conditions": {
+          "hard_conditions": [
+            {
+              "id": "H1",
+              "text": "拟在Linux x86-64、Python3.12本机运行，内容不得上传云端处理；不依赖已安装的Microsoft Office或付费文档服务。"
+            },
+            {
+              "id": "H2",
+              "text": "输入是10–30页的DOCX，中文/英文混合、普通段落及表格；无图片文字识别需求，尚无实际样本，嵌套/合并单元格实际出现比例未知。输出PDF含来源段落/表格索引和可读表格。 保留文字与表格的结构关系及可回查的输入位置；对无法可靠解释的跨页/合并/嵌套结构显式标记，不静默伪造数据。"
+            },
+            {
+              "id": "H3",
+              "text": "输出可人工阅读的规定格式简报，不要求原文版式/分页像素级复现；需要说明字体、中文与表格分页的实际验证办法。"
+            },
+            {
+              "id": "H4",
+              "text": "调研解析和生成两角色的组合与许可/平台依赖，不能只找到一个组件就声称流程完成；本题不安装、不解析样例、不生成真实文档。"
+            }
+          ],
+          "preferences": [
+            "开放许可证和长期可维护的依赖组合优先，不能把许可证当运行授权。",
+            "少平台组件、错误可定位和人工复核方便优先。"
+          ],
+          "unknowns": [
+            "未取得原始样本，不能保证提取准确率或生成版式效果。",
+            "可用中文字体及目标文档查看器尚未核验。"
+          ],
+          "scope": "只调研、核源和下一步验证，不执行实现或实际业务操作。"
+        },
+        "delivery_rule": "当前题揭示后按问题给对应完整答题单元；在任一方法接受研究条件前向本人呈现完整统一条件卡并明确接受，避免未透露隐藏要求。提供/阅读/确认全计主动时间。不能向Agent注入scorer_only或来源参照。"
+      }
+    },
+    "familiarity_record": "Before any case text record actual domain and candidate/source experience; after reveal record task-specific familiarity in active time. Do not label the owner completely inexperienced.",
+    "run_bindings": "Filled only after separately authorized implementation/qualification; no future code/model/seed/grant fields invented now."
+  },
+  "scorer_only": {
+    "common_quality_reference": "CURRENT_EVAL_PROTOCOL.json#/common_quality",
+    "case_rubrics": {
+      "SCH-A": {
+        "mandatory_hard_condition_ids": [
+          "H1",
+          "H2",
+          "H3",
+          "H4"
+        ],
+        "decisive_claim_topics": [
+          "持久job store及应用重启后恢复责任",
+          "固定间隔/日历触发及UTC含义",
+          "misfire/coalescing/过期宽限和实例上限的准确版本与配置",
+          "执行中崩溃/重试/重复副作用及应用幂等责任",
+          "依赖/许可/版本及上述时间边界的验证计划"
+        ],
+        "feasibility_source_refs": [
+          "S-APS",
+          "S-PRO",
+          "S-PRO-CRON",
+          "S-PRO-RETRY",
+          "S-HUEY"
+        ],
+        "plausible_routes_not_exhaustive_answers": [
+          {
+            "route": "单调度器加持久job store并由应用处理副作用",
+            "source_refs": [
+              "S-APS"
+            ]
+          },
+          {
+            "route": "数据库支持的任务队列与周期/延迟调度",
+            "source_refs": [
+              "S-PRO",
+              "S-HUEY"
+            ]
+          }
+        ],
+        "critical_failures": [
+          "未完成条件接受即把假设当硬条件，或遗漏已接受决定性条件。",
+          "推荐/排除所依赖关键主张无适用官方证据，错主体/版本，或隐藏决定性反证。",
+          "把工具额度耗尽、全失败、未调查潜在替代说成充分无赢家；用范围措辞逃避实际题目。",
+          "伪称已安装、运行、迁移、提取准确率或文档效果已验证。",
+          "违反本题原件保护/本地处理/禁止真实执行边界，或遗漏角色使组合结论不成立。"
+        ],
+        "acceptable_outcome": "有源支持且满足全部已接受硬条件的有限范围推荐，或证据充分支持的本次范围无赢家；调查不足只能partial。新有效路线/来源按同一规则接受，参照不是封闭答案集合。",
+        "not_required": "不固定某个产品获胜；不固定八事实；不要求实际运行或全网最优；不把preparation阅读当正式人工核源。"
+      },
+      "SCH-B": {
+        "mandatory_hard_condition_ids": [
+          "H1",
+          "H2",
+          "H3",
+          "H4"
+        ],
+        "decisive_claim_topics": [
+          "持久一次性预约及稳定应用身份",
+          "改期/取消的支持机制、精确版本与已认领/在途边界",
+          "旧触发与改期版本的竞争及应用核对责任",
+          "重复投递或执行中崩溃后的发布幂等和补偿责任",
+          "依赖/许可/版本及上述竞争边界的验证计划"
+        ],
+        "feasibility_source_refs": [
+          "S-APS",
+          "S-PRO",
+          "S-PRO-CRON",
+          "S-PRO-RETRY",
+          "S-HUEY"
+        ],
+        "plausible_routes_not_exhaustive_answers": [
+          {
+            "route": "单调度器加持久job store并由应用处理副作用",
+            "source_refs": [
+              "S-APS"
+            ]
+          },
+          {
+            "route": "数据库支持的任务队列与周期/延迟调度",
+            "source_refs": [
+              "S-PRO",
+              "S-HUEY"
+            ]
+          }
+        ],
+        "critical_failures": [
+          "未完成条件接受即把假设当硬条件，或遗漏已接受决定性条件。",
+          "推荐/排除所依赖关键主张无适用官方证据，错主体/版本，或隐藏决定性反证。",
+          "把工具额度耗尽、全失败、未调查潜在替代说成充分无赢家；用范围措辞逃避实际题目。",
+          "伪称已安装、运行、迁移、提取准确率或文档效果已验证。",
+          "违反本题原件保护/本地处理/禁止真实执行边界，或遗漏角色使组合结论不成立。"
+        ],
+        "acceptable_outcome": "有源支持且满足全部已接受硬条件的有限范围推荐，或证据充分支持的本次范围无赢家；调查不足只能partial。新有效路线/来源按同一规则接受，参照不是封闭答案集合。",
+        "not_required": "不固定某个产品获胜；不固定八事实；不要求实际运行或全网最优；不把preparation阅读当正式人工核源。"
+      },
+      "DAT-A": {
+        "mandatory_hard_condition_ids": [
+          "H1",
+          "H2",
+          "H3",
+          "H4"
+        ],
+        "decisive_claim_topics": [
+          "源与目标类型及版本适用性",
+          "默认drop/truncate/约束处理等破坏边界",
+          "schema和数据搬运职责是否完整",
+          "显式转换与跨库事务/重跑边界",
+          "只读原件、目标隔离、验证及回退"
+        ],
+        "feasibility_source_refs": [
+          "S-PGL-SQLITE",
+          "S-SA",
+          "S-SQLITE",
+          "S-PG-COPY"
+        ],
+        "plausible_routes_not_exhaustive_answers": [
+          {
+            "route": "专用导入/转换工具的声明式迁移",
+            "source_refs": [
+              "S-PGL-SQLITE"
+            ]
+          },
+          {
+            "route": "受控Python读取、显式映射与批次写入/导入",
+            "source_refs": [
+              "S-SA",
+              "S-PG-COPY"
+            ]
+          }
+        ],
+        "critical_failures": [
+          "未完成条件接受即把假设当硬条件，或遗漏已接受决定性条件。",
+          "推荐/排除所依赖关键主张无适用官方证据，错主体/版本，或隐藏决定性反证。",
+          "把工具额度耗尽、全失败、未调查潜在替代说成充分无赢家；用范围措辞逃避实际题目。",
+          "伪称已安装、运行、迁移、提取准确率或文档效果已验证。",
+          "违反本题原件保护/本地处理/禁止真实执行边界，或遗漏角色使组合结论不成立。"
+        ],
+        "acceptable_outcome": "有源支持且满足全部已接受硬条件的有限范围推荐，或证据充分支持的本次范围无赢家；调查不足只能partial。新有效路线/来源按同一规则接受，参照不是封闭答案集合。",
+        "not_required": "不固定某个产品获胜；不固定八事实；不要求实际运行或全网最优；不把preparation阅读当正式人工核源。"
+      },
+      "DAT-B": {
+        "mandatory_hard_condition_ids": [
+          "H1",
+          "H2",
+          "H3",
+          "H4"
+        ],
+        "decisive_claim_topics": [
+          "源与目标类型及版本适用性",
+          "默认drop/truncate/约束处理等破坏边界",
+          "schema和数据搬运职责是否完整",
+          "显式转换与跨库事务/重跑边界",
+          "只读原件、目标隔离、验证及回退"
+        ],
+        "feasibility_source_refs": [
+          "S-PGL-MYSQL",
+          "S-SA",
+          "S-PG-COPY"
+        ],
+        "plausible_routes_not_exhaustive_answers": [
+          {
+            "route": "专用导入/转换工具的声明式迁移",
+            "source_refs": [
+              "S-PGL-MYSQL"
+            ]
+          },
+          {
+            "route": "受控Python读取、显式映射与批次写入/导入",
+            "source_refs": [
+              "S-SA",
+              "S-PG-COPY"
+            ]
+          }
+        ],
+        "critical_failures": [
+          "未完成条件接受即把假设当硬条件，或遗漏已接受决定性条件。",
+          "推荐/排除所依赖关键主张无适用官方证据，错主体/版本，或隐藏决定性反证。",
+          "把工具额度耗尽、全失败、未调查潜在替代说成充分无赢家；用范围措辞逃避实际题目。",
+          "伪称已安装、运行、迁移、提取准确率或文档效果已验证。",
+          "违反本题原件保护/本地处理/禁止真实执行边界，或遗漏角色使组合结论不成立。"
+        ],
+        "acceptable_outcome": "有源支持且满足全部已接受硬条件的有限范围推荐，或证据充分支持的本次范围无赢家；调查不足只能partial。新有效路线/来源按同一规则接受，参照不是封闭答案集合。",
+        "not_required": "不固定某个产品获胜；不固定八事实；不要求实际运行或全网最优；不把preparation阅读当正式人工核源。"
+      },
+      "DOC-A": {
+        "mandatory_hard_condition_ids": [
+          "H1",
+          "H2",
+          "H3",
+          "H4"
+        ],
+        "decisive_claim_topics": [
+          "解析/生成两角色和组合边界",
+          "结构定位、表格合并/顺序语义与限制",
+          "本地运行和平台/字体依赖",
+          "开源库/商业产品及许可版本区分",
+          "验证样本、误差判据、失败与替代路线"
+        ],
+        "feasibility_source_refs": [
+          "S-PDFPLUMBER",
+          "S-PYMUPDF",
+          "S-DOCX",
+          "S-DOCXTPL"
+        ],
+        "plausible_routes_not_exhaustive_answers": [
+          {
+            "route": "解析库加代码式输出生成器",
+            "source_refs": [
+              "S-PDFPLUMBER",
+              "S-DOCXTPL"
+            ]
+          },
+          {
+            "route": "替代解析库加模板/布局渲染器",
+            "source_refs": [
+              "S-PYMUPDF",
+              "S-DOCX"
+            ]
+          }
+        ],
+        "critical_failures": [
+          "未完成条件接受即把假设当硬条件，或遗漏已接受决定性条件。",
+          "推荐/排除所依赖关键主张无适用官方证据，错主体/版本，或隐藏决定性反证。",
+          "把工具额度耗尽、全失败、未调查潜在替代说成充分无赢家；用范围措辞逃避实际题目。",
+          "伪称已安装、运行、迁移、提取准确率或文档效果已验证。",
+          "违反本题原件保护/本地处理/禁止真实执行边界，或遗漏角色使组合结论不成立。"
+        ],
+        "acceptable_outcome": "有源支持且满足全部已接受硬条件的有限范围推荐，或证据充分支持的本次范围无赢家；调查不足只能partial。新有效路线/来源按同一规则接受，参照不是封闭答案集合。",
+        "not_required": "不固定某个产品获胜；不固定八事实；不要求实际运行或全网最优；不把preparation阅读当正式人工核源。"
+      },
+      "DOC-B": {
+        "mandatory_hard_condition_ids": [
+          "H1",
+          "H2",
+          "H3",
+          "H4"
+        ],
+        "decisive_claim_topics": [
+          "解析/生成两角色和组合边界",
+          "结构定位、表格合并/顺序语义与限制",
+          "本地运行和平台/字体依赖",
+          "开源库/商业产品及许可版本区分",
+          "验证样本、误差判据、失败与替代路线"
+        ],
+        "feasibility_source_refs": [
+          "S-DOCX",
+          "S-DOCX2PY",
+          "S-WEASY",
+          "S-REPORTLAB"
+        ],
+        "plausible_routes_not_exhaustive_answers": [
+          {
+            "route": "解析库加代码式输出生成器",
+            "source_refs": [
+              "S-DOCX",
+              "S-REPORTLAB"
+            ]
+          },
+          {
+            "route": "替代解析库加模板/布局渲染器",
+            "source_refs": [
+              "S-DOCX2PY",
+              "S-WEASY"
+            ]
+          }
+        ],
+        "critical_failures": [
+          "未完成条件接受即把假设当硬条件，或遗漏已接受决定性条件。",
+          "推荐/排除所依赖关键主张无适用官方证据，错主体/版本，或隐藏决定性反证。",
+          "把工具额度耗尽、全失败、未调查潜在替代说成充分无赢家；用范围措辞逃避实际题目。",
+          "伪称已安装、运行、迁移、提取准确率或文档效果已验证。",
+          "违反本题原件保护/本地处理/禁止真实执行边界，或遗漏角色使组合结论不成立。"
+        ],
+        "acceptable_outcome": "有源支持且满足全部已接受硬条件的有限范围推荐，或证据充分支持的本次范围无赢家；调查不足只能partial。新有效路线/来源按同一规则接受，参照不是封闭答案集合。",
+        "not_required": "不固定某个产品获胜；不固定八事实；不要求实际运行或全网最优；不把preparation阅读当正式人工核源。"
+      }
+    },
+    "gold_is_open_reference_not_closed_winner_set": true,
+    "evidence_scope": "Preparation official-source observations establish feasibility of researching alternatives, not that a proposed task solution is correct or human-audited."
+  },
+  "source_manifest": [
+    {
+      "id": "S-APS",
+      "url": "https://apscheduler.readthedocs.io/en/3.x/userguide.html",
+      "title": "APScheduler 3.x user guide",
+      "observed_on": "2026-10-29",
+      "evidence_type": "official_document_read_for_material_feasibility",
+      "locator": "Basic concepts; Choosing job stores; Limiting instances; Missed job executions",
+      "preparation_observation": "官方3.x文档说明持久job store、PostgreSQL选择、单调度器边界和misfire/coalescing；只证明文档有可研究路线，不证明本题已实际运行。",
+      "version_identity": "3.x文档页面标示3.11.3.post3；动态页非固定commit",
+      "raw_web_bytes_sha256": null,
+      "limitations": "只读网页观察；未安装/执行/下载样例，未核实题目候选效果，不作为正式报告已人工核源证据。"
+    },
+    {
+      "id": "S-PRO",
+      "url": "https://procrastinate.readthedocs.io/en/stable/discussions.html",
+      "title": "Procrastinate discussions",
+      "observed_on": "2026-10-29",
+      "evidence_type": "official_document_read_for_material_feasibility",
+      "locator": "How does this all work; Why PostgreSQL",
+      "preparation_observation": "官方解释PostgreSQL锁与任务通知及无额外消息服务的路线。并不把数据库唯一认领推导为任意外部副作用exactly-once。",
+      "version_identity": "stable动态文档，精确版本须正式研究重新核验",
+      "raw_web_bytes_sha256": null,
+      "limitations": "只读网页观察；未安装/执行/下载样例，未核实题目候选效果，不作为正式报告已人工核源证据。"
+    },
+    {
+      "id": "S-PRO-CRON",
+      "url": "https://procrastinate.readthedocs.io/en/stable/howto/advanced/cron.html",
+      "title": "Procrastinate periodic tasks",
+      "observed_on": "2026-10-29",
+      "evidence_type": "official_document_read_for_material_feasibility",
+      "locator": "Launch a task periodically",
+      "preparation_observation": "官方周期任务入口可用于比较周期调度角色；恢复、过期、重复和部署行为仍须读适用版本。",
+      "version_identity": "stable动态文档",
+      "raw_web_bytes_sha256": null,
+      "limitations": "只读网页观察；未安装/执行/下载样例，未核实题目候选效果，不作为正式报告已人工核源证据。"
+    },
+    {
+      "id": "S-PRO-RETRY",
+      "url": "https://procrastinate.readthedocs.io/en/stable/howto/advanced/retry.html",
+      "title": "Procrastinate retries",
+      "observed_on": "2026-10-29",
+      "evidence_type": "official_document_read_for_material_feasibility",
+      "locator": "Define a retry strategy on a task",
+      "preparation_observation": "官方有明确重试策略入口，能够核查有限重试及失败边界，不替本题选择参数。",
+      "version_identity": "stable动态文档",
+      "raw_web_bytes_sha256": null,
+      "limitations": "只读网页观察；未安装/执行/下载样例，未核实题目候选效果，不作为正式报告已人工核源证据。"
+    },
+    {
+      "id": "S-HUEY",
+      "url": "https://huey.readthedocs.io/en/latest/guide.html",
+      "title": "Huey guide",
+      "observed_on": "2026-10-29",
+      "evidence_type": "official_document_read_for_material_feasibility",
+      "locator": "Scheduling tasks; Periodic tasks; Retrying tasks; Storage types",
+      "preparation_observation": "官方展示延迟、周期及重试，列出SQLite和PostgreSQL存储路线。存储可用性与崩溃后任务语义仍须核查。",
+      "version_identity": "页面标示3.5.3，动态latest不当固定发布版本",
+      "raw_web_bytes_sha256": null,
+      "limitations": "只读网页观察；未安装/执行/下载样例，未核实题目候选效果，不作为正式报告已人工核源证据。"
+    },
+    {
+      "id": "S-PGL-SQLITE",
+      "url": "https://pgloader.readthedocs.io/en/latest/ref/sqlite.html",
+      "title": "pgloader SQLite to PostgreSQL",
+      "observed_on": "2026-10-29",
+      "evidence_type": "official_document_read_for_material_feasibility",
+      "locator": "Migration options; default casting rules",
+      "preparation_observation": "官方SQLite导入支持schema发现和索引；默认include drop及其级联风险必须核查，不能当安全无损迁移承诺。",
+      "version_identity": "页面标示3.6.10，动态文档",
+      "raw_web_bytes_sha256": null,
+      "limitations": "只读网页观察；未安装/执行/下载样例，未核实题目候选效果，不作为正式报告已人工核源证据。"
+    },
+    {
+      "id": "S-PGL-MYSQL",
+      "url": "https://pgloader.readthedocs.io/en/latest/ref/mysql.html",
+      "title": "pgloader MySQL to PostgreSQL",
+      "observed_on": "2026-10-29",
+      "evidence_type": "official_document_read_for_material_feasibility",
+      "locator": "Migration options; casting rules; connection specification",
+      "preparation_observation": "官方MySQL导入描述schema转换及可调整cast；默认破坏性选项、认证和时间/数值语义须单独核查。",
+      "version_identity": "页面标示3.6.10，动态文档",
+      "raw_web_bytes_sha256": null,
+      "limitations": "只读网页观察；未安装/执行/下载样例，未核实题目候选效果，不作为正式报告已人工核源证据。"
+    },
+    {
+      "id": "S-SA",
+      "url": "https://docs.sqlalchemy.org/en/20/core/connections.html",
+      "title": "SQLAlchemy Core connections",
+      "observed_on": "2026-10-29",
+      "evidence_type": "official_document_read_for_material_feasibility",
+      "locator": "Using transactions; Server side cursors; Upsert support",
+      "preparation_observation": "官方有显式事务、批次读取与driver边界，可研究自建受控迁移路线；不保证跨源目标事务原子。",
+      "version_identity": "2.0.55文档，当前页注明2.1另为现行主线；本题不得混用版本",
+      "raw_web_bytes_sha256": null,
+      "limitations": "只读网页观察；未安装/执行/下载样例，未核实题目候选效果，不作为正式报告已人工核源证据。"
+    },
+    {
+      "id": "S-SQLITE",
+      "url": "https://www.sqlite.org/datatype3.html",
+      "title": "SQLite datatypes",
+      "observed_on": "2026-10-29",
+      "evidence_type": "official_document_read_for_material_feasibility",
+      "locator": "Storage classes; Boolean; Date and time; Type affinity",
+      "preparation_observation": "官方说明动态类型、日期时间和布尔表示；不能仅看DDL就保证所有行符合目标类型。",
+      "version_identity": "官方动态文档，观察日2026-10-29",
+      "raw_web_bytes_sha256": null,
+      "limitations": "只读网页观察；未安装/执行/下载样例，未核实题目候选效果，不作为正式报告已人工核源证据。"
+    },
+    {
+      "id": "S-PG-COPY",
+      "url": "https://www.postgresql.org/docs/16/sql-copy.html",
+      "title": "PostgreSQL 16 COPY",
+      "observed_on": "2026-10-29",
+      "evidence_type": "official_document_read_for_material_feasibility",
+      "locator": "Description; Parameters; Notes",
+      "preparation_observation": "官方说明COPY追加、编码及客户端STDIN路径；COPY不是自动schema转换或任意幂等更新。",
+      "version_identity": "PostgreSQL16版本化文档",
+      "raw_web_bytes_sha256": null,
+      "limitations": "只读网页观察；未安装/执行/下载样例，未核实题目候选效果，不作为正式报告已人工核源证据。"
+    },
+    {
+      "id": "S-PDFPLUMBER",
+      "url": "https://github.com/jsvine/pdfplumber",
+      "title": "pdfplumber official repository",
+      "observed_on": "2026-10-29",
+      "evidence_type": "official_document_read_for_material_feasibility",
+      "locator": "README: text/table extraction and machine-generated PDFs",
+      "preparation_observation": "官方README提供文本及表格提取路线，说明更适合机器生成PDF；不是任意版面或OCR准确率保证。",
+      "version_identity": "官方stable分支；未固定当次commit，正式研究重新核版本",
+      "raw_web_bytes_sha256": null,
+      "limitations": "只读网页观察；未安装/执行/下载样例，未核实题目候选效果，不作为正式报告已人工核源证据。"
+    },
+    {
+      "id": "S-PYMUPDF",
+      "url": "https://pymupdf.readthedocs.io/en/latest/about.html",
+      "title": "PyMuPDF features",
+      "observed_on": "2026-10-29",
+      "evidence_type": "official_document_read_for_material_feasibility",
+      "locator": "Feature matrix; document type caveats",
+      "preparation_observation": "官方列文本/表格能力及文档转换限制；不能把基础版、Office产品、许可或版面保真混为一谈。",
+      "version_identity": "latest动态文档；产品和许可须按实际推荐版本重核",
+      "raw_web_bytes_sha256": null,
+      "limitations": "只读网页观察；未安装/执行/下载样例，未核实题目候选效果，不作为正式报告已人工核源证据。"
+    },
+    {
+      "id": "S-DOCX",
+      "url": "https://python-docx.readthedocs.io/en/latest/",
+      "title": "python-docx",
+      "observed_on": "2026-10-29",
+      "evidence_type": "official_document_read_for_material_feasibility",
+      "locator": "Quickstart; Documents; Tables; Headers and footers",
+      "preparation_observation": "官方展示DOCX读写、段落与表格，足以形成研究路线；未提供任意Word布局或PDF渲染保证。",
+      "version_identity": "文档标示1.2.0",
+      "raw_web_bytes_sha256": null,
+      "limitations": "只读网页观察；未安装/执行/下载样例，未核实题目候选效果，不作为正式报告已人工核源证据。"
+    },
+    {
+      "id": "S-DOCXTPL",
+      "url": "https://docxtpl.readthedocs.io/en/latest/",
+      "title": "python-docx-template",
+      "observed_on": "2026-10-29",
+      "evidence_type": "official_document_read_for_material_feasibility",
+      "locator": "Introduction; Restrictions; Escaping",
+      "preparation_observation": "官方模板路线支持生成DOCX，并明确run/表格标签和转义限制；不是无条件任意模板支持。",
+      "version_identity": "文档标示0.20.x",
+      "raw_web_bytes_sha256": null,
+      "limitations": "只读网页观察；未安装/执行/下载样例，未核实题目候选效果，不作为正式报告已人工核源证据。"
+    },
+    {
+      "id": "S-DOCX2PY",
+      "url": "https://github.com/ShayHill/docx2python",
+      "title": "docx2python official repository",
+      "observed_on": "2026-10-29",
+      "evidence_type": "official_document_read_for_material_feasibility",
+      "locator": "README: Version3; Arguments; Return format",
+      "preparation_observation": "官方描述DOCX提取结构和合并单元格选项；选项造成的重复/空单元格语义必须在输出方案说明。",
+      "version_identity": "官方master动态分支；正式研究固定版本",
+      "raw_web_bytes_sha256": null,
+      "limitations": "只读网页观察；未安装/执行/下载样例，未核实题目候选效果，不作为正式报告已人工核源证据。"
+    },
+    {
+      "id": "S-WEASY",
+      "url": "https://doc.courtbouillon.org/weasyprint/stable/",
+      "title": "WeasyPrint",
+      "observed_on": "2026-10-29",
+      "evidence_type": "official_document_read_for_material_feasibility",
+      "locator": "Overview; First steps; Security",
+      "preparation_observation": "官方HTML/CSS到PDF路线可用于报告生成，须核平台依赖、字体和输入安全；不是浏览器全部功能保真。",
+      "version_identity": "页面标示70.0",
+      "raw_web_bytes_sha256": null,
+      "limitations": "只读网页观察；未安装/执行/下载样例，未核实题目候选效果，不作为正式报告已人工核源证据。"
+    },
+    {
+      "id": "S-REPORTLAB",
+      "url": "https://docs.reportlab.com/reportlab/userguide/ch5_platypus/",
+      "title": "ReportLab Platypus",
+      "observed_on": "2026-10-29",
+      "evidence_type": "official_document_read_for_material_feasibility",
+      "locator": "Design goals; Flowables; Documents and templates",
+      "preparation_observation": "官方描述脚本式文档、分页容器和表格等Flowable，形成不同于HTML渲染的路线；不证明字体与复杂表格已测试。",
+      "version_identity": "官方动态文档；应区分开源库与商业RML产品",
+      "raw_web_bytes_sha256": null,
+      "limitations": "只读网页观察；未安装/执行/下载样例，未核实题目候选效果，不作为正式报告已人工核源证据。"
+    }
+  ]
+}

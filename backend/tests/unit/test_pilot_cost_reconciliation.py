@@ -10,6 +10,7 @@ from adaptive_research.evaluation.pilot_cost_reconciliation import (
     reconcile_pilot_cost,
 )
 from adaptive_research.evaluation.project_ledger import LedgerError, write_ledger
+from tests.unit.test_legacy_entry_guards import install_historical_protocol
 
 
 def _json(path: Path, value: object) -> str:
@@ -126,3 +127,9 @@ def test_unknown_operation_or_conflicting_bill_cannot_be_reconciled(
     with pytest.raises(LedgerError, match=message):
         reconcile_pilot_cost(**args)
     assert not args["output_ledger"].exists()
+
+
+@pytest.fixture(autouse=True)
+def explicit_historical_protocol(monkeypatch, tmp_path):
+    """These regression fixtures exercise identified current-3 inputs only."""
+    install_historical_protocol(monkeypatch, tmp_path)

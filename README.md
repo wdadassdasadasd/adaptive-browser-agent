@@ -1,247 +1,29 @@
 # Adaptive Research Agent
 
-Start with the [documentation map](docs/README.md) for the four current
-authorities, the [task index](docs/tasks/README.md), and the
-[architecture map](docs/architecture/README.md).
+A technical research assistant designed to start without candidates: clarify and accept conditions, discover routes and candidates, investigate a bounded shortlist, and produce traceable evidence and next verification steps.
 
-Adaptive Research Agent is a public technical research Agent project built on
-[`browser-use`](https://github.com/browser-use/browser-use). Its
-[current specification](SPEC.md), [plan](PLANS.md), [contracts](docs/contracts/CURRENT_CONTRACTS.md)
-and [evaluation protocol](docs/evaluation/CURRENT_EVAL_PROTOCOL.json) define the
-portfolio target. The default V1 entry preserves Vue, FastAPI, an in-process
-AgentLoop and SQLite. P-01 adds a separate PostgreSQL API and independent Worker
-under the same backend package. The `browser-use/` submodule is upstream-owned.
+The current **PREP-BASELINE-20261029** engineering configuration is approved. Read [SPEC](SPEC.md), [PLANS](PLANS.md), [current contracts](docs/contracts/CURRENT_CONTRACTS.md) and the [sole evaluation protocol](docs/evaluation/CURRENT_EVAL_PROTOCOL.json). Actual checks, independent file review, the single 18-item preparation checklist and the proposed first business task live in the [continuous record](docs/features/DECISION-001/tasks.md). Configuration approval is not business implementation or live-run authority.
 
-The historical [D7 report](docs/archive/v1-audits/V1_DELIVERY_REPORT.md) records 18 real
-r12 attempts and three separate UI tasks with no complete research success.
-Those records remain immutable and No-Go. Offline tests and a controlled fake
-demo verify code paths, not live source quality. The product remains No-Go;
-individual implementation and acceptance states are in the [task index](docs/tasks/README.md).
-See the [historical design index](docs/archive/design-0.3/00_DESIGN_INDEX.md) for archived plans.
+The target is independent API, Worker/LangGraph stages and a new independent PostgreSQL cluster inside WSL, with Windows accessing the UI. Direct Search/GitHub/Fetch lead; DeepSeek is the single Search/Fetch supplier. Browser stays disabled until connection-layer qualification. The first proposed slice is **DEC-M1-01: real login, persistent raw drafts, owner isolation and minimal supervisor**, with no research calls. Its source and environment package need separate authorization.
 
+Existing source includes Vue/FastAPI/AgentLoop/SQLite and a separate historical Pg API/Worker. [P-01 fake-task48/48](docs/tasks/P01_ACCEPTANCE_2026-10-21.md) applies to the old Windows/Pg topology. Historical r12 attempts and r11 research failures remain No-Go. Offline tests and fake demos do not establish source truth, product value or recovery safety. [Documentation map](docs/README.md), [architecture](docs/architecture/README.md) and [task index](docs/tasks/README.md) distinguish current design from implemented evidence.
 
-The approved **PREP-BASELINE-v4.3** targets an interactive, evidence-supported
-technical decision assistant for developers. Voice components, ORM selection and
-PDF generation are evaluation tasks; the latter two are publicly derived needs.
-M1 includes meaningful memory and context comparisons, real evaluation and one
-verified real-failure optimization loop, persistent execution/cost evidence and
-the owner's recorded hands-on practice. These are approved targets, not current
-implemented or accepted capabilities. See [ADR-0008](docs/design/adr/0008-m1-engineering-baseline.md),
-[requirements](docs/features/DECISION-001/spec.md), [plan](PLANS.md) and the
-[supplementary M1 protocol](docs/evaluation/DECISION_M1_PROTOCOL.json).
+## Local checks
 
-Documentation synchronization is authorized on 2026-10-27; actual checks and
-independent file review are recorded in the [continuous task record](docs/features/DECISION-001/tasks.md).
-Business implementation, installations, real model/browser runs and Git writes
-require their own scoped authorization. The next proposed slice is DEC-T07-01
-(operation_kind and old Worker fencing), not yet authorized.
-
-M1 is a local demonstration with two member accounts and local account CLI.
-Formal product Go still requires five accounts including an administrator and
-the full account-management UI, two-running/eight-queued capacity simulation,
-safe recovery, encrypted offline backup/restore, and all nine frozen prompts in
-the 15-attempt [current-3 release protocol](docs/evaluation/CURRENT_EVAL_PROTOCOL.json).
-[ADR-0005](docs/design/adr/0005-windows-worker-wsl-postgres.md) retains Windows
-API/Worker and WSL PostgreSQL. The V1 commands below do not run the unimplemented
-session target or establish research quality. Real paid pilot remains blocked
-by funding/ledger/reservation prerequisites and separate run authorization.
-
-The [P-01 task record](docs/tasks/PREDEV_P01_START_PACKAGE_2026-10-20.md),
-[measured acceptance evidence](docs/tasks/P01_ACCEPTANCE_2026-10-21.md)
-and [local environment probe](docs/audits/PREDEV_ENV_SETUP_2026-10-20.md)
-record the prepared dependencies and the WSL lifecycle requirement. The
-isolated development database is not used by V1. P-01 migrations now create its
-application ledger; disposable PostgreSQL databases are used for integration tests.
-The [P-02 to P-04 task package](docs/tasks/PREDEV_P02_P04_TASK_PACKAGE_2026-10-20.md),
-[P-02 offline pilot preparation](docs/tasks/P02_PILOT_PREP_2026-10-21.md),
-[offline source-review workflow](docs/evaluation/REVIEW_WORKFLOW.md), and
-[delivery checklist](docs/audits/PREDEV_DELIVERY_CHECKLIST_2026-10-20.md)
-define the remaining research-quality, evaluation, and interview handoff work.
-The [predevelopment finalization record](docs/audits/PREDEV_SEVEN_CORE_FINALIZATION_2026-10-20.md)
-lists the checks actually run and the remaining No-Go gates.
-
-## Requirements
-
-- Python 3.12 or 3.13
-- [uv](https://docs.astral.sh/uv/)
-- Git with submodule support
-- Node.js 22 and npm for the frontend
-
-The repository-root `.nvmrc` is the frontend Node version used by CI. Select
-Node 22 with your local version manager before running the frontend commands.
-The P-02 pilot preparation record includes the local Node 22 verification.
-
-## Setup
-
-Clone with the browser-use submodule:
+Use already installed, locked dependencies. The repository `.nvmrc` and CI declare Node22; local availability is recorded separately. These commands describe checks, not authority to install dependencies or start services:
 
 ```powershell
-git clone --recurse-submodules <repository-url>
-cd adaptive-browser-agent
+.\.venv\Scripts\python.exe -B scripts/validate_project.py
+.\.venv\Scripts\python.exe -B -m pytest -q backend/tests/unit
+.\.venv\Scripts\ruff.exe check --config backend/pyproject.toml backend/src backend/tests scripts
 ```
 
-For an existing clone, initialize the submodule before installing dependencies:
+Review the actual task scope before running integration tests. Real PostgreSQL, WSL, migrations, models, Tokenizer, Browser, purchases and external writes require the relevant qualification and authority. Remote CI status must be observed; local declarations are not evidence it ran.
 
-```powershell
-git submodule update --init --recursive
-uv --directory backend sync --dev
-```
+## Historical implementations
 
-Copy `.env.example` to `.env` only when configuration overrides are needed.
-An empty `DEEPSEEK_API_KEY` is treated as missing: the API can start and list
-tasks, but creating a task returns 503 until the server has a DeepSeek key.
-`GITHUB_TOKEN` is optional for public repository research. Keep credentials
-server-side and never put their values in browser settings, issue reports,
-traces, SSE events, or benchmark records.
+[V1 specification](docs/specs/V1_SPEC.md), [V1 contracts](docs/contracts/V1_CONTRACTS.md), [backend notes](backend/README.md), [P-01 launcher/task package](docs/tasks/PREDEV_P01_START_PACKAGE_2026-10-20.md) and [historical design index](docs/archive/design-0.3/00_DESIGN_INDEX.md) explain existing code. The old launcher can start WSL/Pg and automatically migrate. It is not the new startup path and must not be invoked to discover new environment state.
 
-## Run the P-01 PostgreSQL development path
+Historical evaluation protocols are read by explicit fixed Git commit/path/raw SHA and explicit newline transform where required. They are not a second current release rule. The old runner cannot execute the new protocol; this configuration package adds validation and rejection guards, not a new runner or funding system.
 
-Configure the ignored root `.env` with `P01_DATABASE_URL` pointing to the isolated
-WSL PostgreSQL application database. Keep the V1 `DATABASE_URL` separate. From
-the repository root, the local launcher maintains WSL, checks PostgreSQL, applies
-versioned migrations, starts the API on loopback and restarts a failed Worker:
-
-```powershell
-./scripts/start-p01.ps1
-```
-
-Use the frontend command below in another terminal. This development path uses
-one synthetic local owner; five-account sessions are P-03 work. Actual stage
-acceptance belongs to the [P-01 task record](docs/tasks/PREDEV_P01_START_PACKAGE_2026-10-20.md).
-Starting a real research task requires separate cost authorization. The
-`-ControlledTestWorker` launcher option is reserved for the local measurement
-fixture and executes no provider or browser calls.
-
-## Run the existing V1 code locally with an isolated database
-
-Choose a new disposable SQLite path for local checks so an existing
-`data/adaptive_agent.db` is not changed. In PowerShell, from the repository
-root:
-
-```powershell
-$env:DATABASE_URL = "sqlite+aiosqlite:///./data/local-demo.db"
-uv --directory backend run uvicorn adaptive_research.api.main:app --host 127.0.0.1 --port 8000
-```
-
-In another terminal:
-
-```powershell
-npm ci --prefix frontend
-npm run dev --prefix frontend
-```
-
-Open the URL printed by Vite (normally `http://127.0.0.1:5173`). Its `/api`
-requests are proxied to the local API; the browser does not need a provider
-key. Open `http://127.0.0.1:8000/docs` to inspect the fixed six research
-routes. With a real server-side DeepSeek key, enter a goal, select Start, watch
-the status and timeline, then open a sourced report or cancel a running task.
-Refresh to reload recent tasks and persisted history. A controlled fake-provider
-path can verify the local UI and runtime without claiming live research success;
-the repository includes an acceptance-only server for that path:
-
-```powershell
-New-Item -ItemType Directory -Force .pytest_cache/d6-demo | Out-Null
-$env:D6_DEMO_DB_PATH = Join-Path (Get-Location).Path '.pytest_cache/d6-demo/demo.db'
-uv --directory backend run uvicorn tests.d6_demo_server:app --host 127.0.0.1 --port 8000
-```
-
-Use a fresh path when repeating the demo. With the Vite command above running,
-the first task completes using fake provider/browser/GitHub results; later tasks
-wait so you can test Cancel and SSE interruption. To check restart recovery,
-stop the API with a waiting task open, set `$env:D6_DEMO_MODE = 'no_key'`, and
-restart the same command with the same database path. The old task becomes
-`failed/server_restart`; a new submission returns 503. This demo never calls
-DeepSeek or public sites. The observed D6 results are in the acceptance record.
-
-## Verify the code
-
-```powershell
-uv --directory backend lock --check --offline
-uv --directory backend run --offline --locked pytest -q
-uv --directory backend run --offline --locked ruff check --config pyproject.toml src tests migrations ../scripts
-uv --directory backend run --offline --locked ruff format --check --config pyproject.toml src tests migrations ../scripts
-uv --directory backend run --offline --locked python -m compileall -q src tests migrations ../scripts
-npm ci --prefix frontend
-npm run type-check --prefix frontend
-npm run build --prefix frontend
-npm run test --prefix frontend
-```
-
-`pytest -q` excludes the real-browser test. To opt in to a local Chromium
-smoke using a controlled loopback HTTP page (no API key required):
-
-```powershell
-uv --directory backend run pytest -q -m browser tests/smoke/test_browser_use_adapter.py
-```
-
-The smoke enables loopback URLs only in its test adapter instance; the normal
-adapter rejects local/private targets, checks the current page before further
-observation or interaction, and rejects an unsafe final URL after navigation.
-A redirect may reach that destination before the final check, so this is a
-trusted localhost demonstration, not a public network-isolated service.
-Browser startup depends on an installed Chromium-compatible browser.
-The CI workflow has offline Python jobs for 3.12 and 3.13, a PostgreSQL 16
-integration job, and a locked frontend install, type check, test and build job.
-A local green run is not evidence
-that remote GitHub Actions executed. Offline tests, controlled browser smoke,
-fake-backed UI checks, live research, and protocol benchmark runs are separate
-evidence levels.
-
-## Historical V1 benchmark
-
-The commands below describe the historical V1 runner, not the current portfolio
-release gate. Read [`docs/benchmark/BENCHMARK_PROTOCOL.md`](docs/benchmark/BENCHMARK_PROTOCOL.md)
-before inspecting it. The runner's default invocation prints the
-fixed B01–B03, three-arm, two-repetition plan without making provider calls:
-
-```powershell
-uv --directory backend run --offline --locked python -m adaptive_research.evaluation.legacy_v1.runner
-```
-
-Only with separate authorization for live execution and its cost, a server-side
-`DEEPSEEK_API_KEY`, installed Chromium, and network access, run the historical
-18-attempt protocol:
-
-```powershell
-uv --directory backend run --locked python -m adaptive_research.evaluation.legacy_v1.runner --live
-```
-
-Each attempt is retained as a redacted JSON file under
-`data/benchmark/<run-id>/`, including failures, with a `summary.json` for
-separate baseline versus full-system and baseline versus browser-only results.
-`--case`, `--arm` and `--repetitions` select a bounded smoke subset; its
-summary is marked protocol-incomplete. Missing token usage is recorded as
-`null`, and an unverified common budget is flagged as a mismatch. Do not
-report an improvement percentage from smoke or fake data. The 18 r12 runs and
-three separate public UI acceptance tasks are preserved historical failures.
-After source spot-checking, add `manual_contradiction_note` (`none` or a
-description) to each raw record and run
-`uv --directory backend run --locked python -m adaptive_research.evaluation.legacy_v1.runner --summarize ../data/benchmark/<run-id>`.
-Completion rate remains `null` until every note is set. The upstream baseline
-cannot enforce the token cap before each call, so its budget comparison is
-marked mismatched even when observed totals fall below 40,000.
-
-`backend/src/adaptive_research/evaluation/legacy_v1/manual_browser_use_smoke.py` is a legacy ChatOpenAI smoke script,
-not the same-model V1 baseline or an automated benchmark test.
-
-## Local database preservation
-
-V1 startup uses SQLAlchemy `metadata.create_all` without Alembic. It creates
-missing tables and does not automatically clear or delete the local
-`data/adaptive_agent.db` file. `create_all` does not migrate existing columns.
-If a future schema change is incompatible, stop the app, back up the database,
-and plan an explicit data-preserving migration or a deliberate disposable-data
-reset. Do not delete an existing database as a routine startup step.
-
-## Project contracts
-
-The only current development entry points are [SPEC.md](SPEC.md),
-[PLANS.md](PLANS.md), [current contracts](docs/contracts/CURRENT_CONTRACTS.md),
-and [current evaluation protocol](docs/evaluation/CURRENT_EVAL_PROTOCOL.json).
-Repository rules are in [AGENTS.md](AGENTS.md). Existing V1 behavior is documented
-by the [V1 specification](docs/specs/V1_SPEC.md) and
-[V1 contracts](docs/contracts/V1_CONTRACTS.md), subject to source and tests.
-The [archived target](docs/archive/target-2026-10-18/SPEC.md), older protocols,
-audits, and benchmark records are evidence from earlier decisions, not
-instructions for new business development. Dependency installation, paid live
-runs, deployment, commits, and pushes require separate authorization.
+Keep credentials server-side, outside prompts/logs/events/diffs. Preserve original SQLite/r12, fee and authorization records, genuine sources and the upstream-owned `browser-use/` checkout. No startup/reset/cleanup may erase those records. Exact cold switch and rollback are in the current contracts and the separately authorized environment package. Commit/push/PR, merge and release each retain their applicable authorization.

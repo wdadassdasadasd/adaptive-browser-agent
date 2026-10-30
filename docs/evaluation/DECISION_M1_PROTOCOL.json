@@ -1,259 +1,154 @@
 {
-  "protocol_version": "decision-m1-1",
-  "baseline": "PREP-BASELINE-v4.3",
-  "status": "approved_design_not_executed",
-  "document_synced_on": "2026-10-27",
-  "authority": "supplementary_M1_acceptance_only",
-  "formal_protocol": {
-    "path": "CURRENT_EVAL_PROTOCOL.json",
-    "sha256": "bc75a1a6d14f7633462538c7c83b79ed5f5bcf0d670997b2000c92caa0002948",
-    "change_allowed": false,
-    "observed_worktree_sha256": "1c18d53624c21b1e25f5cea5640b4c8b4a5e0cfc001f430c8d603a01d51a8507",
-    "hash_scope": "UTF-8 file bytes after CRLF-to-LF normalization; formal protocol content and original file remain unchanged; observed_worktree_sha256 is the 2026-10-27 CRLF snapshot only"
+  "protocol_version": "discovery-m1-capabilities-1",
+  "role": "capability_acceptance_reference",
+  "status": "frozen_pending_qualification_and_execution",
+  "current_protocol": {
+    "path": "docs/evaluation/CURRENT_EVAL_PROTOCOL.json",
+    "version": "discovery-m1-1",
+    "sha256": "98b832d33777c7aa045dd249ed005c1f915e55f3609d5872a5d62e58398111f0"
   },
+  "authority": "All timing, formal samples, cost, quality, stopping and value gates are exclusively defined by current_protocol. This file defines no independent funding or Go rule.",
   "authorization": {
     "business_implementation": false,
-    "dependency_install": false,
-    "real_model_browser_run": false,
-    "paid_evaluation": false,
-    "git_write": false,
-    "require_per_run": [
-      "code_revision_and_worktree_hash",
-      "model_id",
-      "purpose_and_stage",
-      "attempt_count",
-      "turn_count",
-      "max_cny",
-      "owner",
-      "grant",
-      "pricing_snapshot",
-      "generation"
-    ]
+    "real_execution": false,
+    "paid_execution": false,
+    "git_write": false
   },
-  "freeze_before_execution": {
-    "status": "preparation_material_frozen_runtime_bindings_pending",
-    "require": [
-      "exact_prompts_and_condition_change_scripts",
-      "candidate_stable_ids_versions_regions",
-      "source_urls_observed_times_and_hashes",
-      "development_vs_independent_material_manifest",
-      "code_model_environment_renderer_policy_versions",
-      "human_scoring_rubric_and_required_facts",
-      "run_slots_and_order",
-      "funding_ledger_reservations_and_grants",
-      "independent_protocol_review_and_owner_confirmation"
-    ],
-    "no_run_until_all_satisfied": true,
-    "preparation_artifact": {
-      "path": "../../data/evaluation/decision-m1-1/preparation.json",
-      "sha256": "481da876ce5794020be05403eb7a75a75f0ce79194a1e40d2f468ca4535bde60",
-      "scope": "exact case scripts/candidate identities/material manifest/scoring/9+8+12 slots",
-      "actual_execution": false,
-      "actual_file_review": "see DECISION-001 continuous task record actual review and final supplement; no pass asserted here"
-    },
-    "remaining_runtime_requirements": [
-      "before each operation, applicable runtime_bindings whose stated before time is due and blocks_real_execution=true must have actual values and required owner confirmations; later-batch bindings are due at their own gates, E2E-derived seed before source hints, and human acceptance/practice evidence before M1 acceptance",
-      "actual file independent technical/security review and final check evidence",
-      "source drift and fixed-version availability",
-      "exact grants, full history/inflight reconciliation and complete batch funding coverage"
-    ]
-  },
-  "tasks": [
+  "capabilities": [
     {
-      "id": "M1-VOICE",
-      "origin": "owner_actual_requirement",
-      "goal": "为居家老人陪伴问答应用选择语音识别、语音合成、对话组件及其组合",
-      "script": "澄清语言/方言、设备、部署、地域及费用；用户接受条件，研究后改变一个硬条件并重判",
-      "non_goals": [
-        "audio_quality_measurement",
-        "elderly_system_delivery"
+      "id": "runtime_harness",
+      "requirements": [
+        "DEC-AC-08",
+        "DEC-AC-09",
+        "DEC-AC-13",
+        "DEC-AC-14"
+      ],
+      "tasks": [
+        "DEC-M1-02",
+        "DEC-M1-03b"
+      ],
+      "evidence": [
+        "real_LangGraph_stage_nodes",
+        "restricted_Pg_atomicity_and_dual_order_races",
+        "stable_obligations_no_completed_unknown_resend",
+        "unique_terminal_and_generation_resource_release"
       ]
     },
     {
-      "id": "M1-ORM",
-      "origin": "public_requirement_derived_not_owner_actual_need",
-      "goal": "比较 TypeORM 与 Drizzle 在 SQLite/PostgreSQL 的 schema、驱动、迁移及切换成本",
-      "script": "先接受同时SQLite/PG条件，再改为只PG并重判",
-      "motivation_source": "https://github.com/drizzle-team/drizzle-orm/discussions/5269"
+      "id": "tools_search_evidence",
+      "requirements": [
+        "DEC-AC-10",
+        "DEC-AC-11",
+        "DEC-AC-12",
+        "DEC-AC-15"
+      ],
+      "tasks": [
+        "DEC-M1-03a",
+        "DEC-M1-03b",
+        "DEC-M1-05"
+      ],
+      "evidence": [
+        "route_candidate_source_claim_report_chain",
+        "official_identity_version_and_counterevidence",
+        "strict_API_and_byte_limits",
+        "Browser_connection_qualification_or_zero_pending_capability"
+      ]
     },
     {
-      "id": "M1-PDF",
-      "origin": "public_requirement_derived_not_owner_actual_need",
-      "goal": "比较 Puppeteer 与 PDFKit 在 HTML/CSS 复用和 Chromium 部署限制下的选择",
-      "script": "先接受部署限制，再改变限制并重判；不宣称实际版式质量已测",
-      "motivation_source": "https://github.com/vercel/next.js/issues/29997"
+      "id": "context",
+      "requirements": [
+        "DEC-AC-18"
+      ],
+      "tasks": [
+        "DEC-M1-03a",
+        "DEC-M1-04"
+      ],
+      "evidence": [
+        "protected_conditions_qualifiers_counterevidence",
+        "bounded_manifest_selection_and_failure_diagnostics",
+        "official_complete_request_tokenizer_qualification",
+        "fixed_source_offline_cases_and_natural_authorized_trace_not_extra_call_batch"
+      ]
+    },
+    {
+      "id": "automatic_memory",
+      "requirements": [
+        "DEC-AC-17",
+        "DEC-AC-18"
+      ],
+      "tasks": [
+        "DEC-M1-04"
+      ],
+      "evidence": [
+        "owner_original_long_term_preference_admission",
+        "report_source_cues_reverify_each_case",
+        "expiry_revoke_lineage_conflict_capacity_and_dual_order_send_tests",
+        "natural_qualified_report_seeds_no_hidden_setup_call",
+        "restore_derived_new_IDs_cannot_revive_old_memory"
+      ]
+    },
+    {
+      "id": "evaluation_tracing_optimization",
+      "requirements": [
+        "DEC-AC-16",
+        "DEC-AC-19",
+        "DEC-AC-20"
+      ],
+      "tasks": [
+        "DEC-M1-06",
+        "DEC-M1-07",
+        "DEC-M1-08b"
+      ],
+      "evidence": [
+        "complete_six_attempts_and_manual_time_final_quality",
+        "canonical_trace_and_offline_no_send_reconstruction",
+        "at_least_one_real_symptom_corrected_with_matched_evidence",
+        "all_failed_experiments_and_confounding_retained"
+      ]
+    },
+    {
+      "id": "identity_recovery_practice",
+      "requirements": [
+        "DEC-AC-15",
+        "DEC-AC-14"
+      ],
+      "tasks": [
+        "DEC-M1-01",
+        "ENV-M1-01",
+        "ENV-M1-02",
+        "DEC-M1-08b"
+      ],
+      "evidence": [
+        "one_real_owner_second_test_identity_object_isolation",
+        "continuous_supervisor_identity_qualification",
+        "paper_key_independent_source_card_real_restore",
+        "owner_actual_read_explain_edit_debug_regress_and_business_acceptance"
+      ]
     }
   ],
-  "e2e": {
-    "task_ids": [
-      "M1-VOICE",
-      "M1-ORM",
-      "M1-PDF"
-    ],
-    "attempts_per_task": 3,
-    "total_attempts": 9,
-    "min_passes_per_task": 2,
-    "max_turns_per_attempt": 3,
-    "pass_requires": [
-      "accepted_conditions_and_change_handled",
-      "critical_constraints_met_or_evidenced_exclusion_unknown",
-      "key_claims_human_verified_at_official_sources",
-      "stable_identity_versions_times_and_valid_citations",
-      "actionable_shortlist_or_justified_no_recommendation_and_next_validation",
-      "consistent_persisted_state_events_report_and_call_costs",
-      "all_required_artifacts_present"
-    ],
-    "qualified_partial_not_automatic_pass": true,
-    "round_scoring": "all three rounds separately; reports round2/3 independently revision/hash bound; any critical round failure fails attempt; missing report null"
+  "real_coverage_policy": {
+    "single_real_human_owner_plus_second_test_identity": true,
+    "MCP_real_integration_required": false,
+    "old_9_8_12_independent_execution_batch_required": false,
+    "no_additional_setup_or_judge_calls_without_budget_and_authorization": true,
+    "memory_seed_missing": "pending_no_auto_extra_run",
+    "browser_not_qualified": "zero_and_capability_pending_not_automatically_completed"
   },
-  "source_hints": {
-    "task_types": 2,
-    "groups_per_type": 2,
-    "modes": [
-      "off",
-      "on"
-    ],
-    "total_conditional_runs": 8,
-    "max_turns_per_run": 3,
-    "structured_current_conditions_always_provided": true,
-    "setup": "按冻结E2E顺序选择同owner最早具备所需人工核源事实的报告，仅继承已核实facts；无合格seed阻塞，不自动增加setup模型调用。off仅关闭注入，配对同报告hash/facts/source/hint版本与eligible状态，独立session；其他seed显式撤销留审计。",
-    "compare": [
-      "correct_reuse",
-      "new_condition_overrides_old",
-      "source_time_and_hash_retained",
-      "freshness_reverification",
-      "errors",
-      "latency",
-      "actual_tokens",
-      "actual_and_unknown_cost"
-    ],
-    "denominator_includes_all_attempted_slots": true,
-    "turn_script": "research -> changed-condition research -> explain this side first report without hidden research",
-    "preparation_ref": "../../data/evaluation/decision-m1-1/preparation.json#/execution_plan/source_hint_slots"
+  "review": {
+    "independent_actual_file_status": "done",
+    "artifact_ref": ".tmp/predev-reopen-20261028/config-20261029/evaluation-actual-review-r1.json",
+    "artifact_sha256": "d686eaf7dd6ce1049a52e33ec51c37d99791b82f177aef8a97b5943d74f7dc9f",
+    "reviewed_supplement_sha256": "33d4e6890052aa2344e2062f1049403bff6c2c2279a698069031b656a51e987d",
+    "review_binding": "Review hashes identify the immutable r1 snapshot before this metadata update. The metadata-only delta requires separate independent review recorded by the local final-delivery.json; no execution qualification is asserted."
   },
-  "context": {
-    "task_types": 2,
-    "groups_per_type": 2,
-    "strategies": [
-      "C0_recent_window",
-      "C1_deterministic_relevance",
-      "C2_relevance_with_protected_evidence"
-    ],
-    "total_real_decision_stage_calls": 12,
-    "fixed_real_source_material": true,
-    "same_deterministic_renderer": true,
-    "physical_calls_per_slot": 1,
-    "hidden_repair_retry_polish_calls": 0,
-    "require_actual_selection_pressure": true,
-    "pressure_absent_result": "insufficient_information",
-    "controlled_reordering_separate_from_natural_tasks": true,
-    "compare": [
-      "support_counterevidence_conflict_qualifier_retention",
-      "unrecognized_vs_unbound_vs_trimmed",
-      "condition_accuracy",
-      "summary_semantic_drift_if_future_enabled",
-      "decision_quality",
-      "selection_explanations",
-      "tokens",
-      "total_additional_calls_cost"
-    ],
-    "preparation_ref": "../../data/evaluation/decision-m1-1/preparation.json#/execution_plan/context_slots",
-    "scorer_gold_excluded_from_input_and_protected_set": true
-  },
-  "optimization": {
-    "min_real_symptoms_corrected": 1,
-    "required_chain": [
-      "real_failure_raw_evidence",
-      "falsifiable_hypothesis",
-      "minimal_change",
-      "offline_regression",
-      "independent_change_review",
-      "separately_authorized_real_retest",
-      "target_symptom_corrected_or_record_incomplete"
-    ],
-    "keep_failed_retests": true,
-    "single_improvement_claim": "descriptive_not_stable_or_causal"
-  },
-  "budget": {
-    "allocation": "diagnostic",
-    "allocation_max_cny": "30",
-    "cash_or_grant_asserted": false,
-    "project_allocations_cny": {
-      "pilot": "49",
-      "diagnostic": "30",
-      "formal": "200",
-      "contingency": "20"
-    },
-    "project_total_ceiling_cny": "299",
-    "planning_equivalent_turns": {
-      "e2e": 27,
-      "source_hints": 24,
-      "context": 12,
-      "pilot_failure_allowance": 6,
-      "total": 69
-    },
-    "tokens_per_equivalent_turn": 40000,
-    "illustrative_upper_model_rate_cny_per_million": "8",
-    "illustrative_model_only_cny": "22.08",
-    "not_covered_automatically": [
-      "hint_setup_or_extra_calls",
-      "non_model_costs",
-      "unknown_charges",
-      "additional_retries"
-    ],
-    "no_automatic_call_increase": true,
-    "balance_snapshot": {
-      "observed_at": "2026-10-26T21:39:41+08:00",
-      "cny": "10.57",
-      "is_grant": false,
-      "complete_ledger_and_batch_coverage_ready": false
-    }
-  },
-  "stop_conditions": [
-    "missing_exact_run_authorization_or_funding_preflight",
-    "unknown_outcome_usage_or_cost",
-    "pricing_identity_or_snapshot_unverifiable",
-    "reservation_or_ledger_conflict",
-    "insufficient_remaining_money_to_finish_authorized_batch",
-    "systemic_permission_source_or_resource_failure",
-    "code_model_material_change_mid_frozen_batch"
-  ],
-  "evidence_per_attempt": [
-    "slot_id",
-    "task_id",
-    "run_id",
-    "session_turn_revision_ids",
-    "start_end_and_cancellation_interruption",
-    "code_commit_and_worktree_content_hashes",
-    "model_provider_environment_versions",
-    "accepted_conditions_and_candidate_identity",
-    "source_snapshot_hashes_and_original_observed_times",
-    "plans_tool_observations_errors_and_replans",
-    "all_physical_call_ids_admissions_request_audit_refs",
-    "report_snapshot_and_hash_or_null",
-    "human_source_check_claim_fact_url_fragment_reviewer_time",
-    "known_unknown_usage_cache_tokens_latency_cost_price_grant",
-    "terminal_state_resources_recovery",
-    "failure_reason_and_condition_differences"
-  ],
-  "scoring": {
-    "human": "逐关键结论打开官方来源核对身份、版本、片段与条件，记录结果；模型评分不得替代",
-    "model_judge": "仅可诊断，不作为正式事实正确性裁决，调用需另授权计费",
-    "missing_attempt": "retain_slot_mark_missing_not_success",
-    "failed_cancelled_interrupted": "retain_raw_attempt_and_cost_do_not_remove_from_denominator",
-    "code_fix_mid_batch": "freeze_new_version_and_separate_batch_no_cherry_picking",
-    "formal_full": "not_inferred_from_M1_pass"
-  },
-  "personal_participation": [
-    "tool_failure_replanning",
-    "counterevidence_protection",
-    "hint_revocation",
-    "missing_evaluation_sample",
-    "minimal_real_failure_fix_and_regression"
-  ],
-  "release": {
-    "M1_local_demo": "software_value_engineering_personal_evidence_separate_acceptance",
-    "formal_Go": "unchanged_CURRENT_EVAL_PROTOCOL_and_accounts_capacity_recovery_backup",
-    "external_publication": "separate_authorization"
+  "results": {
+    "implemented": false,
+    "technical_verification": false,
+    "human_business_acceptance": false,
+    "real_quality": false,
+    "owner_time_value": false,
+    "M1": false,
+    "Go": false,
+    "release": false
   }
 }

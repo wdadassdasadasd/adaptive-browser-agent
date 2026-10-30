@@ -12,6 +12,7 @@ import pytest
 
 from adaptive_research.evaluation.current import build_plan
 from adaptive_research.evaluation.pilot_capture import CaptureError, capture_attempt
+from tests.unit.test_legacy_entry_guards import install_historical_protocol
 
 NOW = datetime(2026, 10, 21, tzinfo=UTC)
 
@@ -496,3 +497,9 @@ async def test_pg_fact_reader_is_owner_scoped_read_only_and_returns_frozen_recor
     assert "app_fact.task_id = 'task-1'" in session.statements[-1]
     with pytest.raises(FrozenInstanceError):
         facts[0].id = "changed"
+
+
+@pytest.fixture(autouse=True)
+def explicit_historical_protocol(monkeypatch, tmp_path):
+    """These regression fixtures exercise identified current-3 inputs only."""
+    install_historical_protocol(monkeypatch, tmp_path)

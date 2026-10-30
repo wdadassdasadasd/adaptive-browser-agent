@@ -475,6 +475,9 @@ async def run_pilot(
 
 async def _execute(args: argparse.Namespace, plan: dict[str, Any]) -> dict[str, Any]:
     root = REPOSITORY_ROOT
+    # A historical plan cannot authorize a different current protocol. Check
+    # before reading credentials or constructing any execution dependency.
+    _validate_plan(plan, root)
     book = load_price_book(args.price_book)
     settings = Settings()
     if (

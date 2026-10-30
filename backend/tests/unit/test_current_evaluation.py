@@ -19,6 +19,7 @@ from adaptive_research.evaluation.current import (
     main,
     write_plan,
 )
+from tests.unit.test_legacy_entry_guards import historical_protocol_bytes
 
 
 @pytest.fixture
@@ -29,7 +30,11 @@ def evaluation_root(tmp_path):
     ):
         target = tmp_path / relative
         target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_bytes((REPOSITORY_ROOT / relative).read_bytes())
+        target.write_bytes(
+            historical_protocol_bytes()
+            if relative == PROTOCOL_PATH
+            else (REPOSITORY_ROOT / relative).read_bytes()
+        )
     return tmp_path
 
 
@@ -200,7 +205,9 @@ def test_missing_repository_resources_refuses_without_output(tmp_path, capsys) -
     assert "no attempt was started" in capsys.readouterr().err
 
 
-def test_dry_run_does_not_import_clients_or_open_network_sockets() -> None:
+def test_historical_dry_run_does_not_import_clients_or_open_network_sockets(
+    evaluation_root,
+) -> None:
     script = r"""
 import importlib.abc
 import json
@@ -223,15 +230,16 @@ def refuse_socket(*args, **kwargs):
 
 socket.socket = refuse_socket
 sys.meta_path.insert(0, RefuseExecutionImports())
+from pathlib import Path
 from adaptive_research.evaluation.current import build_plan
-plan = build_plan()
+plan = build_plan(Path(sys.argv[1]))
 assert plan["provider_calls"] == plan["browser_calls"] == plan["attempts_started"] == 0
 print(json.dumps({"execution_allowed": plan["execution_allowed"], "count": plan["planned_run_count"]}))
 """
     environment = os.environ.copy()
     environment["PYTHONPATH"] = str(REPOSITORY_ROOT / "backend/src")
     result = subprocess.run(
-        [sys.executable, "-c", script],
+        [sys.executable, "-c", script, str(evaluation_root)],
         cwd=REPOSITORY_ROOT,
         env=environment,
         capture_output=True,

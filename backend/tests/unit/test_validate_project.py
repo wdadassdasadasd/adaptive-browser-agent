@@ -5,17 +5,24 @@ from __future__ import annotations
 import hashlib
 import json
 import subprocess
+from copy import deepcopy
 from pathlib import Path
 
+import pytest
+
+from scripts import validate_project as validator
 from scripts.validate_project import (
     check_archive_git_index,
     check_archive_manifest,
+    check_current_materials,
+    check_current_protocol,
     check_ledger,
     check_links,
     check_protocol,
     check_results,
     check_versions_and_traceability,
 )
+from tests.unit.test_legacy_entry_guards import historical_protocol_bytes
 
 
 def test_archive_manifest_keeps_history_frozen_but_current_tasks_editable(
@@ -95,11 +102,327 @@ def test_archive_git_index_detects_normalized_history_before_publish(
 
 
 def _protocol() -> dict:
-    path = (
-        Path(__file__).resolve().parents[3]
-        / "docs/evaluation/CURRENT_EVAL_PROTOCOL.json"
+    return json.loads(historical_protocol_bytes())
+
+
+def _current_bundle(tmp_path: Path) -> dict:
+    """Copy current configuration only; no execution fixture or hidden text output."""
+    root = Path(__file__).resolve().parents[3]
+    folder = tmp_path / "docs/evaluation"
+    folder.mkdir(parents=True)
+    for name in (
+        "CURRENT_EVAL_PROTOCOL.json",
+        "DECISION_M1_PROTOCOL.json",
+        "DISCOVERY_M1_CASES.json",
+    ):
+        (folder / name).write_bytes((root / "docs/evaluation" / name).read_bytes())
+    return json.loads((folder / "CURRENT_EVAL_PROTOCOL.json").read_bytes())
+
+
+def test_current_configuration_is_separate_from_historical_validator(tmp_path):
+    protocol = _current_bundle(tmp_path)
+    assert check_current_protocol(protocol, tmp_path) == []
+    assert check_protocol(protocol)
+
+
+def _current_cli_fixture(tmp_path, monkeypatch):
+    _current_bundle(tmp_path)
+    # These checks own unrelated repository documents, not the three raw inputs.
+    for name in (
+        "check_links",
+        "check_versions_and_traceability",
+        "check_skills",
+        "check_archive_manifest",
+        "check_archive_git_index",
+    ):
+        monkeypatch.setattr(validator, name, lambda *_args, **_kwargs: [])
+    return tmp_path / "docs/evaluation"
+
+
+def _rebind_current_fixture(folder):
+    protocol_path = folder / "CURRENT_EVAL_PROTOCOL.json"
+    protocol = json.loads(protocol_path.read_bytes())
+    digest = hashlib.sha256(
+        (folder / "DISCOVERY_M1_CASES.json").read_bytes()
+    ).hexdigest()
+    if protocol["materials"]["sha256"] != digest:
+        protocol["materials"]["sha256"] = digest
+        protocol_path.write_bytes(json.dumps(protocol).encode())
+    supplement_path = folder / "DECISION_M1_PROTOCOL.json"
+    supplement = json.loads(supplement_path.read_bytes())
+    supplement["current_protocol"]["sha256"] = hashlib.sha256(
+        protocol_path.read_bytes()
+    ).hexdigest()
+    supplement_path.write_bytes(json.dumps(supplement).encode())
+
+
+@pytest.mark.parametrize(
+    "filename",
+    [
+        "CURRENT_EVAL_PROTOCOL.json",
+        "DISCOVERY_M1_CASES.json",
+        "DECISION_M1_PROTOCOL.json",
+    ],
+)
+@pytest.mark.parametrize(
+    "member",
+    [
+        '"CANARY":0,"CANARY":1',
+        '"CANARY":{"nested":0,"nested":1}',
+        '"CANARY":{"name":0,"\\u006eame":1}',
+        '"CANARY":NaN',
+        '"CANARY":Infinity',
+        '"CANARY":-Infinity',
+        '"CANARY":1e999',
+        '"CANARY":-1e999',
+    ],
+)
+def test_current_raw_json_cli_rejects_ambiguous_or_nonfinite_input(
+    tmp_path, monkeypatch, capsys, filename, member
+):
+    folder = _current_cli_fixture(tmp_path, monkeypatch)
+    target = folder / filename
+    target.write_bytes(b"{" + member.encode() + b"," + target.read_bytes()[1:])
+    # Rebinding the supplement itself would decode and erase duplicate members.
+    if filename != "DECISION_M1_PROTOCOL.json":
+        _rebind_current_fixture(folder)
+    assert validator.main(["--root", str(tmp_path)]) == 1
+    output = capsys.readouterr()
+    assert "CANARY" not in output.out + output.err
+    assert "unreadable" in output.err
+
+
+@pytest.mark.parametrize(
+    "filename",
+    [
+        "CURRENT_EVAL_PROTOCOL.json",
+        "DISCOVERY_M1_CASES.json",
+        "DECISION_M1_PROTOCOL.json",
+    ],
+)
+def test_current_raw_json_cli_accepts_finite_numbers_and_valid_nested_objects(
+    tmp_path, monkeypatch, filename
+):
+    folder = _current_cli_fixture(tmp_path, monkeypatch)
+    target = folder / filename
+    target.write_bytes(
+        b'{"finite_probe":{"integer":7,"decimal":1.25,"exponent":-2.5e2},'
+        + target.read_bytes()[1:]
     )
-    return json.loads(path.read_text(encoding="utf-8"))
+    _rebind_current_fixture(folder)
+    original = validator.check_current_protocol
+    observed = []
+
+    def capture(protocol, root):
+        if filename == "CURRENT_EVAL_PROTOCOL.json":
+            observed.append(protocol["finite_probe"])
+        return original(protocol, root)
+
+    monkeypatch.setattr(validator, "check_current_protocol", capture)
+    assert validator.main(["--root", str(tmp_path)]) == 0
+    if observed:
+        values = observed[0]
+        assert type(values["integer"]) is int
+        assert type(values["decimal"]) is float
+        assert type(values["exponent"]) is float
+        assert values == {"integer": 7, "decimal": 1.25, "exponent": -250.0}
+
+
+@pytest.mark.parametrize("case_index", range(6))
+def test_current_material_case_variant_must_match_id(tmp_path, case_index):
+    _current_bundle(tmp_path)
+    materials = json.loads(
+        (tmp_path / "docs/evaluation/DISCOVERY_M1_CASES.json").read_bytes()
+    )
+    case = materials["agent_input"]["cases"][case_index]
+    case["variant"] = "B" if case["variant"] == "A" else "A"
+    assert any("variant" in error for error in check_current_materials(materials))
+
+
+@pytest.mark.parametrize(
+    "item", [{"scorer_only": "CANARY"}, [], None, True, 7, "", " \t"]
+)
+def test_current_material_output_requirements_reject_nontext_or_blank_items(
+    tmp_path, item
+):
+    _current_bundle(tmp_path)
+    materials = json.loads(
+        (tmp_path / "docs/evaluation/DISCOVERY_M1_CASES.json").read_bytes()
+    )
+    materials["agent_input"]["cases"][0]["output_requirements"] = ["valid", item]
+    errors = check_current_materials(materials)
+    assert any("output requirements" in error for error in errors)
+    assert "CANARY" not in " ".join(errors)
+
+
+@pytest.mark.parametrize("autocrlf", ["true", "input", "false"])
+@pytest.mark.parametrize(
+    "path",
+    [
+        "docs/evaluation/CURRENT_EVAL_PROTOCOL.json",
+        "docs/evaluation/DISCOVERY_M1_CASES.json",
+        "docs/evaluation/DECISION_M1_PROTOCOL.json",
+    ],
+)
+def test_current_raw_hash_paths_preserve_git_filtered_bytes(autocrlf, path):
+    root = Path(__file__).resolve().parents[3]
+    # Read an existing LF blob through Git's actual checkout filter; no Git writes.
+    blob = "1ffade6de07ebe3d1e72afb4c44b8677466eca67:docs/evaluation/CURRENT_EVAL_PROTOCOL.json"
+    raw = subprocess.check_output(["git", "-C", str(root), "cat-file", "blob", blob])
+    filtered = subprocess.check_output(
+        [
+            "git",
+            "-C",
+            str(root),
+            "-c",
+            f"core.autocrlf={autocrlf}",
+            "cat-file",
+            "--filters",
+            f"--path={path}",
+            blob,
+        ]
+    )
+    assert b"\r" not in raw
+    assert filtered == raw
+
+
+@pytest.mark.parametrize(
+    "path,value",
+    [
+        (("formal", "expected_attempts"), 5),
+        (("formal", "no_replacements"), False),
+        (("timing", "active_start"), "after_reading_the_prompt"),
+        (("timing", "active_minutes_per_attempt"), True),
+        (("methods", "agent", "external_ai_repair_allowed"), True),
+        (("quotas", "case_model", "format_repair_extra_calls"), 1),
+        (("quotas", "case_model", "report_reserved_input_tokens"), 131072),
+        (("quotas", "case_model", "cumulative_output_reservation_tokens"), 65536),
+        (("budget", "planned_total_cny"), "300.00"),
+        (("authorization", "paid_execution"), True),
+        (("budget", "price_basis", "model_input_uncached_per_million_cny"), "0.00"),
+    ],
+)
+def test_current_validator_rejects_protocol_boundary_drift(tmp_path, path, value):
+    protocol = _current_bundle(tmp_path)
+    target = protocol
+    for key in path[:-1]:
+        target = target[key]
+    target[path[-1]] = value
+    assert check_current_protocol(protocol, tmp_path)
+
+
+@pytest.mark.parametrize("field", ["quotas", "materials", "timing", "authorization"])
+def test_current_validator_fails_closed_on_bad_section_types(tmp_path, field):
+    protocol = _current_bundle(tmp_path)
+    protocol[field] = []
+    assert check_current_protocol(protocol, tmp_path)
+
+
+def test_current_materials_reject_scorer_input_leak_duplicate_and_incomplete_coverage(
+    tmp_path,
+):
+    _current_bundle(tmp_path)
+    materials = json.loads(
+        (tmp_path / "docs/evaluation/DISCOVERY_M1_CASES.json").read_bytes()
+    )
+    assert check_current_materials(materials) == []
+    changed = deepcopy(materials)
+    changed["agent_input"]["cases"][0]["scorer_only"] = {"winner": "leaked"}
+    assert check_current_materials(changed)
+    changed = deepcopy(materials)
+    changed["agent_input"]["cases"][1]["case_id"] = changed["agent_input"]["cases"][0][
+        "case_id"
+    ]
+    assert check_current_materials(changed)
+    changed = deepcopy(materials)
+    first = next(iter(changed["scorer_only"]["case_rubrics"].values()))
+    first["mandatory_hard_condition_ids"].pop()
+    assert check_current_materials(changed)
+    changed = deepcopy(materials)
+    changed["agent_input"]["cases"][0]["case_id"] = []
+    assert check_current_materials(changed)
+    changed = deepcopy(materials)
+    changed["agent_input"]["allowlist_paths"].append("#/scorer_only")
+    assert check_current_materials(changed)
+
+
+def test_current_material_identity_is_not_bypassed_by_valid_structure(tmp_path):
+    protocol = _current_bundle(tmp_path)
+    material = tmp_path / "docs/evaluation/DISCOVERY_M1_CASES.json"
+    material.write_bytes(material.read_bytes() + b"\n")
+    assert any(
+        "SHA-256 mismatch" in error
+        for error in check_current_protocol(protocol, tmp_path)
+    )
+
+
+@pytest.mark.parametrize("index", [True, 0, 2, 4, "1"])
+def test_clarification_units_require_unique_one_based_question_mapping(tmp_path, index):
+    _current_bundle(tmp_path)
+    materials = json.loads(
+        (tmp_path / "docs/evaluation/DISCOVERY_M1_CASES.json").read_bytes()
+    )
+    first = next(iter(materials["controller_only"]["clarification_cards"].values()))
+    first["answer_units"][0]["question_group"] = index
+    assert any("question" in error for error in check_current_materials(materials))
+
+
+def test_pair_equivalence_cannot_silently_drop_a_hard_condition_and_its_rubric(
+    tmp_path,
+):
+    _current_bundle(tmp_path)
+    materials = json.loads(
+        (tmp_path / "docs/evaluation/DISCOVERY_M1_CASES.json").read_bytes()
+    )
+    case_id = next(iter(materials["controller_only"]["clarification_cards"]))
+    materials["controller_only"]["clarification_cards"][case_id]["accepted_conditions"][
+        "hard_conditions"
+    ].pop()
+    materials["scorer_only"]["case_rubrics"][case_id][
+        "mandatory_hard_condition_ids"
+    ].pop()
+    assert any(
+        "hard conditions" in error for error in check_current_materials(materials)
+    )
+
+
+@pytest.mark.parametrize(
+    "group,field",
+    [
+        ("timing", "active_intervals_with_start_end_kind_and_actor"),
+        (
+            "artifacts",
+            "ordered_human_revisions_with_parent_ref_sha256_edit_time_and_active_interval_refs",
+        ),
+        ("audit", "reviewed_report_sha256"),
+        ("outcomes", "safety_authority_unknown_stop_state"),
+        ("cost", "known_unknown_inflight_reservations"),
+    ],
+)
+def test_attempt_evidence_contract_cannot_drop_auditable_records(
+    tmp_path, group, field
+):
+    protocol = _current_bundle(tmp_path)
+    protocol["attempt_record_contract"]["required_fields"][group].remove(field)
+    assert any(
+        "attempt_record_contract" in error
+        for error in check_current_protocol(protocol, tmp_path)
+    )
+
+
+def test_attempt_evidence_contract_rejects_overlapping_time_and_missing_binding(
+    tmp_path,
+):
+    protocol = _current_bundle(tmp_path)
+    protocol["attempt_record_contract"]["active_intervals"] = (
+        "overlapping intervals allowed"
+    )
+    protocol["attempt_record_contract"]["audit_binding"] = (
+        "the latest report is close enough"
+    )
+    errors = check_current_protocol(protocol, tmp_path)
+    assert any("active_intervals" in error for error in errors)
+    assert any("audit_binding" in error for error in errors)
 
 
 def _refresh_bundle(record: dict, tmp_path: Path) -> None:
@@ -592,7 +915,19 @@ def _copy_traceability_docs(tmp_path: Path) -> None:
     ):
         target = tmp_path / relative
         target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_bytes((root / relative).read_bytes())
+        target.write_bytes(
+            subprocess.check_output(
+                [
+                    "git",
+                    "-C",
+                    str(root),
+                    "show",
+                    f"1ffade6de07ebe3d1e72afb4c44b8677466eca67:{relative}",
+                ]
+            )
+            if relative in {"SPEC.md", "PLANS.md", "AGENTS.md"}
+            else (root / relative).read_bytes()
+        )
 
 
 def test_traceability_gate_rejects_broken_task_acceptance_mapping(

@@ -16,6 +16,7 @@ from pathlib import Path
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
+from adaptive_research.evaluation.current import load_protocol
 from adaptive_research.infrastructure.config import REPOSITORY_ROOT, Settings
 from adaptive_research.infrastructure.pg_store import PgStore, PricingUnavailable
 from adaptive_research.infrastructure.pricing import (
@@ -27,6 +28,7 @@ DEFAULT_BOOK = REPOSITORY_ROOT / "docs/evaluation/DEEPSEEK_CNY_PRICING_2026-10-2
 
 
 async def _arm(book: dict, reference: str, cap: Decimal) -> None:
+    load_protocol(REPOSITORY_ROOT)
     engine = create_async_engine(Settings().require_postgres_url(), pool_pre_ping=True)
     try:
         store = PgStore(
@@ -56,6 +58,10 @@ def main(argv: list[str] | None = None) -> int:
     )
     args = parser.parse_args(argv)
     try:
+        if args.arm:
+            # Reject new/missing/malformed protocols before even reading the
+            # price book, settings, or constructing a database engine.
+            load_protocol(REPOSITORY_ROOT)
         cap = Decimal(args.phase_max_cny)
         if not cap.is_finite() or not Decimal(1) <= cap <= Decimal(49):
             raise ValueError("pilot cap out of range")

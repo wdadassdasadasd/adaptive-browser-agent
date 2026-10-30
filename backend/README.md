@@ -1,11 +1,23 @@
 # Adaptive Research Python backend
 
-The API, application orchestration, agent, persistence, Worker and legacy V1 evaluation code live in `src/adaptive_research`. Python configuration and locked dependencies belong here; the repository-root `.env` and `data/` remain anchored independently of the working directory.
+The backend contains API/application/agent/persistence/Worker and historical evaluation code. Read [SPEC](../SPEC.md), [PLANS](../PLANS.md), [current contracts](../docs/contracts/CURRENT_CONTRACTS.md), [sole protocol](../docs/evaluation/CURRENT_EVAL_PROTOCOL.json) and the [single task record](../docs/features/DECISION-001/tasks.md) before work.
 
-Run checks from the repository root with `uv --directory backend run pytest`. The preserved V1 SQLite entry is `adaptive_research.api.main:app`. The independent P-01 PostgreSQL entry is `adaptive_research.api.pg_main:app`, and its Worker is `python -m adaptive_research.worker.runner`. It requires `P01_DATABASE_URL` and never falls back to the V1 database. Apply migrations with `uv --directory backend run alembic -c migrations/alembic.ini upgrade head`, or use `scripts/start-p01.ps1` from the root to maintain WSL, migrate and supervise both processes.
+The approved target is independent API/Worker and a new independent Pg cluster in WSL; Windows accesses the UI. Application tables own business state, permissions, stable work/call identities, evidence and cost. LangGraph checkpoints only reference bounded committed data. Ordinary startup validates identity/schema without DDL or checkpoint setup. The planned first business slice is real authentication/raw drafts and minimal supervisor, not research execution; its new entry and migrations are not created by this configuration package.
 
-P-01 currently uses one synthetic local owner; accounts and sessions are P-03 work. See the [task record](../docs/tasks/PREDEV_P01_START_PACKAGE_2026-10-20.md) for actual acceptance evidence and remaining gates. Running a real research task still requires separate cost authorization.
+## Checks and qualification
 
-The offline `python -m adaptive_research.evaluation.current --phase pilot` previews the three frozen B pilot cases without creating tasks or external calls. `python -m adaptive_research.evaluation.pilot_budget` checks the [2026-10-22 CNY snapshot](../docs/evaluation/DEEPSEEK_CNY_PRICING_2026-10-22.json) without DB access; its `--arm` mode requires separate paid-run authorization and an empty application DB, and has not been invoked. `scripts/start-p01.ps1 -PriceBookPath docs/evaluation/DEEPSEEK_CNY_PRICING_2026-10-22.json` passes that snapshot to the independent Worker, which requires the durable pilot cap before model calls and stops on unknown costs. The snapshot expires at its stated `valid_until`; verify current official pricing again before live work.
+Use the already installed locked environment for scoped offline tests. From `backend`, the focused configuration suite is:
 
-`python -m adaptive_research.evaluation.pilot_runner` without `--execute` is inert. With separately authorized paid execution, it requires a current three-case plan, a pinned prior project ledger, the same price book as the armed database budget, a loopback API, and a dedicated output directory. It submits B01–B03 serially with durable idempotency keys and preserves per-attempt capture and project-ledger snapshots; it stops on failures or unknown costs. Its completed return means attempts were captured for manual official-source and billing review, not that pilot quality passed. See [pilot preparation](../docs/tasks/P02_PILOT_PREP_2026-10-21.md) for exact gates and offline evidence.
+```text
+pytest -q tests/unit/test_validate_project.py tests/unit/test_current_evaluation.py tests/unit/test_pilot_runner.py tests/unit/test_pilot_capture.py tests/unit/test_project_ledger.py tests/unit/test_pilot_cost_reconciliation.py tests/unit/test_legacy_entry_guards.py
+```
+
+Record actual command/exit/results and skipped checks. Database integration needs a specifically authorized isolated restricted database; missing DB/skip is not pass. Do not automatically sync/install dependencies, start WSL, migrate, call models/Tokenizer/Browser or use paid tools. Existing Python/Node metadata and old P-01 evidence do not prove the new Linux environment is qualified.
+
+## Historical entry points
+
+The existing SQLite entry is `adaptive_research.api.main:app`; the P-01 Pg entry is `adaptive_research.api.pg_main:app` and Worker is `adaptive_research.worker.runner`. Their source and [dated P-01 task record](../docs/tasks/PREDEV_P01_START_PACKAGE_2026-10-20.md) define actual behaviour. The old launcher can start services and migrate automatically; it must not be used as the new startup or a read-only probe. Old Pg/SQLite data, cost/unknown and authorization evidence stay protected.
+
+The old `evaluation.current`, `pilot_runner`, `pilot_budget --arm` and cost reconciliation understand historical current-3 data. The new sole protocol is discovery-m1-1; old execution/arming/reconciliation entry points must reject its use before constructing Settings/client/engine or creating output/ledger writes. Configuration changes do not supply a new runner. Explicit fixed-Git historical read validation is distinct from ledger extension, reservation and execution, each of which retains separate authority.
+
+The 2026-10-22 price book and 10.57 CNY account observation are dated evidence, not current balance, new grant or new-product pricing qualification. Unknown results stop new project outbound; local count, provider usage/cache, price and balance are separate. Independent review, human acceptance and product Go remain separate from tests and from configuration approval.

@@ -25,3 +25,5 @@ data/evaluation/decision-m1-1/** -text whitespace=cr-at-eol
 # Preserve frozen upstream excerpts/licenses, including their trailing blank lines.
 data/evaluation/decision-m1-1/sources/** whitespace=cr-at-eol,-blank-at-eof
 docs/evaluation/DECISION_M1_PROTOCOL.json -text whitespace=cr-at-eol
+docs/evaluation/CURRENT_EVAL_PROTOCOL.json -text whitespace=cr-at-eol
+docs/evaluation/DISCOVERY_M1_CASES.json -text whitespace=cr-at-eol

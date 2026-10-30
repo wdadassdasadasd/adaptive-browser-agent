@@ -12,6 +12,7 @@ from adaptive_research.evaluation.project_ledger import (
     extend_ledger,
     write_ledger,
 )
+from tests.unit.test_legacy_entry_guards import install_historical_protocol
 
 
 def _evidence(tmp_path):
@@ -353,3 +354,9 @@ def test_ledger_chain_rejects_tamper_and_cross_directory(tmp_path):
             new_batches=[],
             output=tmp_path / "other/ledger-2.json",
         )
+
+
+@pytest.fixture(autouse=True)
+def explicit_historical_protocol(monkeypatch, tmp_path):
+    """These regression fixtures exercise identified current-3 inputs only."""
+    install_historical_protocol(monkeypatch, tmp_path)

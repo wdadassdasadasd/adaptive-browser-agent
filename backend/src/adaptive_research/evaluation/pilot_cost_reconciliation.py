@@ -14,7 +14,7 @@ from decimal import ROUND_HALF_UP, Decimal, InvalidOperation
 from pathlib import Path
 from typing import Any
 
-from adaptive_research.evaluation.current import REPOSITORY_ROOT
+from adaptive_research.evaluation.current import REPOSITORY_ROOT, load_protocol
 from adaptive_research.evaluation.project_ledger import LedgerError, build_ledger
 from adaptive_research.infrastructure.tool_billing import nonbillable_tool_basis
 
@@ -53,6 +53,9 @@ def reconcile_pilot_cost(
 ) -> dict[str, Any]:
     """Reclassify only fully observed fixed tools with a rounding-consistent bill."""
 
+    # Validate the active legacy protocol before creating any output. The
+    # current discovery protocol has no implementation in this historical tool.
+    load_protocol(root)
     base = previous_ledger.resolve().parent
     if any(
         path.resolve().parent != base

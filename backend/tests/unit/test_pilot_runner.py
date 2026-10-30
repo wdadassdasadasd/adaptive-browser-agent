@@ -14,6 +14,7 @@ from adaptive_research.evaluation import pilot_runner
 from adaptive_research.evaluation.current import build_plan
 from adaptive_research.evaluation.project_ledger import write_ledger
 from adaptive_research.infrastructure.pricing import load_price_book
+from tests.unit.test_legacy_entry_guards import install_historical_protocol
 
 BOOK = (
     Path(__file__).resolve().parents[3]
@@ -431,3 +432,9 @@ def test_live_api_origin_must_be_plain_loopback(value):
 def test_cli_without_execute_is_inert(capsys):
     assert pilot_runner.main([]) == 0
     assert "no task submitted" in capsys.readouterr().out
+
+
+@pytest.fixture(autouse=True)
+def explicit_historical_protocol(monkeypatch, tmp_path):
+    """These regression fixtures exercise identified current-3 inputs only."""
+    install_historical_protocol(monkeypatch, tmp_path)

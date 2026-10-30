@@ -1,422 +1,542 @@
 {
-  "protocol_version": "current-3",
-  "status": "frozen_pending_execution",
-  "registered_at": "2026-10-20",
-  "supersedes": "docs/evaluation/archive/CURRENT_EVAL_PROTOCOL_current-2.json",
+  "protocol_version": "discovery-m1-1",
+  "status": "frozen_pending_qualification_and_execution",
+  "registered_at": "2026-10-29",
+  "preparation_revision": "PREP-BASELINE-20261029",
   "authority": "SPEC.md",
-  "historical_protocols": [
-    "docs/evaluation/G3_EVAL_PROTOCOL.json",
-    "docs/evaluation/G2_EVAL_PROTOCOL.json",
-    "docs/benchmark/BENCHMARK_PROTOCOL.md"
-  ],
-  "paid_execution_requires_separate_authorization": true,
-  "execution_budget_cny": {
-    "pilot_max": 49,
-    "diagnostic_max": 30,
-    "formal_max": 200,
-    "contingency_max": 20,
-    "new_live_run_total_strictly_below": 300,
-    "stop_if_cost_cannot_be_bounded": true
+  "authorization": {
+    "configuration_only": true,
+    "business_implementation": false,
+    "environment_or_database_write": false,
+    "dependency_install": false,
+    "model_tokenizer_browser_execution": false,
+    "paid_execution": false,
+    "purchase": false,
+    "git_write": false,
+    "real_run_requires_specific_separate_authorization": true
   },
-  "pilot": {
-    "case_ids": [
-      "B01",
-      "B02",
-      "B03"
-    ],
-    "trials_per_case": 1,
-    "excluded_from_formal_release": true
+  "materials": {
+    "path": "docs/evaluation/DISCOVERY_M1_CASES.json",
+    "sha256": "5e448068f84dc491c0559b082b30e78886ed319e22112f11d6860aa529a51409",
+    "review_status": "done_independent_actual_file_review"
   },
   "formal": {
-    "trials_per_b_case": 3,
-    "trials_per_g_case": 1,
-    "required_b_full_successes_per_case": 2,
-    "required_g_full_successes_total": 2,
-    "expected_total_trials": 15,
-    "aggregate_field_release_threshold": null,
+    "domain_ids": [
+      "scheduling",
+      "data_migration",
+      "document_processing"
+    ],
+    "case_ids": [
+      "SCH-A",
+      "SCH-B",
+      "DAT-A",
+      "DAT-B",
+      "DOC-A",
+      "DOC-B"
+    ],
+    "expected_attempts": 6,
+    "agent_attempts": 3,
+    "control_attempts": 3,
+    "execution_order": "serial_two_rounds_per_assignment",
     "all_attempts_retained": true,
-    "trials_per_o_case": 1,
-    "required_o_full_successes_total": 3
+    "no_replacements": true,
+    "version_frozen": true,
+    "code_templates_tools_quotas_scoring_frozen": true,
+    "revealed_failure_kept_not_replaced_by_optimization_slots": true,
+    "in_batch_fix": "retain_failed_slot; any replacement comparison requires separately authorized complete new batch",
+    "case_scope": "all linked Turns share original case time, tool/model/resource caps and authorization; no reset on input revision or new work identity"
   },
-  "comparison_policy": {
-    "pre_optimization_cohort": "B01-B03 pilot, one attempt each",
-    "post_optimization_cohort": "first formal attempt for each of B01-B03",
-    "interpretation": "descriptive_pairing_only_not_causal_improvement",
-    "requires_same_case_prompt_and_fields": true,
-    "record_environment_model_budget_scoring_and_source_drift": true,
-    "exclude_pilot_from_formal_denominator": true
-  },
-  "cohort_policy": {
-    "pilot_and_formal_each_freeze_code_model_budget_scoring_environment": true,
-    "systemic_pilot_failure": "pause_retain_attempts_restart_full_cohort_or_mark_incomparable",
-    "formal_fix_requires_new_complete_batch": true,
-    "release_case_latest_version": "verify_official_page_at_each_attempt_start_and_record_drift"
-  },
-  "record_semantics": {
-    "artifact_paths_relative_to": "batch_results_json_parent",
-    "artifact_sha256": "lowercase_hex_of_file_bytes",
-    "trace_scope": "redacted_call_level_actions_outcomes_and_event_ids",
-    "known_cost_cny": "observed_or_calculable_lower_bound_null_if_unavailable",
-    "total_cost_cny": "null_if_any_billable_attempt_cost_unknown",
-    "unknown_usage_or_cost": "null_never_zero_for_unobserved_values",
-    "chain_checks": ["ui", "api", "persistence", "sse"],
-    "persistence_backend_values": ["postgresql"],
-    "comparison_budget_parity_values": ["matched", "mismatched", "unverified"],
-    "second_review_status_values": ["independent", "same_reviewer_later", "not_done"],
-    "call_outcome_values": ["completed", "failed", "unknown_outcome"],
-    "machine_admission_values": ["admitted", "rejected", "unknown"],
-    "human_official_review_values": ["verified", "not_verified", "contradicted"],
-    "pilot_access_checks": "boolean_or_null; null means not yet verified and cannot count toward formal release",
-    "formal_access_checks": "all booleans; full success requires all true",
-    "pilot_outcome": "diagnostic_only; candidate full reports do not count as formal release successes",
-    "known_call_cost_sum": "sum of all known billable call costs equals attempt known_cost_cny; no unlisted billable charges",
-    "unknown_call_cost": "null at call and attempt total; no zero substitution",
-    "report_review_binding": "manual review report_sha256 equals report artifact SHA-256",
-    "project_ledger": "all new live attempts, including interrupted and rerun attempts, count once across allocations"
-  },
-  "full_success_requires": [
-    "persisted_status_completed",
-    "completion_level_full",
-    "all_required_fields_in_this_report_with_official_sources",
-    "every_material_claim_traced_to_accepted_fact_and_manually_verified_official_source",
-    "recommendation_has_explicit_conditions_rationale_and_verified_supporting_facts",
-    "owner_can_access_and_other_team_member_cannot_access_or_cancel",
-    "ui_api_application_persistence_sse_consistent",
-    "community_sources_labeled_supplement_only"
-  ],
-  "cases": [
-    {
-      "id": "B01",
-      "set": "regression",
-      "category": "candidate_discovery",
-      "prompt": "Find two publicly documented Python browser-automation projects suitable for researching web pages. For each, give its name, official repository URL, license, and documented installation command. Cite official sources.",
-      "required_fields": [
-        "project_1_name",
-        "project_1_repository",
-        "project_1_license",
-        "project_1_install",
-        "project_1_source",
-        "project_2_name",
-        "project_2_repository",
-        "project_2_license",
-        "project_2_install",
-        "project_2_source"
-      ]
-    },
-    {
-      "id": "B02",
-      "set": "regression",
-      "category": "documentation_comparison",
-      "prompt": "Compare FastAPI and Flask for a small Python HTTP API using their official documentation. Explain how each declares a route, whether async handlers are documented, and how each is installed. Cite the exact official pages.",
-      "required_fields": [
-        "fastapi_name",
-        "fastapi_route",
-        "fastapi_async",
-        "fastapi_install",
-        "fastapi_source",
-        "flask_name",
-        "flask_route",
-        "flask_async",
-        "flask_install",
-        "flask_source"
-      ]
-    },
-    {
-      "id": "B03",
-      "set": "regression",
-      "category": "release_research",
-      "prompt": "Find the latest public release of browser-use/browser-use and summarize its version, publication date, and two changes from its release notes. Cite the official release page.",
-      "required_fields": [
-        "version",
-        "publication_date",
-        "change_1",
-        "change_2",
-        "release_source"
-      ]
-    },
-    {
-      "id": "G01",
-      "set": "public_generalization",
-      "category": "candidate_discovery",
-      "prompt": "Find the official repositories, licenses, and documented Python installation commands for Selenium and Playwright. Cite the official sources for each item.",
-      "required_fields": [
-        "selenium_name",
-        "selenium_repository",
-        "selenium_license",
-        "selenium_install",
-        "selenium_source",
-        "playwright_name",
-        "playwright_repository",
-        "playwright_license",
-        "playwright_install",
-        "playwright_source"
-      ]
-    },
-    {
-      "id": "G02",
-      "set": "public_generalization",
-      "category": "documentation_comparison",
-      "prompt": "Compare Django and Starlette for a small Python HTTP API using their official documentation. For each, give its route declaration, documented async handler support, installation command, and exact official source page.",
-      "required_fields": [
-        "django_name",
-        "django_route",
-        "django_async",
-        "django_install",
-        "django_source",
-        "starlette_name",
-        "starlette_route",
-        "starlette_async",
-        "starlette_install",
-        "starlette_source"
-      ]
-    },
-    {
-      "id": "G03",
-      "set": "public_generalization",
-      "category": "release_research",
-      "prompt": "Find the latest public release of microsoft/playwright and report its version, publication date, two distinct release-note changes, and official release page.",
-      "required_fields": [
-        "version",
-        "publication_date",
-        "change_1",
-        "change_2",
-        "release_source"
-      ]
-    },
-    {
-      "id": "O01",
-      "set": "public_preregistered",
-      "category": "candidate_discovery",
-      "prompt": "Compare browser-use and Skyvern as publicly documented options for autonomous browser research. For each, report its official repository, license, and documented Python installation path. Use official sources for key facts and give a conditional recommendation.",
-      "required_fields": [
-        "browser_use_name",
-        "browser_use_repository",
-        "browser_use_license",
-        "browser_use_install",
-        "browser_use_source",
-        "skyvern_name",
-        "skyvern_repository",
-        "skyvern_license",
-        "skyvern_install",
-        "skyvern_source"
-      ]
-    },
-    {
-      "id": "O02",
-      "set": "public_preregistered",
-      "category": "documentation_comparison",
-      "prompt": "Compare FastAPI and Litestar for a small Python HTTP API using their official documentation. For each, report route declaration, documented async handler support, installation method, and exact official page. Give a conditional recommendation.",
-      "required_fields": [
-        "fastapi_name",
-        "fastapi_route",
-        "fastapi_async",
-        "fastapi_install",
-        "fastapi_source",
-        "litestar_name",
-        "litestar_route",
-        "litestar_async",
-        "litestar_install",
-        "litestar_source"
-      ]
-    },
-    {
-      "id": "O03",
-      "set": "public_preregistered",
-      "category": "release_research",
-      "prompt": "Find the latest public Playwright release, report its version, publication date and two distinct changes from the official release notes, then summarize at least one clearly labeled public community upgrade experience as supplementary context. Give a conditional upgrade recommendation without treating community feedback as an official fact.",
-      "required_fields": [
-        "version",
-        "publication_date",
-        "change_1",
-        "change_2",
-        "release_source"
+  "methods": {
+    "agent": {
+      "allowed": [
+        "this_product",
+        "registered_manual_search_engines",
+        "owner_reads_original_sources",
+        "owner_rewrites"
       ],
-      "community_supplement_required": true
-    }
-  ],
-  "result_record_contract": {
-    "required_fields": [
-      "protocol_version",
-      "phase",
-      "case_id",
-      "trial_index",
-      "task_id",
-      "run_id",
-      "code_revision",
-      "prompt_sha256",
-      "started_at",
-      "ended_at",
-      "status",
-      "completion_level",
-      "facts",
-      "call_attempts",
-      "field_reviews",
-      "field_coverage",
-      "claims",
-      "recommendation_review",
-      "official_source_review",
-      "chain_checks",
-      "access_checks",
-      "stop_reason",
-      "usage",
-      "wall_clock_seconds",
-      "duplicate_urls",
-      "raw_record_path",
-      "raw_record_sha256",
-      "report_artifact",
-      "trace_artifact",
-      "review_bundle_artifact",
-      "cost",
-      "comparison",
-      "persistence_backend",
-      "manual_source_review",
-      "community_supplements"
-    ],
-    "field_review_required_fields": [
-      "value",
-      "fact_ids",
-      "official_source_url",
-      "verified_by_human",
-      "source_checked_at",
-      "reviewer_id",
-      "evidence_locator",
-      "contradiction_note"
-    ],
-    "fact_required_fields": [
-      "fact_id",
-      "subject",
-      "claim",
-      "official_source_url",
-      "official_identity_basis",
-      "evidence_excerpt",
-      "evidence_locator",
-      "retrieved_at",
-      "machine_admission_status",
-      "human_official_review_status",
-      "reviewer_id",
-      "source_checked_at",
-      "contradiction_note"
-    ],
-    "call_attempt_required_fields": [
-      "attempt_id",
-      "kind",
-      "billable",
-      "started_at",
-      "ended_at",
-      "outcome",
-      "reported_prompt_tokens",
-      "reported_completion_tokens",
-      "known_cost_cny"
-    ],
-    "claim_required_fields": [
-      "text",
-      "fact_ids",
-      "official_source_urls",
-      "verified_by_human",
-      "source_checked_at",
-      "reviewer_id",
-      "evidence_locator",
-      "contradiction_note"
-    ],
-    "recommendation_review_required_fields": [
-      "text",
-      "use_conditions",
-      "supporting_fact_ids",
-      "official_source_urls",
-      "tradeoffs_or_unknowns",
-      "rationale_checked_by_human",
-      "source_checked_at"
-    ],
-    "usage_required_fields": [
-      "reported_prompt_tokens",
-      "reported_completion_tokens",
-      "known_lower_bound_tokens",
-      "unknown_attempt_count"
-    ],
-    "community_supplement_required_fields": [
-      "text",
-      "source_url",
-      "source_role",
-      "verified_by_human",
-      "source_checked_at",
-      "limitation"
-    ],
-    "trace_artifact_required_fields": [
-      "relative_path",
-      "sha256"
-    ],
-    "report_artifact_required_fields": [
-      "relative_path",
-      "sha256"
-    ],
-    "review_bundle_artifact_required_fields": [
-      "relative_path",
-      "sha256"
-    ],
-    "review_bundle_content_required_fields": [
-      "task_id",
-      "run_id",
-      "status",
-      "stop_reason",
-      "facts",
-      "raw_record_sha256",
-      "trace_sha256",
-      "report_sha256",
-      "cost",
-      "comparison",
-      "manual_source_review"
-    ],
-    "cost_required_fields": [
-      "currency",
-      "known_cost_cny",
-      "total_cost_cny",
-      "unknown_attempt_count",
-      "pricing_basis",
-      "price_checked_at"
-    ],
-    "comparison_required_fields": [
-      "cohort_id",
-      "environment_fingerprint",
-      "upstream_browser_fingerprint",
-      "dependency_lock_sha256",
-      "model_id",
-      "budget_fingerprint",
-      "scoring_revision",
-      "source_window",
-      "source_drift",
-      "budget_parity"
-    ],
-    "manual_source_review_required_fields": [
-      "reviewer_id",
-      "reviewed_at",
-      "evidence_note",
-      "report_sha256",
-      "second_review_status",
-      "second_reviewer_id",
-      "second_reviewed_at"
-    ]
-  },
-  "project_ledger_contract": {
-    "allocations_cny": {
-      "pilot": 49,
-      "diagnostic": 30,
-      "formal": 200,
-      "contingency": 20
+      "external_ai_repair_allowed": false,
+      "deliberate_control_output_or_note_copy_allowed": false
     },
-    "total_max_cny": 299,
-    "entry_required_fields": [
-      "run_id",
-      "task_id",
-      "allocation",
-      "batch_id",
-      "known_cost_cny",
-      "total_cost_cny",
-      "unknown_attempt_count",
-      "evidence_artifact",
-      "authorization_reference"
+    "control": {
+      "ordinary_ai": "same_pre_registered_product_and_visible_mode; daily_use_without_arbitrary_message_count_cap",
+      "independent_deep_research": {
+        "required": true,
+        "sessions_per_task": 1,
+        "preferred_product": "Gemini_free_Deep_Research",
+        "actual_account_region_entry_mode_quota": "unverified",
+        "ordinary_browsing_or_thinking_is_not_DR": true,
+        "no_extra_DR_or_regeneration_replacing_failure": true,
+        "same_product_and_mode_all_three": true,
+        "insufficient_quota": "pause_and_discuss_no_auto_purchase_or_product_swap"
+      }
+    },
+    "manual_search": {
+      "same_pre_registered_engine_list_both_methods": true,
+      "switching_allowed": true,
+      "arbitrary_query_count_cap": null,
+      "all_owner_actions_count_active_time": true,
+      "actual_names_and_availability": "must_register_before_reveal_not_assumed"
+    },
+    "contamination": {
+      "record_familiarity_sources_and_knowledge_transfer": true,
+      "no_true_blinding_claim": true,
+      "memory_policy_frozen_data_changes_and_hits_disclosed": true
+    }
+  },
+  "timing": {
+    "active_minutes_per_attempt": 120,
+    "wall_hours_per_attempt": 24,
+    "batch_days": 14,
+    "active_start": "first_actual_display_of_exact_case_prompt",
+    "active_components": [
+      "reading_prompt",
+      "clarification_and_acceptance",
+      "prompt_interaction",
+      "search",
+      "reading_outputs",
+      "original_source_review",
+      "reading_audit_defects",
+      "rechecking",
+      "rewriting"
     ],
-    "batch_required_fields": ["batch_id", "phase", "artifact"],
-    "unbounded_or_unknown_cost_action": "stop_new_paid_calls_and_mark_no_go",
-    "contingency_requires_explicit_authorization": true
+    "pure_wait": "separate_from_active_but_in_wall_clock_including_audit_wait",
+    "end": "immutable_final_owner_submission_hash; final_audit_must_finish_within_wall_deadline",
+    "max_extensions": 1,
+    "unrevealed_extension_days": 7,
+    "extension_eligible": [
+      "confirmed_service_outage",
+      "free_quota_refresh"
+    ],
+    "extension_request": "before_original_batch_deadline",
+    "revealed_attempt_extension_allowed": false,
+    "project_admin_and_independent_audit_time": "separately_disclose; do_not_move_actual_research_work_out_of_active_clock"
+  },
+  "assignment": {
+    "algorithm_version": "ARA-EVAL-1",
+    "seed_bits": 128,
+    "seed_hex_chars": 32,
+    "seed_encoding": "lowercase_hex_literal_UTF8_not_decoded_bytes",
+    "seed_creation": "once_via_CSPRNG_after_protocol_and_material_hashes_frozen; no_redraw; not_generated_in_preparation",
+    "digest": "SHA256(UTF8(\"ARA-EVAL-1\\n\" + seed + \"\\n\" + domain_id + \"\\n\" + label)) with actual LF characters",
+    "labels": [
+      "order",
+      "assignment",
+      "first"
+    ],
+    "domain_order": "sort_by_hex_digest(label=order),then_domain_id",
+    "variant_assignment": "last_digest_byte(label=assignment)&1 == 0 means A=agent/B=control; 1 means reverse",
+    "first_method": "sort_domains_by_digest(label=first),then_id; first_two_agent_first,last_one_control_first",
+    "round_1": "domain_order; assigned_first_method_case",
+    "round_2": "domain_order_cyclic_left_shift_one; opposite_method_case",
+    "record": [
+      "seed",
+      "protocol_sha256",
+      "materials_sha256",
+      "all_digests",
+      "variant_assignment",
+      "six_slot_order"
+    ],
+    "no_generation_or_reassignment_after_failure": true
+  },
+  "common_quality": {
+    "mandatory_dimensions": [
+      "accepted_conditions_unknowns_and_provenance_faithful",
+      "route_discovery_and_bounded_investigation_disclosed",
+      "subject_version_region_and_time_correct",
+      "all_hard_conditions_and_all_critical_recommendation_exclusion_claims_officially_checked",
+      "identified_counterevidence_qualifiers_conflicts_and_unknowns_visible",
+      "actionable_next_verification_without_fabricated_execution",
+      "coverage_cost_and_technical_outcomes_honestly_limited"
+    ],
+    "all_six_final_reports_pass_before_value_computation": true,
+    "median_saving_min": 0.2,
+    "pair_saving_formula": "(control_active_seconds-agent_active_seconds)/control_active_seconds",
+    "aggregate": "median_of_exactly_three_registered_domain_pairs",
+    "missing_or_zero_baseline": "value_not_passed_no_imputation_no_denominator_change",
+    "owner_final_and_original_program_outcomes_separate": true,
+    "machine_structure_check_is_not_semantic_verification": true,
+    "adequate_no_winner": "evidence_based_scope_coverage_and_all_discovered_decisive_alternatives_processed; exhaustion_or_tool_failure_is_inadequate",
+    "audits": {
+      "max_defect_feedback_rounds": 2,
+      "final_scoring_rounds": 1,
+      "allowed_feedback": "defect_type_and_original_report_locator_only",
+      "new_research_contribution": "must_disclose_actual_contribution_time_and_any_new_cost; not_pure_audit",
+      "owner_does_actual_research_and_rewrite": true
+    }
+  },
+  "quotas": {
+    "case_model": {
+      "stages": [
+        {
+          "id": "clarify",
+          "normal_obligations": 2,
+          "max_input_tokens": 8192,
+          "max_output_tokens": 2048
+        },
+        {
+          "id": "route_plan",
+          "normal_obligations": 2,
+          "max_input_tokens": 16384,
+          "max_output_tokens": 2048
+        },
+        {
+          "id": "discovery_extract",
+          "normal_obligations": 2,
+          "max_input_tokens": 32768,
+          "max_output_tokens": 4096
+        },
+        {
+          "id": "shortlist_analysis",
+          "normal_obligations": 3,
+          "max_input_tokens": 32768,
+          "max_output_tokens": 3072
+        },
+        {
+          "id": "gap_plan",
+          "normal_obligations": 1,
+          "max_input_tokens": 16384,
+          "max_output_tokens": 2048
+        },
+        {
+          "id": "gap_extract",
+          "normal_obligations": 2,
+          "max_input_tokens": 32768,
+          "max_output_tokens": 3072
+        },
+        {
+          "id": "report",
+          "normal_obligations": 2,
+          "max_input_tokens": 32768,
+          "max_output_tokens": 8192
+        }
+      ],
+      "normal_obligations": 14,
+      "technical_retry_max": 2,
+      "technical_retry_per_work_max": 1,
+      "technical_retry_eligibility": "only_known_transient_and_explicit_same_work_request_phase_caps; unknown/schema invalid not retryable",
+      "physical_calls_max": 16,
+      "normal_input_total": 360448,
+      "normal_output_total": 50176,
+      "with_two_max_retries_input_total": 425984,
+      "with_two_max_retries_output_total": 66560,
+      "cumulative_input_tokens": 458752,
+      "cumulative_output_reservation_tokens": 73728,
+      "report_reserved_input_tokens": 65536,
+      "report_reserved_output_tokens": 16384,
+      "report_reserve_borrowable": false,
+      "format_repair_extra_calls": 0,
+      "summary_extra_calls": 0,
+      "thinking": "disabled_explicit",
+      "output_limit": "explicit_per_stage",
+      "tokenizer": "official_complete_request_matching_template_is_formal_admission_gate",
+      "qualification_diagnostic": "separate_limited_authorized_path_not_circular_formal_prerequisite"
+    },
+    "tools": {
+      "per_case": {
+        "search": 12,
+        "fetch": 24,
+        "github": 8,
+        "browser_actions": 8,
+        "browser_http_requests": 240
+      },
+      "stage_allocations": [
+        {
+          "stage": "discovery",
+          "search": 6,
+          "fetch": 6,
+          "github": 2
+        },
+        {
+          "stage": "shortlist_deep",
+          "search": 3,
+          "fetch": 12,
+          "github": 4
+        },
+        {
+          "stage": "gap",
+          "search": 3,
+          "fetch": 6,
+          "github": 2
+        }
+      ],
+      "counts_include_failures_retries_redirects_and_all_attempts": true,
+      "search_result_count": 5,
+      "search_need_content": false,
+      "unused_allocation": "forward_to_later_stage_only_never_expand_total",
+      "routes_max": 3,
+      "candidate_identity_pool_max": 20,
+      "shortlist_max": 3,
+      "extra_curator_or_semantic_judge_calls": 0,
+      "browser_before_network_qualification": 0
+    },
+    "runtime": {
+      "global_active_tasks": 2,
+      "global_queued_tasks": 4,
+      "nonterminal_task_per_session": 1,
+      "tasks_per_case": 8,
+      "read_branches_per_turn": 2,
+      "global_read_branches": 4,
+      "model_physical_inflight": 2,
+      "qualified_browser_physical_inflight": 1,
+      "lease_seconds": 30,
+      "heartbeat_seconds": 5,
+      "recoveries_per_original_task": 1,
+      "queue_seconds": 300,
+      "discussion_seconds": 600,
+      "research_seconds": 2700,
+      "case_worker_seconds": 3600,
+      "ordinary_case_wall_seconds": 604800,
+      "formal_case_wall_seconds": 86400
+    },
+    "bytes": {
+      "artifact_max": 1048576,
+      "turn_max": 67108864,
+      "case_max_shared_across_turns": 67108864,
+      "project_new_business_max": 1073741824,
+      "case_worst_reservation_mib": "57.5",
+      "seven_cases_and_noncase_reservation_mib": "419.75",
+      "count_actual_uncompressed_copies": true,
+      "wal_indexes_checkpoints_backups": "separate_physical_qualification_not_covered_by_business_cap"
+    }
+  },
+  "budget": {
+    "currency": "CNY_only_after_actual_account_qualification",
+    "cost_epoch": "2026-10-28_this_reopen_started",
+    "owner_attestation": "no_project_new_spend_outside_repository_since_cost_epoch; warehouse_and_historical_unknown_not_set_zero",
+    "model_physical_calls": 116,
+    "search_calls": 84,
+    "fetch_calls": 168,
+    "github_calls": 56,
+    "reserve_per_model_call_cny": "2.20",
+    "model_total_cny": "255.20",
+    "search_fetch_per_success_cny": "0.005",
+    "api_tools_cny": "1.26",
+    "noncall_cny": "30.00",
+    "unallocated_buffer_cny": "10.00",
+    "planned_total_cny": "296.46",
+    "new_spend_strictly_below_cny": "300.00",
+    "batches": [
+      {
+        "id": "qualification_and_unrelated_health",
+        "case_count": 0,
+        "model_calls": 4,
+        "tool_calls": {
+          "search": 0,
+          "fetch": 0,
+          "github": 0
+        },
+        "worst_total_cny": "8.80"
+      },
+      {
+        "id": "early",
+        "case_count": 4,
+        "roles": [
+          "original_requirement",
+          "changed_conditions_capability",
+          "optimization_retest_1",
+          "optimization_retest_2"
+        ],
+        "model_calls": 64,
+        "tool_calls": {
+          "search": 48,
+          "fetch": 96,
+          "github": 32
+        },
+        "worst_total_cny": "141.52"
+      },
+      {
+        "id": "formal_agent",
+        "case_count": 3,
+        "model_calls": 48,
+        "tool_calls": {
+          "search": 36,
+          "fetch": 72,
+          "github": 24
+        },
+        "worst_total_cny": "106.14"
+      }
+    ],
+    "price_basis": {
+      "model_input_uncached_per_million_cny": "2.00",
+      "model_output_per_million_cny": "8.00",
+      "conservative_input_tokens_per_physical_slot": 1048576,
+      "output_tokens_per_physical_slot": 8192,
+      "calculated_worst_model_call_cny": "2.162688",
+      "qualification": "exact_model_template_fields_currency_tariff_and_complete_billable_basis_required; snapshot_not_locked_quote",
+      "price_evidence_max_age_hours": 24
+    },
+    "noncall_includes": [
+      "backup_media",
+      "paper_key_and_verification_cards",
+      "new_comparison_subscription_or_session_charges",
+      "any_other_new_project_fee"
+    ],
+    "existing_subscription_without_new_spend": "disclose_separately_not_fabricate_new_fee",
+    "buffer_not_automatic_grant": true,
+    "funds_price_history_unknown_inflight_balance_grants_unclosed": "paid_disabled"
+  },
+  "tracing": {
+    "storage": "PostgreSQL_canonical_business_records_and_read_only_join_view_no_external_upload",
+    "chain": [
+      "input_revision",
+      "plan_work_attempt",
+      "call",
+      "source_representation",
+      "claim_relations",
+      "context_manifest",
+      "exact_safe_business_request_body",
+      "response_usage_cost",
+      "report_hash"
+    ],
+    "run_manifest_max_bytes": 65536,
+    "manifest_counts_in": "stage_derived_2MiB_case_bucket",
+    "freeze": [
+      "code_and_dirty_tree",
+      "dependency_lock",
+      "schema",
+      "template",
+      "selector",
+      "tokenizer",
+      "public_model_identity",
+      "pricing",
+      "protocol",
+      "materials"
+    ],
+    "unknown_cloud_weights_or_backend": "null_not_claimed_frozen",
+    "canonical_records_not_sampled": true,
+    "ui_ordinary_event_cap": 255,
+    "safe_body_not_full_HTTP_wire": true,
+    "no_hidden_chain_of_thought_collection": true,
+    "reconstruction": "offline_read_only_artifact_integrity_and_relationship_checks; no_provider_network_or_framework_replay",
+    "diagnostic_categories": [
+      "not_collected",
+      "unrecognized",
+      "unbound",
+      "not_selected",
+      "cropped",
+      "summary_distortion",
+      "output_not_reflected"
+    ],
+    "model_internal_use_not_inferred_from_output": true
+  },
+  "optimization": {
+    "real_symptom_correction_required_at_least": 1,
+    "real_retest_slots_max": 2,
+    "sequence": [
+      "original_trace_evidence",
+      "preregister_falsifiable_observable_target",
+      "minimal_change",
+      "fixed_source_offline_regression_and_nonregression_AC",
+      "independent_review",
+      "separately_authorized_matched_real_retest"
+    ],
+    "changed_conditions_case": "same_case_A_report1_then_owner_accepted_B_linked_turn_report2_shared_caps_not_optimization_benefit",
+    "keep_all_failed_experiments": true,
+    "failed_rigorous_experiment_not_substitute_for_correction": true,
+    "source_model_drift": "record_versions_hashes_and_confounding; no_direct_causal_claim_if_change_affects_symptom"
+  },
+  "qualification": {
+    "statuses": "pending_actual_evidence_not_satisfied_by_this_JSON",
+    "before_first_pilot": [
+      "safe_WSL_cold_cutover_and_new_Pg_cluster_roles",
+      "official_tokenizer_and_gateway",
+      "all_history_unknown_inflight_cost_reconciliation",
+      "exact_service_side_grant_and_sufficient_balance",
+      "independent_backup_media_paper_key_source_card_and_real_restore"
+    ],
+    "before_formal_reveal": [
+      "actual_six_case_independent_review",
+      "all_method_eligibility_modes_and_engine_list",
+      "code_template_policy_scoring_hash_freeze",
+      "batch_and_slot_authorizations",
+      "unrelated_service_health_check"
+    ],
+    "browser_unqualified": "disabled_zero",
+    "global_unknown": "stop_all_project_new_outbound_keep_progress_and_reservations; later_settlement_never_auto_reopens; owner_separate_restore_approval_required"
+  },
+  "historical_evidence": {
+    "base_commit": "1ffade6de07ebe3d1e72afb4c44b8677466eca67",
+    "protocol_path": "docs/evaluation/CURRENT_EVAL_PROTOCOL.json",
+    "preparation_path": "data/evaluation/decision-m1-1/preparation.json",
+    "read_policy": "explicit_commit_path_raw_sha_and_explicit_newline_transform_only_no_auto_guess",
+    "old_execution_rules": "B/G/O_15_and_M1_9_8_12_are_historical_only",
+    "old_preparation": "materials_not_real_runs; referenced_sources_licenses_authorizations_cost_and_run_evidence_preserved",
+    "no_new_archive_copy": true,
+    "new_runner_or_ledger_implemented": false
+  },
+  "release": {
+    "current_state": "No-Go",
+    "technical_verification_human_acceptance_value_M1_Go_release_separate": true,
+    "this_protocol_not_runtime_permission": true
+  },
+  "attempt_record_contract": {
+    "scope": "declarative_acceptance_contract_not_an_implemented_runner_or_ledger",
+    "required_fields": {
+      "identity": [
+        "slot_id",
+        "case_id",
+        "domain_id",
+        "method",
+        "owner_id",
+        "batch_id",
+        "case_and_linked_turn_ids",
+        "protocol_sha256",
+        "materials_sha256",
+        "code_dirty_tree_and_lock_identity",
+        "template_tool_memory_policy_identity",
+        "visible_provider_model_mode_and_drift"
+      ],
+      "timing": [
+        "first_display_at",
+        "wall_deadline",
+        "active_intervals_with_start_end_kind_and_actor",
+        "computed_active_seconds",
+        "separate_wait_audit_admin_seconds",
+        "final_submission_at",
+        "stop_at_and_reason"
+      ],
+      "artifacts": [
+        "original_program_or_DR_output_ref_sha256_or_missing_reason",
+        "ordered_human_revisions_with_parent_ref_sha256_edit_time_and_active_interval_refs",
+        "final_submission_ref_sha256"
+      ],
+      "audit": [
+        "reviewer_identity_and_role",
+        "round_and_feedback_time",
+        "reviewed_report_sha256",
+        "defect_locators",
+        "actual_research_contribution_time_cost_and_disclosure",
+        "final_dimension_scores_and_pass"
+      ],
+      "outcomes": [
+        "raw_program_status_and_errors",
+        "safety_authority_unknown_stop_state",
+        "final_human_quality_status",
+        "cancel_failure_missing_unexecuted_reason",
+        "familiarity_and_source_knowledge_transfer",
+        "memory_hits_writes_and_pre_case_identity"
+      ],
+      "cost": [
+        "call_and_transport_identity_refs",
+        "local_tokens_provider_usage_cache_and_unknowns",
+        "pricing_currency_and_cost_evidence",
+        "known_unknown_inflight_reservations",
+        "grant_allocation_and_incremental_spend_epoch",
+        "comparison_existing_subscription_and_new_purchase_disclosure"
+      ]
+    },
+    "active_intervals": "owner intervals ordered and nonoverlapping; every research action belongs to one interval; active_seconds equals sum, pure waits separately in wall time; no cap imputation",
+    "revision_chain": "immutable original plus every submitted human revision; parent hashes link in order; edit/research/recheck time included; no replacement after final scoring or revealed failure",
+    "audit_binding": "feedback and final scoring bind exact reviewed report hash; new research contribution is disclosed and cannot masquerade as pure defect audit",
+    "unavailable": "explicit null or missing_reason; never fabricate zero, successful output or a report hash",
+    "integrity": "independent audit recomputes artifact hashes, timing sums, case-slot mapping and paired median before any value pass; all six retained",
+    "private_content": "owner-only artifacts; safe public summary refs/codes; no password, cookie, API key or hidden reasoning chain"
+  },
+  "review": {
+    "independent_actual_file_status": "done",
+    "artifact_ref": ".tmp/predev-reopen-20261028/config-20261029/evaluation-actual-review-r1.json",
+    "artifact_sha256": "d686eaf7dd6ce1049a52e33ec51c37d99791b82f177aef8a97b5943d74f7dc9f",
+    "reviewed_protocol_sha256": "d91f8d43f196a89c8b59a2752f6d7d5c7b4be974b2aaba5910d39b1a9b454b2d",
+    "review_binding": "Review hashes identify the immutable r1 snapshot before this metadata update. The metadata-only delta requires separate independent review recorded by the local final-delivery.json; no execution qualification is asserted."
   }
 }

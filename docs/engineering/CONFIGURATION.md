@@ -1,109 +1,65 @@
-# 工程配置：共享方法与项目适配
+# 工程配置与环境资格 — PREP-BASELINE-20261029
 
-状态：全生命周期协作配置的实施、安装与发现证据见[本次唯一任务记录](../tasks/CODEX_LIFECYCLE_CONFIG_2026-10-25.md)；产品功能仍受[现行四入口](../README.md)约束。此页说明目录用途与加载方式，不新增业务要求、Codex 权限或自动执行能力。历史批次见[迁移映射](../decisions/V3_CONFIG_MIGRATION_MAP.md)、[2026-10-23 验收](../audits/V3_CONFIG_ACCEPTANCE_2026-10-23.md)和[2026-10-24 复审](../audits/CONFIG_REVIEW_2026-10-24.md)。
+40路径工程基线及限定validator/旧入口guard获批；实际落地、检查、独立审查和唯一18项由[连续记录](../features/DECISION-001/tasks.md)判定。行为参数由[SPEC](../../SPEC.md)、[PLANS](../../PLANS.md)、[当前契约](../contracts/CURRENT_CONTRACTS.md)和[唯一协议](../evaluation/CURRENT_EVAL_PROTOCOL.json)定义。本页说明配置与资格，不新增业务权限。
 
-## 共享源与调用方向
+## 配置归属与流程
 
-独立共享源位于 `D:\codex-engineering-config`，版本管理全局协作规则、审查角色、`engineering-workflow`、新项目模板、研究依据与安装脚本。经审查的源安装到用户级位置：`~/.codex/AGENTS.md`、`~/.codex/agents/` 和 `~/.agents/skills/engineering-workflow/`；实际目标、预览、备份和安装结果以配置仓库说明与本次任务证据为准。共享源和本业务仓库分别保留版本／差异、审查与交付记录，当前项目 PR 不包含用户目录修改。全局 `config.toml`、模型、MCP、插件、系统权限及原有授权规则保持原样。
+共享源D:\codex-engineering-config历史安装/发现见[生命周期记录](../tasks/CODEX_LIFECYCLE_CONFIG_2026-10-25.md)，本批不改共享仓库、用户规则/技能/角色、模型、MCP、系统权限或依赖。共享engineering-workflow选择分支→项目[G0–G7](WORKFLOW.md)承载关口→三项本地Skill提供方法，返回同一任务记录；不建立平行编排。已有Spec Kit项目保留主编排器。
 
-调用只沿一个方向：**共享入口选择适用流程 → 本项目 G0–G7 承载关口 → 三项项目 Skill 提供领域方法**。引用材料解释流程，不另作编排器；领域 Skill 返回同一任务记录，复用已有批准。已经初始化其他主编排器的项目按其项目规则选择一个主流程，不并列启动多套方法。
-
-新项目从共享技能中的五类模板开始：项目入口、产品／需求／架构与数据流依据、模块依赖计划、任务模板、PR 模板；填写项目事实与命令，再按复杂度拆分。复用的是协作骨架，业务架构仍须研究和批准。本项目继续使用现有 `SPEC.md`、`PLANS.md`、契约及冻结协议，不生成另一份通用 `PROJECT.md` 或 `PLAN.md`。
-
-```text
-AGENTS.md                              # Codex 仓库规则与权威入口
-SPEC.md / PLANS.md                     # 现行目标与阶段计划
-.agents/skills/                        # 三项已有的任务型 Skill
-.github/PULL_REQUEST_TEMPLATE.md       # 人工填写的交付证据
-.github/workflows/ci.yml               # 现有离线与 PostgreSQL CI
-docs/
-  README.md                            # 文档导航，不另立规格
-  decisions/                           # V3 决策、权威变更提案、迁移映射
-  design/adr/                           # 0005 运行架构；0006 产品方向
-  engineering/                          # G0–G7 流程、配置说明、任务模板
-  features/DECISION-001/               # 已批准需求与切片；实际进度见 tasks.md
-  testing/STRATEGY.md                  # 风险驱动 L0–L6 检查选择
-  evaluation/CURRENT_EVAL_PROTOCOL.json # 唯一正式评测协议
-  audits/                              # 按版本和范围保存实际验收
-  archive/                             # 不改写的历史版本与证据
-scripts/validate_project.py            # 离线引用、协议、Skill 与归档索引字节校验
-```
-
-## 使用与维护
-
-| 入口 | 为什么存在；输入 → 输出；触发与维护 | 权威、发现及验证 |
-| --- | --- | --- |
-| 根 `AGENTS.md` | 维护者在产品／架构／权限边界变化时更新；从现行四入口与 ADR 提炼简短导航 → Codex 工作约束。无需按每个模块再建规则文件。 | Codex 从项目根到当前目录读取；本仓库仅有根文件。以实际会话所收到规则、文件大小和引用校验核对，不能把文档链接当成强制执行。 |
-| `.agents/skills/` | 维护者仅在实施、失败归因或真实评测方法发生可重复变化时修订；项目流程选择任务类型 → 专项方法与证据。一般文档或单测不触发领域专项。 | Codex 在仓库路径扫描 `SKILL.md` 的名称与描述，正文按需加载；共享技能另由用户级位置发现。项目 validator 只检查已列举的本地技能，不能证明全局技能与多端发现。 |
-| `.github/` | PR 作者填真实 Task／AC、测试、CI、风险和授权；现有 Actions 运行离线与数据库检查。模板在交付时触发，CI 在 GitHub 事件触发。 | GitHub 模板是提示，不替代人工 Review；Actions 是否执行及分支门禁须查看远端实际结果。当前仅校验本地 YAML 内容与模板链接。 |
-| `docs/decisions/`、`docs/design/adr/` | 用户作产品或架构决定时记录依据、范围和待决项；变更提案 → 获批后才更新正式规格／契约。维护者避免复制原验收门槛。 | 决策记录解释选择，`SPEC.md`、`PLANS.md`、目标契约和评测协议仍为现行要求；链接及状态可离线检查。 |
-| `docs/features/`、`docs/engineering/` | 重要需求从 AC → 可验收切片；获批任务用模板记录范围、测试与证据。小变更可合并到任务或 PR，不强制新文档。 | `AGENTS.md` 指向流程；任务执行者按需读取。需求草案不能越过现行四入口；验收检查 Task／AC 与实际证据。 |
-| `docs/testing/`、`docs/evaluation/`、`docs/audits/` | 按变更风险选 L0–L6；正式评测按冻结协议执行；审计记录指定版本的实际结果。配置变动、真实运行和阶段验收分别触发。 | 策略只决定检查方式，协议独占正式题面／门槛，审计不改历史。校验脚本锁定协议和归档哈希；真实成功仍需授权运行与人工核源。 |
-| `docs/README.md`、`scripts/validate_project.py` | 文档增删或链接变更时维护导航及离线检查列表；路径 → 可读入口与错误报告。 | README 不另立权威；CI 调用校验器，本地运行同一脚本核验引用、冻结协议及历史归档的工作区／Git 索引字节。 |
-
-## 无个人环境时的最低流程
-
-同事不必安装个人模型、MCP 或授权规则即可读取根 `AGENTS.md`、[项目流程](WORKFLOW.md)、[任务模板](TASK_TEMPLATE.md)和[测试策略](../testing/STRATEGY.md)，按项目实际清单选择检查。先读权威入口定位需求与当前行为，按已批准任务实现、自检与测试；普通行为变化取得独立审查，高风险取得相应专业审查；准备可运行验收包，由人亲验关键业务；有本次操作授权后才提交和创建 PR。缺共享 Skill 时直接执行项目流程，缺自定义角色时使用可用独立审查者；独立上下文不可用时记录审查待完成，自检不能补足。每次以任务记录明确安装依赖和未满足的条件。
-
-## Codex 实际加载边界
-
-[OpenAI 官方 AGENTS.md 文档](https://learn.chatgpt.com/docs/agent-configuration/agents-md)说明 Codex 按项目根到工作目录发现规则；[官方 Skill 文档](https://learn.chatgpt.com/docs/build-skills)说明用户 `~/.agents/skills/` 与仓库 `.agents/skills/` 的发现方式，正文按需读取。当前实施会话包含三项项目技能和根规则，但这不证明修订后的规则、全局技能或角色已在未来会话生效。桌面、CLI、IDE 分别记录实际发现和场景验证结果，未运行的客户端标待验证。
-
-本仓库没有项目 `.codex/config.toml`、`.codex/agents/` 或新增 MCP 配置。当前方案不需要项目级模型、权限或工具覆盖；[OpenAI 官方配置说明](https://learn.chatgpt.com/docs/config-file/config-basic)指出项目配置只在受信任项目加载。今后若出现具体、可验证的缺口，另提案说明字段、权限、维护者和生效检查。没有声明不存在的 Hook、自动命令或只读子代理隔离。
-
-## M1 开工环境与恢复资格（2026-10-26只读核查，2026-10-27记录）
-
-PREP-BASELINE-v4.3 只更新相关项目文档，不更改任何全局/共享Skill/角色/模型/MCP/权限或依赖。目标不是本轮重建协作配置。当前业务启动命令仍分 [V1入口](../../README.md) 与 [Pg开发入口](../tasks/PREDEV_P01_START_PACKAGE_2026-10-20.md)，新session流程尚无可用启动入口。
-
-| 已观察事实 | 资格/缺口/下一步（不是已安装或通过声明） |
+| 入口 | 触发及验证 |
 | --- | --- |
-| Windows `.venv` Python3.12.13；browser-use0.13.10、FastAPI0.142.2、asyncpg0.32.0、Alembic1.20.0、SQLAlchemy2.1.3、MCP2.1.1、cryptography50.0.2、pytest9.1.1、ruff0.16.10 | 只证明可读元数据；是否满足具体新模块以锁文件/运行测试为准，不自动upgrade。 |
-| PATH Node23.11.1；现有 `.tmp/node22/node-v22.23.4-win-x64/node.exe` 为22.23.4，.nvmrc/CI22 | 前端检查固定已存在Node22路径并记录，不因PATH差异静默改锁。 |
-| WSL只读列表Ubuntu为Stopped/WSL2；此前PostgreSQL16.15在保活时连通，P01假48/48 | 本轮未启动WSL/数据库。真实冷启动/保活/Worker停止重启和真实浏览器恢复仍需适用授权实证；连接一次不是恢复通过。 |
-| browser-use gitlink7be96ed8bafa8dfe1eef228b59cf5c884b8b2431 | 本地上游保持原样；研究固定commit和本地gitlink不是同一版本，不宣称运行了研究版。 |
-| 官方deepseek-recipe0.2.0在观察的发行文件中无Windows wheel | M1影子资格需隔离Linux候选；无安装/WSL写入/源码构建授权。核对模型模板、字面特殊token、完整请求、依赖和usage偏差后再讨论硬准入，不自动迁移Worker。 |
-| age/gpg/7z未在PATH找到；官方age1.3.2是已查候选 | 不证明机器全盘不存在，也不自动安装；选择加密/恢复工具前需发行来源/校验/密钥归属/操作资格，独立目录恢复并保原件。密钥与数据库备份分离，秘密不进prompt/log/diff。 |
-| 官方只读余额2026-10-26 21:39:41北京时间为CNY10.57，grant0/topup10.57 | 单次已授权GET完成，不重复查询；快照不代表完整项目总账/可用grant/后续价格。历史全账、在途预留、资金覆盖与逐次授权硬阻塞pilot。 |
-| 四次声明ledger合计已知0.16536812CNY、unknown0（仅该声明范围）；r11三次计算0.12397276与控制台0.12有舍入核对 | 不是账户所有历史账单已对齐。旧SQLite只读核对、去重/冲突、最新高水位和价格快照必须在T12完成，恢复副本不能变成第二资金权威。 |
+| AGENTS | 产品/架构/授权变更后更新简短导航；实际收到规则/链接不等强制门禁 |
+| .agents/skills | 评测/真实trace诊断/已授权业务按需读取；普通单测不触发全套评测；方法不授权限 |
+| WORKFLOW/TASK_TEMPLATE/STRATEGY | 生命周期/具体任务包/风险检查；只读指令不是只读沙箱 |
+| .github | 模板填真实AC/检查/审查/权限，CI声明与远端执行/branch protection分查 |
+| validate_project | 新协议/材料/映射/数字/历史显式Git字节/技能与链接；不证明语义效果 |
 
-启动前序：停止不兼容旧API/Worker→另授权additive迁移→核schema/能力/operation_kind护栏→WSL前台保活/PostgreSQL健康→兼容API/Worker→假供应商/对象隔离。新paid默认关闭；开放真实调用还需F1/ledger/在途/计价（运行前≤24h新快照）/grant/余额覆盖和匹配代码模型次数金额的负责人授权。没有secret输出或用.env内容作审计证据。
+当前会话收到根规则/项目技能，不证明未来桌面/CLI/IDE全已加载；未实测端标待验。无项目级模型/权限覆盖需求，不新增.codex配置/Hook或虚构自动门禁。缺共享Skill直接执行项目流程，缺独立审查保持pending。
 
-恢复前序：隔离目录/原件哈希→解密验证数据/工件/事件和所有权→生成新generation、禁旧会话/grant、paid_disabled→停止旧authority→独立最新账本/grant/撤销高水位及备份后供应商/在途核对→才允许另授权提升authority。对账失败维持关闭，来源线索恢复同样等待撤销核对；不能为了演示重发completed/unknown请求。
+## 日期化环境与账目证据
 
-提交/代码交付前包：限定文件和暂存范围、Task/AC状态、实际命令/CI/独立审查指纹、未验证项、中文提交摘要、回滚。Commit/Push/PR只按明确命名操作授权；合并/发布单独。M1本机展示、代码交付、正式Go、对外发布分开，不把文档/测试/CI完成当放行。
-
-## 2026-10-27 准备补齐：环境、资金及交付前置
-
-本节承接负责人明确批准的“v4.3 开发准备补齐与首任务开工基线”，仅落实六份准备文档及[持久材料包](../../data/evaluation/decision-m1-1/preparation.json)。[连续任务记录](../features/DECISION-001/tasks.md)区分本轮文档完成、未来实施、技术验证、本人验收及正式放行。前节观察保留日期，不以安装或历史探针代替当前资格。
-
-### 本轮只读事实与检查边界
-
-| 实际证据 | 判断、尚缺资格及阻塞对象 |
+| 观察 | 限制与下一步 |
 | --- | --- |
-| 当前 HEAD 为 `e70b5f983532868b765e988f9162ddf989cf153d`；旧16文件与最终审查快照相同，暂存为空 | 旧文档批准/审查继续适用；本轮增量和新材料另固定完整内容并独立审查。上游gitlink一致不证明子模块工作树干净，内部Git状态因权限限制仍未知。 |
-| 2026-10-27只读核对 Python3.12.13、Node22.23.4现有路径及PATH Node23.11.1；asyncpg/Alembic/SQLAlchemy/FastAPI/pytest离线导入成功，`alembic ... heads` 返回 `20261023_07` | 只确认导入与迁移链读取；不证明数据库连通、迁移或Worker可运行。新任务固定Node22及现有锁，不自动安装或升级。 |
-| 2026-10-27 WSL只读列表为Ubuntu／Stopped／2；历史PostgreSQL16.15连接为 `127.0.0.1:5433`，应用库 `adaptive_agent_dev`、角色 `adaptive_agent_app` | 本轮未启动服务。精确隔离库、当前权限、WSL保活和Windows连接资格须在T07-01具体授权后确认；不能把历史地址当本轮测试库批准。 |
-| 所选 `test_pg_transport.py` 三项及Pg元数据一项在前轮未返回结果，主动中断，未取得结果 | 不记pass或skip；T07-01开工前用有界超时记录独立复跑，超时只诊断该无模型入口，不扩到安装/真实运行。数据库检查仍另受隔离库授权约束。 |
-| `data/adaptive_agent.db` 用 `mode=ro&immutable=1` 读取前确认无wal/shm/journal；仅4张旧研究表、task_count=0，无call/cost/budget表；前后SHA256均为 `1cf908a6f9e83985548ba7bd0753a204e6d8ccbaf70ac34daa9d3152ecbd0064` | 该原件不能补出账户全历史费用。已有声明账只覆盖列举尝试；完整覆盖还需Pg/工件与供应商账单、本人仓库外使用事实，缺少不能猜零。原SQLite/r12不导入新UI、不改写。 |
-| 项目Python未发现deepseek-recipe；age/gpg/7z仅在PATH未找到 | tokenizer影子和备份工具仍待资格验证，不推断机器其他位置不存在。没有安装、WSL写入、源码构建或密钥生成授权。 |
+| 2026-10-27 Windows Python3.12.13；browser-use0.13.10/FastAPI0.142.2/asyncpg0.32.0/Alembic1.20.0/SQLAlchemy2.1.3/MCP2.1.1/cryptography50.0.2/pytest9.1.1/ruff0.16.10 | 当时部分导入通过/head20261023_07，不证明Linux环境/新库可运行，不自动升级 |
+| Node PATH23.11.1，已有ignored22.23.4，.nvmrc/CI22 | 检查用已装准确版本，不改锁/自动安装 |
+| 2026-10-29普通WSL/CIM读查询拒绝，工具级只读提权观察Ubuntu/Stopped/WSL2 | 未启动，不是没安装证明；旧Ubuntu24.04.1/Pg16.15/5433只旧日期证据 |
+| 同次逻辑CPU20/RAM15.63GiB/free2.43GiB，C free105.57GiB/D39.59GiB | 瞬时资源，不证明4GiB组可用；不停止其他程序或改WSL |
+| 已读.wslconfig mirrored/dnsTunneling/autoProxy/localhostForwarding开启，未设memory | 非隔离资格；transport禁ambient proxy；任何调整另授 |
+| browser-use gitlink7be96ed8bafa8dfe1eef228b59cf5c884b8b2431 | 内部Git工作树未知，不把研究commit当已运行版本 |
+| LangGraph研究commit声明1.2.16/checkpoint-postgres3.2.0，现锁无这些/Argon声明 | 非安装/兼容证据，02先解析精确依赖身份，失败不改引擎/升级无关依赖 |
+| 官方Tokenizer recipe0.2.0模板差异，部分位置未见age/gpg/7z | 非全盘不存在证明；没安装/执行，正式完整请求资格待验 |
+| 2026-10-26 21:39:41北京时间CNY10.57 grant0/topup10.57 | 旧授权只读快照，非当前余额/grant/完整账；未重复查询 |
+| 声明ledger与r11账核查只覆盖声明范围 | 合并去重/冲突/供应商差额及unknown待闭合，不能填0 |
+| 2026-10-27 SQLite只读immutable、task0、无call/cost/budget表；SHA1cf908a6f9e83985548ba7bd0753a204e6d8ccbaf70ac34daa9d3152ecbd0064 | 原件不补全费用历史，不自动导入新库 |
+| P-01假48/48，r11/r12真实失败及旧四项中断检查 | 当时内容证据，不给新路径通过；中断不写pass |
 
-### 精确运行资格与责任
+## 后续环境与权限包
 
-| 前置任务／负责人 | 输入→必须产物与核对 | 完成时点／停线 |
-| --- | --- | --- |
-| T07-01-ENV／AI准备、本人授权精确操作 | 记录host/port/database/role、应用库身份与测试库不同、库不存在或独占空库证据、无业务表/已应用迁移、常规函数/trigger权限、原件/后备哈希。创建由有相应权限的管理操作完成，不给应用角色扩权；凭据只在本机受控配置中使用，不输出。 | 首次L3前；授权须覆盖WSL保活、准确建库名、迁移、测试及清理。任一身份/空库/权限未知不迁移，关键用例skipped不记L3通过。测试仅清理本次一次性库；不得对应用库运行downgrade或删除。 |
-| T12-01账覆盖／AI盘点、本人补事实 | provider/account非秘密标识、覆盖时段/代码/模型/用途、run/task/call稳定ID及来源hash、known/unknown/in-flight、重复/冲突映射、缺口。本人目前能否取得逐调用账单为**未知**；另确认仓库外调用、费用汇总精度及可能仍活跃入口。 | 首pilot前；本轮不再查询余额。原账只读，冲突/漏项不静默覆盖；不能取得明细时保存汇总差额及未知，不伪造完整对账。 |
-| T12-02资金与执行冻结／AI核对、本人逐次授权 | 单一活动Pg authority的项目总账、用途分配、grant、预留/结算；有效计价快照（运行前≤24h）、供应商可用额、在途及完整授权批次的最坏覆盖。总上限299、49/30/200/20分配分别核对。历史10.57余额不是grant，22.08示例不作资金证明。 | 每个物理发送前；任何未知费用、预留冲突、授权不匹配或不足覆盖完整批次，停止新增付费。unknown保留预留；不能挪用途/充值/加次数。纯假逻辑可先行，对象绑定与恢复AC依真实账户和T08 schema，撤销集成依T10。 |
-| T12恢复交接／AI准备、本人确认保管与提升 | authority ID/generation、旧权威/旧Worker停止证据；独立于备份保存的最新ledger/grant/revocation序号或稳定ID、版本/hash/覆盖截止/导出时间/位置/保管人；供应商备份后记录、未知在途和撤销差额。 | 首次真实付费前先形成可维护的高水位保存安排；恢复提升前再核最新性。新代次、旧登录/grant失效，paid_disabled；缺最新证据不提升、不注入来源线索，不重发completed/unknown。具体位置/保管人未定属于该运行前置，不冒称已备份。 |
-| T09 Tokenizer资格／AI样本和误差记录、本人另批环境写入 | [材料包](../../data/evaluation/decision-m1-1/preparation.json)的中英/混合代码/schema/tools/字面特殊token输入；匹配官方版本、模型别名和模板；记录完整请求输入hash、原估算/影子计数/可取得usage偏差及不可验证项。 | T09影子验收前；隔离Linux只是候选，先确认发行文件/依赖及授权。不新增模型请求，不用缺raw prompt的旧调用证明精确复算，不自动替换硬准入。 |
-| P03备份资格／AI准备步骤、本人决定工具/介质/密钥保管 | 工具来源/版本/校验、安装或现有工具位置、可断开介质、密钥与备份分离、恢复人；密文及独立目录解密恢复清单覆盖应用表、事件、报告和必要审计材料。 | 正式Go前；审计A可重建内容也须owner访问和加密保护。原件哈希、恢复哈希和实际恢复命令必须保存，密钥不进prompt/log/diff。工具缺资格不假装有可运行备份。 |
+| 关口/负责人 | 准确产物、时点和停线 |
+| --- | --- |
+| ENV-M1-01 / AI准备、本人批准 | boot前核旧systemd/bootcommand/launcher自动服务及出站；无证据不先启动。必要时先提出离线取证/宿主隔离的具体权限、路径、影响方案，再核Linux source/venv/binary/data绝对路径、代码锁/UID/日志/角色 |
+| 新库 / 首工前 | 资格通过已装PG16目标16.15，独立data/config/凭据/55432/ara_m1与ara_m1_test；旧5433不自动停删。app/checkpoint运行角色无DDL，migration/restore角色另设；建库/迁移/清理各自准确授权 |
+| 冷切 / 新入口前 | 旧准入关→队列/在途/unknown→旧API/Worker停止→旧写凭据失效及存活连接→验证不能误写；仅改.env或新握手不足，原件/费用/撤销及只读取证保留 |
+| 资源 / 能力资格前 | 父4GiB/CPU4含所有子组和backup，实际峰值/连接/CPU/磁盘测量；WAL/index/checkpoint/backup另计，max_wal_size非硬磁盘界，失败不脱组 |
+| 资金 / 首pilot前 | account非秘密ID/时段/run/call/hash、重复冲突/known/unknown/inflight/供应商差额；实际币种/≤24h价格/credit/grant/整批最坏预留，无法闭合paid off |
+| Tokenizer/Gateway / 正式研究前 | 完整请求/模板/公开model/字段，thinkingdisabled/maxoutput/同bytes/repair0；首次有限诊断另授不循环前置 |
+| ENV-M1-02(08a) / 首pilot前 | 独立介质借优先、采购另授；纸钥本人离线/纸卡cipher与manifest原字节hash、age来源身份、从纸录钥真实恢复，实际介质/钥/资格缺 |
+| Browser / 开启前 | DNS/v4/v6/redirect/subresource/UDP/旧连接、临时TLS信任、CDPpipe/bridge和gen监督源码/对抗实验，失败0不回个人profile |
 
-### 启停、回滚及授权包
+环境启动可能写状态，不作只读探针。准确路径/权限未核时不能占位符执行；代码、依赖、WSL启动、cluster/role/migration分别有适用批准。首工只有auth/draft最小sup，不承接完整paid恢复。实际资格缺阻对应运行，不伪填已验证。
 
-当前可运行命令仅适用于[已有Pg入口](../tasks/PREDEV_P01_START_PACKAGE_2026-10-20.md)及其历史验收；新session尚无实现入口。T07实施包先登记本次进程/PID、库身份和迁移版本：受控停止旧API/Worker→另授权隔离迁移→schema/能力/guard核对→WSL保活/数据库健康→兼容API/Worker。启动失败或数据库失联失败关闭，无SQLite/内存队列回退。实测冷启动、Worker停止/重启、取消、二次故障和资源释放归相应实施任务，不由本轮文档代填。
+## 连续资格、备份及回滚
 
-T07业务兼容回滚：关新入口，停止不兼容进程，保留新增schema与记录，仅退到理解kind/guard的兼容基础版；一次性测试库 `downgrade base` 仅为已授权清理，不是应用回滚。恢复包先隔离原件、保hash与秘密，再解密/验证、换generation并对最新账与撤销；原始数据库及历史失败工件始终保留。
+sup启动无资格，DB OPEN/同UUID非最新。监测PG持续连接与postmaster start，池新连接/重连同步核对；失连续封gen、隔离旧身份/研究/Memory。只有同Sup/PG持续时API/Worker新actor可加入。另授CLI新凭据只开草稿/history，恢复资料新ID不复活Memory，无独立最新性证明不恢复paid。不自动检测任意superuser在线restore，运维先seal/停写另授。
 
-本人确认清单按时点而非泛化“开发时再说”：T07操作前确认准确库与操作范围；首次pilot前确认账覆盖事实、资金覆盖、grant与高水位保管安排；备份前确认介质/工具/密钥恢复人；每次真实运行确认冻结代码/模型/用途/轮次/次数/金额；模块结果可审阅后才另授权Commit/Push/PR，合并/发布分别授权。CLI开通账户、安装、环境写入、外部写入也不得由本轮文档同步推导。
+BK-r3.2按契约：同export snapshot dump/manifest、Linux字节pipe/流式限额；捕获校验不等restore。独立纸卡两hash先验→完整解密→精确隔离restore，失败目标不接应用/旧库零写，不称目标零SQL。纸钥长期离线与可信本机短时解密分开；tmpfs不证明无swap/pagefile残留、不承诺物理擦除或擅改宿主页。首pilot前独立物理介质与纸钥真实恢复仍是硬前置，合同参数不等实际已验。
 
-交付按独立可回滚纵切组织：完整committed/staged/unstaged/new-file任务内容与指纹、适用命令/退出码及缺项、独立审查、本人CR/亲验、演示/复现/恢复限制。CI仅引用实际运行ID与结果；没有远端运行不写绿灯。本轮不触发CI或Git写操作。本机演示、代码交付、正式Go、对外发布分别判定。
+回滚先停写，保新数据/费用/授权，只回理解当前schema版本，不destructive downgrade/不让旧binary写新库。配置回滚只恢复本批task-owned进入字节，保其他工作；ignored审计材料绑定快照/完整patch/检查，不新增旧方案归档。
+
+## 费用、投入与交付
+
+新增epoch为2026-10-28本次重评开始；本人称仓库外无新增，不推断仓库/历史未知0。条件最坏296.46及116model/84Search/168Fetch/56GH见唯一协议；<300非到账/grant/调用权限，所有新增纸耗/介质/DR/收费审计不得桶外藏。
+
+2026-10-29起七至八周、本人≤20h/周，估算100–144h/AI260–420agent-hours见PLANS，首周实测校准；12月17–24日不是已证明足够。超窗提具体取舍，不暗删核心。
+
+本批40路径配置/guard→完整检查/正文/patch/指纹→非作者实际文件审查→修复重测复审→18项判定，随后停首业务授权前。远端CI/分支门禁没查不称启用；业务、安装、环境/DB、真实调用、购买、Git写另授。技术、审查、本人业务/价值/掌握、Go和发布分开。

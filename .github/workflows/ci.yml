@@ -1,4 +1,4 @@
-name: Offline code and current-3 configuration checks
+name: Offline code and discovery configuration checks
 
 on:
   push:
@@ -19,6 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
+          fetch-depth: 0
           submodules: recursive
           persist-credentials: false
       - uses: actions/setup-python@v7
@@ -33,7 +34,7 @@ jobs:
         run: |
           uv --directory backend lock --check --offline
           uv --directory backend run --offline --locked python -c "from adaptive_research.infrastructure.config import Settings; Settings(_env_file=None)"
-      - name: Validate current-3 authority, archived protocol hashes, Skills, and frozen cases
+      - name: Validate discovery authority, explicit historical hashes, Skills, and case materials
         run: uv --directory backend run --offline --locked python ../scripts/validate_project.py
       - name: Ruff
         run: |
@@ -66,6 +67,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
+          fetch-depth: 0
           submodules: recursive
           persist-credentials: false
       - uses: actions/setup-python@v7

@@ -61,6 +61,7 @@ DOCS = (
 )
 SKILLS = ("research-implementation", "agent-failure-triage", "research-eval")
 PROTOCOL = "docs/evaluation/CURRENT_EVAL_PROTOCOL.json"
+CURRENT_PROTOCOL_VERSION = "discovery-m1-1"
 ARCHIVED_TARGET_PROTOCOL = "docs/evaluation/G3_EVAL_PROTOCOL.json"
 HISTORICAL_PROTOCOL = "docs/evaluation/G2_EVAL_PROTOCOL.json"
 LINK = re.compile(r"(?<!!)\[[^\]]+\]\(([^)]+)\)")
@@ -271,6 +272,31 @@ def check_versions_and_traceability(root: Path) -> list[str]:
         ):
             errors.append(f"{name}: archived target missing or modified")
     spec, plan = texts["SPEC.md"], texts["PLANS.md"]
+    if "DEC-M1-01" in plan:
+        feature = root / "docs/features/DECISION-001/spec.md"
+        if not feature.is_file():
+            return errors + ["missing current feature acceptance mapping"]
+        feature_text = feature.read_text(encoding="utf-8")
+        for number in range(8, 21):
+            acceptance = f"DEC-AC-{number:02d}"
+            if acceptance not in feature_text or acceptance not in plan:
+                errors.append(f"current mapping missing {acceptance}")
+        for task in (
+            "ENV-M1-01",
+            "ENV-M1-02",
+            "DEC-M1-01",
+            "DEC-M1-02",
+            "DEC-M1-03a",
+            "DEC-M1-03b",
+            "DEC-M1-04",
+            "DEC-M1-05",
+            "DEC-M1-06",
+            "DEC-M1-07",
+            "DEC-M1-08b",
+        ):
+            if task not in plan:
+                errors.append(f"current plan missing task {task}")
+        return errors
     stage_mapping_rows = [
         line for line in plan.splitlines() if re.match(r"^\| P-0[0-4] \|", line)
     ]
@@ -362,7 +388,13 @@ def check_protocol(
     frozen_cases: list[dict] | None = None,
     archived_target: dict | None = None,
 ) -> list[str]:
+    """Validate explicit historical current-3 inputs, never the new authority."""
     errors: list[str] = []
+    if (
+        not isinstance(protocol, dict)
+        or protocol.get("protocol_version") != "current-3"
+    ):
+        return ["historical validator requires an explicit current-3 protocol"]
     if (
         protocol.get("protocol_version") != "current-3"
         or protocol.get("status") != "frozen_pending_execution"
@@ -640,6 +672,715 @@ def check_protocol(
     ):
         errors.append("project ledger contract is incomplete")
     return errors
+
+
+def _load_current_json(raw: str | bytes) -> object:
+    """Decode current inputs without ambiguous keys or non-finite numbers.
+
+    Errors deliberately omit input content. Historical decoding is unchanged.
+    """
+
+    def unique_object(pairs: list[tuple[str, object]]) -> dict[str, object]:
+        result: dict[str, object] = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("duplicate current JSON member")
+            result[key] = value
+        return result
+
+    def finite_float(value: str) -> float:
+        number = float(value)
+        if not math.isfinite(number):
+            raise ValueError("non-finite current JSON number")
+        return number
+
+    def reject_constant(_value: str) -> object:
+        raise ValueError("nonstandard current JSON constant")
+
+    return json.loads(
+        raw,
+        object_pairs_hook=unique_object,
+        parse_float=finite_float,
+        parse_constant=reject_constant,
+    )
+
+
+def _json_equal(actual: object, expected: object) -> bool:
+    """JSON policy values compare types as well as values (True is not 1)."""
+    if type(actual) is not type(expected):
+        return False
+    if isinstance(expected, dict):
+        return actual.keys() == expected.keys() and all(
+            _json_equal(actual[key], value) for key, value in expected.items()
+        )
+    if isinstance(expected, list):
+        return len(actual) == len(expected) and all(
+            _json_equal(a, e) for a, e in zip(actual, expected, strict=True)
+        )
+    return actual == expected
+
+
+def check_current_protocol(protocol: object, root: Path) -> list[str]:
+    """Check the approved configuration; this never evaluates a live result.
+
+    Review metadata can be pending. Passing this check does not grant readiness,
+    prove semantic source support, execute a case, or authorize spending.
+    """
+    if not isinstance(protocol, dict):
+        return ["current protocol must be an object"]
+    errors: list[str] = []
+    if protocol.get("status") not in (
+        "prepared_pending_material_and_actual_file_review",
+        "frozen_pending_qualification_and_execution",
+    ):
+        errors.append("current configuration status cannot claim execution or Go")
+
+    def require(path: str, expected: object) -> None:
+        actual: object = protocol
+        for key in path.split("."):
+            if not isinstance(actual, dict) or key not in actual:
+                errors.append(f"current protocol missing {path}")
+                return
+            actual = actual[key]
+        if not _json_equal(actual, expected):
+            errors.append(f"current protocol policy differs: {path}")
+
+    for path, expected in {
+        "protocol_version": "discovery-m1-1",
+        "preparation_revision": "PREP-BASELINE-20261029",
+        "authority": "SPEC.md",
+        "authorization.configuration_only": True,
+        "authorization.real_run_requires_specific_separate_authorization": True,
+        "formal.domain_ids": ["scheduling", "data_migration", "document_processing"],
+        "formal.case_ids": ["SCH-A", "SCH-B", "DAT-A", "DAT-B", "DOC-A", "DOC-B"],
+        "formal.expected_attempts": 6,
+        "formal.agent_attempts": 3,
+        "formal.control_attempts": 3,
+        "formal.all_attempts_retained": True,
+        "formal.no_replacements": True,
+        "formal.version_frozen": True,
+        "formal.code_templates_tools_quotas_scoring_frozen": True,
+        "methods.agent.external_ai_repair_allowed": False,
+        "methods.agent.deliberate_control_output_or_note_copy_allowed": False,
+        "methods.control.independent_deep_research.required": True,
+        "methods.control.independent_deep_research.sessions_per_task": 1,
+        "methods.control.independent_deep_research.same_product_and_mode_all_three": True,
+        "methods.manual_search.same_pre_registered_engine_list_both_methods": True,
+        "methods.manual_search.switching_allowed": True,
+        "methods.manual_search.arbitrary_query_count_cap": None,
+        "methods.manual_search.all_owner_actions_count_active_time": True,
+        "methods.contamination.no_true_blinding_claim": True,
+        "timing.active_minutes_per_attempt": 120,
+        "timing.wall_hours_per_attempt": 24,
+        "timing.batch_days": 14,
+        "timing.active_start": "first_actual_display_of_exact_case_prompt",
+        "timing.max_extensions": 1,
+        "timing.unrevealed_extension_days": 7,
+        "timing.revealed_attempt_extension_allowed": False,
+        "assignment.algorithm_version": "ARA-EVAL-1",
+        "assignment.seed_bits": 128,
+        "assignment.seed_hex_chars": 32,
+        "assignment.no_generation_or_reassignment_after_failure": True,
+        "common_quality.all_six_final_reports_pass_before_value_computation": True,
+        "common_quality.median_saving_min": 0.2,
+        "common_quality.owner_final_and_original_program_outcomes_separate": True,
+        "common_quality.machine_structure_check_is_not_semantic_verification": True,
+        "common_quality.audits.max_defect_feedback_rounds": 2,
+        "common_quality.audits.final_scoring_rounds": 1,
+        "quotas.case_model.normal_obligations": 14,
+        "quotas.case_model.technical_retry_max": 2,
+        "quotas.case_model.technical_retry_per_work_max": 1,
+        "quotas.case_model.physical_calls_max": 16,
+        "quotas.case_model.normal_input_total": 360448,
+        "quotas.case_model.normal_output_total": 50176,
+        "quotas.case_model.with_two_max_retries_input_total": 425984,
+        "quotas.case_model.with_two_max_retries_output_total": 66560,
+        "quotas.case_model.cumulative_input_tokens": 458752,
+        "quotas.case_model.cumulative_output_reservation_tokens": 73728,
+        "quotas.case_model.report_reserved_input_tokens": 65536,
+        "quotas.case_model.report_reserved_output_tokens": 16384,
+        "quotas.case_model.report_reserve_borrowable": False,
+        "quotas.case_model.format_repair_extra_calls": 0,
+        "quotas.case_model.summary_extra_calls": 0,
+        "quotas.case_model.thinking": "disabled_explicit",
+        "quotas.tools.counts_include_failures_retries_redirects_and_all_attempts": True,
+        "quotas.tools.search_result_count": 5,
+        "quotas.tools.search_need_content": False,
+        "quotas.tools.routes_max": 3,
+        "quotas.tools.candidate_identity_pool_max": 20,
+        "quotas.tools.shortlist_max": 3,
+        "quotas.tools.extra_curator_or_semantic_judge_calls": 0,
+        "quotas.tools.browser_before_network_qualification": 0,
+        "quotas.bytes.artifact_max": 1048576,
+        "quotas.bytes.turn_max": 67108864,
+        "quotas.bytes.case_max_shared_across_turns": 67108864,
+        "quotas.bytes.project_new_business_max": 1073741824,
+        "quotas.bytes.case_worst_reservation_mib": "57.5",
+        "quotas.bytes.seven_cases_and_noncase_reservation_mib": "419.75",
+        "quotas.bytes.count_actual_uncompressed_copies": True,
+        "budget.model_physical_calls": 116,
+        "budget.search_calls": 84,
+        "budget.fetch_calls": 168,
+        "budget.github_calls": 56,
+        "budget.reserve_per_model_call_cny": "2.20",
+        "budget.model_total_cny": "255.20",
+        "budget.search_fetch_per_success_cny": "0.005",
+        "budget.api_tools_cny": "1.26",
+        "budget.noncall_cny": "30.00",
+        "budget.unallocated_buffer_cny": "10.00",
+        "budget.planned_total_cny": "296.46",
+        "budget.new_spend_strictly_below_cny": "300.00",
+        "budget.buffer_not_automatic_grant": True,
+        "budget.price_basis.model_input_uncached_per_million_cny": "2.00",
+        "budget.price_basis.model_output_per_million_cny": "8.00",
+        "budget.price_basis.conservative_input_tokens_per_physical_slot": 1048576,
+        "budget.price_basis.output_tokens_per_physical_slot": 8192,
+        "budget.price_basis.calculated_worst_model_call_cny": "2.162688",
+        "budget.price_basis.price_evidence_max_age_hours": 24,
+        "tracing.run_manifest_max_bytes": 65536,
+        "tracing.canonical_records_not_sampled": True,
+        "tracing.ui_ordinary_event_cap": 255,
+        "tracing.safe_body_not_full_HTTP_wire": True,
+        "tracing.no_hidden_chain_of_thought_collection": True,
+        "tracing.model_internal_use_not_inferred_from_output": True,
+        "optimization.real_symptom_correction_required_at_least": 1,
+        "optimization.real_retest_slots_max": 2,
+        "optimization.keep_all_failed_experiments": True,
+        "optimization.failed_rigorous_experiment_not_substitute_for_correction": True,
+    }.items():
+        require(path, expected)
+    for key in (
+        "business_implementation",
+        "environment_or_database_write",
+        "dependency_install",
+        "model_tokenizer_browser_execution",
+        "paid_execution",
+        "purchase",
+        "git_write",
+    ):
+        require(f"authorization.{key}", False)
+    require(
+        "attempt_record_contract.scope",
+        "declarative_acceptance_contract_not_an_implemented_runner_or_ledger",
+    )
+    for group, fields in {
+        "identity": [
+            "slot_id",
+            "case_id",
+            "domain_id",
+            "method",
+            "owner_id",
+            "batch_id",
+            "case_and_linked_turn_ids",
+            "protocol_sha256",
+            "materials_sha256",
+            "code_dirty_tree_and_lock_identity",
+            "template_tool_memory_policy_identity",
+            "visible_provider_model_mode_and_drift",
+        ],
+        "timing": [
+            "first_display_at",
+            "wall_deadline",
+            "active_intervals_with_start_end_kind_and_actor",
+            "computed_active_seconds",
+            "separate_wait_audit_admin_seconds",
+            "final_submission_at",
+            "stop_at_and_reason",
+        ],
+        "artifacts": [
+            "original_program_or_DR_output_ref_sha256_or_missing_reason",
+            "ordered_human_revisions_with_parent_ref_sha256_edit_time_and_active_interval_refs",
+            "final_submission_ref_sha256",
+        ],
+        "audit": [
+            "reviewer_identity_and_role",
+            "round_and_feedback_time",
+            "reviewed_report_sha256",
+            "defect_locators",
+            "actual_research_contribution_time_cost_and_disclosure",
+            "final_dimension_scores_and_pass",
+        ],
+        "outcomes": [
+            "raw_program_status_and_errors",
+            "safety_authority_unknown_stop_state",
+            "final_human_quality_status",
+            "cancel_failure_missing_unexecuted_reason",
+            "familiarity_and_source_knowledge_transfer",
+            "memory_hits_writes_and_pre_case_identity",
+        ],
+        "cost": [
+            "call_and_transport_identity_refs",
+            "local_tokens_provider_usage_cache_and_unknowns",
+            "pricing_currency_and_cost_evidence",
+            "known_unknown_inflight_reservations",
+            "grant_allocation_and_incremental_spend_epoch",
+            "comparison_existing_subscription_and_new_purchase_disclosure",
+        ],
+    }.items():
+        require(f"attempt_record_contract.required_fields.{group}", fields)
+    for key, value in {
+        "active_intervals": "owner intervals ordered and nonoverlapping; every research action belongs to one interval; active_seconds equals sum, pure waits separately in wall time; no cap imputation",
+        "revision_chain": "immutable original plus every submitted human revision; parent hashes link in order; edit/research/recheck time included; no replacement after final scoring or revealed failure",
+        "audit_binding": "feedback and final scoring bind exact reviewed report hash; new research contribution is disclosed and cannot masquerade as pure defect audit",
+        "unavailable": "explicit null or missing_reason; never fabricate zero, successful output or a report hash",
+        "integrity": "independent audit recomputes artifact hashes, timing sums, case-slot mapping and paired median before any value pass; all six retained",
+        "private_content": "owner-only artifacts; safe public summary refs/codes; no password, cookie, API key or hidden reasoning chain",
+    }.items():
+        require(f"attempt_record_contract.{key}", value)
+    require(
+        "quotas.runtime",
+        {
+            "global_active_tasks": 2,
+            "global_queued_tasks": 4,
+            "nonterminal_task_per_session": 1,
+            "tasks_per_case": 8,
+            "read_branches_per_turn": 2,
+            "global_read_branches": 4,
+            "model_physical_inflight": 2,
+            "qualified_browser_physical_inflight": 1,
+            "lease_seconds": 30,
+            "heartbeat_seconds": 5,
+            "recoveries_per_original_task": 1,
+            "queue_seconds": 300,
+            "discussion_seconds": 600,
+            "research_seconds": 2700,
+            "case_worker_seconds": 3600,
+            "ordinary_case_wall_seconds": 604800,
+            "formal_case_wall_seconds": 86400,
+        },
+    )
+    require(
+        "quotas.tools.per_case",
+        {
+            "search": 12,
+            "fetch": 24,
+            "github": 8,
+            "browser_actions": 8,
+            "browser_http_requests": 240,
+        },
+    )
+    stages = [
+        ("clarify", 2, 8192, 2048),
+        ("route_plan", 2, 16384, 2048),
+        ("discovery_extract", 2, 32768, 4096),
+        ("shortlist_analysis", 3, 32768, 3072),
+        ("gap_plan", 1, 16384, 2048),
+        ("gap_extract", 2, 32768, 3072),
+        ("report", 2, 32768, 8192),
+    ]
+    require(
+        "quotas.case_model.stages",
+        [
+            {
+                "id": name,
+                "normal_obligations": count,
+                "max_input_tokens": inp,
+                "max_output_tokens": out,
+            }
+            for name, count, inp, out in stages
+        ],
+    )
+    require(
+        "quotas.tools.stage_allocations",
+        [
+            {"stage": "discovery", "search": 6, "fetch": 6, "github": 2},
+            {"stage": "shortlist_deep", "search": 3, "fetch": 12, "github": 4},
+            {"stage": "gap", "search": 3, "fetch": 6, "github": 2},
+        ],
+    )
+    require(
+        "budget.batches",
+        [
+            {
+                "id": "qualification_and_unrelated_health",
+                "case_count": 0,
+                "model_calls": 4,
+                "tool_calls": {"search": 0, "fetch": 0, "github": 0},
+                "worst_total_cny": "8.80",
+            },
+            {
+                "id": "early",
+                "case_count": 4,
+                "roles": [
+                    "original_requirement",
+                    "changed_conditions_capability",
+                    "optimization_retest_1",
+                    "optimization_retest_2",
+                ],
+                "model_calls": 64,
+                "tool_calls": {"search": 48, "fetch": 96, "github": 32},
+                "worst_total_cny": "141.52",
+            },
+            {
+                "id": "formal_agent",
+                "case_count": 3,
+                "model_calls": 48,
+                "tool_calls": {"search": 36, "fetch": 72, "github": 24},
+                "worst_total_cny": "106.14",
+            },
+        ],
+    )
+    materials_ref = protocol.get("materials")
+    if (
+        not isinstance(materials_ref, dict)
+        or materials_ref.get("path") != "docs/evaluation/DISCOVERY_M1_CASES.json"
+    ):
+        return errors + ["current materials reference is missing or noncanonical"]
+    try:
+        raw = (root / materials_ref["path"]).read_bytes()
+        if hashlib.sha256(raw).hexdigest() != materials_ref.get("sha256"):
+            errors.append("current material SHA-256 mismatch")
+        materials = _load_current_json(raw)
+        errors.extend(check_current_materials(materials))
+    except (OSError, ValueError, TypeError) as exc:
+        errors.append(f"current materials unreadable: {type(exc).__name__}")
+    try:
+        supplement = _load_current_json(
+            (root / "docs/evaluation/DECISION_M1_PROTOCOL.json").read_bytes()
+        )
+        errors.extend(check_current_supplement(supplement, root))
+    except (OSError, ValueError, TypeError) as exc:
+        errors.append(f"current supplement unreadable: {type(exc).__name__}")
+    return errors
+
+
+def check_current_materials(materials: object) -> list[str]:
+    """Reject malformed types without printing hidden task material."""
+    try:
+        return _check_current_materials(materials)
+    except (KeyError, TypeError, ValueError, AttributeError):
+        return ["current materials have malformed nested types"]
+
+
+def _check_current_materials(materials: object) -> list[str]:
+    """Structural isolation and completeness only; independent review judges content."""
+    if not isinstance(materials, dict):
+        return ["current materials must be an object"]
+    errors: list[str] = []
+    ids = {"SCH-A", "SCH-B", "DAT-A", "DAT-B", "DOC-A", "DOC-B"}
+    if (
+        materials.get("schema_version") != "discovery-m1-cases-1"
+        or materials.get("protocol_version") != "discovery-m1-1"
+    ):
+        errors.append("current material version mismatch")
+    ready = materials.get("readiness")
+    if not isinstance(ready, dict) or any(
+        not _json_equal(ready.get(key), value)
+        for key, value in {
+            "executed": False,
+            "formal_seed": None,
+            "formal_attempts": 0,
+            "provider_calls": 0,
+        }.items()
+    ):
+        errors.append("configuration materials cannot claim execution or a formal seed")
+    agent = materials.get("agent_input")
+    controller = materials.get("controller_only")
+    scorer = materials.get("scorer_only")
+    if not all(isinstance(part, dict) for part in (agent, controller, scorer)):
+        return errors + ["materials require separated input/controller/scorer objects"]
+    if agent.get("allowlist_paths") != [
+        "#/agent_input/cases/{current_case_only}",
+        "#/controller_only/clarification_cards/{current_case_only}/answer_units/{current_question_only}",
+        "#/controller_only/clarification_cards/{current_case_only}/accepted_conditions (only after owner explicitly accepts)",
+    ]:
+        errors.append("material input allowlist must exclude gold and other cases")
+    cases = agent.get("cases")
+    if not isinstance(cases, list) or len(cases) != 6:
+        return errors + ["materials require exactly six cases"]
+    if any(not isinstance(case, dict) for case in cases):
+        return errors + ["material case must be an object"]
+    if {case.get("case_id") for case in cases} != ids:
+        errors.append("material case IDs must be unique and complete")
+    for case in cases:
+        if set(case) != {
+            "case_id",
+            "domain_id",
+            "variant",
+            "prompt",
+            "output_requirements",
+        }:
+            errors.append("case input contains unsupported fields or scorer leakage")
+        if (
+            not isinstance(case.get("prompt"), str)
+            or not case["prompt"].strip()
+            or not isinstance(case.get("output_requirements"), list)
+            or not case["output_requirements"]
+            or any(
+                not isinstance(item, str) or not item.strip()
+                for item in case["output_requirements"]
+            )
+        ):
+            errors.append("case input requires exact prompt and output requirements")
+        if case.get("variant") not in {"A", "B"}:
+            errors.append("case variant must be A or B")
+        elif case.get("case_id") in ids and case["variant"] != case["case_id"][-1]:
+            errors.append("case variant must match case ID suffix")
+    cards, rubrics = controller.get("clarification_cards"), scorer.get("case_rubrics")
+    if (
+        not isinstance(cards, dict)
+        or set(cards) != ids
+        or not isinstance(rubrics, dict)
+        or set(rubrics) != ids
+    ):
+        return errors + ["every case needs one clarification card and scorer rubric"]
+    sources = materials.get("source_manifest")
+    if (
+        not isinstance(sources, list)
+        or not sources
+        or any(not isinstance(source, dict) for source in sources)
+    ):
+        return errors + ["material source manifest is missing"]
+    source_ids = [source.get("id") for source in sources]
+    if any(not isinstance(sid, str) or not sid for sid in source_ids) or len(
+        set(source_ids)
+    ) != len(source_ids):
+        errors.append("material source identities are invalid or duplicate")
+    for source in sources:
+        if not all(
+            isinstance(source.get(key), str) and source[key].strip()
+            for key in (
+                "id",
+                "url",
+                "title",
+                "observed_on",
+                "evidence_type",
+                "locator",
+                "preparation_observation",
+                "version_identity",
+                "limitations",
+            )
+        ) or not str(source.get("url", "")).startswith("https://"):
+            errors.append("material source lacks attributed observation or limitations")
+    for case_id in sorted(ids):
+        card, rubric = cards[case_id], rubrics[case_id]
+        if not isinstance(card, dict) or not isinstance(rubric, dict):
+            errors.append("case card/rubric must be objects")
+            continue
+        accepted = card.get("accepted_conditions")
+        conditions = (
+            accepted.get("hard_conditions") if isinstance(accepted, dict) else None
+        )
+        if (
+            not isinstance(conditions, list)
+            or len(conditions) != 4
+            or any(
+                not isinstance(condition, dict)
+                or not isinstance(condition.get("id"), str)
+                or not isinstance(condition.get("text"), str)
+                or not condition["text"].strip()
+                for condition in conditions
+            )
+        ):
+            errors.append("case hard conditions are missing")
+            continue
+        condition_ids = [condition["id"] for condition in conditions]
+        if (
+            len(set(condition_ids)) != len(condition_ids)
+            or rubric.get("mandatory_hard_condition_ids") != condition_ids
+        ):
+            errors.append("case rubric must cover every hard condition exactly")
+        for key in (
+            "decisive_claim_topics",
+            "critical_failures",
+            "feasibility_source_refs",
+        ):
+            if not isinstance(rubric.get(key), list) or not rubric[key]:
+                errors.append(f"case rubric missing {key}")
+        refs = rubric.get("feasibility_source_refs")
+        if isinstance(refs, list) and any(
+            not isinstance(ref, str) or ref not in source_ids for ref in refs
+        ):
+            errors.append("case rubric source ref is unresolved")
+        if (
+            not isinstance(card.get("decisive_questions"), list)
+            or not card["decisive_questions"]
+            or not isinstance(card.get("answer_units"), list)
+            or not card["answer_units"]
+        ):
+            errors.append("case clarification questions and answers missing")
+        else:
+            questions, units = card["decisive_questions"], card["answer_units"]
+            if len(questions) != 3 or any(
+                not isinstance(question, str) or not question.strip()
+                for question in questions
+            ):
+                errors.append("case needs three nonempty decisive questions")
+            if (
+                len(units) != 3
+                or any(
+                    not isinstance(unit, dict)
+                    or set(unit) != {"question_group", "answer"}
+                    or type(unit.get("question_group")) is not int
+                    or not isinstance(unit.get("answer"), str)
+                    or not unit["answer"].strip()
+                    for unit in units
+                )
+                or [unit["question_group"] for unit in units] != [1, 2, 3]
+            ):
+                errors.append(
+                    "answer units must uniquely map questions by one-based 1/2/3 index"
+                )
+    domains = materials.get("domains")
+    expected = {
+        "scheduling": {"SCH-A", "SCH-B"},
+        "data_migration": {"DAT-A", "DAT-B"},
+        "document_processing": {"DOC-A", "DOC-B"},
+    }
+    if (
+        not isinstance(domains, list)
+        or len(domains) != 3
+        or any(not isinstance(domain, dict) for domain in domains)
+    ):
+        return errors + ["materials require three equivalence domains"]
+    if {domain.get("id") for domain in domains} != set(expected):
+        errors.append("material domains must be unique and complete")
+    for domain in domains:
+        domain_id, pair = domain.get("id"), domain.get("case_ids")
+        if (
+            not isinstance(pair, list)
+            or len(pair) != 2
+            or any(not isinstance(cid, str) for cid in pair)
+            or set(pair) != expected.get(domain_id, set())
+        ):
+            errors.append("domain pair mapping is invalid")
+        if not isinstance(domain.get("equivalence"), dict) or not domain["equivalence"]:
+            errors.append("domain equivalence evidence missing")
+        else:
+            count = domain["equivalence"].get("hard_condition_count_each")
+            if type(count) is not int or count != 4:
+                errors.append("equivalence hard-condition count must be integer four")
+        if any(
+            case.get("domain_id") != domain_id
+            for case in cases
+            if case.get("case_id") in (pair if isinstance(pair, list) else [])
+        ):
+            errors.append("case domain mismatch")
+    return errors
+
+
+def check_current_supplement(supplement: object, root: Path) -> list[str]:
+    if not isinstance(supplement, dict):
+        return ["M1 supplement must be an object"]
+    errors: list[str] = []
+    if (
+        supplement.get("protocol_version") != "discovery-m1-capabilities-1"
+        or supplement.get("role") != "capability_acceptance_reference"
+    ):
+        errors.append("M1 supplement must reference sole current authority")
+    expected = {
+        "path": PROTOCOL,
+        "version": "discovery-m1-1",
+        "sha256": hashlib.sha256((root / PROTOCOL).read_bytes()).hexdigest(),
+    }
+    if supplement.get("current_protocol") != expected:
+        errors.append("M1 current protocol raw SHA-256 mismatch")
+    if any(
+        key in supplement
+        for key in (
+            "budget",
+            "formal",
+            "execution_budget_cny",
+            "project_ledger",
+            "funding",
+            "Go",
+        )
+    ):
+        errors.append("M1 supplement cannot define separate funding or release gates")
+    authorization = supplement.get("authorization")
+    if not isinstance(authorization, dict) or any(
+        authorization.get(key) is not False
+        for key in (
+            "business_implementation",
+            "real_execution",
+            "paid_execution",
+            "git_write",
+        )
+    ):
+        errors.append("M1 configuration cannot grant implementation or execution")
+    results = supplement.get("results")
+    if not isinstance(results, dict) or any(
+        results.get(key) is not False
+        for key in (
+            "implemented",
+            "technical_verification",
+            "human_business_acceptance",
+            "real_quality",
+            "owner_time_value",
+            "M1",
+            "Go",
+            "release",
+        )
+    ):
+        errors.append("M1 configuration cannot report unexecuted business success")
+    policy = supplement.get("real_coverage_policy")
+    if (
+        not isinstance(policy, dict)
+        or policy.get("MCP_real_integration_required") is not False
+        or policy.get("old_9_8_12_independent_execution_batch_required") is not False
+    ):
+        errors.append("M1 must not revive superseded real MCP or 9/8/12 gates")
+    capabilities = supplement.get("capabilities")
+    if (
+        not isinstance(capabilities, list)
+        or not capabilities
+        or any(
+            not isinstance(capability, dict)
+            or not capability.get("requirements")
+            or not capability.get("tasks")
+            or not capability.get("evidence")
+            for capability in capabilities
+        )
+    ):
+        errors.append("M1 capability evidence mapping is incomplete")
+    return errors
+
+
+def read_historical_protocol(
+    root: Path,
+    *,
+    commit: str,
+    path: str,
+    raw_sha256: str,
+    newlines: str = "raw",
+) -> tuple[dict, bytes]:
+    """Read identified Git bytes only; no checkout, archive copy, or spending.
+
+    The raw hash is checked before the caller's explicit newline transform.
+    The returned bytes identify that particular historical representation.
+    """
+    if not re.fullmatch(r"[0-9a-f]{40}", commit):
+        raise ValueError("historical commit must be a full lowercase Git SHA")
+    if (
+        not isinstance(path, str)
+        or not path
+        or path.startswith(("/", "-"))
+        or "\\" in path
+        or ":" in path
+        or ".." in Path(path).parts
+        or newlines not in {"raw", "lf-to-crlf"}
+        or not re.fullmatch(r"[0-9a-f]{64}", raw_sha256)
+    ):
+        raise ValueError("invalid explicit historical byte identity")
+    result = subprocess.run(
+        ["git", "-C", str(root), "cat-file", "blob", f"{commit}:{path}"],
+        capture_output=True,
+        check=False,
+        timeout=15,
+    )
+    if result.returncode or hashlib.sha256(result.stdout).hexdigest() != raw_sha256:
+        raise ValueError("historical protocol unavailable or raw SHA-256 mismatch")
+    blob = result.stdout
+    if newlines == "lf-to-crlf":
+        if b"\r" in blob:
+            raise ValueError("LF-to-CRLF requires an LF-only original")
+        blob = blob.replace(b"\n", b"\r\n")
+    protocol = json.loads(blob)
+    if not isinstance(protocol, dict) or check_protocol(protocol):
+        raise ValueError(
+            "identified bytes are not a valid historical current-3 protocol"
+        )
+    return protocol, blob
 
 
 def _nonnegative_number(value: object) -> bool:
@@ -1712,66 +2453,108 @@ def check_ledger(protocol: dict, ledger: dict, base_dir: Path) -> list[str]:
     return errors
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=ROOT)
     parser.add_argument(
-        "--results", type=Path, help="completed formal result batch JSON"
+        "--results", type=Path, help="completed historical result batch JSON"
+    )
+    parser.add_argument("--ledger", type=Path, help="completed historical ledger JSON")
+    parser.add_argument(
+        "--historical-commit", help="full Git commit for explicit read-only history"
+    )
+    parser.add_argument("--historical-path", default=PROTOCOL)
+    parser.add_argument("--historical-raw-sha256")
+    parser.add_argument(
+        "--historical-newlines", choices=("raw", "lf-to-crlf"), default="raw"
     )
     parser.add_argument(
-        "--ledger", type=Path, help="project-wide paid attempt ledger JSON"
+        "--historical-only",
+        action="store_true",
+        help="check identified historical evidence only, never current readiness",
     )
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     root = args.root.resolve()
-    errors = (
-        check_links(root, project_document_files(root))
-        + check_versions_and_traceability(root)
-        + check_skills(root)
-        + check_archive_manifest(root)
-        + check_archive_git_index(root)
+    history_requested = bool(
+        args.historical_commit
+        or args.historical_raw_sha256
+        or args.historical_only
+        or args.historical_path != PROTOCOL
+        or args.historical_newlines != "raw"
     )
-    try:
-        protocol = json.loads((root / PROTOCOL).read_text(encoding="utf-8"))
-        historical = (root / "docs/benchmark/BENCHMARK_PROTOCOL.md").read_text(
-            encoding="utf-8"
-        )
-        registered_g = (
-            root / "docs/archive/design-0.3/05_TEST_AND_EVALUATION.md"
-        ).read_text(encoding="utf-8")
-        frozen = json.loads((root / HISTORICAL_PROTOCOL).read_text(encoding="utf-8"))
-        archived = json.loads(
-            (root / ARCHIVED_TARGET_PROTOCOL).read_text(encoding="utf-8")
-        )
-        errors.extend(
-            check_protocol(
-                protocol, historical, registered_g, frozen["cases"], archived
+    errors: list[str] = []
+    if not args.historical_only:
+        errors.extend(check_links(root, project_document_files(root)))
+        errors.extend(check_versions_and_traceability(root))
+        errors.extend(check_skills(root))
+        errors.extend(check_archive_manifest(root))
+        errors.extend(check_archive_git_index(root))
+        try:
+            protocol = _load_current_json((root / PROTOCOL).read_bytes())
+            errors.extend(check_current_protocol(protocol, root))
+        except (OSError, ValueError, TypeError, KeyError) as exc:
+            errors.append(f"current protocol unreadable: {type(exc).__name__}")
+    if args.results or args.ledger or history_requested:
+        if not (
+            args.historical_commit
+            and args.historical_raw_sha256
+            and (args.results or args.ledger)
+        ):
+            errors.append(
+                "historical results/ledger require explicit commit, path, raw SHA-256 and an evidence file"
             )
-        )
-        if args.results:
-            errors.extend(
-                check_results(
-                    protocol,
-                    json.loads(args.results.read_text(encoding="utf-8")),
-                    args.results.resolve().parent,
+        else:
+            try:
+                historical, blob = read_historical_protocol(
+                    root,
+                    commit=args.historical_commit,
+                    path=args.historical_path,
+                    raw_sha256=args.historical_raw_sha256,
+                    newlines=args.historical_newlines,
                 )
-            )
-        if args.ledger:
-            errors.extend(
-                check_ledger(
-                    protocol,
-                    json.loads(args.ledger.read_text(encoding="utf-8")),
-                    args.ledger.resolve().parent,
-                )
-            )
-    except (OSError, ValueError, TypeError, KeyError) as exc:
-        errors.append(f"protocol/results unreadable: {exc}")
+                digest = hashlib.sha256(blob).hexdigest()
+                if args.results:
+                    batch = json.loads(args.results.read_text(encoding="utf-8"))
+                    if (
+                        "protocol_sha256" in batch
+                        and batch["protocol_sha256"] != digest
+                    ):
+                        errors.append("historical results protocol SHA-256 mismatch")
+                    else:
+                        errors.extend(
+                            check_results(
+                                historical, batch, args.results.resolve().parent
+                            )
+                        )
+                if args.ledger:
+                    ledger = json.loads(args.ledger.read_text(encoding="utf-8"))
+                    if ledger.get("protocol_sha256") != digest:
+                        errors.append(
+                            "historical ledger protocol SHA-256 mismatch; choose the exact historical representation"
+                        )
+                    else:
+                        errors.extend(
+                            check_ledger(
+                                historical, ledger, args.ledger.resolve().parent
+                            )
+                        )
+            except (
+                OSError,
+                ValueError,
+                TypeError,
+                KeyError,
+                subprocess.SubprocessError,
+            ) as exc:
+                errors.append(f"historical evidence unreadable: {type(exc).__name__}")
     if errors:
         for error in errors:
             print(f"ERROR: {error}", file=sys.stderr)
         print(f"offline validation failed: {len(errors)} finding(s)", file=sys.stderr)
         return 1
     print(
-        "offline validation passed; live model performance and source truth remain unverified"
+        "historical evidence validation passed; no current readiness or spending authorization"
+        if args.historical_only
+        else "offline configuration validation passed; implementation, live quality and source truth remain unverified"
     )
     return 0
 

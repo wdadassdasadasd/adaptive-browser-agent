@@ -40,4 +40,4 @@
 - [ ] Architecture and contract impact, failure paths, permissions, tests, and acceptance evidence were checked.
 - [ ] Independent review applies to the final task content; fixes were verified, retested and re-reviewed where behavior changed.
 - [ ] Technical validation and human business acceptance are reported separately.
-- [ ] Remaining unknowns, cost and rollback are explicit; formal evaluation thresholds and historical records are unchanged.
+- [ ] Remaining unknowns, cost and rollback are explicit; approved protocol changes and their compatibility are identified, while historical evidence and byte identities remain protected.
