@@ -1,17 +1,16 @@
 # 文档导航
 
-**PREP-BASELINE-20261029：40路径配置方案获批。** [连续任务记录](features/DECISION-001/tasks.md)是唯一决定、18项主清单、完整范围、实际检查和独立审查入口。准备完成、业务开工、真实质量、本人价值和Go分别判定。
+**FOCUS-BASELINE-20261102：FOCUS-20261102-01的28个现有文件配置同步获批。** [唯一连续记录](features/DECISION-001/tasks.md)维护决定、18项、实际检查和审查。原40路径及JSON修复仅按原被审字节解释。配置、准备、业务、本人价值和Go分别判定；原DRAFT按final-01、REVIEW-BASELINE-20261101按final-02原字节继续有效。
 
-| 需要了解 | 当前入口及适用范围 |
+| 内容 | 权威入口 |
 | --- | --- |
-| 产品、价值、需求和AC | [SPEC](../SPEC.md)、[DECISION-001规格](features/DECISION-001/spec.md) |
-| 纵向任务、依赖、投入与实践 | [PLANS](../PLANS.md)；首任务是登录/原始草稿＋最小supervisor，需单独实施授权 |
-| 对象/API/状态/锁序/调用与证据 | [当前契约](contracts/CURRENT_CONTRACTS.md)，详细工程参数的权威正文 |
-| 架构取舍 | [ADR5部署恢复](design/adr/0005-windows-worker-wsl-postgres.md)、[ADR7会话](design/adr/0007-interactive-evidence-decision-sessions.md)、[ADR8基线决定](design/adr/0008-m1-engineering-baseline.md) |
-| 环境与工程流程 | [配置](engineering/CONFIGURATION.md)、[G0–G7](engineering/WORKFLOW.md)、[任务模板](engineering/TASK_TEMPLATE.md)、[测试策略](testing/STRATEGY.md) |
-| 唯一现行评测 | [CURRENT_EVAL_PROTOCOL](evaluation/CURRENT_EVAL_PROTOCOL.json)、[M1能力材料](evaluation/DECISION_M1_PROTOCOL.json)、[评测说明](evaluation/README.md)、[核源流程](evaluation/REVIEW_WORKFLOW.md)；材料与执行资格分别审查，不自动开跑 |
-| 固定版本研究与岗位映射 | [机制研究](research/HIGH_STAR_AGENT_MECHANISMS_2026-10-22.md)、[岗位研究](research/AGENT_JOB_PRODUCT_FIT_2026-10-23.md)；源码/观察/推论/本项目真实效果分开 |
-| 已实现范围与历史 | [V1规格](specs/V1_SPEC.md)、[V1契约](contracts/V1_CONTRACTS.md)、[P-01验收](tasks/P01_ACCEPTANCE_2026-10-21.md)、[代码审查](audits/IMPLEMENTED_CODE_REVIEW_2026-10-27.md)、[任务索引](tasks/README.md) |
-| 原件及历史配置 | [既有归档](archive/README.md)和带日期的audits/tasks/data；旧协议/未执行preparation从固定Git身份读取，不新增旧方案归档 |
+| 产品、范围及AC | [SPEC](../SPEC.md)、[功能规格](features/DECISION-001/spec.md) |
+| 纵切、依赖与本人实践 | [PLANS](../PLANS.md)；首工认证/原始Draft/最小supervisor仍另批 |
+| 对象、数据流、权限、限额 | [CURRENT_CONTRACTS](contracts/CURRENT_CONTRACTS.md) |
+| 架构决定及历史理由 | [ADR5](design/adr/0005-windows-worker-wsl-postgres.md)、[ADR7](design/adr/0007-interactive-evidence-decision-sessions.md)、[ADR8](design/adr/0008-m1-engineering-baseline.md) |
+| 环境、流程和检查 | [CONFIGURATION](engineering/CONFIGURATION.md)、[G0–G7](engineering/WORKFLOW.md)、[模板](engineering/TASK_TEMPLATE.md)、[STRATEGY](testing/STRATEGY.md) |
+| 唯一现行评测 | [协议](evaluation/CURRENT_EVAL_PROTOCOL.json)、[能力引用](evaluation/DECISION_M1_PROTOCOL.json)、[入口](evaluation/README.md)、[核源](evaluation/REVIEW_WORKFLOW.md)；新材料待备、无新题/金标 |
+| 固定上游和岗位证据 | [机制研究](research/HIGH_STAR_AGENT_MECHANISMS_2026-10-22.md)、[岗位映射](research/AGENT_JOB_PRODUCT_FIT_2026-10-23.md) |
+| 已实现与历史原件 | [V1规格](specs/V1_SPEC.md)、[V1契约](contracts/V1_CONTRACTS.md)、[P-01](tasks/P01_ACCEPTANCE_2026-10-21.md)、[原代码审查](audits/IMPLEMENTED_CODE_REVIEW_2026-10-27.md)、[任务索引](tasks/README.md)、[归档](archive/README.md) |
 
-本期采用WSL独立API/Worker/Pg、LangGraph阶段图、Search/GitHub/Fetch优先和受限Browser；Pg应用表拥有业务权威。详细数据流与限额只在契约及协议维护，本页不另立规则。原r12/P-02 No-Go保留。安装、环境/数据库、真实调用、购买和Git写操作均须对应授权，配置批准不包含首业务实施。
+当前面向开发者／团队提供需求和工程方案研究起草及已有文档评审，窗口先做需求到方案闭环；保留WSL独立API/Worker/Pg及LangGraph。GitHub优先，公开Search/Fetch按需且核完整请求披露；Browser=0且真实接入延期，MCP研究。Memory所有功能入口当前关闭并后置，Trace禁用/null而非测得零；Context03a／Token03b，04非当前M1前置。历史报告显式选为SourceSet不解引用Memory，原容量不挪用。详细参数只在契约和协议维护。原r12/P-02 No-Go不改；配置不授权首工、安装、环境、真实运行、购买或Git写。

@@ -1,37 +1,55 @@
-# 唯一现行评测与历史核验
+# 需求／方案研究起草的评测入口
 
-现行协议为[discovery-m1-1](CURRENT_EVAL_PROTOCOL.json)，由[SPEC](../../SPEC.md)及[现行契约](../contracts/CURRENT_CONTRACTS.md)约束。[M1能力材料](DECISION_M1_PROTOCOL.json)单向绑定它的原字节SHA，不另设资金、分母或Go规则。[六题材料](DISCOVERY_M1_CASES.json)含输入、澄清控制卡与scorer-only参照；输入只准当前题和当前回答，不能注入其他题、评分答案或准备者来源清单。公共仓库不具技术盲性；正文/工具上下文为制备与独立审查所需，面向本人日常报告只显示ID/hash/审查状态，不提前主动展示正式题面或答案。
+当前配置为 **FOCUS-BASELINE-20261102**。唯一规则来自 [CURRENT_EVAL_PROTOCOL](CURRENT_EVAL_PROTOCOL.json)（`draft-m1-2`）；[M1引用](DECISION_M1_PROTOCOL.json)只关联能力，不另立资金或 Go。实际交付、原批准及18项准备使用[唯一任务记录](../features/DECISION-001/tasks.md)。配置通过不授权运行。
 
-本批只制备配置、校验及历史误用guard，不实现新runner/ledger/自动计时，也不授权任何真实尝试。材料实际文件审查结果和状态以[唯一连续记录](../features/DECISION-001/tasks.md)为准。JSON结构/hash检查不能证明题目等价、语义支持、账号可用或运行质量。
+## 配置、材料与运行分开
 
-## 对照与质量
+[DISCOVERY_M1_CASES](DISCOVERY_M1_CASES.json)沿用原路径，但现在只是公开材料索引 `draft-m1-material-index-1`。本批不制备新正式题面或金标；状态为 `pending_independent_material_preparation`，三个包身份为 null。没有真实任务、正式结果或本人验收证据。
 
-三领域为后台任务/调度、数据存取/迁移、文档解析/生成，每领域两道不同但尽量等价任务。先独立审真实题面、澄清卡、等价维度、全部决定性条件/关键主张及局限。正式逐题首次展示即开始主动计时；每侧120分钟主动/24小时墙钟，批次14天，单次≤7天延期只适用于截止前申请且尚未揭题的确认故障/免费额度刷新。揭题失败、取消、中断、缺失不替换、不改分母。
+索引只保留三个公开类型（requirements／consistency／exploration）、六个 slot ID、公开 rubric、准备状态及包／审查身份。精确题面、对照卡和关键答案分别放在受限本地 `inputs.json`、`controller.json`、`scorer.json`，不发布至产品来源或注入 Context／Memory。Worker／评分器的真实隔离属于后续业务包，不是本批文档已实现的 ACL。
 
-Agent侧本产品＋本人手工搜索/核源/重写，无外部AI代修或有意复制Control输出/笔记。Control侧固定普通AI方式＋每题一次独立Deep Research＋本人核查。两侧使用同一预注册日常手工引擎清单，可切换、不人为限查询条数，所有操作计时；产品内Search/Fetch配额独立有效。Gemini免费DR仅优先资格候选，账号/地域/入口/次数/普通UI模式未验；不足停，不自动购费或换产品。人脑知识迁移/熟悉度、来源/候选重用和Memory变化逐项披露，不称真正盲评或同模型算法实验。
+核对顺序为：非实现作者制备 → 非作者实际材料独审 → 固定三包原字节及原始审查 → 公开索引 → 唯一协议 → M1引用。引用方向不得自循环；正文改变后旧审查不再覆盖。公开资料和熟悉度须披露，不能声称真正盲测。
 
-六个最终本人稿全部达到共同质量后才算三对省时率中位数≥20%。质量覆盖全部接受条件与未知、主体版本/时间、全部硬条件和推荐/排除关键主张官方核源、反证限定/冲突、调查边界和可执行下一步验证，不是固定八事实。有限范围推荐必须真正完成题目要求；quota耗尽/工具失败不能改名充分无赢家。原始Agent/DR结果、技术失败、人工每次改稿与最终质量分别保留，人工修补不把程序失败洗成成功。
+## 当前Memory禁用与新流程覆盖
 
-主动区间、每次改稿hash/时间、审计绑定、所有缺失/费用字段按唯一协议attempt_record_contract保存。独立审计最多两轮缺陷反馈和一次最终评分，只报缺陷及原稿定位；真正贡献研究资料须披露并计实际时间/新增费用。本人的查源、读缺陷、修改全部主动，纯等待和审计人劳动另列但仍在墙钟。
+当前M1关闭全部Memory功能入口，包括手动／自动、API／CLI、默认profile／框架Store预加载、旧checkpoint refs、导入／恢复／重建与后台路径；不提取候选、不读写、不检索、不注入，active Memory refs必须为空并与各模型阶段实际请求一致。Trace记disabled/not_applicable，hits／writes为null并附feature_disabled，不以测试零次冒充禁用证据，不要求空Store／seed／Memory快照。Case内条件、证据、文档和审计照常持久化；本人明确选定历史报告走SourceSet准确获许可版本，不解引用Memory refs，继续核当前权限和已知私有祖先。DEC-AC-17／DEC-M1-04保留延期、未实施／未验；完整Context属03a、Token资格属03b，当前M1不依赖04。真实复用需求、独立设计审查及准确范围另批后才可重开，原Memory预留容量保持闲置上界，不挪给其他功能。
 
-六次固定代码/模板/工具/Memory政策/评分/额度；protocol和材料hash冻结后只生成一次128bit seed，按协议ARA-EVAL-1确定方法与顺序。准备阶段seed=null/calls=0。正式中修复保留失败槽，新版本完整批次另授权。
+### 新流程覆盖与结论边界
 
-## 限额与优化
+三对六slot沿用原ID，不新增调用或资金：REQ-A/B为无仓库想法也可开始的需求→本人确认准确版本→工程方案闭环；CON-A/B为固定仓库＋选定本地文本／源码／未提交差异的纯评审，两变体都含无权威基准的有界子问；EXP-A/B为基于已确认既有需求、补充必要事实和实现假设研究的方案起草。各对目标、材料格式组合、规模和难度须独立制备并另审；澄清不得缩小共同目标刷比较，实质范围变化保原slot为partial／不可比，不换题。允许有充分依据的不同工程设计，不设唯一隐藏方案。
 
-七个Agent Case为原需求1、改条件能力1、最多优化复测2、正式3；每Case16模型物理槽，另资格2/无关健康2，共116。Search84/Fetch168/GitHub56；条件最坏296.46元包含30元非调用开销及10元未分配buffer。它不是余额、grant或运行授权，价格/币种/历史unknown/在途/完整批次覆盖未闭合时paid关闭。所有linked Turn共享原额度/截止，不能新ID重置。
+REQ同时保首次需求原稿、本人实际编辑（允许无改）及准确确认、首次方案原稿和最终双稿交付包。两份首稿均须过冻结关键项，人工改好不能清除raw失败。六final指六份完整交付包，full链包绑定需求／方案各版本hash及确认；有界ReportSnapshot只存refs和摘要，不内联两份64KiB正文。对照侧采用同样目标和计时，人工确认／改稿计入主动时间。
 
-真实症状→原始轨迹→预定义假设→最小修改→固定源离线回归→独立审查→另授权同条件真实复测。前后来源/模型/环境漂移记录；改输入不当修复，至少纠正一个真实症状仍是M1门槛，两次复测不保证达成。Tracing为Pg业务记录关联视图，offline reconstruct只读旧工件，不重发completed/unknown或执行框架replay。[核源与复核操作](REVIEW_WORKFLOW.md)规定实际证据步骤。
+requirements-only独立终结由聚焦路由／终态回归及两个既有pilot之一观察，另一个pilot观察完整闭环；优先本人真实待办，产出前固定目标、当前普通AI／人工方式、关键正确项、可接受unknown和后续行动，产出后分别核原稿、人工补救与实际用途。无任务保持待证，不编造需求；不增加pilot或费用。仅需求起草、直接编辑和对话修订没有各自独立正式效果对照，不能声称四模式均获正式质量或省时验证。三个异质pair的median只描述这三个登记配对，不能外推全部模式或真实团队价值。
 
-## 历史原件与安全拒绝
+## 限定校验
 
-旧current-3只解释原B/G/O、15次及旧9/8/12准备，现行路径已原位替换；不新增旧协议归档。历史精确入口：
-- Git commit `1ffade6de07ebe3d1e72afb4c44b8677466eca67`，path `docs/evaluation/CURRENT_EVAL_PROTOCOL.json`，原Git LF SHA256 `bc75a1a6d14f7633462538c7c83b79ed5f5bcf0d670997b2000c92caa0002948`。
-- 已知旧账本绑定的CRLF表示SHA256 `1c18d53624c21b1e25f5cea5640b4c8b4a5e0cfc001f430c8d603a01d51a8507`，仅显式LF→CRLF可核，不推定其他账本相同。
-- 删除的未执行preparation按同commit的 `data/evaluation/decision-m1-1/preparation.json`、原字节SHA256 `481da876ce5794020be05403eb7a75a75f0ce79194a1e40d2f468ca4535bde60`读取；23来源、6份许可及真实授权费用保留。
+在仓库根目录运行已有 Python：
 
-只读历史核验例（仓库根目录、已有环境，不安装/开库/发请求）：
-```powershell
-.\.venv\Scripts\python.exe -B scripts/validate_project.py --historical-only --historical-commit 1ffade6de07ebe3d1e72afb4c44b8677466eca67 --historical-path docs/evaluation/CURRENT_EVAL_PROTOCOL.json --historical-raw-sha256 bc75a1a6d14f7633462538c7c83b79ed5f5bcf0d670997b2000c92caa0002948 --historical-newlines lf-to-crlf --ledger data/evaluation/ledger-after-e4e3e822-f5f0-582d-9412-e7cb91daefe4.json
+```text
+.venv\Scripts\python.exe -B scripts\validate_project.py
 ```
 
-旧current/pilot_runner/budget arm/reconciliation遇新/缺/坏协议必须安全拒绝；历史读取不等旧执行、扩账、新reserve或grant。旧已实现runner/账本保留历史回归，新产品运行路径另任务实施。r12/P-02 No-Go不由配置/CI/新M1声明消除，Go/发布分别判断和授权。
+默认成功只表示配置结构有效，并明确 `MATERIALS_NOT_VERIFIED`；它不打开或验证受限包。必须另行显式指定一对参数才能检查材料：
+
+```text
+.venv\Scripts\python.exe -B scripts\validate_project.py --review-material-root .tmp/predev-reopen-20261028/config-20261029/review-20261101/focus-20261102/materials --review-material-index-sha256 <实际公开索引原字节SHA256>
+```
+
+占位值不能执行。本批材料仍 pending，显式校验应返回 `not_ready` 非零。每个角色仅映射上述固定文件名；独审报告固定为父目录 `materials-review.json`，必要复审为 `materials-rereview.json`，不能跟随索引任意路径。先检查未解析路径所有组件的链接／Windows reparse，再核解析范围；文件身份／一致性不确定即拒。角色包和报告均限1 MiB原字节再严格 JSON，拒重复键、非有限数和错类型，错误不输出题面、键值或异常原文。
+
+`review_receipt`绑定独立原始报告的 thread/message/context/role 和准确三包字节，不接受 `reviewed=true` 自证；身份结构校验不证明审查真实性或语义正确。报告不能引用尚未形成的索引或协议 hash。
+
+## 正式结果口径
+
+三对六次全部保留，包括未启动、partial、失败、取消、缺失及不可评分。三个 Agent 原始报告均须通过各自关键项才能通过原始产品质量门槛；人工修好不抹去原失败。最终六份人工稿共同质量通过、首次显示及主动时间完整且 Control 基线非零后，才描述三个配对的省时中位数；允许负值，没有20%硬门槛，不外推真实团队价值。
+
+Control采用预注册的日常人工仓库阅读、普通AI和搜索，DR按需且已登记，所有新增费用计入总账。Agent侧不得外部AI代修或复制Control答案。披露许可 `disclosure_committed` 与实际显示／ACK分开；时点不明保留最早可能暴露时间及 `timing_uncertain`，不得重置计时或进入有效省时比较。详细流程见[核源与计时](REVIEW_WORKFLOW.md)。
+
+## 历史与保护
+
+`d4b906fb6a441c13583f052377283ec0c28bf5a2` 的原路径及原字节 hash解释 `discovery-m1-1` 和旧六题；`1ffade6de07ebe3d1e72afb4c44b8677466eca67` 的显式路径／hash／必要换行转换解释历史 `current-3`。不复制另一套现行材料，不删除真实来源、许可、费用、失败或授权。
+
+旧 `evaluation.current`、pilot runner、budget、ledger及reconciliation不是新运行器，对新／坏／缺失协议在加载Settings、客户端、目录或写账前拒绝。历史检查须明确 commit/path/raw SHA；不能借历史读取扩账、arm资金或执行新任务。r12／P-02 No-Go保留；首业务、真实pilot、M1、Go和发布分别待授权与证据。
+
+DRAFT-BASELINE-20261102／draft-m1-1按draft-20261102/snapshots/final-01/manifest.json及path/raw hash保留；REVIEW-BASELINE-20261101／review-m1-1原字节由既有`review-20261101/snapshots/final-02/manifest.json`及其path/raw hash定位；该未提交配置不是HEAD中的Git对象。旧final-delivery／失败／审查不覆写，新修订的实际检查与独审另追加。

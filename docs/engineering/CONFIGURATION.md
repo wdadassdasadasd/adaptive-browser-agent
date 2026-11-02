@@ -1,20 +1,12 @@
-# 工程配置与环境资格 — PREP-BASELINE-20261029
+# 工程配置与环境资格 — FOCUS-BASELINE-20261102
 
-40路径工程基线及限定validator/旧入口guard获批；实际落地、检查、独立审查和唯一18项由[连续记录](../features/DECISION-001/tasks.md)判定。行为参数由[SPEC](../../SPEC.md)、[PLANS](../../PLANS.md)、[当前契约](../contracts/CURRENT_CONTRACTS.md)和[唯一协议](../evaluation/CURRENT_EVAL_PROTOCOL.json)定义。本页说明配置与资格，不新增业务权限。
+人已批准28现有文件配置同步，实际落地/检查/当前文件独审和唯一18项见[连续记录](../features/DECISION-001/tasks.md)。当前行为由[SPEC](../../SPEC.md)、[PLANS](../../PLANS.md)、[契约](../contracts/CURRENT_CONTRACTS.md)及[唯一协议](../evaluation/CURRENT_EVAL_PROTOCOL.json)定义。本页不是运行许可。
 
 ## 配置归属与流程
 
-共享源D:\codex-engineering-config历史安装/发现见[生命周期记录](../tasks/CODEX_LIFECYCLE_CONFIG_2026-10-25.md)，本批不改共享仓库、用户规则/技能/角色、模型、MCP、系统权限或依赖。共享engineering-workflow选择分支→项目[G0–G7](WORKFLOW.md)承载关口→三项本地Skill提供方法，返回同一任务记录；不建立平行编排。已有Spec Kit项目保留主编排器。
+engineering-workflow只路由一次到[G0–G7](WORKFLOW.md)，项目技能提供专项方法；不新建编排、全局Skill或模型/权限配置。根AGENTS保持入口，契约维护参数，唯一任务记录维护批准/状态。research-eval按新起草／评审协议同步；普通测试不触发付费评测。声明、加载、实际触发和强制门禁分别验证。
 
-| 入口 | 触发及验证 |
-| --- | --- |
-| AGENTS | 产品/架构/授权变更后更新简短导航；实际收到规则/链接不等强制门禁 |
-| .agents/skills | 评测/真实trace诊断/已授权业务按需读取；普通单测不触发全套评测；方法不授权限 |
-| WORKFLOW/TASK_TEMPLATE/STRATEGY | 生命周期/具体任务包/风险检查；只读指令不是只读沙箱 |
-| .github | 模板填真实AC/检查/审查/权限，CI声明与远端执行/branch protection分查 |
-| validate_project | 新协议/材料/映射/数字/历史显式Git字节/技能与链接；不证明语义效果 |
-
-当前会话收到根规则/项目技能，不证明未来桌面/CLI/IDE全已加载；未实测端标待验。无项目级模型/权限覆盖需求，不新增.codex配置/Hook或虚构自动门禁。缺共享Skill直接执行项目流程，缺独立审查保持pending。
+原PREP-BASELINE-20261029及CONFIG-RAWJSON-20261030仍是原被审版本的有效交付，不重列待修。范围外Git、原SQLite/r12、费用/授权/真实来源、许可、历史归档与browser-use均保护。本批不改.gitattributes及其精确-text规则。
 
 ## 日期化环境与账目证据
 
@@ -33,33 +25,44 @@
 | 2026-10-27 SQLite只读immutable、task0、无call/cost/budget表；SHA1cf908a6f9e83985548ba7bd0753a204e6d8ccbaf70ac34daa9d3152ecbd0064 | 原件不补全费用历史，不自动导入新库 |
 | P-01假48/48，r11/r12真实失败及旧四项中断检查 | 当时内容证据，不给新路径通过；中断不写pass |
 
-## 后续环境与权限包
+## 本轮身份与未验证项
 
-| 关口/负责人 | 准确产物、时点和停线 |
+FOCUS进入基线是DRAFT-BASELINE-20261102 final-01的28份未暂存配置，HEAD仍main@d4b906fb6a441c13583f052377283ec0c28bf5a2；暂存／非忽略新增为空，未fetch。原DRAFT交付索引SHA256为a712397ed346cce615487810d4c14f87831444e5c02496723292c6a68813375b，final-01 manifest为6c9b4b59a8362033745be68239fe846cac79d4cdd62b392def922f7ef9952faf。新快照、日志和审查只追加focus-20261102，不改旧draft或review证据。下段为进入DRAFT时对更早REVIEW的历史核验，不冒充FOCUS进入身份。
+
+### 进入DRAFT的历史核验
+
+2026-11-02进入main@d4b906fb6a441c13583f052377283ec0c28bf5a2时，已有28份未暂存配置，正是原REVIEW-BASELINE-20261101交付，不是应清理的无关差异。暂存/非忽略新增为空；未fetch，origin/main仅本地身份。当前28份匹配原final-02，原final-delivery SHA256=8b38b435c2513f498fd1d39b94b794d3e103428becc321413977c0c08207aef9。新增进入副本/完整diff/保护指纹在原audit下draft-20261102子目录；新内容必须另查另审，不回写旧索引以迁就新正文。
+
+browser-use gitlink保持7be96ed8bafa8dfe1eef228b59cf5c884b8b2431。原11/01限定只读成功记录保留；本轮再次内部查询Permission denied，不能称本轮重验clean。未初始化、下载、启动WSL或服务。原partial_metadata、早期失败/超时、真实symlink跳过与本机ignored证据不可移植局限如实保留。
+
+模型配置仍须公开型号、协议字段、官方转换器/模板/Tokenizer来源许可及hash资格。固定recipe935817c66f5d6e64838f419692545f06787e485f提供完整模板，但V4.1附带Tokenizer源自Vision-Exp，不能据文件存在声称匹配托管1017。v0.2.0 tag读取404不当release证明。没有下载/安装/执行；无法建立资格时paid off。完整本地计数、provider usage/cache、费用及余额分账，有限诊断总allocation不得换profile重领。
+
+## FOCUS范围与后续授权及停线
+
+当前M1关闭全部Memory功能入口，包括手动／自动、API／CLI、默认profile／框架Store预加载、旧checkpoint refs、导入／恢复／重建与后台路径；不提取候选、不读写、不检索、不注入，active Memory refs必须为空并与各模型阶段实际请求一致。Trace记disabled/not_applicable，hits／writes为null并附feature_disabled，不以测试零次冒充禁用证据，不要求空Store／seed／Memory快照。Case内条件、证据、文档和审计照常持久化；本人明确选定历史报告走SourceSet准确获许可版本，不解引用Memory refs，继续核当前权限和已知私有祖先。DEC-AC-17／DEC-M1-04保留延期、未实施／未验；完整Context属03a、Token资格属03b，当前M1不依赖04。真实复用需求、独立设计审查及准确范围另批后才可重开，原Memory预留容量保持闲置上界，不挪给其他功能。
+
+唯一协议draft-m1-2，能力引用draft-m1-capabilities-2。公开材料索引仍pending；固定三个包预期根为D:\adaptive-browser-agent\.tmp\predev-reopen-20261028\config-20261029\review-20261101\focus-20261102\materials，仅更新引用，不创建或搬迁材料。
+
+| 关口 | 准确前置与边界 |
 | --- | --- |
-| ENV-M1-01 / AI准备、本人批准 | boot前核旧systemd/bootcommand/launcher自动服务及出站；无证据不先启动。必要时先提出离线取证/宿主隔离的具体权限、路径、影响方案，再核Linux source/venv/binary/data绝对路径、代码锁/UID/日志/角色 |
-| 新库 / 首工前 | 资格通过已装PG16目标16.15，独立data/config/凭据/55432/ara_m1与ara_m1_test；旧5433不自动停删。app/checkpoint运行角色无DDL，migration/restore角色另设；建库/迁移/清理各自准确授权 |
-| 冷切 / 新入口前 | 旧准入关→队列/在途/unknown→旧API/Worker停止→旧写凭据失效及存活连接→验证不能误写；仅改.env或新握手不足，原件/费用/撤销及只读取证保留 |
-| 资源 / 能力资格前 | 父4GiB/CPU4含所有子组和backup，实际峰值/连接/CPU/磁盘测量；WAL/index/checkpoint/backup另计，max_wal_size非硬磁盘界，失败不脱组 |
-| 资金 / 首pilot前 | account非秘密ID/时段/run/call/hash、重复冲突/known/unknown/inflight/供应商差额；实际币种/≤24h价格/credit/grant/整批最坏预留，无法闭合paid off |
-| Tokenizer/Gateway / 正式研究前 | 完整请求/模板/公开model/字段，thinkingdisabled/maxoutput/同bytes/repair0；首次有限诊断另授不循环前置 |
-| ENV-M1-02(08a) / 首pilot前 | 独立介质借优先、采购另授；纸钥本人离线/纸卡cipher与manifest原字节hash、age来源身份、从纸录钥真实恢复，实际介质/钥/资格缺 |
-| Browser / 开启前 | DNS/v4/v6/redirect/subresource/UDP/旧连接、临时TLS信任、CDPpipe/bridge和gen监督源码/对抗实验，失败0不回个人profile |
+| ENV-M1-01 | boot前证明旧systemd/bootcommand/launcher自动服务和出站安全；不能先启动后补隔离。冷切核旧队列/在途/unknown、封旧出口与写凭据/连接，保护原DB。准确Linux路径、UID、工具和依赖另授。 |
+| 新Pg/首工 | 独立cluster/data/config/凭据/55432，ara_m1和ara_m1_test、受限app/checkpoint角色；DDL/migration/restore身份另授。普通启动不DDL。首工仅auth/personal rawDraft/最小sup，不导旧Settings/SQLite/Provider。 |
+| Task和读取资格 | 应用Pg当前权限及sup连续性共同约束。Task独立执行grant不因logout过期；UI每次有界response/page/frame核当前读auth/membership/sourceproof，不能凭cursor/旧SSE会话继续读。 |
+| 私源App | 安装/密钥/签发token/读取私库均不由配置授权。installation与repo只读范围、安全receipt和最长5分钟proof另资格；freshmint是控制Call不是隐藏SDK自动操作。公开200不续私源权限。 |
+| Token/Gateway/付费 | 完整请求同bytes、thinkingdisabled/maxoutput、repair0/summary0、模型资格、旧账/unknown/在途/币种/价/余额/grant/全批覆盖先核。诊断只独立有限公开材料包，耗尽不自补。 |
+| ENV-M1-02/最低恢复 | 首个真实public pilot前也需独立物理介质、纸钥/纸卡真实隔离恢复；窗口后置的是完整故障覆盖，不是豁免最低安全前置。采购、age工具、介质写入/恢复各准确授权。 |
+| 物理资源 | Case64MiB/项目业务1GiB/466.25MiB预留只计业务字节，不能推出Pg index/WAL/checkpoint/backup或CPU/RAM/swap够。遵守原cgroup资格，实际测量失败不脱组。 |
+| 正式材料 | public index pending，不制新题/gold。未来三个角色包/实际独审及Worker隔离另包；配置校验成功不代表材料就绪。 |
+| Browser/MCP | Browser真实接入延期并保持0，MCP研究；不得恢复旧DOM/240Browser调用或以其绕Fetch/费用边界。 |
 
-环境启动可能写状态，不作只读探针。准确路径/权限未核时不能占位符执行；代码、依赖、WSL启动、cluster/role/migration分别有适用批准。首工只有auth/draft最小sup，不承接完整paid恢复。实际资格缺阻对应运行，不伪填已验证。
+## 恢复与回滚
 
-## 连续资格、备份及回滚
+sup启动无资格。监测Pg连续连接/身份，所有池新连接/重连核同一连续性；失连续seal旧gen并隔离研究/Memory。另授CLI新凭据仅草稿/历史有限访问，无独立最新性证明不恢复付费；旧checkpoint、同UUID或新派生ID不能自证最新。备份同snapshot/来源卡/纸钥、流式加密及失败目标隔离沿契约，原库零写，不承诺tmpfs物理擦除。回滚先停写，保新数据/费用/授权，不destructive downgrade或让旧binary写新库。
 
-sup启动无资格，DB OPEN/同UUID非最新。监测PG持续连接与postmaster start，池新连接/重连同步核对；失连续封gen、隔离旧身份/研究/Memory。只有同Sup/PG持续时API/Worker新actor可加入。另授CLI新凭据只开草稿/history，恢复资料新ID不复活Memory，无独立最新性证明不恢复paid。不自动检测任意superuser在线restore，运维先seal/停写另授。
+## 投入、费用与交付
 
-BK-r3.2按契约：同export snapshot dump/manifest、Linux字节pipe/流式限额；捕获校验不等restore。独立纸卡两hash先验→完整解密→精确隔离restore，失败目标不接应用/旧库零写，不称目标零SQL。纸钥长期离线与可信本机短时解密分开；tmpfs不证明无swap/pagefile残留、不承诺物理擦除或擅改宿主页。首pilot前独立物理介质与纸钥真实恢复仍是硬前置，合同参数不等实际已验。
+10/29起七至八周/每周≤20h窗口改为优先需求到方案闭环和本人解释。92–136h及完整130–194h仅为旧范围估计，不能承诺本次扩围工期；已经发生本人投入未知不得填0。先登记实耗再校准，私源/正式/完整恢复未做不称首阶段或M1完成；Memory当前后置不再作M1前置，亦不计完成。
 
-回滚先停写，保新数据/费用/授权，只回理解当前schema版本，不destructive downgrade/不让旧binary写新库。配置回滚只恢复本批task-owned进入字节，保其他工作；ignored审计材料绑定快照/完整patch/检查，不新增旧方案归档。
+费用epoch仍10/28，模型116/Search84/Fetch168/GitHub704/HTTP1072最高计数，条件总296.46元与分桶只由唯一协议/契约定义；不是余额或资金分配，所有已发生费、unknown及Control工具/纸耗/介质/审计新增费先归账，不桶外隐藏。30元其它桶及10元buffer不自动购买/分配。
 
-## 费用、投入与交付
-
-新增epoch为2026-10-28本次重评开始；本人称仓库外无新增，不推断仓库/历史未知0。条件最坏296.46及116model/84Search/168Fetch/56GH见唯一协议；<300非到账/grant/调用权限，所有新增纸耗/介质/DR/收费审计不得桶外藏。
-
-2026-10-29起七至八周、本人≤20h/周，估算100–144h/AI260–420agent-hours见PLANS，首周实测校准；12月17–24日不是已证明足够。超窗提具体取舍，不暗删核心。
-
-本批40路径配置/guard→完整检查/正文/patch/指纹→非作者实际文件审查→修复重测复审→18项判定，随后停首业务授权前。远端CI/分支门禁没查不称启用；业务、安装、环境/DB、真实调用、购买、Git写另授。技术、审查、本人业务/价值/掌握、Go和发布分开。
+配置检查用已安装Python/Ruff，临时输出限本轮审计目录；禁止安装、真实运行、服务/DB、实际ACL、付费、外部写及Git写。本批完整diff/指纹/实际检查和非作者当前文件独审一致才可交付配置；业务/本人价值/Go另判。

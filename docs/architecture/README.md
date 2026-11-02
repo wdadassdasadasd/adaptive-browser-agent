@@ -1,21 +1,19 @@
-# 架构入口 — PREP-BASELINE-20261029
+# 架构入口 — FOCUS-BASELINE-20261102
 
-本页导航当前目标和已实现历史，不另立契约。[SPEC](../../SPEC.md)定义产品/AC，[PLANS](../../PLANS.md)定义依赖，[当前契约](../contracts/CURRENT_CONTRACTS.md)定义对象/API/状态/锁序/限额，[唯一任务](../features/DECISION-001/tasks.md)维护实际状态。
+[SPEC](../../SPEC.md)定义产品，[PLANS](../../PLANS.md)定义依赖，[契约](../contracts/CURRENT_CONTRACTS.md)独占对象/权限/限额，[唯一任务](../features/DECISION-001/tasks.md)记录实际状态。本页描述目标，不把配置写成实现。
 
 ## 获批目标
 
-Windows UI→WSL独立API→应用Pg←独立Worker/LangGraph阶段图→CallGateway→Search/GitHub/Fetch及资格后受限Browser。Draft/RawMessage/Case/InputRevision/唯一Task/Attempt/fence/稳定Obligation/物理Call/Source/Claim/Report/费用由应用表拥有；checkpoint只是有界已提交引用，独立schema/role/connection，不是业务或资金权威。
+Windows UI → WSL API → 应用Pg ← Worker/LangGraph阶段 → 精确请求Gateway → GitHub，必要时补DeepSeek Search/Fetch。Browser=0且真实接入延期；MCP仅研究。应用表拥有条件、team/project/member/source grants、Task/Attempt/Work/Call、SourceSet/LocalCapture、DocumentVersion/head/RequirementsConfirmation、证据、报告、usage及费用；checkpoint只持有已提交引用。
 
-从零需求先澄清接受，再路线/发现/短名单/取证/上下文/报告，不整体包装旧AgentLoop。稳定工作、最终send_claimed、unknown全项目停新出站及generation物理槽防止重规划/恢复重发。关系＋关键词上下文、来源线索与明确长期技术偏好Memory均按契约，记忆不作条件或权限。
+四模式：仅评审、仅需求、仅方案、完整需求到方案。想法可无仓库，或固定一个主GitHub版本及许可公开材料，加本人选定本地text/code/diff；源码不执行，diff不应用。接受目标/范围 → 选定SourceSet封定/固定仓库版本 → 有界研究 → Claim及问题依据 → 受保护Context → 需求DocumentVersion → 本人准确RequirementsConfirmation → 方案DocumentVersion → 有界ReportSnapshot引用双稿及确认。评审沿原报告路径，仅需求可独立结束，仅方案先确认既有需求。直接编辑和AI修订均追加版本，显式保存而非逐键；新需求head原子清当前确认，方案start/send/commit重核准确绑定及head CAS，旧稿按引用标过期。首工件compile/Token/版本槽/正文及终结预留同事务，容量不足零发送，改版和模式不重置Case额度。探索任务不伪造验收基准，未读不等不存在，机器片段准入不证明语义。UI/导出按当前权限读取不可变快照；每响应/页/SSE帧重新claim，最后一个有界已claim响应可能在途。Task独立执行许可与UI读会话分开。
 
-[ADR5](../design/adr/0005-windows-worker-wsl-postgres.md)解释新独立cluster/连续sup/保守恢复，[ADR7](../design/adr/0007-interactive-evidence-decision-sessions.md)解释Session/Case/Turn，[ADR8](../design/adr/0008-m1-engineering-baseline.md)记录采用理由。首工是认证/原始Draft/第二身份隔离＋最小sup，不建InputRevision/Task/模型调用。环境、依赖、schema和安全实际证据仍待对应授权验证。
+最终send和提交门禁、unknown停新外调、完成或未知调用不重发、失租fence及资源收拢按契约。私有实际输入祖先关系随派生保留。Context保护条件/反证/限定，由03a负责、03b资格完整Token。当前M1关闭全部Memory功能入口，包括手动／自动、API／CLI、默认profile／框架Store预加载、旧checkpoint refs、导入／恢复／重建与后台路径；不提取候选、不读写、不检索、不注入，active Memory refs必须为空并与各模型阶段实际请求一致。Trace记disabled/not_applicable，hits／writes为null并附feature_disabled，不以测试零次冒充禁用证据，不要求空Store／seed／Memory快照。Case内条件、证据、文档和审计照常持久化；本人明确选定历史报告走SourceSet准确获许可版本，不解引用Memory refs，继续核当前权限和已知私有祖先。DEC-AC-17／DEC-M1-04保留延期、未实施／未验；完整Context属03a、Token资格属03b，当前M1不依赖04。真实复用需求、独立设计审查及准确范围另批后才可重开，原Memory预留容量保持闲置上界，不挪给其他功能。
+
+[ADR5](../design/adr/0005-windows-worker-wsl-postgres.md)保部署及恢复理由，[ADR7](../design/adr/0007-interactive-evidence-decision-sessions.md)定义状态归属，[ADR8](../design/adr/0008-m1-engineering-baseline.md)区分本轮决定与历史批准。首工仍认证/私人Draft/第二身份隔离/最小sup，无InputRevision或研究Task；业务和环境另授。
 
 ## 已实现历史
 
-V1为Vue→FastAPI→ResearchService/TaskManager→AgentLoop→Planner/ContextManager/Evaluator/Reducer/Reporter→ToolRouter；SQLite保存事实/事件，以[V1规格](../specs/V1_SPEC.md)、[V1契约](../contracts/V1_CONTRACTS.md)、源码和测试解释，不是新业务入口。
+V1 Vue/FastAPI/AgentLoop/SQLite按[V1契约](../contracts/V1_CONTRACTS.md)解释。旧Pg API/Worker已有[P-01假任务48/48](../tasks/P01_ACCEPTANCE_2026-10-21.md)，不证明新认证、WSL拓扑或真实研究。旧launcher会启动服务/迁移，不作只读探针。T02–05离线片段及r11/r12失败见[原代码审查](../audits/IMPLEMENTED_CODE_REVIEW_2026-10-27.md)。旧current-3运行器拒新协议；本批不创建新业务runner。前端只经API、状态可序列化、browser-use保持上游归属；冷切不删旧库或费用，回滚先停写，不能让不兼容旧binary写新库。
 
-旧P-01为Vue→api.pg_main→Pg←worker.runner→AgentLoop，租约/fence/调用/事实/事件已有[假任务48/48](../tasks/P01_ACCEPTANCE_2026-10-21.md)。旧launcher保活WSL、启Pg/自动迁移、监督Windows Worker，仅历史行为，不能当新环境只读探针。单合成owner不证明新真实认证，旧重认领/时限不作新默认。
-
-T02–05离线决策切片及r11/r12失败见原任务及[代码审查](../audits/IMPLEMENTED_CODE_REVIEW_2026-10-27.md)。旧current-3执行器不能跑新协议，本配置只加拒绝/历史显式校验，没有新runner。P-02/r12 No-Go保持，假任务/CI不证明来源质量、本人价值和恢复。
-
-前端只经API，路由不依赖browser internals，状态可序列化，上游browser-use保持。冷切保旧库/费用/授权/真实证据；回滚保数据停写，不让不兼容旧binary写新库。独立审查、本人验收、Go与发布分开。
+选定本地上传经API有界stream、解码及许可/容量两端核验，未seal不入模型，不引入FS bridge。已知私有祖先不因local profile/编辑/导出重导入洗白，未知外部出处不冒核实。REQ full/CON review含无基准子问/EXP确认需求后仅方案，三pair只描述登记样本；正式材料和业务效果均待证。旧review交付继续绑定原字节，当前配置检查/独审由唯一记录及新外置索引裁定。

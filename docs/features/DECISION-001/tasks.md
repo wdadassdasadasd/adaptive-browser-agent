@@ -1,6 +1,6 @@
 # DECISION-001 纵向任务与验收状态
 
-当前主线（2026-10-30）：PREP-BASELINE-20261029原40路径的封存、原批准和独审证据已重新核实，原限定本机准备结论在其被审版本有效。本轮另获CONFIG-RAWJSON-20261030五文件修复批准，当前为IMPLEMENTED_PENDING_FINAL_ATTESTATION；只有本节末指定的新外置索引匹配本轮实际正文、检查及非作者独审时才算专项完成。原封存不覆盖新增量，也不因新专项而被改写。业务实施、真实评测、本人掌握、M1/Go/发布仍未通过；首业务拟授权包为DEC-M1-01，尚无开工授权。旧切片与日期记录只解释当时范围。
+当前主线（2026-11-02）：负责人以PLEASE IMPLEMENT THIS PLAN明确批准FOCUS-20261102-01，实际Default模式进入配置实施。现行目标为FOCUS-BASELINE-20261102／draft-m1-2：保四模式、团队及真实阶段图，Memory退出当前M1必需并全入口关闭。仅本页文末FOCUS记录与focus-20261102新最终索引匹配后裁定本配置交付。DRAFT原final-01、REVIEW原final-02及PREP／RAWJSON交付仍绑定各自原字节；环境、业务、材料、真实运行、本人掌握、价值、M1／Go／发布均不因此通过。
 
 历史状态（2026-10-24）：**现行规格／契约已同步；DEC-T01 完成其离线切片验收，DEC-T02–T05 的代码已提交但仍有验收缺口，DEC-T06 仅备好复核模板。P-02 真实研究与产品仍为 No-Go。** 阶段顺序以 [现行计划](../../../PLANS.md)为准；每个切片通常按 1–2 个兼职工作日计划，估计须含读码、测试、Review 和修复。以下是实现范围与验收依据；实际状态逐项列在下表。付费运行仍需单独授权。
 
@@ -439,26 +439,30 @@ HEAD仍e70b5f983532868b765e988f9162ddf989cf153d、暂存与新增提交为空；
 
 2026-10-30专项承接：原40路径条件已由原r2快照/原final-delivery实际核验满足，原审查仅绑定其原字节。下表09/13/15/16/17增加本次五文件增量；其余项沿用原证据和原有后续资格。新专项状态由CONFIG-RAWJSON节的新索引承接，不要求旧索引反向匹配后来的获批修改，也不将当前正文自身当完成证据。
 
+2026-11-02承接：这是唯一原18项原位更新，不另立清单。原REVIEW最终索引及final-02已核有效；本次在其28份未暂存配置上增量实施DRAFT。旧交付不重列待修，下表当前新增内容的检查／独审由新draft-20261102索引裁决。
+
+2026-11-02 FOCUS承接：原18项唯一表不增项。DRAFT交付已核实有效；本次仅更新Memory范围、Context依赖、协议身份和本人真实待办验证路径。全入口关闭不代表Memory通过，AC17／04保后续pending。当前配置交付由focus新索引裁定，不回绑旧审查。
+
 | 项 | 当前事实/证据及实际文件 | 判断/决定/批准 | 检查与独立审查 | 未解决项 | 阻塞对象 | 下一步/负责人/满足时点 |
 | --- | --- | --- | --- | --- | --- | --- |
-| 01 产品与核心路径 | SPEC/契约§1/本页D01–19 | 从零需求/有限深查/诚实partial已批；准备定义满足 | r1整体实际审查及文末增量复核绑定 | 无新增准备选择；真实价值待M1 | 准备按文末条件生效；价值M1 | AI固定文件与证据；本人另验价值 |
-| 02 岗位映射 | 岗位研究与本页实践卡 | 岗位→行为→任务/AC映射已备 | r1实际文件复核；原百度J100779定点核源和其他动态页局限保留，未重新核全网 | 本人实际读改解释未发生 | 准备按文末条件生效；本人证据M1 | AI交实际材料；本人对应任务实践 |
-| 03 Requirement/AC | feature spec DEC-AC-08–20/唯一协议 | AC获批；材料准备满足 | 原五评测文件实际复审DONE，准确hash及后续元数据增量分开 | 实际难度/真实核源与评分未验 | 准备按文末条件生效；真实评分M1 | AI保留题面隔离；本人另授权正式运行 |
-| 04 核心架构 | ADR5/7/8/契约§1–6 | LangGraph/T2/S1及精确边界整体批准 | r1整体/安全实际审查；原限定设计证据不扩大为实现 | WSL/新库/连续性/恢复未运行 | 准备按文末条件生效；运行首工/pilot | ENV准确操作包及权限另授 |
-| 05 模块与数据归属 | 契约对象/API/StageOutput及本页任务包 | Pg权威/checkpoint引用/唯一Task状态已冻结 | r1整体核对接口/锁序/目标与旧实现边界 | 未来业务实现与验收 | 准备按文末条件生效；实现各Task | AI按获批任务逐包落实，不据配置开工 |
-| 06 五核心方向 | 研究/PLANS/DEC-M1-02–08 | Runtime/Tools/Context/Memory/EvalTrace纵切安排满足 | r1实际文件复核；固定上游证据不代表项目效果 | 模块实际行为和失败证据 | 准备按文末条件生效；实际M1 | AI在对应任务交运行材料；本人分卡实践 |
-| 07 失败/资源边界 | 契约§2–6/协议调用及容量 | unknown全项目停线/repair0/有限参数已批 | r1安全核对guard/历史读取及设计边界；没有真实故障验收 | Tokenizer/网络/资源/故障资格 | 准备按文末条件生效；故障首工/pilot/M1 | 对应Task按风险检查；无资格不运行 |
-| 08 任务/依赖/里程碑 | PLANS/本页DEC-M1/ENV包 | 首工auth原始草稿+sup；03a/03b/08a依赖已明确 | r1整体核对FIRST-r2及依赖/验收包 | ENV准确路径/身份/依赖/业务授权 | 准备按文末条件生效；执行首工 | 先交具体ENV操作包，不先启动WSL |
-| 09 测试/审查/验收 | STRATEGY/WORKFLOW/本页CONFIG-RAWJSON | 原结果保留；补严格JSON/材料类型与映射覆盖 | 新49回归、七文件200通过；失败/沙箱超时保留；新独审依专项索引 | 本专项实际文件独审/封存条件；真实集成/本人未验 | 专项完成；未来材料依赖该校验前关闭；非当前首工技术阻塞 | AI取得独审/封存；本人另验业务 |
-| 10 评测/Tracing/优化 | 唯一协议/六题材料/契约§5 | 三对六稿共质后中位20%；真实纠正1症状 | 五文件实际复审关闭原四项；三JSON只更新审查与单向hash，另审增量 | 正式seed/尝试/调用为null或0；真实结果未验 | 准备按文末条件生效；执行pilot/M1 | 不提前展示题面/金标，不自动生成seed或调用 |
-| 11 本人实践 | 本页任务实践卡/岗位研究 | 读码/预测/操作/亲改/回归/解释安排满足 | r1实际文件核对；没有本人实际实践证据 | 对应业务Task实施及亲验 | 准备按文末条件生效；本人实际M1 | AI交可跑材料，本人执行，未做不代填 |
-| 12 环境/资金/权限 | CONFIGURATION/契约ENV与成本 | 新独立PG/凭据/费用上限的处置安排满足 | 原只读环境快照未作当前运行资格复验；旧账仍有未知 | 启动前autostart隔离/路径/角色；账户/价格币种/全账/资金/grant | 准备按文末条件生效；ENV首工；资金pilot | 准确环境操作另批；无资格paid关闭 |
-| 13 Git/CI/复现/恢复 | CI/契约B5.2/BK/本页CONFIG-RAWJSON | 保留原本机封存；补两JSON精确-text，保持raw hash | Git只读真实过滤器三路径×三配置通过；新独审依专项索引 | 完整clone/远端CI/子模块内部未验；介质纸钥恢复仍待 | 专项及跨检出交付；恢复pilot；不单独阻首工 | AI封存增量；Git/环境/真实恢复分别另授 |
-| 14 时间/费用/未知 | 本页投入/协议成本 | 10/29起7–8周≤20h周；100–144人时；296.46条件分配 | r1实际文件/算术核对，非工期或运行资金充分证明 | 首周实耗校准/真实价格账户及DR免费额度 | 准备按文末条件生效；资格pilot；实际M1 | AI首周校准；超窗取舍本人决定 |
-| 15 配置落地/淘汰清理 | 原40路径及专项五文件进入副本 | 原37改2增1删保留；新五文件另批，相对HEAD累计41路径 | 三现行JSON及范围外原字节保护、完整累计diff/两新增正文由专项封存核验 | 新增量独审/最终索引匹配；不把旧授权改成41路径 | 专项完成 | AI仅逆转本专项进入增量；不reset/clean |
-| 16 检查/指纹/独立复审 | 原封存＋repair-20261030-raw-json | 原审查身份保留；新五文件不得借旧审查关闭 | 新检查/完整正文/增量/累计diff须绑定新manifest；最终独审/索引另存 | 新final-delivery必须存在且匹配；不预填审查结果 | 专项完成；不否定旧被审版本 | AI冻结新正文、取非作者实际审查后封存，不回写自身hash |
-| 17 准备阻塞决定清零 | 原01–16＋CONFIG-RAWJSON四P2 | 旧批无未决结论保留；新五文件修复已具体获批 | 设计技术/安全复核完成；实现关闭依新独审和索引 | 新专项未完成前不称四缺口已关闭；其他重要范围另批 | 专项/跨检出交付；非当前首工技术阻塞 | AI验证修复与独审；不扩大费用/权限/业务 |
-| 18 首业务授权/验收包 | 本页FIRST-r2/PLANS/契约§7 | 可审查拟授权包已备；配置批准不等实施批准 | r1整体/安全核对目标/范围/验收/回滚；未来代码未创建 | 准确ENV/依赖/业务实施分别另授权 | 准备按文末条件生效；执行首工 | 停在DEC-M1-01业务授权前，不自动开工 |
+| 01 产品与核心路径 | P2；SPEC/契约§1 | 设计已确认待实施；四模式及团队保留；本人功能落地前判断优先，需求确认后方案 | 原始人答和整体技术/安全设计审查 | 本人真实待办尚未确定，价值待证 | 业务/M1 | 本批同步后由人亲验 |
+| 02 岗位映射 | 岗位研究2026-11-01两官方样本 | 研究入口已核，不作为需求证明 | 官方原文/观察日期/类别分开 | 个人资格/春招名额/本人实践未知 | 本人求职表达 | 保留原样本局限，不承诺录用 |
+| 03 Requirement/AC | FOCUS feature spec/唯一draft-m1-2协议 | 设计已确认；raw3关键质量与final6分开 | G2原答/独立整体复核 | 新正式材料pending，无gold | 正式准备/运行 | 后续独立作者与另审，不本批制题 |
+| 04 核心架构 | A1/R2；ADR5/7/8 | 保Pg权威/真实阶段图/WSL目标 | 设计审查非实现资格 | 新环境/身份/恢复未运行 | ENV/首工/pilot | 准确环境包另授 |
+| 05 模块与数据归属 | 契约Question/SourceSet/DocumentVersion/Confirmation/Claim/Manifest/Task/Call | team共享与owner私人归属分离 | 根锁send/commit/read当前门禁设计复核 | 未来业务/API/DDL未实现 | 后继业务Tasks | 不全局owner→team替换 |
+| 06 五核心方向 | R2/T2/C1/D1/E2覆盖索引 | 设计已确认；Browser0/MCP研究 | 固定上游链/测试正文，不冒项目效果 | 当前必需机制待实证；Memory全入口关闭／后续未验 | 各业务包 | 记录本人关键入口/正常失败链 |
+| 07 失败/资源边界 | Case64MiB/project466.25预留/HTTP1072 | 有界unknown/迟到/拒新/安全终结 | G1–3设计复核，非运行通过 | 真实transport/物理容量/终结预留未测 | ENV/pilot | 无资格停发，Browser旧额度不恢复 |
+| 08 任务/里程碑 | PLANS窗口闭环优先；92–136h是旧范围估计 | 每周≤20h不扩；130–194h亦仅旧范围，新增范围不承诺工期 | 加和独审，非工期保证 | 已发生本人工时未知/授权待定 | 窗口与后继；04非当前M1依赖 | 首工仍DEC-M1-01 auth/privateDraft/sup |
+| 09 测试/审查/验收 | STRATEGY/validator/两测试 | 原REVIEW检查交付已核，本次FOCUS检查状态见新索引 | 原REVIEW七文件248通过1跳过仅证原字节；FOCUS须实际检查和当前全文独审 | 不可借原49/200/621关闭；真实链接权限局限保留 | 配置交付 | FOCUS当前bytes/checks/独审及复审最终匹配 |
+| 10 评测/Tracing/优化 | 唯一draft-m1-2/capabilities-2/公开index | 新材料pending；Memory disabled/N-A；无20%硬门槛/DR按需 | 六slot分母、raw/final/time三轴已审 | formal6题/真人核源/真实纠错尚无 | formal/M1 | 权限分role；actualdisplay≠许可time |
+| 11 本人实践 | 实践卡/各Task正常失败调用链 | 计划安排，不代填已做 | AI工作与本人读码亲改解释分开 | 全部需本人实际确认 | 本人验收/M1 | 亲追源/反例/真实症状最小修复；Memory练习留后续 |
+| 12 环境/资金/权限 | CONFIGURATION/旧账/unknown/授权 | 条件296.46非余额与grant | 旧快照保日期，新qual未执行 | 冷切/钱/Token/独立介质纸钥资格缺 | 首public live pilot | 公开源不豁免最低恢复/资金前置 |
+| 13 Git/CI/复现/恢复 | 原rawJSON交付/.gitattributes不改 | 原字节修复继续有效，本批无Git写 | FOCUS进入HEAD/diff/snapshot；11/01子模块后续成功记录保留，11/02内部查询拒绝不重验clean | 远端CI/真实恢复未验 | 相应环境与交付 | 先前MSYS/Permission denied保留，不以失败当clean |
+| 14 时间/费用/未知 | PLANS及唯一协议 | 10/29窗口，费用epoch10/28保留 | 预算/资源算术非实测覆盖 | 旧账和已花/本人实耗未知 | paid资格与窗口 | 不重开epoch/不桶外藏费/不自动buffer |
+| 15 配置落地/保护 | 同28现有文件/focus-20261102/entry.json | FOCUS实施中；无tracked增删，原DRAFT／REVIEW有效 | 原REVIEW快照/独审核415范围外及7144旧audit；FOCUS进入保护见新entry，待当前复核 | 新FOCUS增量bytes及交付由新索引核实 | 本配置交付 | 回滚仅28进入字节，保无关工作 |
+| 16 检查/指纹/复审 | 原audit内focus-20261102实际命令/原始review/新索引 | 原REVIEW独审有效；新FOCUS当前内容独审待取得 | 绑定当前全文/完整diff，不用旧设计代实现审查 | 最终索引存在及匹配前不宣布完成 | 本配置交付 | 固定当前bytes取受影响独立复审，索引无循环 |
+| 17 阻塞决定与阶段 | FOCUS-20261102-01/Memory后置/Context归03a+03b/原三pair保留 | 设计决定已确认，非准备全完成 | 整体review原文及最终人批分列 | 材料/ENV/业务/资金/本人仍pending | 各阶段而非全部混成一个Go | 只关闭实际有证据的配置AC |
+| 18 首业务授权包 | FIRST-r2原精确范围/PLANS | 拟授权包保留，不授开工 | auth/rawDraft/最小sup边界复核 | ENV/依赖/业务另授，代码未新增 | DEC-M1-01 | 本批配置交付后停业务开工前 |
 
 ### 2026-10-28当时的旧配置判定与保护范围
 
@@ -868,3 +872,140 @@ AI agent-hours260–420：研究配置24–40/认证环境36–56/Runtime36–52
 原18项在本次范围内更新，不机械全部重新打开。当前源码及未来实现/真实pilot/M1仍按原阶段边界；Browser未资格为0，费用/grant/余额/unknown/介质纸钥/恢复/本人验收缺口不因本专项消失。未关闭新发现只阻本专项和相关跨检出/材料校验依赖，不推翻原本机封存事实，不授首工。专项达标后继续已授权调查；新的重要修改范围须具体批准，不自动开业务或环境操作。
 
 回滚先核HEAD/暂存/范围外保护，只将本五文件恢复到专项目录entry原字节；若后有新工作则仅逆转本专项hunk，不覆盖后来修改。三JSON、原数据/费用/授权/审计与旧封存不回滚、不删除；不reset/clean、无Git写，无新增平行完成标准或淘汰配置归档。
+
+## CONFIG-REVIEW-20261101：文档证据评审配置同步
+
+### 原始要求、批准和实际模式
+
+负责人要求在D盘现基线持续研究，先只读，重要设计独审后本人确认；全部专项与最终plan确认且系统实际切换后连续实施配置。原聊天01a1902b-8d7b-7ed2-8fad-72b7c18b6881的本次user turn 01a1971c-e88e-7022-a75d-4212cd9f9bc3、message 01a1971c-e923-7910-ae43-56a299b5dcaf以PLEASE IMPLEMENT THIS PLAN明确批准28文件。developer实际协作模式Default已切换，不以用户口头认定。原答及完整计划存新audit/authorization.json。配置权限不含业务/依赖/环境/WSL/DB/ACL/模型TokenizerBrowser/paid/采购/外部/Git写。
+
+进入HEAD d4b906fb6a441c13583f052377283ec0c28bf5a2/main时，根暂存/未暂存/非忽略新文件为空，未fetch远端；本批产生28文件未暂存配置差异。gitlink7be96ed8bafa8dfe1eef228b59cf5c884b8b2431保留；首次submodule/MSYS及内部状态查询Permission denied记录保留，后限定--no-optional-locks命令工具级只读提权复核HEAD一致、工作树干净（checks/submodule-status-02和submodule-worktree-03，均exit0）。未初始化/下载/写Git。审计根为.tmp/predev-reopen-20261028/config-20261029/review-20261101/，28进入原字节、415范围外tracked及7144原audit指纹保entry.json，entrySHA 775efaeed0d13a065c5d45728e1ec84ad55cf94d584399977e7532361299fb80。原40及五文件修复不改索引/原件，不重新修复。
+
+### 七项覆盖、原始决定和证据入口
+
+| 覆盖 | 本轮人确认/状态 | 对照及保留/替代 |
+| --- | --- | --- |
+| 产品P2 | 设计已确认待实际配置检查 | 开发团队资料到交付物；首阶段单主仓库需求方案文档证据评审；暂无真实任务/团队价值。旧候选选型改为问题/文档路径，旧实证保留。 |
+| 架构A1 | 设计已确认待实际配置检查 | Pg业务权威/checkpoint引用，privateApp上游授权与localmember/Task执行许可分开；privateproof过期使历史暂不可读代价已接受。 |
+| Runtime R2 | 同上 | Task/Turn/Attempt/Work/Call，sync checkpoint候选，双端门禁、唯一终态、失租/迟到和资源收拢；known/unknown不换ID重发。 |
+| Tools T2 | 同上 | GitHubApp/5分钟新签发receipt，data/control配额分开，完整URL披露，SDK0重试/有界known retry，MCP研究Browser0。 |
+| Search证据C1 | 同上 | 仓库优先按需外搜；无基准探索；原文表示定位/Claim/限定反证，未读非不存在，无向量默认。 |
+| ContextMemoryToken D1 | 同上 | 保护集合装不下partial；自动Memory仅author/teamproject；官Token资格待证paid off；bytes绑定/usage费用分账/漂移撤资格。 |
+| EvalTracing E2 | 同上 | raw3关键项门槛与final6共质/描述saving分开；无20%门槛/DR按需；全失败slot保留，canonicalTrace/本人真症状亲改。 |
+
+原始逐专项确认题ID：P2 call_196440ea8528460e86af8dc41e49393d；A1 call_6b23015e247344fdb7acac667dc8134b；R2 call_5137d72ac17348d4abcca30ddbdd2fc0；T2 call_9a2ebc8c6fd8424da6b89d6c20b3fc42；C1 call_59ff57471113468db2f27356ac58eb22；D1 call_980e81081715449ebafc02f663fd7cc9；E2 call_2a2886c7a93b45e4b842232a12fe35f6。原字节/rawJSON历史批准身份仍在原节，不将本轮范围追溯授给历史。
+
+G1读取与完整query、G2原始质量、窗口取舍的call_e0188a1025b347c792f27bda8e07ba20已获本人确认：逐response/page/frame当前核权、有界已claim在途不能瞬时召回；raw3全过；窗口公开纵切先行。G3 call_9e97303d50fa4dfc9c4f6a5e7c6ca9fe确认public manifest/受限三role包及许可与actualdisplay分开。本配置无新formal题/gold；pending材料不能宣布正式ready。
+
+研究精确固定来源、文件/符号/测试/修复与未运行、适用边界、可推翻新证据见[上游索引](../../research/HIGH_STAR_AGENT_MECHANISMS_2026-10-22.md)本轮段及audit研究底稿。[岗位索引](../../research/AGENT_JOB_PRODUCT_FIT_2026-10-23.md)核两个官方样本，不替需求/本人资格。认证/后端/持久化映架构Runtime；安全/费用/环境/恢复横跨架构R2T2D1E2；测试/交付映E2及本节，未另建协作体系。
+
+设计审查原始身份：product_p2_rereview、architecture_first_review/增量、runtime_design_review/增量、tools_design_review/T2复审、evidence_design_review/许可复审、context_design_review/D1完整、eval_design_review/E2、overall_design_review及overall_security_review/G1G3复审。整体技术DONE_WITH_CONCERNS指工时/资格等待证，不是实现缺陷关闭；安全DONE仅设计。实际权限共享workspace-write非隔离。主线程核实并修订的设计P2：public200不等App授权、私源URL披露、gold/rubric混用、许可时刻误当显示、resolve后漏reparse；原讨论保留失败/修订，不把它们写成已发生业务泄漏。
+
+### 精确范围和局部AC
+
+准确28path以entry.json及批准表为准，不新增/删除tracked文件。只scripts/validate_project.py与两unit测试有校验行为变更，其余配置/文档。个人Draft/auth/Memory作者不机械替team。首工仍DEC-M1-01 FIRST-r2私人Draft/sup，无InputRevision/Task/调用；其原准确业务文件包保留，本批不创建代码。
+
+| 本批AC | 可核验完成条件 |
+| --- | --- |
+| CR1 同步一致 | SPEC/契约/ADR/任务/协议/索引/技能导航不同时保留旧20%/强制DR/候选池/GH8/Browser额度作现行规则；历史段带日期保原身份。 |
+| CR2 受限材料接口 | 新index只公开元数据并pending；不制formal题/金标。默认配置pass仍材料未核；显式三包+独审原报告身份/角色/路径/bytes/schema严格验证，缺坏未审拒绝。 |
+| CR3 校验与保护 | 重复键/非有限值/严格类型/原hash/variant/output requirements原修复语义保留；旧current3显式历史读取和新协议误用guard继续；范围外原字节不变。 |
+| CR4 当前实现独审 | 全28正文+完整diff+实际commands/log/hash冻结，非作者审实际文件；核实问题、修复、重测及受影响复审，不能复用旧设计/旧实现审查。 |
+| CR5 交付边界 | 最终索引和snapshot/patch/保护指纹一致，无hash自循环；配置/开发准备/首工/pilot/M1/Go分开，未做不代填。 |
+
+### 实际操作、检查及独审状态
+
+进入原Git/submodule命令、完整结果、失败和各检查追加保本轮audit。导航补丁第一次因backend README行匹配失败未写入，核diff后改用准确有界写入，不以失败当成功。实现者分工7核心规格/契约、9评测校验、12导航/唯一记录/审计；校验代理额度中断后主线程接手检查和排版，不把代理完成声明作为证据。当前文件独审及最终一致性仍须外置索引实际证明，不预填DONE。
+
+| 本轮实际检查 | 结果和证据边界 |
+| --- | --- |
+| baseline-current-validator | 文件名保留；实际在并行编辑中运行，exit1（AC映射与协议未稳定），不是进入基线检查，不能据此认定历史交付缺陷。 |
+| validator-focused-01/02 | 首次25 failed/98 passed/1 skipped；Windows stat/fstat ctime语义差异定位后改为同API比较ctime、跨API比较identity/size/mtime；第二次123 passed/1 skipped/25 deselected。原输出保留。 |
+| validator-two-files-03 | 沙箱内异步回归超时，日志未完成，不计通过；未改事件循环来掩盖环境问题。 |
+| seven-files-01 | 同批准七文件经单次工具级沙箱外执行，248 passed/1 skipped in48.42s，exit0；显式加载pytest_asyncio，TEMP/日志限定audit，只离线替身和本机事件循环，不是实际供应商调用。 |
+| 唯一跳过 | Windows不允许创建真实symlink，该项skip；模拟reparse拒绝和其余路径回归通过，不能称已真实验证所有链接环境。 |
+| current-validator-01 | exit0，明确MATERIALS_NOT_VERIFIED；配置有效不等材料就绪。 |
+| material-pending-01 / material-wrong-identity-01 | 均按预期exit1，分别not_ready与index identity mismatch；没有制备或读取正式题面。缺包、错角色、变更字节、旧回执、路径链接由临时fixture回归覆盖。 |
+| Ruff / diff | ruff-check-01、ruff-format-02和diff-check-01 exit0。首次format-01 exit1后仅排版旧guard测试；原失败保留。Git提示未来LF→CRLF不等原字节已更改；本轮快照仍绑定实际raw bytes，未改属性/执行Git写。 |
+
+受审内容通过snapshots下完整28正文、进入副本、完整HEAD/staged/unstaged patch、保护指纹及实际检查冻结。非作者独立实现与安全审查读取原始批准、完整内容及失败；原始报告、核实发现、修复与受影响复审追加归档。本文状态IMPLEMENTED_PENDING_FINAL_ATTESTATION；仅本轮final-delivery.json状态configuration_specialty_complete且正文/patch/checks/原始独审及必要复审身份一致、无未关闭阻塞发现，才生效为本配置专项交付。
+
+后续run_check记录保存准确argv/cwd/子进程env/exit或timeout/loghash，临时目录仅audit下新路径，不永久改环境。早期validator-focused-01/02、validator-two-files-03原记录缺完整env/时长，首份还缺loghash；已核实此独审关注项，原件不补造，由最终索引标partial_metadata并追加现存loghash，缺失字段仍unknown。正式回归依据是元数据完整的seven-files-01，不倒推早期环境。后续脚本/测试/检查及修复真实结果通过final-delivery.json绑定；本正文冻结后不回写其自身hash或索引hash。未运行全后端/前端/DB/WSL/服务/Tokenizer/模型/Browser/真实签发/付费/远端CI/Git写，不据离线检查声称这些通过。
+
+完整实现审查/root/configuration_implementation_review为DONE_WITH_CONCERNS（仅上述早期元数据、真实symlink及运行资格局限），安全与正确性审查/root/configuration_security_review为DONE，均未确认P0–P3。两者原始final正文逐字归档implementation-review-01.md/security-review-01.md，绑定implementation-01快照及完整patch；不是设计审查的复用。此后仅SPEC裁定入口、本页实测记录/18项状态及CONFIGURATION子模块现状变化，不改协议、校验器或业务行为；准确增量、最终snapshots及受影响独立复审仍须由最终索引绑定，旧hash不提前覆盖新字节。
+
+受影响复审在新审计封存脚本发现三类问题：assert可被Python优化移除、两人两阶段仅比较各自集合会漏必需复审、--verify遗漏final_manifest等固定字段。一般审查将后两项列P2，安全审查将前两项列P2、末项列P3，合并按最高优先级P2处理；不是已经发生假封存（当时无final-delivery）。已核实内存反例并修为显式require/ValueError、四个唯一组合及各阶段manifest/原报告身份、除时间外完整结构比较；旧脚本和原报告保留，拒绝反例含优化模式检查入审计。是否关闭须以新脚本的实际回归、受影响独立复审和最终索引匹配为准，不以作者自检关闭，也不改变28文件中的业务设计/协议/校验行为。
+
+### 后续阻塞和本人实践
+
+新formal材料及Worker/scorer真实隔离待独立包；public live仍须冷切/ENV、认证sup、TokenGateway、旧账unknown/余额grant、最低独立介质纸钥真实恢复，不能因public源豁免。完整private/autoMemory/全恢复及formal与真实症状本人亲改/复测继续按依赖，Browser延期0。Go/发布分别另判。
+
+本人目前未确认完成新源码阅读/操作/掌握；后续按01解释auth/Draft隔离、02预测Task取消/失租双序、03核一条claim/反例、04亲更正撤Memory、06亲改真实bug并回归、07解释全部失败分母与计时、08演示恢复未复活授权。AI完成研究/配置/测试/审查组织不冒充本人贡献。
+
+本节交付只由本轮final-delivery.json存在、当前字节/checks/独审匹配后生效；材料pending不阻如实交付配置，但阻正式准备及运行，不宣布18项全通过。回滚仅本批28进入字节，保新审计/失败及无关修改，不reset/clean、不删原件或费用。
+
+
+## CONFIG-DRAFT-20261102：需求与工程方案起草配置同步
+
+### 授权、进入与保护
+
+负责人在本轮只读研究、交互讨论及新上下文整体／安全设计审查后，以PLEASE IMPLEMENT THIS PLAN逐段引用完整《只读复核结论与新的需求／方案草稿》授权实施；实际模式已为Default。该行动授权本次28现有路径配置修改、必要限定离线检查、独立实现审查／修复／复审及原audit内新增证据，不含业务实现、依赖安装、WSL／服务／数据库／ACL、模型／Tokenizer／Browser、paid／购买、外部或Git写。
+
+进入main@d4b906fb6a441c13583f052377283ec0c28bf5a2，28文件未暂存正是原REVIEW新配置；staged与非忽略新增为空，未fetch远端。原final-delivery SHA256=8b38b435c2513f498fd1d39b94b794d3e103428becc321413977c0c08207aef9，28正文与final-02匹配。新审计复用.tmp/predev-reopen-20261028/config-20261029/review-20261101/draft-20261102/，entry副本、entry.patch、entry.json先于修改建立，保护415范围外tracked及进入时6390个原review审计文件。原始SQLite/r12、费用unknown、授权、许可、来源及其它前轮保护仍按原索引，不能以此局部计数冒充旧全范围重新运行。browser-use本轮内部状态Permission denied保留；不声称重新clean。
+
+### 本轮已决设计与配置AC
+
+四模式为review-only、requirements-only、solution-only（先明确确认现有需求）、完整需求→本人确认→方案；想法可无仓库，固定单主GitHub及许可公开证据，允许本人选定text/source/diff只读，不执行或自动应用diff。暂无真实任务，价值仍假设。直接编辑只显式save创建不可变版本，AI提交亦新版本；原私人raw Draft独立。
+
+新DocumentVersion/current head与RequirementsConfirmation精确version/hash/actor；任意新需求head同root事务清current_confirmation，历史留存。方案start/send/commit核准确head/confirm及目标parent/head CAS；R2使R1/C1下S1迟到只能原Call audit/usage/cost。跨模式必须同Case原目的接受并原子预留新增义务，不自动新Case或重置额度；改需求后重编消耗余量，不无限保首方案。
+
+本地SourceSet先16KiB metadata/Case累计32item，raw application/octet-stream实际流计数≤1MiB、严格UTF8正文≤512KiB、绝对30s，拒非identity编码；不使用multipart spool／路径open／FS bridge，先核权reserve后接收、提交重核，未seal不送模型。known private祖先仍约束derived，local不需虚构App proof但不洗已知GitHub ancestry；外部未知来源不伪称全检测。所有副本计原34.5MiB capture桶/64MiB Case/1GiB项目，非每项max同时保证。
+
+模型新六阶段14normal、360448input/61440output，最多2已知瞬时技术retry后16／425984／77824；累计input458752/outputreserve81920，4compile独占131072／32768。full首需求+首方案后最多2语义修订，其它模式首稿后最多3；repair/summary/hidden judge0。16文档版本，每版body64KiB/meta16KiB计2MiB derived；首义务模型＋版本槽＋各80KiB envelope＋canonical/terminal多维reserve，不可保存则0send。ReportSnapshot≤64KiB只引用双文档和确认。全批116models/1072HTTP/296.46CNY条件预算非资金/grant/余额，旧账与完整Token资格仍未闭合，paid off条件不变。
+
+唯一draft-m1-1，REQ两变体full链保存双首稿与最终交付包，CON两变体review含无权威基准子问，EXP两变体显式确认既有需求后solution-only。reqonly独立终止与编辑修订只有聚焦回归／既有pilot，不声称独立formal质量省时。全部六slot分母、3raw关键项（REQ须双稿）、6final共质及完整计时描述三pair中位数分开；无20%/DR硬门槛。三角色正式材料pending、无gold/seed/实际attempt，独立制备独审后另授运行。
+
+原92–136h及130–194h是旧范围估计，不承诺新scope；每周≤20h及费用不扩，已耗未知不填0。窗口闭环优先，私源App／自动Memory／formal／完整恢复后置，真实public pilot最低独立介质纸钥恢复仍前置。FIRST-r2 auth/private rawDraft/最小sup不扩。
+
+### 实际检查、审查与交付裁决
+
+状态：IMPLEMENTED_PENDING_FINAL_ATTESTATION。28文件已同步；2026-11-02七文件离线套件实际267 passed／1 skipped（67.05s，receipt总耗时68.031s），真实symlink仍因OS权限跳过；默认validator明确MATERIALS_NOT_VERIFIED，Ruff check、format --check和diff --check均exit0。准确argv/cwd/env/exit/timeout/log hash见newaudit/checks，最终正文增量仍须绑定新检查及独立审查，不借上述旧指纹提前宣告最终通过。只有新final-delivery索引与最终bytes/checks/原始审查及受影响复审匹配、无未关闭阻塞发现，才生效为本配置交付。原设计审查在聊天，不能当作当前实现审查。
+
+失败及授权链：eval-focused-01因相对可执行路径在启动前失败，未运行pytest；eval-focused-02、seven-files-01及eval-diagnose-01各达120秒超时，诊断栈停在Windows pytest asyncio fixture的socketpair accept，未到测试正文。两次外沙箱重跑先被自动审批以旧只读措辞拒绝；本人随后明确“授权上述配置、审计及离线检查，覆盖此前只读限制”，原答保newaudit/authorization-supplement.md。同一套件在工具级批准后通过，未修改测试语义。初次Ruff两ISC004只加括号，AST完全等价，前后证据保留。
+
+实现独审曾指出本次外置封存helper的检查指纹未绑定、重复审查可替代安全角色及空／错误索引字段空跑问题；已核实修复并保留负例与受影响复审，不是原REVIEW配置缺陷。先前技术review在最终报告前遇代理usage limit而未完成，不能计通过；最终由新上下文审查当前28全文、完整diff、所有实际检查和封存工具。最终报告及关闭裁决外置追加，不改原始发现或旧证据。实际workspace-write不称只读沙箱。
+
+原候选讨论P2（旧确认竞争、多维容量、模式编译义务、无基准评测覆盖）仅静态设计关闭，未来真实Pg/transport/业务行为仍待验；真实symlink skip、partial_metadata、早期超时和ignored审计可移植性限制保留。配置通过不等于新业务／本人掌握／真实价值／M1／Go／发布。本人练习：预测R2/S1双序；解释单工件不等双稿交付；核引用语义反例，未做不代填。
+
+回滚针对本次新增hunk回到newaudit entry（原REVIEW final-02）准确字节，不恢复HEAD抹掉28新配置、不reset/clean、不写Git。若后续有合法修改则只逆本次拥有hunk，保旧审计/失败/授权及无关工作。配置交付后停在环境和首业务另授之前。
+
+
+## FOCUS-20261102-01：当前M1聚焦与Memory后置配置
+
+### 原始要求、授权与进入身份
+
+负责人在本聊天以PLEASE IMPLEMENT THIS PLAN批准准确28路径、focus审计及限定离线检查；实际Default模式。原始批准全文见新audit authorization.md（origin thread 01a19bc4-7808-7c50-ade1-d7c3b6e5e847／message 01a19be6-94f5-7b20-b28b-2648f6d6c5ca）。此前阶段A只读限制已被这次准确实施授权替代；业务、环境、安装、WSL/服务/DB、模型/Tokenizer/Browser、付费采购、外部及Git写仍未授权。
+
+进入main@d4b906fb6a441c13583f052377283ec0c28bf5a2；28份未暂存是已交付DRAFT配置，staged／非忽略新增为空。原final-delivery SHA256 a712397ed346cce615487810d4c14f87831444e5c02496723292c6a68813375b、final-01 manifest SHA256 6c9b4b59a8362033745be68239fe846cac79d4cdd62b392def922f7ef9952faf均匹配。进入正文、535009B完整HEAD差异与保护指纹先保存于.tmp/predev-reopen-20261028/config-20261029/review-20261101/focus-20261102/；415范围外tracked、16320既有review审计文件、7144原历史审计文件受保护。子模块仅gitlink身份保留，内部查询拒绝不称clean；未fetch。
+
+### 已批准行为与唯一18项承接
+
+保四模式、团队、真实LangGraph阶段图、Pg/Gateway/sup及证据、准确确认和双首稿。当前M1所有Memory功能入口关闭，包含手动/自动/API/CLI/default profile/框架Store预加载/旧checkpoint refs/导入恢复重建/后台；不候选提取、读写、检索或注入，不建空Store/snapshot/seed。active Memory refs为空且须与实际请求一致；Trace disabled/not_applicable，hits/writes=null＋feature_disabled，不用0冒充实测。原容量闲置不可挪。
+
+Case条件/证据/文档/Trace继续持久；显式历史Report按SourceSet封定和当前许可读取，不解Memoryrefs，已知private ancestry保留。AC17及DEC-M1-04保后续未实施/未验，真实跨Case需要、独立设计审查与准确scope另授后才能重开。完整Context归03a，Token资格03b；M1不依赖04。原18项只在上表更新，当前研究／配置与后续资格分列。
+
+FOCUS-BASELINE-20261102／draft-m1-2／draft-m1-capabilities-2是唯一新目标；正式六slot、REQ双首稿、CON无基准、EXP确认、全部失败分母及评分/费用epoch/296.46条件预算不变。新材料三个pending refs与validator预期根只改为focus-20261102/materials，不创建、搬迁或制题。DRAFT原字节、旧批准、失败、费用、授权、审查和索引保持原件有效，不回绑或归档复制。
+
+两既有pilot优先本人真实待办，一仅需求一full；答案前固定真实目标、普通AI替代方式、关键正确项、可接受未知与后续行动。分别记录原程序、本人终稿及是否帮助实际功能判断；无题目则待证，不造需求不增Case/资金。三异质pair只作描述，不能证明团队价值。
+
+### 实施、验证与交付裁定
+
+状态：IMPLEMENTED_PENDING_FINAL_ATTESTATION。当前文件的实际修改、限定命令/目录/环境/退出码/失败/超时/跳过、正文/完整HEAD及进入差异、检查输入绑定、非作者技术/安全独审和受影响复审，均由focus审计追加原件。只有新final-delivery.json为configuration_specialty_complete且当前bytes/checks/原始报告/保护指纹及实际--verify匹配、无未关闭阻塞发现，才生效为本配置交付；本段不预填未来通过。
+
+限定七文件回归、validator、Ruff check/format-check和diff-check用已装工具、关bytecode/cache/遥测、临时输出限新audit。helper须绑定独立预期label、完整argv/cwd、全输入bytes、runner和log身份、执行/timeout/exit及不同技术/安全审查身份，拒空集合和旧回执。原267 passed/1 skipped仅证DRAFT，真实symlink权限跳过、早期超时/socketpair、usage-limit中断及ignored不可移植限制保留。
+
+### 本人接受、风险及回滚
+
+配置交付不证明业务/M1/价值/本人掌握。本人实践仍待真实读码、预测、核源、亲改和回归；Memory生命周期实践改属后续，不能算完成。Token完整匹配、全账/unknown/余额/grant、来源权限、最低及完整恢复、正式材料及真实任务效果继续待证，paid off不放宽。首业务仍DEC-M1-01，环境与业务另授。
+
+回滚仅本次相对进入字节拥有的hunk，保后来合法工作和新增审计，不回HEAD，不reset/clean、不改旧索引或业务数据。

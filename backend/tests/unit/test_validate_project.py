@@ -6,6 +6,7 @@ import hashlib
 import json
 import subprocess
 from copy import deepcopy
+from decimal import Decimal
 from pathlib import Path
 
 import pytest
@@ -125,6 +126,60 @@ def test_current_configuration_is_separate_from_historical_validator(tmp_path):
     assert check_protocol(protocol)
 
 
+@pytest.mark.parametrize("version", ["review-m1-1", "discovery-m1-1", "current-3"])
+def test_previous_protocol_is_not_current_drafting_authority(tmp_path, version):
+    protocol = _current_bundle(tmp_path)
+    protocol["protocol_version"] = version
+    assert any(
+        "protocol_version" in e for e in check_current_protocol(protocol, tmp_path)
+    )
+
+
+@pytest.mark.parametrize(
+    "path,value",
+    [
+        (("documents", "versions_per_case"), 17),
+        (("documents", "first_full_chain_reserve_bytes"), 81920),
+        (("local_materials", "items_per_case_cumulative"), 33),
+        (("local_materials", "raw_item_bytes"), 2097152),
+        (("quotas", "case_model", "hidden_judge_extra_calls"), 1),
+        (("quotas", "case_model", "compile_reserve_borrowable"), True),
+        (
+            (
+                "quotas",
+                "case_model",
+                "mode_obligations",
+                "requirements_to_solution",
+                "semantic_revisions_max",
+            ),
+            3,
+        ),
+    ],
+)
+def test_drafting_policy_rejects_scope_and_reservation_expansion(tmp_path, path, value):
+    protocol = _current_bundle(tmp_path)
+    cursor = protocol
+    for key in path[:-1]:
+        cursor = cursor[key]
+    cursor[path[-1]] = value
+    assert check_current_protocol(protocol, tmp_path)
+
+
+def test_draft_arithmetic_recomputed_not_just_declared(tmp_path):
+    protocol = _current_bundle(tmp_path)
+    assert validator._check_draft_reservations(protocol) == []
+    protocol["quotas"]["case_model"]["stages"][-1]["normal_obligations"] = 5
+    assert validator._check_draft_reservations(protocol)
+
+
+@pytest.mark.parametrize("domain", ["requirements", "consistency", "exploration"])
+def test_materials_cannot_claim_wrong_mode_coverage(domain):
+    package = json.loads(json.dumps(_review_package("inputs")))
+    case = next(c for c in package["cases"] if c["domain_id"] == domain)
+    case["workflow"]["mode"] = "requirements_only"
+    assert validator.check_review_material_package(package, "inputs")
+
+
 def _current_cli_fixture(tmp_path, monkeypatch):
     _current_bundle(tmp_path)
     # These checks own unrelated repository documents, not the three raw inputs.
@@ -219,7 +274,12 @@ def test_current_raw_json_cli_accepts_finite_numbers_and_valid_nested_objects(
         return original(protocol, root)
 
     monkeypatch.setattr(validator, "check_current_protocol", capture)
-    assert validator.main(["--root", str(tmp_path)]) == 0
+    decoded = validator._load_current_json(target.read_bytes())["finite_probe"]
+    assert decoded == {"integer": 7, "decimal": 1.25, "exponent": -250.0}
+    assert type(decoded["integer"]) is int and type(decoded["decimal"]) is float
+    assert validator.main(["--root", str(tmp_path)]) == (
+        1 if filename == "DISCOVERY_M1_CASES.json" else 0
+    )
     if observed:
         values = observed[0]
         assert type(values["integer"]) is int
@@ -230,13 +290,13 @@ def test_current_raw_json_cli_accepts_finite_numbers_and_valid_nested_objects(
 
 @pytest.mark.parametrize("case_index", range(6))
 def test_current_material_case_variant_must_match_id(tmp_path, case_index):
-    _current_bundle(tmp_path)
-    materials = json.loads(
-        (tmp_path / "docs/evaluation/DISCOVERY_M1_CASES.json").read_bytes()
-    )
-    case = materials["agent_input"]["cases"][case_index]
+    package = _review_package("inputs")
+    case = package["cases"][case_index]
     case["variant"] = "B" if case["variant"] == "A" else "A"
-    assert any("variant" in error for error in check_current_materials(materials))
+    assert any(
+        "variant" in error
+        for error in validator.check_review_material_package(package, "inputs")
+    )
 
 
 @pytest.mark.parametrize(
@@ -245,12 +305,9 @@ def test_current_material_case_variant_must_match_id(tmp_path, case_index):
 def test_current_material_output_requirements_reject_nontext_or_blank_items(
     tmp_path, item
 ):
-    _current_bundle(tmp_path)
-    materials = json.loads(
-        (tmp_path / "docs/evaluation/DISCOVERY_M1_CASES.json").read_bytes()
-    )
-    materials["agent_input"]["cases"][0]["output_requirements"] = ["valid", item]
-    errors = check_current_materials(materials)
+    package = _review_package("inputs")
+    package["cases"][0]["output_requirements"] = ["valid", item]
+    errors = validator.check_review_material_package(package, "inputs")
     assert any("output requirements" in error for error in errors)
     assert "CANARY" not in " ".join(errors)
 
@@ -295,7 +352,7 @@ def test_current_raw_hash_paths_preserve_git_filtered_bytes(autocrlf, path):
         (("timing", "active_minutes_per_attempt"), True),
         (("methods", "agent", "external_ai_repair_allowed"), True),
         (("quotas", "case_model", "format_repair_extra_calls"), 1),
-        (("quotas", "case_model", "report_reserved_input_tokens"), 131072),
+        (("quotas", "case_model", "compile_reserved_input_tokens"), 65536),
         (("quotas", "case_model", "cumulative_output_reservation_tokens"), 65536),
         (("budget", "planned_total_cny"), "300.00"),
         (("authorization", "paid_execution"), True),
@@ -321,69 +378,50 @@ def test_current_validator_fails_closed_on_bad_section_types(tmp_path, field):
 def test_current_materials_reject_scorer_input_leak_duplicate_and_incomplete_coverage(
     tmp_path,
 ):
-    _current_bundle(tmp_path)
-    materials = json.loads(
+    protocol = _current_bundle(tmp_path)
+    index = json.loads(
         (tmp_path / "docs/evaluation/DISCOVERY_M1_CASES.json").read_bytes()
     )
-    assert check_current_materials(materials) == []
-    changed = deepcopy(materials)
-    changed["agent_input"]["cases"][0]["scorer_only"] = {"winner": "leaked"}
+    assert check_current_materials(index) == []
+    changed = deepcopy(index)
+    changed["scorer_only"] = {"answer": "CANARY"}
     assert check_current_materials(changed)
-    changed = deepcopy(materials)
-    changed["agent_input"]["cases"][1]["case_id"] = changed["agent_input"]["cases"][0][
-        "case_id"
-    ]
+    changed = deepcopy(index)
+    changed["pairs"][1]["case_ids"][0] = changed["pairs"][0]["case_ids"][0]
     assert check_current_materials(changed)
-    changed = deepcopy(materials)
-    first = next(iter(changed["scorer_only"]["case_rubrics"].values()))
-    first["mandatory_hard_condition_ids"].pop()
-    assert check_current_materials(changed)
-    changed = deepcopy(materials)
-    changed["agent_input"]["cases"][0]["case_id"] = []
-    assert check_current_materials(changed)
-    changed = deepcopy(materials)
-    changed["agent_input"]["allowlist_paths"].append("#/scorer_only")
-    assert check_current_materials(changed)
+    assert check_current_protocol(protocol, tmp_path) == []
+    for role in validator.MATERIAL_ROLES:
+        assert (
+            validator.check_review_material_package(_review_package(role), role) == []
+        )
+    inputs = _review_package("inputs")
+    inputs["cases"][0]["scorer_only"] = {"hidden": "CANARY"}
+    assert validator.check_review_material_package(inputs, "inputs")
+    scorer = _review_package("scorer")
+    scorer["case_rubrics"]["REQ-A"]["critical_items"] = []
+    assert validator.check_review_material_package(scorer, "scorer")
 
 
 def test_current_material_identity_is_not_bypassed_by_valid_structure(tmp_path):
     protocol = _current_bundle(tmp_path)
-    material = tmp_path / "docs/evaluation/DISCOVERY_M1_CASES.json"
-    material.write_bytes(material.read_bytes() + b"\n")
-    assert any(
-        "SHA-256 mismatch" in error
-        for error in check_current_protocol(protocol, tmp_path)
-    )
+    path = tmp_path / "docs/evaluation/DISCOVERY_M1_CASES.json"
+    path.write_bytes(path.read_bytes() + b" ")
+    assert any("SHA-256" in e for e in check_current_protocol(protocol, tmp_path))
 
 
 @pytest.mark.parametrize("index", [True, 0, 2, 4, "1"])
 def test_clarification_units_require_unique_one_based_question_mapping(tmp_path, index):
-    _current_bundle(tmp_path)
-    materials = json.loads(
-        (tmp_path / "docs/evaluation/DISCOVERY_M1_CASES.json").read_bytes()
-    )
-    first = next(iter(materials["controller_only"]["clarification_cards"].values()))
-    first["answer_units"][0]["question_group"] = index
-    assert any("question" in error for error in check_current_materials(materials))
+    package = _review_package("controller")
+    package["clarification_cards"]["REQ-A"]["answer_units"][0]["question_group"] = index
+    assert validator.check_review_material_package(package, "controller")
 
 
 def test_pair_equivalence_cannot_silently_drop_a_hard_condition_and_its_rubric(
     tmp_path,
 ):
-    _current_bundle(tmp_path)
-    materials = json.loads(
-        (tmp_path / "docs/evaluation/DISCOVERY_M1_CASES.json").read_bytes()
-    )
-    case_id = next(iter(materials["controller_only"]["clarification_cards"]))
-    materials["controller_only"]["clarification_cards"][case_id]["accepted_conditions"][
-        "hard_conditions"
-    ].pop()
-    materials["scorer_only"]["case_rubrics"][case_id][
-        "mandatory_hard_condition_ids"
-    ].pop()
-    assert any(
-        "hard conditions" in error for error in check_current_materials(materials)
-    )
+    package = _review_package("scorer")
+    package["equivalence"].pop("requirements")
+    assert validator.check_review_material_package(package, "scorer")
 
 
 @pytest.mark.parametrize(
@@ -423,6 +461,118 @@ def test_attempt_evidence_contract_rejects_overlapping_time_and_missing_binding(
     errors = check_current_protocol(protocol, tmp_path)
     assert any("active_intervals" in error for error in errors)
     assert any("audit_binding" in error for error in errors)
+
+
+def _review_package(role: str) -> dict:
+    """Synthetic isolated fixtures, never formal prompts or real source evidence."""
+    ids = list(validator.REVIEW_CASE_IDS)
+    base = {
+        "schema_version": f"draft-m1-{role}-1",
+        "protocol_version": "draft-m1-2",
+        "role": role,
+        "author_context": "synthetic-author",
+    }
+    if role == "inputs":
+        base["cases"] = [
+            {
+                "case_id": cid,
+                "domain_id": domain,
+                "variant": cid[-1],
+                "prompt": "SYNTHETIC fixture only",
+                "output_requirements": ["synthetic output"],
+                "workflow": validator.FORMAL_WORKFLOWS[domain],
+            }
+            for domain, pair in validator.REVIEW_CASE_PAIRS.items()
+            for cid in pair
+        ]
+    elif role == "controller":
+        base["clarification_cards"] = {
+            cid: {
+                "decisive_questions": ["fixture question"],
+                "answer_units": [{"question_group": 1, "answer": "fixture answer"}],
+                "accepted_conditions": {"mode": "exploration", "conditions": []},
+            }
+            for cid in ids
+        }
+    else:
+        base.update(
+            case_rubrics={
+                cid: {
+                    "critical_items": [
+                        {
+                            "id": "K1",
+                            "assertion": "synthetic assertion",
+                            "source_refs": ["S1"],
+                        }
+                    ],
+                    "critical_failures": ["synthetic critical failure"],
+                }
+                for cid in ids
+            },
+            source_manifest=[
+                {
+                    "id": "S1",
+                    "capture_sha256": "a" * 64,
+                    "representation_sha256": "b" * 64,
+                    "utf8_start": 0,
+                    "utf8_end": 7,
+                    "quote": "fixture",
+                    "version_identity": "synthetic-fixed-version",
+                    "locator": "synthetic://source",
+                }
+            ],
+            equivalence={
+                domain: "Synthetic equivalence only"
+                for domain in validator.REVIEW_CASE_PAIRS
+            },
+        )
+    return base
+
+
+def _frozen_review_materials(tmp_path: Path) -> tuple[dict, Path, str]:
+    _current_bundle(tmp_path)
+    folder = tmp_path / "docs/evaluation"
+    index_path = folder / "DISCOVERY_M1_CASES.json"
+    index = json.loads(index_path.read_bytes())
+    index["status"] = "frozen_reviewed"
+    material_root = tmp_path / validator.MATERIAL_ROOT
+    material_root.mkdir(parents=True)
+    hashes = {}
+    for role, binding in zip(validator.MATERIAL_ROLES, index["packages"], strict=True):
+        raw = json.dumps(_review_package(role)).encode()
+        (material_root / f"{role}.json").write_bytes(raw)
+        binding.update(sha256=hashlib.sha256(raw).hexdigest(), bytes=len(raw))
+        hashes[role] = binding["sha256"]
+    report = {
+        "origin_thread_id": "synthetic-review-thread",
+        "origin_message_id": "synthetic-review-message",
+        "reviewer_context": "synthetic-independent-reviewer",
+        "reviewer_role": "independent_non_author_material_reviewer",
+        "package_sha256": hashes,
+        "conclusion": "done_no_open_findings",
+        "limitations": ["synthetic fixture; not real semantic review"],
+    }
+    raw = json.dumps(report).encode()
+    (material_root.parent / "materials-review.json").write_bytes(raw)
+    index["review_receipt"] = {
+        "report": {
+            "relative_ref": str(Path(validator.MATERIAL_ROOT).parent.as_posix())
+            + "/materials-review.json",
+            "sha256": hashlib.sha256(raw).hexdigest(),
+            "bytes": len(raw),
+        },
+        "rereview_report": None,
+        "reviewer_context": report["reviewer_context"],
+        "reviewer_role": report["reviewer_role"],
+        "package_sha256": hashes,
+    }
+    index_path.write_bytes(json.dumps(index).encode())
+    protocol_path = folder / "CURRENT_EVAL_PROTOCOL.json"
+    protocol = json.loads(protocol_path.read_bytes())
+    protocol["materials"]["review_status"] = "frozen_reviewed"
+    protocol_path.write_bytes(json.dumps(protocol).encode())
+    _rebind_current_fixture(folder)
+    return index, material_root, hashlib.sha256(index_path.read_bytes()).hexdigest()
 
 
 def _refresh_bundle(record: dict, tmp_path: Path) -> None:
@@ -1264,3 +1414,427 @@ def test_review_bundle_content_must_match_attempt_even_with_valid_hash(
     artifact["sha256"] = hashlib.sha256(path.read_bytes()).hexdigest()
     findings = check_results(protocol, batch, tmp_path)
     assert any("review bundle differs from attempt record" in item for item in findings)
+
+
+def _save_review_index(tmp_path, index):
+    folder = tmp_path / "docs/evaluation"
+    path = folder / "DISCOVERY_M1_CASES.json"
+    path.write_bytes(json.dumps(index).encode())
+    protocol_path = folder / "CURRENT_EVAL_PROTOCOL.json"
+    protocol = json.loads(protocol_path.read_bytes())
+    protocol["materials"]["review_status"] = index["status"]
+    protocol_path.write_bytes(json.dumps(protocol).encode())
+    _rebind_current_fixture(folder)
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def test_review_default_is_configuration_only_and_explicit_pending_fails(
+    tmp_path, monkeypatch, capsys
+):
+    _current_cli_fixture(tmp_path, monkeypatch)
+    assert validator.main(["--root", str(tmp_path)]) == 0
+    assert "MATERIALS_NOT_VERIFIED" in capsys.readouterr().out
+    path = tmp_path / validator.MATERIAL_INDEX_PATH
+    digest = hashlib.sha256(path.read_bytes()).hexdigest()
+    assert (
+        validator.main(
+            [
+                "--root",
+                str(tmp_path),
+                "--review-material-root",
+                str(tmp_path / validator.MATERIAL_ROOT),
+                "--review-material-index-sha256",
+                digest,
+            ]
+        )
+        == 1
+    )
+    assert "not_ready" in capsys.readouterr().err
+
+
+@pytest.mark.parametrize(
+    "arguments",
+    [
+        ["--review-material-root", "missing"],
+        ["--review-material-index-sha256", "a" * 64],
+    ],
+)
+def test_review_material_cli_requires_both_arguments(tmp_path, monkeypatch, arguments):
+    _current_cli_fixture(tmp_path, monkeypatch)
+    assert validator.main(["--root", str(tmp_path), *arguments]) == 1
+
+
+def test_review_synthetic_frozen_bundle_binds_all_roles_and_original_review(tmp_path):
+    index, material_root, digest = _frozen_review_materials(tmp_path)
+    assert validator.check_current_materials(index) == []
+    assert validator.check_review_material_files(tmp_path, material_root, digest) == []
+    assert validator.check_review_material_files(tmp_path, material_root, "0" * 64)
+    assert validator.check_review_material_files(tmp_path, tmp_path, digest)
+
+
+@pytest.mark.parametrize("role", validator.MATERIAL_ROLES)
+def test_review_package_missing_or_byte_changed_is_not_ready(tmp_path, role):
+    _, folder, digest = _frozen_review_materials(tmp_path)
+    target = folder / f"{role}.json"
+    target.write_bytes(target.read_bytes() + b" ")
+    assert any(
+        "identity" in e
+        for e in validator.check_review_material_files(tmp_path, folder, digest)
+    )
+    target.unlink()
+    assert any(
+        "unreadable" in e
+        for e in validator.check_review_material_files(tmp_path, folder, digest)
+    )
+
+
+@pytest.mark.parametrize("role", validator.MATERIAL_ROLES)
+@pytest.mark.parametrize(
+    "bad",
+    [
+        '"CANARY":0,"CANARY":1',
+        '"CANARY":{"nested":0,"nested":1}',
+        '"CANARY":NaN',
+        '"CANARY":Infinity',
+        '"CANARY":-Infinity',
+        '"CANARY":1e999',
+    ],
+)
+def test_review_role_raw_json_rejects_without_leaking_input_even_when_rebound(
+    tmp_path, role, bad
+):
+    index, folder, _ = _frozen_review_materials(tmp_path)
+    path = folder / f"{role}.json"
+    path.write_bytes(b"{" + bad.encode() + b"," + path.read_bytes()[1:])
+    binding = next(x for x in index["packages"] if x["role"] == role)
+    binding.update(
+        sha256=hashlib.sha256(path.read_bytes()).hexdigest(), bytes=path.stat().st_size
+    )
+    index["review_receipt"]["package_sha256"][role] = binding["sha256"]
+    digest = _save_review_index(tmp_path, index)
+    errors = validator.check_review_material_files(tmp_path, folder, digest)
+    assert any(f"{role}: unreadable" in e for e in errors)
+    assert "CANARY" not in " ".join(errors)
+
+
+def test_review_original_report_not_boolean_or_old_package_binding(tmp_path):
+    index, folder, digest = _frozen_review_materials(tmp_path)
+    report_path = folder.parent / "materials-review.json"
+    report = json.loads(report_path.read_bytes())
+    report["package_sha256"]["inputs"] = "f" * 64
+    report_path.write_bytes(json.dumps(report).encode())
+    index["review_receipt"]["report"].update(
+        sha256=hashlib.sha256(report_path.read_bytes()).hexdigest(),
+        bytes=report_path.stat().st_size,
+    )
+    digest = _save_review_index(tmp_path, index)
+    assert any(
+        "original report binding" in e
+        for e in validator.check_review_material_files(tmp_path, folder, digest)
+    )
+    index["review_receipt"] = {"reviewed": True}
+    assert validator.check_current_materials(index)
+
+
+def test_review_author_cannot_be_own_independent_reviewer(tmp_path):
+    index, folder, _ = _frozen_review_materials(tmp_path)
+    report_path = folder.parent / "materials-review.json"
+    report = json.loads(report_path.read_bytes())
+    report["reviewer_context"] = "synthetic-author"
+    report_path.write_bytes(json.dumps(report).encode())
+    index["review_receipt"]["reviewer_context"] = "synthetic-author"
+    index["review_receipt"]["report"].update(
+        sha256=hashlib.sha256(report_path.read_bytes()).hexdigest(),
+        bytes=report_path.stat().st_size,
+    )
+    digest = _save_review_index(tmp_path, index)
+    assert any(
+        "own package" in e
+        for e in validator.check_review_material_files(tmp_path, folder, digest)
+    )
+
+
+@pytest.mark.parametrize(
+    "field,value",
+    [
+        ("bytes", True),
+        ("bytes", 1048577),
+        ("sha256", "bad"),
+        ("relative_ref", "../../CANARY"),
+        ("role", "scorer"),
+    ],
+)
+def test_review_frozen_index_rejects_identity_type_and_arbitrary_path(
+    tmp_path, field, value
+):
+    index, _, _ = _frozen_review_materials(tmp_path)
+    index["packages"][0][field] = value
+    errors = validator.check_current_materials(index)
+    assert errors and "CANARY" not in " ".join(errors)
+
+
+def test_review_unknown_public_fields_cannot_publish_prompts_or_gold(tmp_path):
+    _current_bundle(tmp_path)
+    index = json.loads((tmp_path / validator.MATERIAL_INDEX_PATH).read_bytes())
+    for field in ("prompt", "scorer_only", "source_manifest", "hidden_locator"):
+        changed = deepcopy(index)
+        changed[field] = "CANARY"
+        assert validator.check_current_materials(changed)
+
+
+def test_review_oversized_raw_file_is_rejected_before_json(tmp_path):
+    _, folder, _ = _frozen_review_materials(tmp_path)
+    target = folder / "inputs.json"
+    with target.open("wb") as out:
+        out.truncate(validator.MATERIAL_BYTES_MAX + 1)
+    with pytest.raises(ValueError, match="oversized"):
+        validator._read_material_bytes(tmp_path, target)
+
+
+def test_review_file_identity_changes_fail_closed(tmp_path, monkeypatch):
+    _, folder, _ = _frozen_review_materials(tmp_path)
+    original = validator.os.fstat
+    calls = 0
+
+    def changed(fd):
+        nonlocal calls
+        calls += 1
+        info = original(fd)
+        if calls == 2:
+            fields = list(info)
+            fields[6] += 1
+            return validator.os.stat_result(fields)
+        return info
+
+    monkeypatch.setattr(validator.os, "fstat", changed)
+    with pytest.raises(ValueError):
+        validator._read_material_bytes(tmp_path, folder / "inputs.json")
+
+
+def test_review_windows_cross_api_ctime_difference_is_not_identity_drift(
+    tmp_path, monkeypatch
+):
+    from types import SimpleNamespace
+
+    _, folder, _ = _frozen_review_materials(tmp_path)
+    path = folder / "inputs.json"
+    original = validator.os.fstat
+
+    def fstat_with_different_ctime(fd):
+        info = original(fd)
+        return SimpleNamespace(
+            st_dev=info.st_dev,
+            st_ino=info.st_ino,
+            st_size=info.st_size,
+            st_mtime_ns=info.st_mtime_ns,
+            st_ctime_ns=123,
+        )
+
+    monkeypatch.setattr(validator.os, "fstat", fstat_with_different_ctime)
+    assert validator._read_material_bytes(tmp_path, path) == path.read_bytes()
+
+
+def test_review_original_component_reparse_is_rejected(tmp_path, monkeypatch):
+    _, folder, _ = _frozen_review_materials(tmp_path)
+    original = Path.lstat
+
+    class Reparse:
+        st_mode = 0
+        st_file_attributes = 0x400
+
+    def flagged(path, *args, **kwargs):
+        return Reparse() if path == folder else original(path, *args, **kwargs)
+
+    monkeypatch.setattr(Path, "lstat", flagged)
+    with pytest.raises(ValueError, match="linked path"):
+        validator._read_material_bytes(tmp_path, folder / "inputs.json")
+
+
+def test_review_actual_parent_symlink_is_rejected_when_supported(tmp_path):
+    _, folder, _ = _frozen_review_materials(tmp_path)
+    alias = tmp_path / "material-alias"
+    try:
+        alias.symlink_to(folder, target_is_directory=True)
+    except OSError:
+        pytest.skip(
+            "OS does not permit creating a symlink; simulated reparse regression is separate"
+        )
+    with pytest.raises(ValueError, match="linked path"):
+        validator._read_material_bytes(tmp_path, alias / "inputs.json")
+
+
+def test_review_resource_counts_and_budget_are_independent_caps(tmp_path):
+    protocol = _current_bundle(tmp_path)
+    budget = protocol["budget"]
+    assert (
+        budget["http_calls_max"]
+        == sum(
+            budget[k]
+            for k in (
+                "model_physical_calls",
+                "search_calls",
+                "fetch_calls",
+                "github_calls",
+            )
+        )
+        == 1072
+    )
+    assert (
+        budget["github_calls"]
+        == sum(
+            budget[k]
+            for k in (
+                "github_data_calls",
+                "github_case_control_calls",
+                "github_standalone_control_calls",
+            )
+        )
+        == 704
+    )
+    assert (
+        sum(
+            Decimal(x) for x in protocol["quotas"]["bytes"]["case_buckets_mib"].values()
+        )
+        == 64
+    )
+    assert Decimal(budget["model_total_cny"]) + Decimal(
+        budget["api_tools_cny"]
+    ) + Decimal(budget["noncall_cny"]) + Decimal(
+        budget["unallocated_buffer_cny"]
+    ) == Decimal("296.46")
+    protocol["quotas"]["tools"]["routes_max"] = 3
+    assert check_current_protocol(protocol, tmp_path)
+
+
+@pytest.mark.parametrize(
+    "field,value",
+    [
+        ("stage", "active"),
+        ("required_for_current_m1", True),
+        ("automatic_read", True),
+        ("automatic_write", True),
+        ("automatic_read", 0),
+        ("import_or_rebuild", True),
+        ("request_items", 1),
+        ("request_items", False),
+        ("request_bytes", 2048),
+        ("dedicated_extraction_calls", 1),
+        ("reserved_capacity", "reallocated_to_research"),
+        ("manual_read", True),
+        ("scope", ["author", "team", "project"]),
+    ],
+)
+def test_focus_memory_cannot_enable_any_entrypoint_or_extra_policy(
+    tmp_path, field, value
+):
+    protocol = _current_bundle(tmp_path)
+    protocol["memory"][field] = value
+    errors = check_current_protocol(protocol, tmp_path)
+    assert any("Memory policy" in error or "memory" in error for error in errors)
+
+
+@pytest.mark.parametrize(
+    "field,value",
+    [
+        ("hits", 0),
+        ("writes", 0),
+        ("state", "active"),
+        ("active_refs", ["CANARY_OLD_MEMORY"]),
+    ],
+)
+def test_focus_disabled_memory_observation_is_not_fake_zero_evidence(
+    tmp_path, field, value
+):
+    protocol = _current_bundle(tmp_path)
+    protocol["attempt_record_contract"]["memory_observation"][field] = value
+    errors = check_current_protocol(protocol, tmp_path)
+    assert any("memory_observation" in error for error in errors)
+    assert "CANARY_OLD_MEMORY" not in " ".join(errors)
+
+
+def test_focus_current_bundle_keeps_memory_deferred_without_context_dependency(
+    tmp_path,
+):
+    protocol = _current_bundle(tmp_path)
+    assert check_current_protocol(protocol, tmp_path) == []
+    supplement = json.loads(
+        (tmp_path / "docs/evaluation/DECISION_M1_PROTOCOL.json").read_bytes()
+    )
+    assert all(c["id"] != "automatic_memory" for c in supplement["capabilities"])
+    context = next(c for c in supplement["capabilities"] if c["id"] == "context")
+    assert context["tasks"] == ["DEC-M1-03a", "DEC-M1-03b"]
+    assert supplement["deferred_capabilities"][0]["status"] == "pending_not_completed"
+    assert supplement["deferred_capabilities"][0]["required"] is False
+    assert protocol["memory"]["reserved_capacity"] == "unchanged_not_reallocated"
+
+
+@pytest.mark.parametrize(
+    "drift",
+    ["required", "passed", "duplicate", "context_dependency", "missing_deferred"],
+)
+def test_focus_m1_cannot_complete_or_require_deferred_memory(tmp_path, drift):
+    _current_bundle(tmp_path)
+    supplement = json.loads(
+        (tmp_path / "docs/evaluation/DECISION_M1_PROTOCOL.json").read_bytes()
+    )
+    deferred = supplement["deferred_capabilities"][0]
+    if drift == "required":
+        deferred["required"] = True
+    elif drift == "passed":
+        deferred["status"] = "passed"
+    elif drift == "duplicate":
+        supplement["capabilities"].append(deepcopy(deferred))
+    elif drift == "context_dependency":
+        next(c for c in supplement["capabilities"] if c["id"] == "context")[
+            "tasks"
+        ].append("DEC-M1-04")
+    else:
+        del supplement["deferred_capabilities"]
+    errors = validator.check_current_supplement(supplement, tmp_path)
+    assert any("capabilit" in error for error in errors)
+
+
+def test_focus_materials_reject_old_protocol_index_packages_and_root(tmp_path):
+    _current_bundle(tmp_path)
+    index = json.loads(
+        (tmp_path / "docs/evaluation/DISCOVERY_M1_CASES.json").read_bytes()
+    )
+    index["protocol_version"] = "draft-m1-1"
+    assert check_current_materials(index)
+    for role in validator.MATERIAL_ROLES:
+        package = _review_package(role)
+        package["protocol_version"] = "draft-m1-1"
+        assert validator.check_review_material_package(package, role)
+    index["protocol_version"] = "draft-m1-2"
+    for package in index["packages"]:
+        package["relative_ref"] = package["relative_ref"].replace(
+            "focus-20261102", "draft-20261102"
+        )
+    assert any(
+        "identity" in error or "canonical" in error or "fields" in error
+        for error in check_current_materials(index)
+    )
+
+
+def test_focus_old_material_review_receipt_cannot_certify_new_package(tmp_path):
+    index, material_root, _ = _frozen_review_materials(tmp_path)
+    # A structurally valid reauthored package has different bytes; an old review
+    # remains bound to the old package hash even if the public binding is updated.
+    package_path = material_root / "inputs.json"
+    package = json.loads(package_path.read_bytes())
+    package["author_context"] = "new-synthetic-author"
+    raw = json.dumps(package).encode()
+    package_path.write_bytes(raw)
+    index["packages"][0].update(sha256=hashlib.sha256(raw).hexdigest(), bytes=len(raw))
+    # Keep the public index internally valid so this reaches the original
+    # report binding check instead of failing the public-index precondition.
+    index["review_receipt"]["package_sha256"]["inputs"] = hashlib.sha256(
+        raw
+    ).hexdigest()
+    assert check_current_materials(index) == []
+    index_path = tmp_path / validator.MATERIAL_INDEX_PATH
+    index_path.write_bytes(json.dumps(index).encode())
+    errors = validator.check_review_material_files(
+        tmp_path, material_root, hashlib.sha256(index_path.read_bytes()).hexdigest()
+    )
+    assert errors == ["materials review: original report binding invalid"]

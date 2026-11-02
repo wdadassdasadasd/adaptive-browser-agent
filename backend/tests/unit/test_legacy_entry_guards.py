@@ -73,7 +73,18 @@ def _forbidden(*_args, **_kwargs):
     raise AssertionError("execution dependency or output touched before protocol guard")
 
 
-@pytest.fixture(params=["new", "malformed", "missing", "array"])
+@pytest.fixture(
+    params=[
+        "draft",
+        "previous_draft",
+        "previous_review",
+        "previous_discovery",
+        "material_index",
+        "malformed",
+        "missing",
+        "array",
+    ]
+)
 def refused_root(tmp_path, request):
     root = make_historical_root(tmp_path / "root")
     path = root / current.PROTOCOL_PATH
@@ -85,6 +96,18 @@ def refused_root(tmp_path, request):
             if request.param == "malformed"
             else "[]"
             if request.param == "array"
+            else (
+                current.REPOSITORY_ROOT / "docs/evaluation/DISCOVERY_M1_CASES.json"
+            ).read_text(encoding="utf-8")
+            if request.param == "material_index"
+            else (current.REPOSITORY_ROOT / current.PROTOCOL_PATH).read_text(
+                encoding="utf-8"
+            )
+            if request.param == "draft"
+            else json.dumps({"protocol_version": "draft-m1-1"})
+            if request.param == "previous_draft"
+            else json.dumps({"protocol_version": "review-m1-1"})
+            if request.param == "previous_review"
             else json.dumps({"protocol_version": "discovery-m1-1"}),
             encoding="utf-8",
         )

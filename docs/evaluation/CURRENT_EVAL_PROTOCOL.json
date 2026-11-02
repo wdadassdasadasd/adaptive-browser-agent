@@ -1,8 +1,8 @@
 {
-  "protocol_version": "discovery-m1-1",
-  "status": "frozen_pending_qualification_and_execution",
-  "registered_at": "2026-10-29",
-  "preparation_revision": "PREP-BASELINE-20261029",
+  "protocol_version": "draft-m1-2",
+  "status": "prepared_pending_material_and_actual_file_review",
+  "registered_at": "2026-11-02",
+  "preparation_revision": "FOCUS-BASELINE-20261102",
   "authority": "SPEC.md",
   "authorization": {
     "configuration_only": true,
@@ -17,22 +17,23 @@
   },
   "materials": {
     "path": "docs/evaluation/DISCOVERY_M1_CASES.json",
-    "sha256": "5e448068f84dc491c0559b082b30e78886ed319e22112f11d6860aa529a51409",
-    "review_status": "done_independent_actual_file_review"
+    "sha256": "940a472cf44f6505dd569a391c78430f0fd587e99870b2ee5942f90b73263218",
+    "review_status": "pending_independent_material_preparation",
+    "meaning": "public_index_only_not_exact_prompts_or_gold; default_configuration_check_does_not_verify_local_packages"
   },
   "formal": {
     "domain_ids": [
-      "scheduling",
-      "data_migration",
-      "document_processing"
+      "requirements",
+      "consistency",
+      "exploration"
     ],
     "case_ids": [
-      "SCH-A",
-      "SCH-B",
-      "DAT-A",
-      "DAT-B",
-      "DOC-A",
-      "DOC-B"
+      "REQ-A",
+      "REQ-B",
+      "CON-A",
+      "CON-B",
+      "EXP-A",
+      "EXP-B"
     ],
     "expected_attempts": 6,
     "agent_attempts": 3,
@@ -44,7 +45,53 @@
     "code_templates_tools_quotas_scoring_frozen": true,
     "revealed_failure_kept_not_replaced_by_optimization_slots": true,
     "in_batch_fix": "retain_failed_slot; any replacement comparison requires separately authorized complete new batch",
-    "case_scope": "all linked Turns share original case time, tool/model/resource caps and authorization; no reset on input revision or new work identity"
+    "case_scope": "all linked Turns share original case time, tool/model/resource caps and authorization; no reset on input revision or new work identity",
+    "independent_author_and_non_author_material_review_required": true,
+    "workflow_coverage": {
+      "requirements": {
+        "mode": "requirements_to_solution",
+        "artifacts": [
+          "first_raw_requirements",
+          "exact_human_confirmation_and_edits",
+          "first_raw_solution",
+          "final_requirements_solution_package"
+        ],
+        "coverage": [
+          "ideas_without_repository_allowed",
+          "same_preregistered_goal_no_scope_shrink"
+        ]
+      },
+      "consistency": {
+        "mode": "review_only",
+        "artifacts": [
+          "first_raw_review",
+          "final_review_package"
+        ],
+        "coverage": [
+          "fixed_commit_and_local_text_code_diff",
+          "both_variants_include_bounded_question_without_authoritative_baseline",
+          "observations_hypotheses_not_invented_conformance"
+        ]
+      },
+      "exploration": {
+        "mode": "solution_only",
+        "artifacts": [
+          "confirmed_existing_requirements",
+          "first_raw_solution",
+          "final_solution_package"
+        ],
+        "coverage": [
+          "bounded_evidence_and_implementation_assumption_exploration"
+        ]
+      }
+    },
+    "coverage_limits": {
+      "requirements_only": "focused_route_terminal_regression_and_one_existing_pilot; no_independent_formal_quality_or_time_claim",
+      "editing_and_revision": "regression_and_pilot_only_no_independent_formal_effect_claim",
+      "pair_equivalence": "same_preregistered_goal_scale_material_format_mix; clarify_cannot_shrink_goal; substantive_scope_change_retains_slot_partial_noncomparable",
+      "alternative_designs": "reasonable_supported_alternatives_allowed_no_single_hidden_design_answer",
+      "pilot_allocation": "one_existing_pilot_requirements_only_and_other_full_chain; no_extra_cases_or_funding"
+    }
   },
   "methods": {
     "agent": {
@@ -58,11 +105,11 @@
       "deliberate_control_output_or_note_copy_allowed": false
     },
     "control": {
-      "ordinary_ai": "same_pre_registered_product_and_visible_mode; daily_use_without_arbitrary_message_count_cap",
+      "ordinary_ai": "pre_registered_ordinary_AI_and_manual_repository_reading_search; actual_products_modes_and_new_fees_recorded",
       "independent_deep_research": {
-        "required": true,
+        "required": false,
         "sessions_per_task": 1,
-        "preferred_product": "Gemini_free_Deep_Research",
+        "preferred_product": "pre_registered_if_used; no_automatic_purchase_or_product_swap",
         "actual_account_region_entry_mode_quota": "unverified",
         "ordinary_browsing_or_thinking_is_not_DR": true,
         "no_extra_DR_or_regeneration_replacing_failure": true,
@@ -80,7 +127,9 @@
     "contamination": {
       "record_familiarity_sources_and_knowledge_transfer": true,
       "no_true_blinding_claim": true,
-      "memory_policy_frozen_data_changes_and_hits_disclosed": true
+      "formal_memory_initial_snapshot": "not_applicable_feature_disabled; no_store_snapshot_or_seed_required",
+      "implementation_author_exposed_to_gold": "not_independent_holdout; retain_exposed_slot_and_report_contamination",
+      "memory_disabled_frozen_no_memory_effect_claim": true
     }
   },
   "timing": {
@@ -109,7 +158,9 @@
     ],
     "extension_request": "before_original_batch_deadline",
     "revealed_attempt_extension_allowed": false,
-    "project_admin_and_independent_audit_time": "separately_disclose; do_not_move_actual_research_work_out_of_active_clock"
+    "project_admin_and_independent_audit_time": "separately_disclose; do_not_move_actual_research_work_out_of_active_clock",
+    "reveal": "disclosure_committed_is_permission_not_actual_display; separate_display_ack_client_clock_basis_server_ack_and_owner_timing",
+    "uncertain_first_display": "retain_earliest_possible_exposure_and_timing_uncertain; no_valid_paired_saving; no_slot_replacement_or_clock_reset"
   },
   "assignment": {
     "algorithm_version": "ARA-EVAL-1",
@@ -140,29 +191,50 @@
   },
   "common_quality": {
     "mandatory_dimensions": [
-      "accepted_conditions_unknowns_and_provenance_faithful",
-      "route_discovery_and_bounded_investigation_disclosed",
-      "subject_version_region_and_time_correct",
-      "all_hard_conditions_and_all_critical_recommendation_exclusion_claims_officially_checked",
-      "identified_counterevidence_qualifiers_conflicts_and_unknowns_visible",
-      "actionable_next_verification_without_fabricated_execution",
-      "coverage_cost_and_technical_outcomes_honestly_limited"
+      "accepted_scope_basis_unknowns_and_provenance_faithful",
+      "all_critical_claims_correct_and_supported",
+      "all_critical_conflicts_and_qualifiers_present",
+      "subject_version_capture_and_UTF8_locator_correct",
+      "unread_failure_partial_and_coverage_honest",
+      "recommendations_distinguish_observation_inference_and_suggestion",
+      "no_fabricated_execution_or_authority_and_actionable_next_verification"
     ],
     "all_six_final_reports_pass_before_value_computation": true,
-    "median_saving_min": 0.2,
+    "median_saving_min": null,
     "pair_saving_formula": "(control_active_seconds-agent_active_seconds)/control_active_seconds",
-    "aggregate": "median_of_exactly_three_registered_domain_pairs",
-    "missing_or_zero_baseline": "value_not_passed_no_imputation_no_denominator_change",
+    "aggregate": "descriptive_median_of_exactly_three_registered_heterogeneous_pairs; negative_savings_not_clipped; no_population_or_per_mode_effect_inference",
+    "missing_or_zero_baseline": "comparison_inconclusive_no_imputation_no_denominator_change",
     "owner_final_and_original_program_outcomes_separate": true,
     "machine_structure_check_is_not_semantic_verification": true,
-    "adequate_no_winner": "evidence_based_scope_coverage_and_all_discovered_decisive_alternatives_processed; exhaustion_or_tool_failure_is_inadequate",
+    "adequate_no_winner": "not_applicable_to_document_review; missing_documents_do_not_prove_absence; required_critical_gaps_are_partial",
     "audits": {
       "max_defect_feedback_rounds": 2,
       "final_scoring_rounds": 1,
       "allowed_feedback": "defect_type_and_original_report_locator_only",
       "new_research_contribution": "must_disclose_actual_contribution_time_and_any_new_cost; not_pure_audit",
       "owner_does_actual_research_and_rewrite": true
-    }
+    },
+    "raw_agent_critical_passes_required": 3,
+    "raw_agent_gate_separate_from_human_repaired_final": true,
+    "noncritical_results": "itemized_findings_and_omissions; no_composite_score_or_unbounded_recall_denominator",
+    "all_assigned_outcomes_retained": [
+      "not_started",
+      "started",
+      "completed",
+      "partial",
+      "failed",
+      "cancelled",
+      "missing",
+      "unscorable"
+    ],
+    "three_result_axes": [
+      "original_program_outcome",
+      "original_immutable_report_source_review",
+      "owner_final_submission_quality"
+    ],
+    "real_user_or_team_value": "pending_no_real_task_evidence; controlled_materials_not_real_value_acceptance",
+    "raw_full_chain": "both_first_raw_requirements_and_first_raw_solution_must_pass; human_edits_do_not_rewrite_raw_failure",
+    "final_package": "each_slot_final_snapshot_binds_all_required_document_versions_hashes_and_confirmation; full_chain_scores_both_documents"
   },
   "quotas": {
     "case_model": {
@@ -174,20 +246,20 @@
           "max_output_tokens": 2048
         },
         {
-          "id": "route_plan",
+          "id": "research_plan",
           "normal_obligations": 2,
           "max_input_tokens": 16384,
           "max_output_tokens": 2048
         },
         {
-          "id": "discovery_extract",
-          "normal_obligations": 2,
+          "id": "extract",
+          "normal_obligations": 3,
           "max_input_tokens": 32768,
           "max_output_tokens": 4096
         },
         {
-          "id": "shortlist_analysis",
-          "normal_obligations": 3,
+          "id": "evidence_review",
+          "normal_obligations": 2,
           "max_input_tokens": 32768,
           "max_output_tokens": 3072
         },
@@ -198,14 +270,8 @@
           "max_output_tokens": 2048
         },
         {
-          "id": "gap_extract",
-          "normal_obligations": 2,
-          "max_input_tokens": 32768,
-          "max_output_tokens": 3072
-        },
-        {
-          "id": "report",
-          "normal_obligations": 2,
+          "id": "document_compile",
+          "normal_obligations": 4,
           "max_input_tokens": 32768,
           "max_output_tokens": 8192
         }
@@ -216,58 +282,71 @@
       "technical_retry_eligibility": "only_known_transient_and_explicit_same_work_request_phase_caps; unknown/schema invalid not retryable",
       "physical_calls_max": 16,
       "normal_input_total": 360448,
-      "normal_output_total": 50176,
+      "normal_output_total": 61440,
       "with_two_max_retries_input_total": 425984,
-      "with_two_max_retries_output_total": 66560,
+      "with_two_max_retries_output_total": 77824,
       "cumulative_input_tokens": 458752,
-      "cumulative_output_reservation_tokens": 73728,
-      "report_reserved_input_tokens": 65536,
-      "report_reserved_output_tokens": 16384,
-      "report_reserve_borrowable": false,
+      "cumulative_output_reservation_tokens": 81920,
       "format_repair_extra_calls": 0,
       "summary_extra_calls": 0,
       "thinking": "disabled_explicit",
       "output_limit": "explicit_per_stage",
       "tokenizer": "official_complete_request_matching_template_is_formal_admission_gate",
-      "qualification_diagnostic": "separate_limited_authorized_path_not_circular_formal_prerequisite"
+      "qualification_diagnostic": "separate_limited_authorized_path_not_circular_formal_prerequisite",
+      "model_call_absolute_seconds": 60,
+      "sdk_implicit_retries": 0,
+      "qualification_profile": "official_supported_full_request_converter_template_tokenizer_hashes_and_fields; no_character_ratio_substitute; matching_evidence_pending_paid_off",
+      "usage_mapping": "local_full_request_count_equals_prompt_tokens_under_frozen_qualification; hit_plus_miss_equals_prompt; total_equals_prompt_plus_completion; output_not_reencoded_to_prove_tokens",
+      "qualification_revocation": "root_result_transaction_revokes_profile_revision; final_send_checks_current_revision; in_flight_original_call_settlement_only",
+      "compile_reserved_input_tokens": 131072,
+      "compile_reserved_output_tokens": 32768,
+      "compile_reserve_borrowable": false,
+      "hidden_judge_extra_calls": 0,
+      "mode_obligations": {
+        "review_only": {
+          "first_artifacts": 1,
+          "semantic_revisions_max": 3
+        },
+        "requirements_only": {
+          "first_artifacts": 1,
+          "semantic_revisions_max": 3
+        },
+        "solution_only": {
+          "first_artifacts": 1,
+          "semantic_revisions_max": 3
+        },
+        "requirements_to_solution": {
+          "first_artifacts": 2,
+          "semantic_revisions_max": 2
+        }
+      },
+      "first_artifact_reservation": "atomic_compile_token_version_slot_80KiB_envelope_and_canonical_terminal_before_optional_edit_or_stage_write; reserve_to_used_once; no_send_if_unsavable",
+      "revision_and_mode_changes": "same_case_caps_and_original_purpose; changed_requirements_need_new_confirmation_and_use_remaining_compiles; no_unlimited_first_solution_guarantee; accepted_mode_change_atomically_reserves_missing_first_obligations_or_rejects; no_auto_new_case"
     },
     "tools": {
       "per_case": {
         "search": 12,
         "fetch": 24,
-        "github": 8,
-        "browser_actions": 8,
-        "browser_http_requests": 240
+        "github_data": 32,
+        "github_control": 64,
+        "browser_actions": 0,
+        "browser_http_requests": 0
       },
-      "stage_allocations": [
-        {
-          "stage": "discovery",
-          "search": 6,
-          "fetch": 6,
-          "github": 2
-        },
-        {
-          "stage": "shortlist_deep",
-          "search": 3,
-          "fetch": 12,
-          "github": 4
-        },
-        {
-          "stage": "gap",
-          "search": 3,
-          "fetch": 6,
-          "github": 2
-        }
-      ],
       "counts_include_failures_retries_redirects_and_all_attempts": true,
       "search_result_count": 5,
       "search_need_content": false,
-      "unused_allocation": "forward_to_later_stage_only_never_expand_total",
-      "routes_max": 3,
-      "candidate_identity_pool_max": 20,
-      "shortlist_max": 3,
+      "unused_allocation": "no_automatic_expansion; stable_case_limits_include_linked_turns",
       "extra_curator_or_semantic_judge_calls": 0,
-      "browser_before_network_qualification": 0
+      "browser_before_network_qualification": 0,
+      "standalone_control_tasks_max": 4,
+      "standalone_control_attempts_per_task_max": 8,
+      "standalone_control_task_seconds": 60,
+      "private_proof_max_seconds": 300,
+      "private_proof": "fresh_restricted_App_installation_token_receipt_plus_stable_repo_identity_and_contents_probe; public_200_is_not_proof",
+      "outbound_disclosure": "whole_final_search_query_or_Fetch_URL_with_purpose_and_private_ancestor_lineage; public_words_do_not_declassify_combinations",
+      "browser_integration": "deferred_zero",
+      "mcp": "research_only",
+      "diagnostic_allocation": "all_profiles_turns_restarts_and_retries_share_one_exact_human_approved_total; no_auto_reallocation"
     },
     "runtime": {
       "global_active_tasks": 2,
@@ -277,7 +356,7 @@
       "read_branches_per_turn": 2,
       "global_read_branches": 4,
       "model_physical_inflight": 2,
-      "qualified_browser_physical_inflight": 1,
+      "qualified_browser_physical_inflight": 0,
       "lease_seconds": 30,
       "heartbeat_seconds": 5,
       "recoveries_per_original_task": 1,
@@ -293,10 +372,25 @@
       "turn_max": 67108864,
       "case_max_shared_across_turns": 67108864,
       "project_new_business_max": 1073741824,
-      "case_worst_reservation_mib": "57.5",
-      "seven_cases_and_noncase_reservation_mib": "419.75",
+      "case_worst_reservation_mib": "64",
+      "seven_cases_and_noncase_reservation_mib": "466.25",
       "count_actual_uncompressed_copies": true,
-      "wal_indexes_checkpoints_backups": "separate_physical_qualification_not_covered_by_business_cap"
+      "wal_indexes_checkpoints_backups": "separate_physical_qualification_not_covered_by_business_cap",
+      "case_buckets_mib": {
+        "model_requests_responses_manifests": "13",
+        "search": "1.5",
+        "github_fetch_capture_and_copies": "34.5",
+        "claim_relations": "4",
+        "stage_derived": "2",
+        "accepted_input": "3",
+        "tool_requests": "1",
+        "transport_metadata": "2",
+        "other_canonical_metadata": "2",
+        "terminal_memory_suggestions_control_receipts": "1"
+      },
+      "project_metadata_max_mib": "32",
+      "control_safe_receipt_max_bytes": 2048,
+      "terminal_and_canonical_reserved_before_call": true
     }
   },
   "budget": {
@@ -306,7 +400,7 @@
     "model_physical_calls": 116,
     "search_calls": 84,
     "fetch_calls": 168,
-    "github_calls": 56,
+    "github_calls": 704,
     "reserve_per_model_call_cny": "2.20",
     "model_total_cny": "255.20",
     "search_fetch_per_success_cny": "0.005",
@@ -323,7 +417,8 @@
         "tool_calls": {
           "search": 0,
           "fetch": 0,
-          "github": 0
+          "github_data": 0,
+          "github_control": 32
         },
         "worst_total_cny": "8.80"
       },
@@ -331,8 +426,8 @@
         "id": "early",
         "case_count": 4,
         "roles": [
-          "original_requirement",
-          "changed_conditions_capability",
+          "early_pilot_1",
+          "early_pilot_2",
           "optimization_retest_1",
           "optimization_retest_2"
         ],
@@ -340,7 +435,8 @@
         "tool_calls": {
           "search": 48,
           "fetch": 96,
-          "github": 32
+          "github_data": 128,
+          "github_control": 256
         },
         "worst_total_cny": "141.52"
       },
@@ -351,7 +447,8 @@
         "tool_calls": {
           "search": 36,
           "fetch": 72,
-          "github": 24
+          "github_data": 96,
+          "github_control": 192
         },
         "worst_total_cny": "106.14"
       }
@@ -369,23 +466,30 @@
       "backup_media",
       "paper_key_and_verification_cards",
       "new_comparison_subscription_or_session_charges",
-      "any_other_new_project_fee"
+      "any_other_new_project_fee",
+      "any_control_endpoint_fee_if_not_proven_free_requires_requalification; no_hidden_fee"
     ],
     "existing_subscription_without_new_spend": "disclose_separately_not_fabricate_new_fee",
     "buffer_not_automatic_grant": true,
-    "funds_price_history_unknown_inflight_balance_grants_unclosed": "paid_disabled"
+    "funds_price_history_unknown_inflight_balance_grants_unclosed": "paid_disabled",
+    "github_data_calls": 224,
+    "github_case_control_calls": 448,
+    "github_standalone_control_calls": 32,
+    "http_calls_max": 1072,
+    "dns_attempts_max": 2144,
+    "dial_attempts_max": 1072
   },
   "tracing": {
     "storage": "PostgreSQL_canonical_business_records_and_read_only_join_view_no_external_upload",
     "chain": [
-      "input_revision",
+      "input_revision_review_question_and_basis",
       "plan_work_attempt",
       "call",
-      "source_representation",
+      "source_representation_and_private_ancestor_lineage",
       "claim_relations",
       "context_manifest",
       "exact_safe_business_request_body",
-      "response_usage_cost",
+      "response_usage_cost_reservation",
       "report_hash"
     ],
     "run_manifest_max_bytes": 65536,
@@ -407,7 +511,7 @@
     "ui_ordinary_event_cap": 255,
     "safe_body_not_full_HTTP_wire": true,
     "no_hidden_chain_of_thought_collection": true,
-    "reconstruction": "offline_read_only_artifact_integrity_and_relationship_checks; no_provider_network_or_framework_replay",
+    "reconstruction": "offline_read_only_artifact_integrity_relationship_selector_timing_usage_arithmetic; no_network_framework_replay_or_tokenizer_execution",
     "diagnostic_categories": [
       "not_collected",
       "unrecognized",
@@ -417,7 +521,14 @@
       "summary_distortion",
       "output_not_reflected"
     ],
-    "model_internal_use_not_inferred_from_output": true
+    "model_internal_use_not_inferred_from_output": true,
+    "delivery": "current_account_credential_auth_session_sup_generation_membership_purpose_share_source_proof_lineage_checked_per_bounded_response_page_SSE_frame; cursor_not_authority; logout_blocks_read_not_independent_Task",
+    "delivery_limits_bytes": {
+      "report": 65536,
+      "artifact_response": 1048576,
+      "SSE_frame": 1024
+    },
+    "revoke_delivery": "revoke_first_blocks_unclaimed_delivery; one_already_claimed_bounded_response_or_frame_may_arrive; no_instant_recall"
   },
   "optimization": {
     "real_symptom_correction_required_at_least": 1,
@@ -445,7 +556,7 @@
       "independent_backup_media_paper_key_source_card_and_real_restore"
     ],
     "before_formal_reveal": [
-      "actual_six_case_independent_review",
+      "three_local_material_packages_and_exact_independent_original_review_bound_to_index; no_gold_in_worker_context",
       "all_method_eligibility_modes_and_engine_list",
       "code_template_policy_scoring_hash_freeze",
       "batch_and_slot_authorizations",
@@ -462,7 +573,30 @@
     "old_execution_rules": "B/G/O_15_and_M1_9_8_12_are_historical_only",
     "old_preparation": "materials_not_real_runs; referenced_sources_licenses_authorizations_cost_and_run_evidence_preserved",
     "no_new_archive_copy": true,
-    "new_runner_or_ledger_implemented": false
+    "new_runner_or_ledger_implemented": false,
+    "previous_configuration": {
+      "commit": "d4b906fb6a441c13583f052377283ec0c28bf5a2",
+      "protocol_path": "docs/evaluation/CURRENT_EVAL_PROTOCOL.json",
+      "protocol_raw_sha256": "98b832d33777c7aa045dd249ed005c1f915e55f3609d5872a5d62e58398111f0",
+      "material_path": "docs/evaluation/DISCOVERY_M1_CASES.json",
+      "material_raw_sha256": "5e448068f84dc491c0559b082b30e78886ed319e22112f11d6860aa529a51409"
+    },
+    "previous_review_configuration": {
+      "revision": "REVIEW-BASELINE-20261101",
+      "manifest_path": ".tmp/predev-reopen-20261028/config-20261029/review-20261101/snapshots/final-02/manifest.json",
+      "manifest_raw_sha256": "582636a65e3dc0b0405f1fd0ce232935d649c49b6202660eccbdbf50f0ee9768",
+      "protocol_raw_sha256": "234fbaa98a8e889103f0537582cedba71575519d7a342685e559bafac75be557",
+      "material_raw_sha256": "763129484b2bfbc6c0eedda13b680a1ae00a2b649319da2d3aac79227b2563e5",
+      "read_policy": "explicit_existing_snapshot_manifest_path_raw_hash; not_a_HEAD_Git_object; no_old_index_overwrite_or_runner_extension"
+    },
+    "previous_draft_configuration": {
+      "revision": "DRAFT-BASELINE-20261102",
+      "manifest_path": ".tmp/predev-reopen-20261028/config-20261029/review-20261101/draft-20261102/snapshots/final-01/manifest.json",
+      "manifest_raw_sha256": "6c9b4b59a8362033745be68239fe846cac79d4cdd62b392def922f7ef9952faf",
+      "protocol_raw_sha256": "2628db01d144cfefb7c8db55e62ac67243beb93c5d8b9a74273446ada34e33b6",
+      "material_raw_sha256": "f1a93cef17832629cc0a14f906d6295a17561bfc5e458f945d18610e026f4fc1",
+      "read_policy": "explicit_existing_snapshot_manifest_path_raw_hash; not_a_HEAD_Git_object; no_old_index_overwrite_or_runner_extension"
+    }
   },
   "release": {
     "current_state": "No-Go",
@@ -478,6 +612,9 @@
         "domain_id",
         "method",
         "owner_id",
+        "team_id",
+        "project_id",
+        "requester_accepted_by_and_actual_actor",
         "batch_id",
         "case_and_linked_turn_ids",
         "protocol_sha256",
@@ -487,6 +624,9 @@
         "visible_provider_model_mode_and_drift"
       ],
       "timing": [
+        "disclosure_committed_at",
+        "display_ack_and_clock_basis",
+        "earliest_possible_exposure_and_timing_uncertain",
         "first_display_at",
         "wall_deadline",
         "active_intervals_with_start_end_kind_and_actor",
@@ -498,7 +638,10 @@
       "artifacts": [
         "original_program_or_DR_output_ref_sha256_or_missing_reason",
         "ordered_human_revisions_with_parent_ref_sha256_edit_time_and_active_interval_refs",
-        "final_submission_ref_sha256"
+        "final_submission_ref_sha256",
+        "mode_and_all_required_first_raw_document_refs_hashes_or_missing_reasons",
+        "exact_requirements_confirmation_and_version_head_changes",
+        "final_delivery_package_document_refs_hashes_and_confirmation"
       ],
       "audit": [
         "reviewer_identity_and_role",
@@ -514,7 +657,9 @@
         "final_human_quality_status",
         "cancel_failure_missing_unexecuted_reason",
         "familiarity_and_source_knowledge_transfer",
-        "memory_hits_writes_and_pre_case_identity"
+        "memory_disabled_not_applicable_null_hits_writes_feature_disabled_and_empty_active_refs",
+        "raw_agent_critical_quality_status",
+        "assigned_slot_denominator_including_unstarted_and_missing"
       ],
       "cost": [
         "call_and_transport_identity_refs",
@@ -529,14 +674,57 @@
     "revision_chain": "immutable original plus every submitted human revision; parent hashes link in order; edit/research/recheck time included; no replacement after final scoring or revealed failure",
     "audit_binding": "feedback and final scoring bind exact reviewed report hash; new research contribution is disclosed and cannot masquerade as pure defect audit",
     "unavailable": "explicit null or missing_reason; never fabricate zero, successful output or a report hash",
-    "integrity": "independent audit recomputes artifact hashes, timing sums, case-slot mapping and paired median before any value pass; all six retained",
-    "private_content": "owner-only artifacts; safe public summary refs/codes; no password, cookie, API key or hidden reasoning chain"
+    "integrity": "independent_audit_recomputes_artifact_hashes_timing_sums_all_six_slots_and_three_pair_descriptive_median; raw_agent_quality_is_separate",
+    "private_content": "current_team_project_and_source_purpose_permissions_on_derived_artifacts; private_Draft_and_Memory_author_isolation; no_secrets_or_hidden_reasoning",
+    "memory_observation": {
+      "state": "disabled",
+      "applicability": "not_applicable",
+      "hits": null,
+      "writes": null,
+      "reason": "feature_disabled",
+      "active_refs": []
+    }
   },
   "review": {
-    "independent_actual_file_status": "done",
-    "artifact_ref": ".tmp/predev-reopen-20261028/config-20261029/evaluation-actual-review-r1.json",
-    "artifact_sha256": "d686eaf7dd6ce1049a52e33ec51c37d99791b82f177aef8a97b5943d74f7dc9f",
-    "reviewed_protocol_sha256": "d91f8d43f196a89c8b59a2752f6d7d5c7b4be974b2aaba5910d39b1a9b454b2d",
-    "review_binding": "Review hashes identify the immutable r1 snapshot before this metadata update. The metadata-only delta requires separate independent review recorded by the local final-delivery.json; no execution qualification is asserted."
+    "independent_actual_file_status": "pending_current_implementation_review",
+    "binding": "design_reviews_do_not_cover_current_files; final_actual_review_and_hash_index_in_task_audit_directory"
+  },
+  "memory": {
+    "stage": "deferred",
+    "required_for_current_m1": false,
+    "automatic_read": false,
+    "automatic_write": false,
+    "import_or_rebuild": false,
+    "request_items": 0,
+    "request_bytes": 0,
+    "dedicated_extraction_calls": 0,
+    "reactivation": "separate_approved_followup_after_real_reuse_need_and_review",
+    "reserved_capacity": "unchanged_not_reallocated"
+  },
+  "documents": {
+    "versions_per_case": 16,
+    "body_bytes": 65536,
+    "metadata_bytes": 16384,
+    "bucket": "stage_derived_2MiB_actual_copies",
+    "first_full_chain_reserve_slots": 2,
+    "first_full_chain_reserve_bytes": 163840,
+    "snapshot": "bounded_refs_only_report_64KiB_no_inline_two_documents",
+    "versions": "immutable_author_parent_hash_known_lineage; raw_private_Draft_separate",
+    "confirmation": "exact_current_requirements_version_hash_actor_CAS; every_new_requirement_head_clears_current_confirmation_in_same_root_transaction; history_immutable",
+    "solution_gates": "start_send_commit_current_requirement_head_and_confirmation_and_target_solution_parent_head_CAS; stale_derived_from_refs; late_original_Call_audit_usage_cost_only",
+    "editing": "explicit_save_or_AI_commit_not_keystrokes; bounded_UI_memory_no_localStorage; logout_identity_switch_clears; conflict_visible_no_silent_overwrite"
+  },
+  "local_materials": {
+    "items_per_case_cumulative": 32,
+    "metadata_request_bytes": 16384,
+    "raw_item_bytes": 1048576,
+    "decoded_utf8_bytes": 524288,
+    "absolute_receive_seconds": 30,
+    "transport": "raw_application_octet_stream_not_multipart; application_stream_actual_bytes_limit_before_default_body_parser; reject_nonidentity_ContentEncoding; headers_request_line_buffers_pending_real_qualification",
+    "admission": "current_session_sup_case_project_retain_use_and_reserve_before_body; no_DB_lock_while_receiving; commit_rechecks_current_gates_set_version_actual_bytes; atomic_body_hash_capture",
+    "source_set": "seal_successes_failures_unread_before_model_use; no_fake_capture; safe_errors; only_determinate_unused_reserve_released",
+    "capture_bucket": "shared_github_fetch_capture_and_copies_34.5MiB; case64MiB_project1GiB; no_all_maxima_guarantee",
+    "identity": "explicit_File_API_selection_not_filesystem_bridge; no_path_open_execution_diff_apply_zip_binary_parser; unknown_diff_base_not_verified_commit; no_atomic_worktree_or_symlink_proof",
+    "privacy": "current_author_project_retention_use_model_share_public_disclosure; known_private_ancestry_survives_edits_imports_exports_new_ID; local_unknown_origin_not_GitHub_App_proof_or_global_copy_detector; known_private_GitHub_ancestors_still_require_App_proof"
   }
 }
