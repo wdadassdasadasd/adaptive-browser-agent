@@ -1,6 +1,6 @@
-# 工程配置与环境资格 — RESEARCH-BASELINE-20261103
+# 工程配置与环境资格 — TEAM-BASELINE-20261103-01
 
-负责人已完整确认CONTENT-20261103-01并授权CONFIG-PLAN-20261103-01，仅实施30份现有配置文件、两份新增文档、限定离线检查及新审计证据。实际落地／检查／独审见[唯一记录](../features/DECISION-001/tasks.md)，原18项历史含义保留。[SPEC](../../SPEC.md)定义目标，[PLANS](../../PLANS.md)定义依赖，[契约](../contracts/CURRENT_CONTRACTS.md)定义运行约束，[唯一协议](../evaluation/CURRENT_EVAL_PROTOCOL.json)定义正式质量／计时／槽位及整批资金。本页不是运行许可。
+负责人确认完整团队研发计划后，以“PLEASE IMPLEMENT THIS PLAN”授权本轮阶段0配置对齐，系统实际Default。本轮只同步现有配置、限定离线检查、独立审查及新证据；原RESEARCH-BASELINE-20261103-R2及更早批准／检查保持其原字节和范围。[唯一记录](../features/DECISION-001/tasks.md)保留18项历史和本轮真实结果；[SPEC](../../SPEC.md)、[PLANS](../../PLANS.md)、[契约](../contracts/CURRENT_CONTRACTS.md)各守原权威，draft-m1-3／公开材料索引原字节不变，M1能力引用独立为draft-m1-capabilities-5。本页不授业务、环境或运行资格。
 
 ## 配置归属与流程
 
@@ -27,6 +27,16 @@ engineering-workflow只路由一次到[G0–G7](WORKFLOW.md)，项目技能提�
 
 ## 本轮身份与未验证项
 
+### TEAM进入身份（2026-11-03）
+
+进入HEAD仍为81ecfa2756ca3ebe02824c857572270f3150cdb0，17份未暂存修改、无暂存修改；进入快照和保护指纹见新审计.tmp/team-plan-20261103-01。保留这些修改，原R2等审计不覆盖／重绑定。当前本机双身份共享原型不是远程团队部署；有权CLI管理项目／成员／确认人仍须sup／根锁／准确operation及shutdown/rearm约束，角色设置不授研究许可。新确认角色、必要撤销预留、单链先pilot和后续动态／私源只在本批同步配置，未来Pg／UI／进程／供应商均待验。
+
+### R2进入身份（2026-11-03）
+
+本R2进入main@81ecfa2756ca3ebe02824c857572270f3150cdb0，staged／unstaged／非忽略untracked为空；32份配置原字节匹配原git-sync-01候选。本轮未fetch／查询远端，不把本地origin/main身份当远端核验。新进入快照、检查、保护指纹和独审只追加review-20261101/research-20261103/predev-final-02，实际完成由唯一任务及该新最终索引裁定；browser-use内部权限拒绝，保持未知。
+
+### 原RESEARCH进入身份（2026-11-03历史）
+
 2026-11-03进入main@dc4498f36c0342eef5191f9f59feaf3b363169b6，工作区干净、相对本地origin/main ahead 1、未fetch；FOCUS索引28文件均匹配。子模块内部状态未重验。新进入快照、保护指纹、批准记录、检查及审查仅写review-20261101/research-20261103；本轮完成状态以唯一记录及新最终索引为准。
 
 ### FOCUS进入身份（2026-11-02历史）
@@ -45,23 +55,25 @@ browser-use gitlink保持7be96ed8bafa8dfe1eef228b59cf5c884b8b2431。原11/01限�
 
 Memory全部功能入口继续禁用并延期：手动／自动、API／CLI、默认profile／框架、旧checkpoint、导入／恢复／重建和后台均不得产生候选、读写、检索或注入。active refs为空并与实际请求核对，Trace记disabled/not_applicable、null hits/writes及feature_disabled。Case资料正常持久化；显式选入历史报告走SourceSet权限及私有祖先核验，不解引用Memory。04／17未实施、未验且非当前M1前置，预留闲置；重开需真实需求、独立审查与另行批准。 完整规则由[契约](../contracts/CURRENT_CONTRACTS.md)维护。
 
-唯一协议draft-m1-3，能力引用draft-m1-capabilities-3。公开材料索引仍pending；三个包新预期根为D:\adaptive-browser-agent\.tmp\predev-reopen-20261028\config-20261029\review-20261101\research-20261103\materials，只更新预期引用，不创建或搬迁材料。旧FOCUS材料及索引保持原义。
+唯一协议draft-m1-3，能力引用draft-m1-capabilities-5。公开材料索引仍pending；三个包预期根保持D:\adaptive-browser-agent\.tmp\predev-reopen-20261028\config-20261029\review-20261101\research-20261103\materials，不创建或搬迁材料。旧FOCUS材料及索引保持原义。
 
 | 关口 | 准确前置与边界 |
 | --- | --- |
 | ENV-M1-01 | boot前证明旧systemd/bootcommand/launcher自动服务和出站安全；不能先启动后补隔离。冷切核旧队列/在途/unknown、封旧出口与写凭据/连接，保护原DB。准确Linux路径、UID、工具和依赖另授。 |
 | 新Pg/首工 | 独立cluster/data/config/凭据/55432，ara_m1和ara_m1_test、受限app/checkpoint角色；DDL/migration/restore身份另授。普通启动不DDL。首工仅auth/personal rawDraft/最小sup，不导旧Settings/SQLite/Provider。 |
 | Task和读取资格 | 应用Pg当前权限及sup连续性共同约束。Task独立执行grant不因logout过期；UI每次有界response/page/frame核当前读auth/membership/sourceproof，不能凭cursor/旧SSE会话继续读。 |
+| 项目确认与容量 | 本机最多两身份；CLI指定唯一确认人，发起者编辑／显式接续；无管理后台。准确head／确认策略及资格revision三端重核，角色失效不复活；各资格及当前确认独立撤销预留、已有池内计数，满额仍能撤确认再独立禁用／撤成员／清策略。具体字节和清理仅契约维护。 |
 | 私源App | 安装/密钥/签发token/读取私库均不由配置授权。installation与repo只读范围、安全receipt和最长5分钟proof另资格；freshmint是控制Call不是隐藏SDK自动操作。公开200不续私源权限。 |
 | Token/Gateway/付费 | 完整请求同bytes、thinkingdisabled/maxoutput、repair0/summary0、模型资格、旧账/unknown/在途/币种/价/余额/grant/全批覆盖先核。诊断只独立有限公开材料包，耗尽不自补。 |
 | ENV-M1-02/最低恢复 | 首个真实public pilot前也需独立物理介质、纸钥/纸卡真实隔离恢复；窗口后置的是完整故障覆盖，不是豁免最低安全前置。采购、age工具、介质写入/恢复各准确授权。 |
+| 单链pilot／完整M1 | 单链核心／03a离线链及原03b全部资格后另授首public full pilot，再动态重集成和私源；两者仍为完整M1必需。fake／real共用内核，不因提前反馈关闭动态父AC或增Case／费用。 |
 | 物理资源 | Case64MiB/项目业务1GiB/466.25MiB预留只计业务字节，不能推出Pg index/WAL/checkpoint/backup或CPU/RAM/swap够。遵守原cgroup资格，实际测量失败不脱组。 |
 | 正式材料 | public index pending，不制新题/gold。未来三个角色包/实际独审及Worker隔离另包；配置校验成功不代表材料就绪。 |
 | Browser/MCP | Browser真实接入延期并保持0，MCP研究；不得恢复旧DOM/240Browser调用或以其绕Fetch/费用边界。 |
 
 ## 恢复与回滚
 
-sup启动无资格。监测Pg连续连接/身份，所有池新连接/重连核同一连续性；失连续seal旧gen并隔离研究/Memory。另授CLI新凭据仅草稿/历史有限访问，无独立最新性证明不恢复付费；旧checkpoint、同UUID或新派生ID不能自证最新。备份同snapshot/来源卡/纸钥、流式加密及失败目标隔离沿契约，原库零写，不承诺tmpfs物理擦除。回滚先停写，保新数据/费用/授权，不destructive downgrade或让旧binary写新库。
+sup启动无资格。监测Pg连续连接/身份，所有池新连接/重连核同一连续性；失连续默认seal旧gen并隔离研究/Memory。另授CLI新凭据仅草稿/历史有限访问，不能单凭它恢复研究；仅[契约R2](../contracts/CURRENT_CONTRACTS.md)的受控未还原重启路径可经独立显式重授权重新开研，异常／还原／缺证据继续隔离。此A路径依赖可信运维陈述，不是独立最新性证明；旧checkpoint、同UUID或新派生ID也不能自证最新。备份同snapshot/来源卡/纸钥、流式加密及失败目标隔离沿契约，原库零写，不承诺tmpfs物理擦除。回滚先停写，保新数据/费用/授权，不destructive downgrade或让旧binary写新库。
 
 ## 投入、费用与交付
 
@@ -72,3 +84,11 @@ sup启动无资格。监测Pg连续连接/身份，所有池新连接/重连核�
 费用epoch仍10/28，模型116/Search84/Fetch168/GitHub704/HTTP1072最高计数，条件总296.46元与分桶只由唯一协议/契约定义；不是余额或资金分配，所有已发生费、unknown及Control工具/纸耗/介质/审计新增费先归账，不桶外隐藏。30元其它桶及10元buffer不自动购买/分配。
 
 配置检查用已安装Python/Ruff，临时输出限本轮审计目录；禁止安装、真实运行、服务/DB、实际ACL、付费、外部写及Git写。本批完整diff/指纹/实际检查和非作者当前文件独审一致才可交付配置；业务/本人价值/Go另判。
+
+## R2 受控重启、准备状态与操作前置
+
+本人选择CONTROLLED-REARM-v1方案A：仅同一未替换目录、未restore/copy/PITR的受控停机，凭完整clean证据及可信本人声明，经新CLI凭据、精确CONTROL_ONLY、当前资格和新研究许可重新开研。程序不能发现漏报的旧库还原，此保证弱于原独立最新性边界；异常／疑还原／缺证据继续隔离。具体状态、幂等、unknown、原Casecap/deadline和有界回执只由契约R2维护。无外置停机锚点／第二业务账，Memory继续禁用。
+
+03b首次真实pilot前必须完成该路径的离线、restrictedPg竞争及paid-disabled进程验收；环境隔离／新库／工具和依赖操作仍分别另授。普通重启、pg_control／timeline或数据库OPEN不是恢复资格。本轮只修改配置与校验，不操作WSL／服务／数据库，不验证实际恢复。原Token／资金／最低独立介质纸钥及原费用epoch不豁免，已有环境／余额仅旧日期观察。
+
+原RESEARCH-BASELINE-20261103材料准备身份和固定research-20261103/materials路径保持，不制formal题／gold。2027春招目标和GPT Researcher固定案例B是当前计划输入，不是已证明资格／用户价值。旧333/1及R2的344/1检查不冒本轮结果。当前TEAM新审计仅追加.tmp/team-plan-20261103-01，R2及更早原索引不回绑；本机ignored证据不随Git发布，须另取原字节复核。formal仍同一真实参与者，可同一账户兼任角色；跨身份测试独立，不证真实团队价值。

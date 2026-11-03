@@ -1,5 +1,5 @@
 {
-  "protocol_version": "draft-m1-capabilities-3",
+  "protocol_version": "draft-m1-capabilities-5",
   "role": "capability_acceptance_reference",
   "status": "prepared_pending_material_and_actual_file_review",
   "current_protocol": {
@@ -36,7 +36,10 @@
         "first_artifact_multidimensional_reservation_no_unsavable_send",
         "same_Task_bounded_nonrecursive_assignment_CAS_and_idempotent_creation",
         "shared_acquisition_per_consumer_authorization_cancel_late_result_and_sealed_research_inputs",
-        "shared_14_normal_16_physical_pool_four_physical_compiles_including_retry_first_attempt_only_reservation"
+        "shared_14_normal_16_physical_pool_four_physical_compiles_including_retry_first_attempt_only_reservation",
+        "full_flow_partial_human_edit_confirmation_linked_Turn_separate_seals_exact_double_draft_package",
+        "project_designated_exact_confirmation_policy_account_member_revisions_and_no_approval_revival",
+        "single_chain_real_pilot_before_dynamic_reintegration_full_M1_dynamic_still_required"
       ]
     },
     {
@@ -111,13 +114,23 @@
         "DEC-M1-01",
         "ENV-M1-01",
         "ENV-M1-02",
+        "DEC-M1-03b",
         "DEC-M1-08b"
       ],
       "evidence": [
         "one_real_owner_second_test_identity_object_isolation",
         "continuous_supervisor_identity_qualification",
         "paper_key_independent_source_card_real_restore",
-        "owner_actual_read_explain_edit_debug_regress_and_business_acceptance"
+        "owner_actual_read_explain_edit_debug_regress_and_business_acceptance",
+        "controlled_unchanged_data_restart_trusted_operator_no_restore_attestation_not_independent_freshness",
+        "all_nonterminal_tasks_and_unsent_reservations_closed_physical_quiescence_known_fees_final_shutdown_receipt",
+        "new_CLI_then_explicit_CONTROL_ONLY_current_qualification_then_new_research_grant_idempotent_no_old_grant_revival",
+        "abnormal_or_suspected_restore_stays_isolated_unknown_not_cleared_original_Case_caps_deadlines_and_memory_disabled",
+        "controlled_rearm_offline_restricted_Pg_and_paid_disabled_process_checks_before_first_public_pilot",
+        "local_operator_project_roles_requester_writer_designated_confirmer_no_research_grant",
+        "per_eligibility_and_per_confirmation_3072_byte_invalidation_reserves_full_capacity_revoke_then_disable",
+        "deny_only_confirmation_revoke_without_source_proof_refresh_or_research_time",
+        "same_human_formal_requester_confirmer_cross_identity_tests_not_team_value"
       ]
     }
   ],
@@ -167,5 +180,141 @@
       "status": "pending_not_completed",
       "reactivation": "separate_approved_followup_after_real_reuse_need_and_review"
     }
-  ]
+  ],
+  "team_delivery_contract": {
+    "configuration_revision": "TEAM-BASELINE-20261103-01",
+    "deployment": {
+      "origin": "http://127.0.0.1:8766",
+      "accounts_max": 2,
+      "project_administration": "explicit_local_operator_CLI",
+      "admin_web_UI": false,
+      "runtime": "independent_product_API_Worker_Pg_real_LangGraph_no_legacy_AgentLoop"
+    },
+    "roles": {
+      "accept_edit_cancel_continue": "requester",
+      "confirm_and_revoke": "single_project_designated_confirmer",
+      "requester_may_be_designated_confirmer": true,
+      "confirmation_grants_task_budget_or_source_authority": false,
+      "private_Draft_automatically_shared": false,
+      "CLI_checks": [
+        "operator_authority",
+        "supervisor_generation",
+        "root_lock",
+        "shutdown_receipt_and_pending_rearm_invalidation"
+      ]
+    },
+    "confirmation": {
+      "binds": [
+        "requirements_version",
+        "requirements_hash",
+        "actor",
+        "project_policy_revision",
+        "account_approval_eligibility_revision",
+        "membership_revision"
+      ],
+      "invalidated_by": [
+        "new_requirements_head",
+        "project_confirmer_change",
+        "membership_removal",
+        "account_disable",
+        "explicit_confirmation_revoke"
+      ],
+      "not_invalidated_by_alone": [
+        "logout",
+        "auth_session_expiry",
+        "credential_rotation"
+      ],
+      "old_approval_revival_after_swapback_rejoin_reenable": false,
+      "no_eligible_confirmer_blocks": [
+        "solution_start",
+        "solution_send",
+        "solution_commit"
+      ],
+      "requirements_drafting_and_review_without_confirmer": true,
+      "solution_checks": [
+        "start",
+        "send_claim",
+        "commit"
+      ],
+      "earlier_valid_claim_may_remain_inflight": true,
+      "late_invalidated_result": "original_Call_permitted_audit_usage_cost_only",
+      "reconfirmation": "requester_explicit_linkedTurn_no_old_Task_revival_or_Case_cap_deadline_reset",
+      "effective_same_confirmation": "reuse_current_no_duplicate_confirmation_row",
+      "revoke_requires": [
+        "current_authenticated_designated_confirmer",
+        "current_project_Case_authority",
+        "expected_confirmation_and_head",
+        "operation_body_binding"
+      ],
+      "revoke_requires_source_body_or_private_proof_refresh": false,
+      "revoke_requires_research_grant_or_remaining_research_time": false
+    },
+    "safety_reserve": {
+      "owners": [
+        "Account_approval_eligibility",
+        "Membership_eligibility",
+        "ProjectApprovalPolicy_eligibility",
+        "current_RequirementsConfirmation"
+      ],
+      "receipt_max_bytes": 2048,
+      "event_max_bytes": 1024,
+      "next_invalidation_reserve_bytes": 3072,
+      "bytes_basis": "actual_persisted_UTF8_envelopes",
+      "eligibility_bucket": "existing_non_Case_safety_metadata",
+      "confirmation_bucket": "existing_Case_canonical_metadata_and_Case_total",
+      "reserve_before_create_activate_or_reconfirm": true,
+      "ordinary_creation_bytes_separately_accounted": true,
+      "mandatory_invalidation_uses_own_reserve": true,
+      "ordinary_full_capacity_blocks_mandatory_invalidation": false,
+      "borrow_other_object_reserve": false,
+      "increase_pool_or_borrow_disabled_Memory": false,
+      "same_operation_same_body": "replay_original_receipt_no_new_bytes",
+      "same_operation_different_body": "409",
+      "unchanged_policy_new_operation": "no_revision_advance_ordinary_receipt_capacity_or_reject",
+      "cleanup": "bounded_root_transaction_permanently_noncurrent_only_exactly_once",
+      "temporary_source_unavailability_allows_cleanup": false
+    },
+    "delivery": {
+      "sequence": [
+        "ENV-M1-01",
+        "DEC-M1-01",
+        "DEC-M1-02-A",
+        "DEC-M1-02-B",
+        "DEC-M1-02-C-single-core",
+        "DEC-M1-03a-offline",
+        "ENV-M1-02-and-DEC-M1-03b-qualification",
+        "first_public_full_flow_pilot",
+        "DEC-M1-02-C-dynamic-reintegration",
+        "private_App_sources",
+        "second_original_requirements_only_pilot_and_real_symptom_correction",
+        "formal_six_slots_and_full_restore_practice"
+      ],
+      "first_real_pilot_requires": [
+        "single_chain_production_safety_kernel",
+        "four_mode_offline_integration",
+        "minimum_independent_media_paper_key_real_restore",
+        "Gateway_Token_funds_source_qualification",
+        "controlled_rearm_offline_restrictedPg_paid_disabled_process_acceptance",
+        "exact_real_execution_authorization"
+      ],
+      "dynamic_and_private_sources_required_for_full_M1": true,
+      "single_chain_preview_closes_dynamic_parent_AC": false,
+      "fake_and_real_share_application_admission_path": true,
+      "pilot_checks": [
+        "verified_current_state",
+        "requirements_boundary",
+        "change_design",
+        "first_development_tasks",
+        "start_blockers"
+      ],
+      "new_Case_call_funding_or_deadline_allocation": false
+    },
+    "formal_and_value": {
+      "same_actual_human_account_may_request_and_confirm": true,
+      "cross_identity_qualification": "restrictedPg_and_UI_not_extra_formal_slots_or_team_value",
+      "sole_protocol_bytes_changed": false,
+      "real_team_and_task_evidence": "pending",
+      "technical_verification_human_acceptance_mastery_value_M1_Go_release_separate": true
+    }
+  }
 }

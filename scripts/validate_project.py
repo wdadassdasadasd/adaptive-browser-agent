@@ -744,14 +744,15 @@ FOCUS_MEMORY_OBSERVATION = {
 }
 
 
-# Independent approved-byte anchors for CONFIG-PLAN-20261103-01.
+# Independent approved-byte anchors for TEAM-BASELINE-20261103-01.
+# The sole protocol/materials keep their original bytes and preparation revision.
 # Change only with a separately approved configuration revision and file review.
 # No CLI override or self-rebinding from repository content is provided.
-APPROVED_CONFIGURATION_REVISION = "RESEARCH-BASELINE-20261103"
+APPROVED_CONFIGURATION_REVISION = "TEAM-BASELINE-20261103-01"
 APPROVED_CURRENT_HASHES = {
     "docs/evaluation/CURRENT_EVAL_PROTOCOL.json": "799178fb431656c00c785634ad53df06b62d660a68291b7fab3719bcf8584eda",
     "docs/evaluation/DISCOVERY_M1_CASES.json": "6c37e4ed40d6592465fa64b87b50bc48ed56f2187d27ae4493687e961afff1c0",
-    "docs/evaluation/DECISION_M1_PROTOCOL.json": "cb95d1b73e752c59a57a2de8bdad9844511c2decc2a81ab3e9afd70d8411b65a",
+    "docs/evaluation/DECISION_M1_PROTOCOL.json": "517da41a7b7a46ee3920ea3833ef03bef205fe0c2ef1227c7340c971ad3c39e8",
 }
 
 # Small, independently checked invariants; full prose is protected by raw hashes.
@@ -932,6 +933,9 @@ REVIEW_CAPABILITIES = [
             "same_Task_bounded_nonrecursive_assignment_CAS_and_idempotent_creation",
             "shared_acquisition_per_consumer_authorization_cancel_late_result_and_sealed_research_inputs",
             "shared_14_normal_16_physical_pool_four_physical_compiles_including_retry_first_attempt_only_reservation",
+            "full_flow_partial_human_edit_confirmation_linked_Turn_separate_seals_exact_double_draft_package",
+            "project_designated_exact_confirmation_policy_account_member_revisions_and_no_approval_revival",
+            "single_chain_real_pilot_before_dynamic_reintegration_full_M1_dynamic_still_required",
         ],
     },
     {
@@ -977,12 +981,21 @@ REVIEW_CAPABILITIES = [
     {
         "id": "identity_recovery_practice",
         "requirements": ["DEC-AC-15", "DEC-AC-14"],
-        "tasks": ["DEC-M1-01", "ENV-M1-01", "ENV-M1-02", "DEC-M1-08b"],
+        "tasks": ["DEC-M1-01", "ENV-M1-01", "ENV-M1-02", "DEC-M1-03b", "DEC-M1-08b"],
         "evidence": [
             "one_real_owner_second_test_identity_object_isolation",
             "continuous_supervisor_identity_qualification",
             "paper_key_independent_source_card_real_restore",
             "owner_actual_read_explain_edit_debug_regress_and_business_acceptance",
+            "controlled_unchanged_data_restart_trusted_operator_no_restore_attestation_not_independent_freshness",
+            "all_nonterminal_tasks_and_unsent_reservations_closed_physical_quiescence_known_fees_final_shutdown_receipt",
+            "new_CLI_then_explicit_CONTROL_ONLY_current_qualification_then_new_research_grant_idempotent_no_old_grant_revival",
+            "abnormal_or_suspected_restore_stays_isolated_unknown_not_cleared_original_Case_caps_deadlines_and_memory_disabled",
+            "controlled_rearm_offline_restricted_Pg_and_paid_disabled_process_checks_before_first_public_pilot",
+            "local_operator_project_roles_requester_writer_designated_confirmer_no_research_grant",
+            "per_eligibility_and_per_confirmation_3072_byte_invalidation_reserves_full_capacity_revoke_then_disable",
+            "deny_only_confirmation_revoke_without_source_proof_refresh_or_research_time",
+            "same_human_formal_requester_confirmer_cross_identity_tests_not_team_value",
         ],
     },
 ]
@@ -1020,6 +1033,140 @@ REVIEW_COVERAGE_POLICY = {
     "automatic_memory": "deferred_not_required_for_current_M1; reactivation_requires_real_reuse_need_separate_review_and_scope_approval",
 }
 
+
+# Independent semantic policy; never derived from the bundle being validated.
+TEAM_DELIVERY_CONTRACT = {
+    "configuration_revision": "TEAM-BASELINE-20261103-01",
+    "deployment": {
+        "origin": "http://127.0.0.1:8766",
+        "accounts_max": 2,
+        "project_administration": "explicit_local_operator_CLI",
+        "admin_web_UI": False,
+        "runtime": "independent_product_API_Worker_Pg_real_LangGraph_no_legacy_AgentLoop",
+    },
+    "roles": {
+        "accept_edit_cancel_continue": "requester",
+        "confirm_and_revoke": "single_project_designated_confirmer",
+        "requester_may_be_designated_confirmer": True,
+        "confirmation_grants_task_budget_or_source_authority": False,
+        "private_Draft_automatically_shared": False,
+        "CLI_checks": [
+            "operator_authority",
+            "supervisor_generation",
+            "root_lock",
+            "shutdown_receipt_and_pending_rearm_invalidation",
+        ],
+    },
+    "confirmation": {
+        "binds": [
+            "requirements_version",
+            "requirements_hash",
+            "actor",
+            "project_policy_revision",
+            "account_approval_eligibility_revision",
+            "membership_revision",
+        ],
+        "invalidated_by": [
+            "new_requirements_head",
+            "project_confirmer_change",
+            "membership_removal",
+            "account_disable",
+            "explicit_confirmation_revoke",
+        ],
+        "not_invalidated_by_alone": [
+            "logout",
+            "auth_session_expiry",
+            "credential_rotation",
+        ],
+        "old_approval_revival_after_swapback_rejoin_reenable": False,
+        "no_eligible_confirmer_blocks": [
+            "solution_start",
+            "solution_send",
+            "solution_commit",
+        ],
+        "requirements_drafting_and_review_without_confirmer": True,
+        "solution_checks": ["start", "send_claim", "commit"],
+        "earlier_valid_claim_may_remain_inflight": True,
+        "late_invalidated_result": "original_Call_permitted_audit_usage_cost_only",
+        "reconfirmation": "requester_explicit_linkedTurn_no_old_Task_revival_or_Case_cap_deadline_reset",
+        "effective_same_confirmation": "reuse_current_no_duplicate_confirmation_row",
+        "revoke_requires": [
+            "current_authenticated_designated_confirmer",
+            "current_project_Case_authority",
+            "expected_confirmation_and_head",
+            "operation_body_binding",
+        ],
+        "revoke_requires_source_body_or_private_proof_refresh": False,
+        "revoke_requires_research_grant_or_remaining_research_time": False,
+    },
+    "safety_reserve": {
+        "owners": [
+            "Account_approval_eligibility",
+            "Membership_eligibility",
+            "ProjectApprovalPolicy_eligibility",
+            "current_RequirementsConfirmation",
+        ],
+        "receipt_max_bytes": 2048,
+        "event_max_bytes": 1024,
+        "next_invalidation_reserve_bytes": 3072,
+        "bytes_basis": "actual_persisted_UTF8_envelopes",
+        "eligibility_bucket": "existing_non_Case_safety_metadata",
+        "confirmation_bucket": "existing_Case_canonical_metadata_and_Case_total",
+        "reserve_before_create_activate_or_reconfirm": True,
+        "ordinary_creation_bytes_separately_accounted": True,
+        "mandatory_invalidation_uses_own_reserve": True,
+        "ordinary_full_capacity_blocks_mandatory_invalidation": False,
+        "borrow_other_object_reserve": False,
+        "increase_pool_or_borrow_disabled_Memory": False,
+        "same_operation_same_body": "replay_original_receipt_no_new_bytes",
+        "same_operation_different_body": "409",
+        "unchanged_policy_new_operation": "no_revision_advance_ordinary_receipt_capacity_or_reject",
+        "cleanup": "bounded_root_transaction_permanently_noncurrent_only_exactly_once",
+        "temporary_source_unavailability_allows_cleanup": False,
+    },
+    "delivery": {
+        "sequence": [
+            "ENV-M1-01",
+            "DEC-M1-01",
+            "DEC-M1-02-A",
+            "DEC-M1-02-B",
+            "DEC-M1-02-C-single-core",
+            "DEC-M1-03a-offline",
+            "ENV-M1-02-and-DEC-M1-03b-qualification",
+            "first_public_full_flow_pilot",
+            "DEC-M1-02-C-dynamic-reintegration",
+            "private_App_sources",
+            "second_original_requirements_only_pilot_and_real_symptom_correction",
+            "formal_six_slots_and_full_restore_practice",
+        ],
+        "first_real_pilot_requires": [
+            "single_chain_production_safety_kernel",
+            "four_mode_offline_integration",
+            "minimum_independent_media_paper_key_real_restore",
+            "Gateway_Token_funds_source_qualification",
+            "controlled_rearm_offline_restrictedPg_paid_disabled_process_acceptance",
+            "exact_real_execution_authorization",
+        ],
+        "dynamic_and_private_sources_required_for_full_M1": True,
+        "single_chain_preview_closes_dynamic_parent_AC": False,
+        "fake_and_real_share_application_admission_path": True,
+        "pilot_checks": [
+            "verified_current_state",
+            "requirements_boundary",
+            "change_design",
+            "first_development_tasks",
+            "start_blockers",
+        ],
+        "new_Case_call_funding_or_deadline_allocation": False,
+    },
+    "formal_and_value": {
+        "same_actual_human_account_may_request_and_confirm": True,
+        "cross_identity_qualification": "restrictedPg_and_UI_not_extra_formal_slots_or_team_value",
+        "sole_protocol_bytes_changed": False,
+        "real_team_and_task_evidence": "pending",
+        "technical_verification_human_acceptance_mastery_value_M1_Go_release_separate": True,
+    },
+}
 
 MATERIAL_INDEX_PATH = "docs/evaluation/DISCOVERY_M1_CASES.json"
 MATERIAL_ROOT = ".tmp/predev-reopen-20261028/config-20261029/review-20261101/research-20261103/materials"
@@ -1874,7 +2021,7 @@ def check_current_supplement(supplement: object, protocol_raw: bytes) -> list[st
         return ["M1 supplement must be an object"]
     errors: list[str] = []
     if (
-        supplement.get("protocol_version") != "draft-m1-capabilities-3"
+        supplement.get("protocol_version") != "draft-m1-capabilities-5"
         or supplement.get("role") != "capability_acceptance_reference"
     ):
         errors.append("M1 supplement must reference sole current authority")
@@ -1929,6 +2076,10 @@ def check_current_supplement(supplement: object, protocol_raw: bytes) -> list[st
         errors.append("M1 must not revive superseded integration batches")
     if not _json_equal(supplement.get("real_coverage_policy"), REVIEW_COVERAGE_POLICY):
         errors.append("M1 capability coverage policy differs")
+    if not _json_equal(
+        supplement.get("team_delivery_contract"), TEAM_DELIVERY_CONTRACT
+    ):
+        errors.append("M1 team delivery contract differs")
     capabilities = supplement.get("capabilities")
     if not _json_equal(capabilities, REVIEW_CAPABILITIES):
         errors.append("M1 capability mappings differ")

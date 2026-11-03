@@ -240,3 +240,64 @@ OpenCode使用完整请求与provider usage锚点，再估计新增消息；hook
 本文件形成时只进行了公开静态读取、进入材料读取和文档编写；没有本报告作者执行的新业务/上游测试结果。实际配置回归、完整diff审查、保护指纹与发现修复结果由唯一任务记录和新审计索引提供，不在本报告预填通过或测试数量。
 
 最终分别报告静态配置、离线测试、独立实施审查、真实执行、人工业务验收、本人掌握、实际价值和发布准备。配置通过不能替代后七类证据，独立设计审查不能替代新正文实施审查。发生重要新设计/范围变化时返回相应确认，而非藏入配置修复。
+
+
+## 12. 2026-11-03 R2受控重启与首闭环补研
+
+本节为RESEARCH-BASELINE-20261103-R2日期化追加，原报告全部原字节前缀保持。CONTENT-20261103-02完整确认后，负责人以“执行计划”授权CONFIG-PLAN-20261103-02的17文件配置、限定离线检查及新审计，不授业务／环境／付费／Git。本节不是第二任务或批准系统；实际配置检查和实施独审由[唯一任务](../features/DECISION-001/tasks.md)裁定。
+
+### 当前实现与静态风险
+
+本轮进入main@81ecfa2756ca3ebe02824c857572270f3150cdb0，根工作区干净、本地origin/main同HEAD，未查远端；browser-use内部查询Permission denied。已追Vue→旧SQLite或P-01 Pg API→Worker→agent_factory→旧AgentLoop。固定p01-local-owner仍是旧实现，新认证、文档确认、SourceSet、新sup及Gateway不是现有能力。以下静态路径不是本轮业务回归，也未运行故障复现：
+
+| 固定HEAD源码位置（前缀backend/src/adaptive_research/） | 触发／机制与影响 | 后续验证 |
+| --- | --- | --- |
+| worker/runner.py:441–453；infrastructure/pg_store.py:738–791 | 有有效密钥／旧Pg、无price-book及PgBudget时require_budget=False，可能先发缺价格／预算资格的模型调用；响应后停线不代发前拒绝 | ENV启WSL前隔离旧自动服务／旧出口；假供应商／restrictedPg验证零发送，本轮不启动旧服务 |
+| infrastructure/pg_store.py:456–472及:224–230；agent/agent_loop.py:548–553 | 最后本地cancel检查后API先提交取消，finish_task仅核live/fence/lease不核cancel flag，仍可能completed及新报告 | 两连接barrier固定取消／成功双序，不冒新程序保证已过 |
+| agent/tools/github_tool.py:48–53；agent/agent_loop.py:390–402；agent/call_observer.py:100–108 | 可能已到远端的ReadTimeout等RequestError被包technical ToolResult、落failed再重试，unknown分类丢失 | MockTransport不明结果保unknown／一次物理尝试，不推广GET为未来付费Search安全重试 |
+
+### 固定上游与供应商补核
+
+[LangGraph 3cd57c038ad827d05f80c6488adea9994156c58c的成功writes恢复](https://github.com/langchain-ai/langgraph/blob/3cd57c038ad827d05f80c6488adea9994156c58c/libs/langgraph/langgraph/pregel/_loop.py#L789)和[测试827–917](https://github.com/langchain-ai/langgraph/blob/3cd57c038ad827d05f80c6488adea9994156c58c/libs/langgraph/tests/test_pregel.py#L827)只复用成功节点，失败节点可重执行，不保证外调exactly-once。DeerFlow60940ae9c528e5d740b27d058f2c5d80565a71b7的[executor终态／清理](https://github.com/bytedance/deer-flow/blob/60940ae9c528e5d740b27d058f2c5d80565a71b7/backend/packages/harness/deerflow/subagents/executor.py#L2029)及[假stream测试](https://github.com/bytedance/deer-flow/blob/60940ae9c528e5d740b27d058f2c5d80565a71b7/backend/tests/test_subagent_executor.py#L5667)区分超时终态与物理槽。测试正文已核，未运行。
+
+OpenCode固定ed74ec82ce1fe3a36da6c0815a935473ef4bb0fb的[estimatePrompt:1005／hasMeasuredPrompt:1050](https://github.com/anomalyco/opencode/blob/ed74ec82ce1fe3a36da6c0815a935473ef4bb0fb/packages/core/src/session/compaction.ts#L1005)按provider ID筛usage锚点，precompute另核model ID／variant；旧“同provider/model历史”过强，勘误另见[原研究追加](HIGH_STAR_AGENT_MECHANISMS_2026-10-22.md#2026-11-03-r2补核与历史表述勘误)。生产context.load及完整provider序列化未全取得，不宣布生产跨模型bug；prepare后hook可改请求，预算对象不是wire bytes证明。
+
+[MCP2025-11-25 Task Cancellation](https://modelcontextprotocol.io/specification/2025-11-25/basic/utilities/tasks#task-cancellation)的取消终态不证明远端已停止，停止执行仅SHOULD attempt；[重投递](https://modelcontextprotocol.io/specification/2025-11-25/basic/transports#resumability-and-redelivery)也不授权重执行工具。保持MCP研究、Browser0。
+
+2026-11-03官方[DeepSeek中文价表](https://api-docs.deepseek.com/zh-cn/quick_start/pricing/)Flash峰价输入2／输出8元每百万Token、Search／Fetch5元每千成功请求，与原CNY条件预算相符；USD不能混算为冲突。[Token说明](https://api-docs.deepseek.com/quick_start/token_usage/)与[Chat API](https://api-docs.deepseek.com/api/create-chat-completion/)支持本地计数／实际usage分层；当前“1M”页面未单独展开1048576，精确托管C／格式／账单待资格，不从本地模型推定。
+
+### 受控重启候选、选择与审查
+
+PostgreSQL16.15固定7d3e000c5961a544302072058a1184e9a588837b：[pg_control.h:98](https://github.com/postgres/postgres/blob/7d3e000c5961a544302072058a1184e9a588837b/src/include/catalog/pg_control.h#L98)的system_identifier用于匹配cluster WAL；[xlog.c:5171](https://github.com/postgres/postgres/blob/7d3e000c5961a544302072058a1184e9a588837b/src/backend/access/transam/xlog.c#L5171)区分普通crash延续timeline与archive恢复新timeline，结束后统一production。[同步commit](https://www.postgresql.org/docs/16/wal-async-commit.html)的正常崩溃持久性依赖实际存储，不证明未恢复旧数据；[PITR](https://www.postgresql.org/docs/16/continuous-archiving.html)可有意停旧一致状态。cluster ID／启动时间／timeline／UUID／hash链均不能单独证历史费用／撤权最新。
+
+| 候选 | 收益、代价及适用前提 | 本人选择 |
+| --- | --- | --- |
+| A人工核对后重新授权 | 同一未替换目录、未restore／copy／PITR的受控停机；可信操作者真实陈述，无外置持久组件，但程序不能检测漏报旧库还原，弱于原B5.2独立最新性 | 已选并完整确认，不放宽所有恢复 |
+| B独立停机锚点 | Pg恢复单元外READY／ACTIVE否决见证，启动从实际权威状态重算；增加双写、锁和独立回滚域／持久性资格，共同回滚仍不保证 | 未采用，不新增外置组件／第二业务账 |
+
+A先全非终态Task及未发许可收尾、物理出口收拢、费核清且无未解决unknown停线才clean回执；新boot研究closed，核证／本人未还原陈述→新CLI→精确CONTROL_ONLY→当前资格→新research许可。旧grant／Attempt／proof不复活，原Casecap／deadline及历史unknown不洗零／不重发，文档确认保准确版本但当前head／actor／来源重核。异常断电、WSL崩溃、PG意外重启、证据不齐／疑还原仍隔离，运行细则只在[契约B5.2](../contracts/CURRENT_CONTRACTS.md#b52-supervisor)。
+
+新上下文design_coherence_review与controlled_rearm_security审现行架构及A/B；v0排队／未发预留遗漏、CONTROL_ONLY前置循环和B权威root／窄写者歧义经v1补足。采用A的受影响技术／安全复审无新确认P0–P3，原相关P2静态关闭。实际权限仍workspace-write，只读要求不是隔离；未跑Pg、进程、持久性、控制请求、模型或费用。它是设计审查，不替本轮17文件完整正文／diff／实际检查的实施独审。
+
+### 首闭环、岗位与未验
+
+本人选择GPT Researcher3582a6841fe7dc801e2a34e34ee408641aea9bce的需求到方案改造为案例B，优先完整业务闭环；先承认已有研究／报告编辑／持久聊天，不凭有限未读宣称全仓无功能。它是开发材料／后续另授pilot目标，登记预读与已知发现，非formal gold，实际用途价值待证；案例A继续模糊输入、系统替代和反证。目标为2027春招Agent应用开发／AI全栈正式岗位，后端可靠性结合Vue3／TypeScript，先依赖规划、不承诺工期，首实践后实耗校准，不推定地区／资格／掌握。
+
+2026-11-03重读[百度Harness样本](https://talent.baidu.com/jobs/detail/GRADUATE/74d83772-1bd0-42b9-8cc5-69eb45696b62)及[2027AIDU全栈样本](https://talent.baidu.com/jobs/detail/GRADUATE/6f9c3a86-6557-409d-8fa7-e6f4c68d6765)，分别涉及状态／约束／Context／反馈及规划／工具／评测成本延迟。类别／日期有限，不证明当前名额、本人资格、整个市场或未来统一门槛；岗位Memory／多Agent词不代机制收益。本人请求追踪、解释竞争、亲改回归及异常演示仍需实际确认。
+
+跨Turn首需求partial→编辑确认→linkedTurn→新Task seal／方案加入贯穿验收；03b首次真实pilot前增加A的离线、restrictedPg和paid-disabled进程证据，不反扩首工认证／Draft／最小sup，不豁免最低独立备份、费用／Token资格。唯一draft-m1-3及公开材料原字节、六槽位不变，能力引用draft-m1-capabilities-4。本节未运行新业务、上游测试、模型、Tokenizer、Browser、WSL或数据库。
+
+
+## 13. 2026-11-03 TEAM：完整路线重评与阶段0配置依据
+
+本段追加，进入全文raw字节不改。当前负责人重新评估完整方案并确认本机双身份团队共享／人工交接、独立产品链、CLI指定项目确认人，随后Default模式`PLEASE IMPLEMENT THIS PLAN`授权阶段0配置。可见会话转录见`.tmp/team-plan-20261103-01/authorization.md`及approved-plan.md；不是原始API导出，不将agent记录当人授权。当前产品、运行参数和实施顺序仍分别由SPEC、CURRENT_CONTRACTS及PLANS负责，本报告不立第二规则。
+
+原始一手研究本轮补核：[LangGraph固定1.0.0 durable execution](https://github.com/langchain-ai/langgraph/blob/1.0.0/docs/docs/concepts/durable_execution.md)要求确定性回放及side-effect幂等；未完成task可能重入，故checkpoint不是外调exactly-once或业务权限。当前durable-execution文档URL已重定向至Persistence，版本证据不能与未来选定依赖混用。[Anthropic 2024-12-19 effective agents](https://www.anthropic.com/research/building-effective-agents)及[2025-06-13 multi-agent research](https://www.anthropic.com/research/multi-agent-research-system)提供按任务独立性增加复杂度的经验；其内部多Agent质量与token数字不作为本项目收益或预算证据，也不直接指定本项目架构。
+
+另核固定GPT Researcher3582a6841fe7dc801e2a34e34ee408641aea9bce的[report routes](https://github.com/assafelovic/gpt-researcher/blob/3582a6841fe7dc801e2a34e34ee408641aea9bce/backend/server/app.py)及[ReportStore](https://github.com/assafelovic/gpt-researcher/blob/3582a6841fe7dc801e2a34e34ee408641aea9bce/backend/server/report_store.py)：报告编辑／持久聊天确实存在；读取与whole-object写入分别锁文件，不能直接充当本产品的不可变需求、精确确认与事务权威。此为限定源码路径观察，未跑上游，不证明全仓没有其他能力。独立产品链、增量改旧链、以上游为底座三候选经过讨论，负责人选择独立产品链；保Vue，合格纯helper可复用，不接旧AgentLoop。
+
+已确认顺序允许完整单链安全内核、四模式离线集成、最低独立恢复和Gateway/Token/资金/来源/rearm资格后先做真实public full pilot；再动态委派重集成和私源。动态与私源保完整M1要求，单链不是完整父任务验收。首次pilot检查现状／需求边界／改造设计／首批任务／开工阻碍，另记人工核查补救负担；真实团队和任务未发现，不写价值已成立，不新增Case/调用/资金。
+
+新增确认职责是本轮真实产品决定：发起者接受／编辑／取消／显式接续，项目指定负责人确认／撤销，同身份允许。精确policy／member／account eligibility版本永久失效，角色换回／重入／reenable不复活旧确认；logout和换凭据不等内容撤销。独立设计审查发现每资格reserve不足以保障多current confirmation的显式撤销，补每确认独立3072B预留后受影响复核关闭该P2。仅收紧revoke不读来源正文、不刷新proof、不需研究grant/time，仍核当前身份／指定人／Case权限；有限桶与程序保证待真实Pg验证。
+
+设计审查为本聊天新上下文plan_design_review及两次受影响复核，结论DONE_WITH_CONCERNS、无剩余确认P0–P3；其正文是可见消息，不伪造API导出／消息ID／原始hash。该结论不是本轮实际16文件实施独审，也不是调用、Token、恢复、本人实践或团队价值证据。当前实际修改／命令／独审／限制只由唯一任务记录及新审计索引裁定；当前不执行业务、环境、安装、真实模型/Tokenizer/Browser或费用。

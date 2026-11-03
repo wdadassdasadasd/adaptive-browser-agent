@@ -1991,3 +1991,208 @@ def test_research_baseline_preserves_legal_delta_and_unattempted_first_reserve(
         is False
     )
     assert "legal_nonzero_local_delta" in model["token_qualification"]["hosted_fit"]
+
+
+def test_rearm_capability_revision_preserves_sole_protocol_and_pending_results(
+    tmp_path,
+):
+    _current_bundle(tmp_path)
+    protocol_raw = (tmp_path / validator.PROTOCOL).read_bytes()
+    supplement = json.loads(
+        (tmp_path / "docs/evaluation/DECISION_M1_PROTOCOL.json").read_bytes()
+    )
+    assert hashlib.sha256(protocol_raw).hexdigest() == (
+        "799178fb431656c00c785634ad53df06b62d660a68291b7fab3719bcf8584eda"
+    )
+    assert supplement["protocol_version"] == "draft-m1-capabilities-5"
+    assert supplement["current_protocol"]["version"] == "draft-m1-3"
+    assert validator.check_current_supplement(supplement, protocol_raw) == []
+    assert all(value is False for value in supplement["results"].values())
+
+
+@pytest.mark.parametrize(
+    "drift",
+    [
+        "old_revision",
+        "missing_cross_turn",
+        "missing_attestation_boundary",
+        "missing_task_cleanup",
+        "missing_control_only",
+        "missing_abnormal_isolation",
+        "missing_process_qualification",
+        "missing_pre_pilot_dependency",
+        "claim_implemented",
+        "claim_paid_authority",
+    ],
+)
+def test_rearm_capability_rejects_missing_obligations_or_authority_claims(
+    tmp_path, drift
+):
+    _current_bundle(tmp_path)
+    supplement = json.loads(
+        (tmp_path / "docs/evaluation/DECISION_M1_PROTOCOL.json").read_bytes()
+    )
+    runtime = next(
+        c for c in supplement["capabilities"] if c["id"] == "runtime_harness"
+    )
+    recovery = next(
+        c for c in supplement["capabilities"] if c["id"] == "identity_recovery_practice"
+    )
+    if drift == "old_revision":
+        supplement["protocol_version"] = "draft-m1-capabilities-3"
+    elif drift == "missing_cross_turn":
+        runtime["evidence"].remove(
+            "full_flow_partial_human_edit_confirmation_linked_Turn_separate_seals_exact_double_draft_package"
+        )
+    elif drift == "missing_pre_pilot_dependency":
+        recovery["tasks"].remove("DEC-M1-03b")
+    elif drift == "claim_implemented":
+        supplement["results"]["implemented"] = True
+    elif drift == "claim_paid_authority":
+        supplement["authorization"]["paid_execution"] = True
+    else:
+        marker = {
+            "missing_attestation_boundary": "trusted_operator",
+            "missing_task_cleanup": "nonterminal_tasks",
+            "missing_control_only": "CONTROL_ONLY",
+            "missing_abnormal_isolation": "abnormal_or_suspected",
+            "missing_process_qualification": "paid_disabled_process",
+        }[drift]
+        recovery["evidence"] = [e for e in recovery["evidence"] if marker not in e]
+    # Exercise semantic checks directly: rehashing a fixture is not an approval.
+    assert validator.check_current_supplement(
+        supplement, (tmp_path / validator.PROTOCOL).read_bytes()
+    )
+
+
+def test_team_delivery_capability_preserves_sole_authority_and_unverified_scope(
+    tmp_path,
+):
+    _current_bundle(tmp_path)
+    protocol_raw = (tmp_path / validator.PROTOCOL).read_bytes()
+    supplement = json.loads(
+        (tmp_path / "docs/evaluation/DECISION_M1_PROTOCOL.json").read_bytes()
+    )
+    assert validator.APPROVED_CONFIGURATION_REVISION == "TEAM-BASELINE-20261103-01"
+    assert supplement["protocol_version"] == "draft-m1-capabilities-5"
+    assert validator.check_current_supplement(supplement, protocol_raw) == []
+    team = supplement["team_delivery_contract"]
+    assert team["safety_reserve"]["next_invalidation_reserve_bytes"] == 3072
+    assert team["safety_reserve"]["owners"][-1] == "current_RequirementsConfirmation"
+    sequence = team["delivery"]["sequence"]
+    assert sequence.index("ENV-M1-02-and-DEC-M1-03b-qualification") < sequence.index(
+        "first_public_full_flow_pilot"
+    )
+    assert (
+        sequence.index("first_public_full_flow_pilot")
+        < sequence.index("DEC-M1-02-C-dynamic-reintegration")
+        < sequence.index("private_App_sources")
+    )
+    assert all(value is False for value in supplement["results"].values())
+    assert all(value is False for value in supplement["authorization"].values())
+
+
+@pytest.mark.parametrize(
+    "path,value",
+    [
+        (("roles", "confirm_and_revoke"), "any_project_member"),
+        (("roles", "accept_edit_cancel_continue"), "confirmer"),
+        (("roles", "confirmation_grants_task_budget_or_source_authority"), True),
+        (("roles", "private_Draft_automatically_shared"), True),
+        (("roles", "CLI_checks"), []),
+        (("deployment", "accounts_max"), 3),
+        (("deployment", "admin_web_UI"), True),
+        (("confirmation", "binds"), ["requirements_hash", "actor"]),
+        (("confirmation", "old_approval_revival_after_swapback_rejoin_reenable"), True),
+        (("confirmation", "invalidated_by"), ["new_requirements_head"]),
+        (("confirmation", "not_invalidated_by_alone"), ["logout"]),
+        (("confirmation", "solution_checks"), ["start", "commit"]),
+        (("confirmation", "requirements_drafting_and_review_without_confirmer"), False),
+        (
+            ("confirmation", "revoke_requires_source_body_or_private_proof_refresh"),
+            True,
+        ),
+        (
+            (
+                "confirmation",
+                "revoke_requires_research_grant_or_remaining_research_time",
+            ),
+            True,
+        ),
+        (("safety_reserve", "owners"), ["Account_approval_eligibility"]),
+        (("safety_reserve", "next_invalidation_reserve_bytes"), "3072"),
+        (("safety_reserve", "receipt_max_bytes"), 3072),
+        (
+            ("safety_reserve", "confirmation_bucket"),
+            "existing_non_Case_safety_metadata",
+        ),
+        (("safety_reserve", "reserve_before_create_activate_or_reconfirm"), 1),
+        (("safety_reserve", "ordinary_creation_bytes_separately_accounted"), False),
+        (("safety_reserve", "borrow_other_object_reserve"), True),
+        (("safety_reserve", "increase_pool_or_borrow_disabled_Memory"), True),
+        (
+            ("safety_reserve", "ordinary_full_capacity_blocks_mandatory_invalidation"),
+            True,
+        ),
+        (("safety_reserve", "same_operation_same_body"), "charge_and_create_again"),
+        (("safety_reserve", "temporary_source_unavailability_allows_cleanup"), True),
+        (("delivery", "dynamic_and_private_sources_required_for_full_M1"), False),
+        (("delivery", "single_chain_preview_closes_dynamic_parent_AC"), True),
+        (("delivery", "fake_and_real_share_application_admission_path"), False),
+        (
+            ("delivery", "first_real_pilot_requires"),
+            ["exact_real_execution_authorization"],
+        ),
+        (("delivery", "new_Case_call_funding_or_deadline_allocation"), True),
+        (
+            ("formal_and_value", "same_actual_human_account_may_request_and_confirm"),
+            False,
+        ),
+        (("formal_and_value", "sole_protocol_bytes_changed"), True),
+        (("formal_and_value", "real_team_and_task_evidence"), "proven"),
+    ],
+)
+def test_team_delivery_rejects_semantic_drift_without_relying_on_raw_hash(
+    tmp_path, path, value
+):
+    _current_bundle(tmp_path)
+    supplement = json.loads(
+        (tmp_path / "docs/evaluation/DECISION_M1_PROTOCOL.json").read_bytes()
+    )
+    target = supplement["team_delivery_contract"]
+    for key in path[:-1]:
+        target = target[key]
+    target[path[-1]] = value
+    assert "M1 team delivery contract differs" in validator.check_current_supplement(
+        supplement, (tmp_path / validator.PROTOCOL).read_bytes()
+    )
+
+
+@pytest.mark.parametrize(
+    "drift",
+    ["missing_contract", "old_revision", "early_pilot", "missing_confirmation_reserve"],
+)
+def test_team_delivery_rejects_missing_scope_or_premature_pilot(tmp_path, drift):
+    _current_bundle(tmp_path)
+    supplement = json.loads(
+        (tmp_path / "docs/evaluation/DECISION_M1_PROTOCOL.json").read_bytes()
+    )
+    if drift == "missing_contract":
+        del supplement["team_delivery_contract"]
+    elif drift == "old_revision":
+        supplement["protocol_version"] = "draft-m1-capabilities-4"
+    elif drift == "missing_confirmation_reserve":
+        supplement["team_delivery_contract"]["safety_reserve"]["owners"].remove(
+            "current_RequirementsConfirmation"
+        )
+    else:
+        sequence = supplement["team_delivery_contract"]["delivery"]["sequence"]
+        pilot = sequence.index("first_public_full_flow_pilot")
+        qualification = sequence.index("ENV-M1-02-and-DEC-M1-03b-qualification")
+        sequence[pilot], sequence[qualification] = (
+            sequence[qualification],
+            sequence[pilot],
+        )
+    assert validator.check_current_supplement(
+        supplement, (tmp_path / validator.PROTOCOL).read_bytes()
+    )

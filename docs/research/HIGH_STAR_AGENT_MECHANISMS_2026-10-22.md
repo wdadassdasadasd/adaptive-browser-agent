@@ -279,3 +279,16 @@ r11 B02已用24467、剩15533、报告预检界15576（差-43）；B03已用3187
 原正文逐字保留，继续只解释各原日期、版本和批准范围。CONTENT-20261103-01（含两项澄清）已由负责人完整确认，CONFIG-PLAN-20261103-01已获配置执行授权；本轮事实、固定源码/岗位证据、候选取舍、两个案例、五专项连接、独立设计审查范围与未验证项见[开发前研究与配置依据](PREDEV_CONFIGURATION_REVIEW_2026-11-03.md)。原文中的旧Memory启用、旧固定用途次数、Token恒等条件及旧工期/资格不能恢复为现行要求；本轮亦不把未来能力写成本人已掌握。
 
 当前目标以[运行契约](../contracts/CURRENT_CONTRACTS.md)和[唯一评测协议](../evaluation/CURRENT_EVAL_PROTOCOL.json)为准，实际配置检查/完整diff实施审查与交付见[唯一任务记录](../features/DECISION-001/tasks.md)。新研究不改写旧失败或重绑定旧批准；本次无业务开发、上游执行、真实模型/Tokenizer/Browser或Git写。
+
+
+## 2026-11-03 R2补核与历史表述勘误
+
+本节只追加，原研究全部原字节前缀保留，不回写原日期、批准、测试或失败。对应已确认CONTENT-20261103-02及“执行计划”授权的CONFIG-PLAN-20261103-02；本节是证据／勘误，不是运行授权。
+
+OpenCode固定ed74ec82ce1fe3a36da6c0815a935473ef4bb0fb：旧“最近provider响应usage锚定同provider/model历史”过强。[estimatePrompt:1005–1027](https://github.com/anomalyco/opencode/blob/ed74ec82ce1fe3a36da6c0815a935473ef4bb0fb/packages/core/src/session/compaction.ts#L1005)使用的[hasMeasuredPrompt:1050–1055](https://github.com/anomalyco/opencode/blob/ed74ec82ce1fe3a36da6c0815a935473ef4bb0fb/packages/core/src/session/compaction.ts#L1050)仅比provider ID、无error及正input/cache usage；precompute另核model ID／variant。[模型切换测试](https://github.com/anomalyco/opencode/blob/ed74ec82ce1fe3a36da6c0815a935473ef4bb0fb/packages/core/test/session-compaction.test.ts#L1037)为mock，正文已核但未跑。生产context.load／history过滤未全取得，只收窄原事实，不报生产跨模型Token bug；prepare后的hook仍可改请求，预算不能冒wire计数。
+
+[LangGraph成功writes恢复测试](https://github.com/langchain-ai/langgraph/blob/3cd57c038ad827d05f80c6488adea9994156c58c/libs/langgraph/tests/test_pregel.py#L827)不保证外调exactly-once；DeerFlow60940ae9c528e5d740b27d058f2c5d80565a71b7的[终态后仍占capacity测试](https://github.com/bytedance/deer-flow/blob/60940ae9c528e5d740b27d058f2c5d80565a71b7/backend/tests/test_subagent_executor.py#L5667)不是远端静止／费用证明。[MCP2025-11-25取消](https://modelcontextprotocol.io/specification/2025-11-25/basic/utilities/tasks#task-cancellation)也需区分终态和物理停止，继续MCP研究／Browser0。以上只静态核，不称执行通过。
+
+PostgreSQL16.15固定7d3e000c5961a544302072058a1184e9a588837b的cluster ID／timeline只解释数据库身份与恢复分支；[同步commit保证](https://www.postgresql.org/docs/16/wal-async-commit.html)不证明未还原。负责人已在CONTROLLED-REARM-v1选A人工核对后重新授权，限定同一未替换目录、真实确认未restore／copy／PITR的受控停机，接受程序不能检测漏报旧库还原；异常中断／证据不齐／疑还原仍隔离。B独立锚点未采用，不加外置持久组件或第二账，Casecap／deadline／费用／unknown不洗零，Memory全入口关闭。准确源码、候选／审查／人选择和未运行限制见[本轮R2补研](PREDEV_CONFIGURATION_REVIEW_2026-11-03.md#12-2026-11-03-r2受控重启与首闭环补研)，运行权威在[契约B5.2](../contracts/CURRENT_CONTRACTS.md#b52-supervisor)。
+
+首完整闭环优先固定GPT Researcher3582a6841fe7dc801e2a34e34ee408641aea9bce已有研究／报告编辑／聊天到需求编辑／准确确认／绑定方案，开发材料／后续另授pilot目标非formal gold，不增槽／预算。当前目标为2027春招Agent应用开发／AI全栈正式岗位，后端可靠性结合Vue3／TypeScript，依赖优先不承诺工期，不代填本人掌握。本追加没有安装、执行上游代码／测试、真实模型／Tokenizer／Browser、WSL／DB或Git写。

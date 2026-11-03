@@ -1,12 +1,12 @@
 # DECISION-001：需求与方案研究起草及证据评审
 
-**RESEARCH-BASELINE-20261103：CONTENT-20261103-01完整确认，CONFIG-PLAN-20261103-01配置实施获批。** [唯一任务／原18项](tasks.md)分别记录批准、实施、检查、独审和交付。依据[根规格](../../../SPEC.md)、[计划](../../../PLANS.md)、[契约](../../contracts/CURRENT_CONTRACTS.md)、[唯一协议](../../evaluation/CURRENT_EVAL_PROTOCOL.json)。旧FOCUS／DRAFT／REVIEW及更早交付继续绑定原字节，业务、环境、真实运行及本人验收另取证，r12／P-02 No-Go不变。
+**TEAM-BASELINE-20261103-01：完整团队研发计划已确认，“PLEASE IMPLEMENT THIS PLAN”授权阶段0配置对齐。** 原RESEARCH-BASELINE-20261103-R2及更早批准继续绑定原字节／范围。 [唯一任务／原18项](tasks.md)分别记录批准、实施、检查、独审和交付。依据[根规格](../../../SPEC.md)、[计划](../../../PLANS.md)、[契约](../../contracts/CURRENT_CONTRACTS.md)、[唯一协议](../../evaluation/CURRENT_EVAL_PROTOCOL.json)。业务、环境、真实运行及本人验收另取证，r12／P-02 No-Go不变。
 
 ## 用户问题与交付
 
-面向开发者／团队，支持review_only、requirements_only、solution_only、requirements_to_solution。想法无仓库可用；材料限一个主GitHub固定版本、许可公开证据和本人选定本地text／源码／diff。源码只读不执行，diff不应用；原始私人Draft与不可变生成文档分开。需求首稿经本人编辑／对话修订并确认准确版本后，才可生成方案；仅需求可独立结束，仅方案须明确确认既有需求。UI及各Markdown准确绑定同一版本。
+面向团队研发，首版限定本机最多两个身份、共享项目与人工交接，无管理后台／实时共编／远程接入，真实团队和具体任务仍待找。支持review_only、requirements_only、solution_only、requirements_to_solution。想法无仓库可用；材料限一个主GitHub固定版本、许可公开证据和本人选定本地text／源码／diff。源码只读不执行，diff不应用；原始私人Draft与不可变生成文档分开。发起者编辑／对话修订需求，项目指定当前确认人明确确认准确版本，再由发起者显式接续方案；两角色可同一身份。仅需求可独立结束，仅方案须当前准确确认。UI及各Markdown准确绑定同一版本。
 
-需求稿说明问题／用户／目标／范围／流程／AC／依据／假设／待决；工程方案说明架构数据流／模块接口数据／正常失败／权限费用恢复／取舍验证。评审无权威基准只观察／假设；起草可提建议但不能自升已接受条件。暂无真实任务，价值待证，不自动批准／改仓库／运行系统。
+需求稿说明问题／用户／目标／范围／流程／AC／依据／假设／待决；工程方案说明架构数据流／模块接口数据／正常失败／权限费用恢复／取舍验证。评审无权威基准只观察／假设；起草可提建议但不能自升已接受条件。案例B已选固定GPT Researcher3582a6841fe7dc801e2a34e34ee408641aea9bce已有研究／报告编辑／持久聊天到需求编辑／准确确认／绑定方案，作为开发材料／后续另授pilot；实际用途价值待证，不自动成为正式题／gold，不自动批准／改仓库／运行系统。
 
 采集／保留／模型／分享／完整Search query与Fetch URL用途分别许可，派生继承私有输入祖先。退出读会话不取消独立执行Task；来源／成员撤销收紧新调用、新提交和当前读取。详细竞争、schema与数值以契约为准。
 
@@ -16,14 +16,14 @@
 
 | ID | 可观察通过条件 | 必须保留的失败／竞争证据；任务 |
 | --- | --- | --- |
-| DEC-AC-08 | 四模式和目标有原消息出处，基准／未知／范围可澄清；接受才有InputRevision；仅方案绑定本人确认需求；依据三分 | 私Draft不自动入team，网页／模型／Memory不改硬条件；无基准仍探索；02 |
-| DEC-AC-09 | 同发起者／Session／key／正文先重放后CAS，接受revision／Task／active／event／version原子提交 | 异body409；需求保存、确认与方案start/send/commit双序CAS，改head原子失效确认；满额／DB失败无孤立对象；控制Task无研究许可；02 |
+| DEC-AC-08 | 四模式和目标有原消息出处，基准／未知／范围可澄清；接受才有InputRevision；仅方案绑定项目当前确认人准确确认；依据三分 | 私Draft不自动入team，网页／模型／Memory不改硬条件；无基准可探索，无确认人可需求／评审而不可方案；02 |
+| DEC-AC-09 | 同发起者／Session／key／正文先重放后CAS，接受revision／Task／active／event／version原子提交 | 异body409；需求head及确认策略／账户／成员资格与方案start/send/commit双序，失效不复活；满额／DB失败无孤立对象；控制Task无研究许可；02 |
 | DEC-AC-10 | 无仓库想法或单主仓库固定版本，有界关键文档及选定本地text／code／diff，public按需补证 | 本地逐stream实际计数／严格解码／30s／核权reserve和commit；未seal不入模型，未知diff基点非commit；截断／未读／失败非覆盖；Browser0；03a/03b |
 | DEC-AC-11 | 实质主张有主体／适用版本／范围、capture表示hash及UTF-8引用；摘要非原文 | 子串不证语义，反证／限定／未知版本保留；新capture不覆盖，改条件默认同commit；03a/03b，当前不依赖04 |
 | DEC-AC-12 | 需求／方案／评审不可变版本含依据／假设／验证；编辑显式保存与对话修订，UI／各Markdown同hash，完整包保双稿及确认refs | 未读非不存在，文档声明非已运行；关键不足partial，探索可有事实unknown；16版本及首工件compile/slot/bytes多维预留，已知无容量零发；repair／summary0；02/03 |
 | DEC-AC-13 | 所有Call含签发／probe／retry逐次准入预留，精确请求与资格绑定，Token／usage／费用分账 | prepared／admitted非发送；unknown停全项目外调；schema／unknown不技术重试；未知不填0；03b |
 | DEC-AC-14 | send与commit核实时租约／fence／执行代次／权限／资格；终态／active／event原子；checkpoint只refs | cancel／success、lease／commit双序，late只原Callaudit／费用；completed不重发，资源确认才释放；02/03b，Memory禁用／空refs |
-| DEC-AC-15 | 真认证、私人Draft／项目共享分开；member／source／Taskgrant及读取claim可验；新cluster／sup | logout／expiry后SSE不续读；每response／page／frame重核，最后有界在途可送达；源撤权派生禁用，恢复保守；01/ENV/08 |
+| DEC-AC-15 | 真认证、私人Draft／项目共享分开；member／source／Taskgrant及读取claim可验；CLI管理项目唯一确认人，发起者编辑／确认人确认；新cluster／sup | logout／expiry后SSE不续读；每response／page／frame重核；换人／离队／禁用及满额撤确认后仍可独立禁用／撤成员／清策略；有界在途非瞬时召回；01/02/ENV/08 |
 | DEC-AC-16 | draft-m1-3的REQ双首稿／CON原评审／EXP原方案各过关键项；六final交付包共质且计时完整后才描述已登记三pair省时 | 无20%硬门槛，非关键逐条不合总分；缺／0baseline不挑pair；未启动／取消／缺失均保分母；07 |
 | DEC-AC-17（延期，非当前M1必需） | 未来跨Case自动Memory候选，未实施／未验，不算pass | 当前所有Memory入口关闭且实际请求无注入；不建空Store／seed；真实复用需求、独立设计审查及准确范围另批才重开04；原容量不挪用 |
 | DEC-AC-18 | 完整条件／未知、必要证据／反证先保护；Manifest解释选排；完整公开格式本地计数／hosted-fit／实际usage三层证据 | 缺许可／超限拒发partial；合法计数差异只记录，溢出／供应商协议错root撤affected资格，业务输出错不混同；不推测内部使用；03a/03b；当前不依赖04 |
@@ -44,6 +44,15 @@ Agent侧产品＋本人读源改稿，无外部AI代修／复制Control。Contro
 
 以下细化既有DEC-AC，不另建权威AC系统；完整状态／参数见契约。
 
+TEAM阶段0只同步目标及配置校验，不运行以下业务检查。顺序按[计划](../../../PLANS.md)：单链核心与四模式离线链→最低独立恢复及全部03b真实资格→首public full pilot→动态重集成→私源→原第二reqonly pilot／真实纠错及正式六槽／完整恢复。动态与私源仍为完整M1必需，单链节点不关闭完整父任务。首pilot五项检查现状核实、需求边界、改造设计、首批任务、开工阻碍，并记录原稿、核查／补救负担；无真实任务保持待证，不新造Case／正式材料。
+
+| 对应AC／任务 | TEAM新增可观察通过条件 | 必须覆盖的反例 |
+| --- | --- | --- |
+| 08／09／15；02-A/B | CLI操作者指定唯一确认人；发起者编辑／接受／取消／接续，确认人确认／撤销，其他成员读或另建Case；角色可同一身份 | 确认人接管Task、模型指定角色、私人Draft自动入项目、无确认人仍生成方案 |
+| 09／12／14／15；02-B/03 | 确认绑定准确version/hash/actor及策略／账户／成员资格revision；角色失效与方案三端双序 | 换人A→B→A、离队重入、disable→enable复活旧确认；logout／凭据轮换误撤内容；失效先提交仍发布旧方案 |
+| 09／14／15；02-B | 资格及每个当前确认各自先保必要撤销空间；同operation幂等回放；仅永久失效后根事务有界释放 | 普通容量满先撤多个确认再独立禁用／撤成员／清策略；跨对象借预留、重复计费、临时proof不可用即释放、无余量先确认后补预留 |
+| 16／19；07 | 同一真实参与者可同账户兼任两角色，保原formal计时／六槽 | 第二测试身份当真实团队采用证据、不同真实确认人混入原formal口径、增加正式槽位 |
+
 | 对应AC | 正常行为 | 必须覆盖的反例 |
 | --- | --- | --- |
 | 08／09／14 | 主链按需委派同Task Work，准确assignment head／依赖，原子创建替换与幂等回放；主链按当前frontier归并 | 旧目标／权限继续调用、相同规划重复创建、取消后迟到、无关子任务推进误拒有效结果；全部资源无重置 |
@@ -52,6 +61,20 @@ Agent侧产品＋本人读源改稿，无外部AI代修／复制Control。Contro
 | 12／14／18 | 正式compile前seal研究输入；保护证据实际文本及反证／未知进入请求 | seal后结果偷偷归并、新requirements head沿旧确认编译、Manifest有ref但实际请求缺保护内容 |
 | 13／18／19 | 完整本地计数、工程hosted-fit、合法actualusage／缓存／费用分开 | 合法非零差异被误拒、溢出资格仍可用、业务输出坏误撤协议资格、缺usage／费unknown填零或自动开闸 |
 | 16／19／20 | 两案例静态走查、正式六槽位、真实用途和本人实践分别取证 | 配置测试通过冒充并发／真实质量、旧失败改判、未来安排写成本人已掌握 |
+
+### R2受控重启与跨Turn验收细化
+
+复用既有AC和预算，不新增formal槽位；细则由[契约B5.2](../../contracts/CURRENT_CONTRACTS.md#b52-supervisor)维护，均待业务实现／验证。
+
+| 对应AC／任务 | 正常行为 | 必须覆盖的反例 |
+| --- | --- | --- |
+| 09／12／14；02／03a | 首需求partial→编辑／准确确认→同Case linkedTurn→新Task seal引用前轮有权已提交证据→方案／最终双稿包 | confirm与终结双序、head变化、前轮late audit晋升、Casecap／deadline重置 |
+| 14／15；02／03b | A停机覆盖queued／running／recovering业务与control Task，清active／唯一终态；未发许可失效，只释确定未用reserve | 排队遗留、sent／Token／首尝试used返还、物理槽未收拢先释放、未知费用仍clean |
+| 14／15；03b | clean回执→新boot研究closed→只读核证／本人未还原陈述→新CLI→CONTROL_ONLY→当前资格→本人新research许可 | 回执后撤权未作废、异常／疑还原走A、旧receipt重放、提交不明换operation、旧grant／Attempt／proof复活 |
+| 13／14／15；03b | control-only无研究发送，原Casecap／deadline不暂停；有效资格不强制重跑；元数据先reserve | 诊断／控制重领、mint unknown后外发、资格半成崩溃却research、容量满仍写、借Memory预留 |
+| 14／15／19；03b | 本人知悉A依赖同一未替换目录且未restore／copy／PITR的可信陈述；文档确认保准确版本、当前权限重核 | 把A称独立最新性证明、声称可检测漏报还原、rearm解除未解决unknown、历史Call改completed／重发 |
+
+03b首次真实pilot前完成以上离线、restrictedPg及paid-disabled进程证据；首工01仍仅认证／私人Draft／最小sup，不把配置写成已运行能力。2027目标及本人实践按SPEC／PLANS。
 
 ## 历史DEC-AC-01–07及实现证据
 
