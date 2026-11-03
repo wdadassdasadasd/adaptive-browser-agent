@@ -1,6 +1,6 @@
 # DECISION-001：需求与方案研究起草及证据评审
 
-**TEAM-BASELINE-20261103-01：完整团队研发计划已确认，“PLEASE IMPLEMENT THIS PLAN”授权阶段0配置对齐。** 原RESEARCH-BASELINE-20261103-R2及更早批准继续绑定原字节／范围。 [唯一任务／原18项](tasks.md)分别记录批准、实施、检查、独审和交付。依据[根规格](../../../SPEC.md)、[计划](../../../PLANS.md)、[契约](../../contracts/CURRENT_CONTRACTS.md)、[唯一协议](../../evaluation/CURRENT_EVAL_PROTOCOL.json)。业务、环境、真实运行及本人验收另取证，r12／P-02 No-Go不变。
+**DEV-STAGES-20261104-01：负责人确认六阶段26切片并明确要求PLEASE IMPLEMENT THIS PLAN，当前仅实施准备切片P0。** 旧TEAM/R2等批准保原字节/范围。[唯一记录](tasks.md)保原18项及本轮实施/检查/独审/人工验收状态；[SPEC](../../../SPEC.md)、[PLANS](../../../PLANS.md)、[契约](../../contracts/CURRENT_CONTRACTS.md)、[唯一协议](../../evaluation/CURRENT_EVAL_PROTOCOL.json)各守原权威。r12/P-02 No-Go保留。
 
 ## 用户问题与交付
 
@@ -12,7 +12,7 @@
 
 ## DEC-AC-08–20：当前验收契约
 
-以下均为待实现／待验行为。结构检查、离线fixture、受限Pg、真实任务、人核源与本人掌握分别取证。
+以下均为待实现/待验行为。六阶段工程验收需要08–15、18及19的工程Trace部分；16、20及19的formal/质量/计时部分由负责人按需显式启动，未执行记未评测，不阻工程验收。17延期，禁用机制仍须工程验证。发现的真实缺陷仍处理；假数据不冒真实成功，掌握由本人确认。
 
 | ID | 可观察通过条件 | 必须保留的失败／竞争证据；任务 |
 | --- | --- | --- |
@@ -24,11 +24,11 @@
 | DEC-AC-13 | 所有Call含签发／probe／retry逐次准入预留，精确请求与资格绑定，Token／usage／费用分账 | prepared／admitted非发送；unknown停全项目外调；schema／unknown不技术重试；未知不填0；03b |
 | DEC-AC-14 | send与commit核实时租约／fence／执行代次／权限／资格；终态／active／event原子；checkpoint只refs | cancel／success、lease／commit双序，late只原Callaudit／费用；completed不重发，资源确认才释放；02/03b，Memory禁用／空refs |
 | DEC-AC-15 | 真认证、私人Draft／项目共享分开；member／source／Taskgrant及读取claim可验；CLI管理项目唯一确认人，发起者编辑／确认人确认；新cluster／sup | logout／expiry后SSE不续读；每response／page／frame重核；换人／离队／禁用及满额撤确认后仍可独立禁用／撤成员／清策略；有界在途非瞬时召回；01/02/ENV/08 |
-| DEC-AC-16 | draft-m1-3的REQ双首稿／CON原评审／EXP原方案各过关键项；六final交付包共质且计时完整后才描述已登记三pair省时 | 无20%硬门槛，非关键逐条不合总分；缺／0baseline不挑pair；未启动／取消／缺失均保分母；07 |
+| DEC-AC-16（按需效果） | draft-m1-3的REQ双首稿／CON原评审／EXP原方案各过关键项；六final交付包共质且计时完整后才描述已登记三pair省时 | 无20%硬门槛，非关键逐条不合总分；缺／0baseline不挑pair；未启动／取消／缺失均保分母；07 |
 | DEC-AC-17（延期，非当前M1必需） | 未来跨Case自动Memory候选，未实施／未验，不算pass | 当前所有Memory入口关闭且实际请求无注入；不建空Store／seed；真实复用需求、独立设计审查及准确范围另批才重开04；原容量不挪用 |
 | DEC-AC-18 | 完整条件／未知、必要证据／反证先保护；Manifest解释选排；完整公开格式本地计数／hosted-fit／实际usage三层证据 | 缺许可／超限拒发partial；合法计数差异只记录，溢出／供应商协议错root撤affected资格，业务输出错不混同；不推测内部使用；03a/03b；当前不依赖04 |
-| DEC-AC-19 | 原程序、原report核源、本人finalhash三轴；canonical／usage／费用／active／wait可重算 | 六slot同版全保，gold受限；许可非实际显示，不明时点不算saving；audit不偷偷供研究；06/07/08 |
-| DEC-AC-20 | 至少一真实症状→trace→预设假设→本人亲改→回归／独审→另授同条件真实复测纠正 | 无真bug待证不植bug，最多两复测Case，改条件／source-model漂移为混杂；失败不替纠正；06 |
+| DEC-AC-19 | 工程必需：canonical/usage/费用及既有记录可重建；按需效果：原程序/原稿核源/本人finalhash、六槽同版、gold与active/wait计时 | 工程审计不偷偷供研究；formal启动后许可非实际显示、不明时点不算saving；03b/08b工程，06/07按需效果 |
+| DEC-AC-20（按需效果） | 至少一真实症状→trace→预设假设→本人亲改→回归／独审→另授同条件真实复测纠正 | 无真bug待证不植bug，最多两复测Case，改条件／source-model漂移为混杂；失败不替纠正；06 |
 
 FR-001–015、NFR-001–011及原AC完整映射见SPEC；模块依赖见PLANS。权限、费用、恢复、测试映射七专项，不以框架、配置或模块存在代效果。
 
@@ -44,7 +44,7 @@ Agent侧产品＋本人读源改稿，无外部AI代修／复制Control。Contro
 
 以下细化既有DEC-AC，不另建权威AC系统；完整状态／参数见契约。
 
-TEAM阶段0只同步目标及配置校验，不运行以下业务检查。顺序按[计划](../../../PLANS.md)：单链核心与四模式离线链→最低独立恢复及全部03b真实资格→首public full pilot→动态重集成→私源→原第二reqonly pilot／真实纠错及正式六槽／完整恢复。动态与私源仍为完整M1必需，单链节点不关闭完整父任务。首pilot五项检查现状核实、需求边界、改造设计、首批任务、开工阻碍，并记录原稿、核查／补救负担；无真实任务保持待证，不新造Case／正式材料。
+DEV-STAGES的P0只同步配置与校验，不运行以下业务检查。准确六阶段26切片见PLANS；4.5公开完整链与5.4私源仅需求工程实测分别消耗原两pilot槽，dynamic/private仍工程必需。效果试用/纠错收益/正式六槽按需，不再作为六阶段工程完成前置；正式启动后冻结规则保持。首次共享读取当片核权，阶段五变更后的最低恢复/Token/权限等资格先补验再真实调用，不重领额度。
 
 | 对应AC／任务 | TEAM新增可观察通过条件 | 必须覆盖的反例 |
 | --- | --- | --- |

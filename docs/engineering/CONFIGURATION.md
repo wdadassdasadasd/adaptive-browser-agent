@@ -1,6 +1,6 @@
-# 工程配置与环境资格 — TEAM-BASELINE-20261103-01
+# 工程配置与环境资格 — DEV-STAGES-20261104-01
 
-负责人确认完整团队研发计划后，以“PLEASE IMPLEMENT THIS PLAN”授权本轮阶段0配置对齐，系统实际Default。本轮只同步现有配置、限定离线检查、独立审查及新证据；原RESEARCH-BASELINE-20261103-R2及更早批准／检查保持其原字节和范围。[唯一记录](../features/DECISION-001/tasks.md)保留18项历史和本轮真实结果；[SPEC](../../SPEC.md)、[PLANS](../../PLANS.md)、[契约](../contracts/CURRENT_CONTRACTS.md)各守原权威，draft-m1-3／公开材料索引原字节不变，M1能力引用独立为draft-m1-capabilities-5。本页不授业务、环境或运行资格。
+负责人明确实施六阶段26切片，本轮仅P0配置同步、限定离线检查、独立实施审查/修复及验收包。原TEAM/R2等批准与检查保持原字节/范围。[唯一记录](../features/DECISION-001/tasks.md)保18项及进入PREBOOT追加；[PLANS](../../PLANS.md)唯一维护路线及逐片推进。[契约](../contracts/CURRENT_CONTRACTS.md)维护安全/权限/费用，draft-m1-3/index原bytes保持，能力引用draft-m1-capabilities-6。本页不授业务、环境或运行资格。
 
 ## 配置归属与流程
 
@@ -55,7 +55,7 @@ browser-use gitlink保持7be96ed8bafa8dfe1eef228b59cf5c884b8b2431。原11/01限�
 
 Memory全部功能入口继续禁用并延期：手动／自动、API／CLI、默认profile／框架、旧checkpoint、导入／恢复／重建和后台均不得产生候选、读写、检索或注入。active refs为空并与实际请求核对，Trace记disabled/not_applicable、null hits/writes及feature_disabled。Case资料正常持久化；显式选入历史报告走SourceSet权限及私有祖先核验，不解引用Memory。04／17未实施、未验且非当前M1前置，预留闲置；重开需真实需求、独立审查与另行批准。 完整规则由[契约](../contracts/CURRENT_CONTRACTS.md)维护。
 
-唯一协议draft-m1-3，能力引用draft-m1-capabilities-5。公开材料索引仍pending；三个包预期根保持D:\adaptive-browser-agent\.tmp\predev-reopen-20261028\config-20261029\review-20261101\research-20261103\materials，不创建或搬迁材料。旧FOCUS材料及索引保持原义。
+唯一协议draft-m1-3，能力引用draft-m1-capabilities-6。工程六阶段与显式按需效果验收分离，效果未运行记未评测；材料仍pending，预期根保持原research-20261103/materials，不创建或迁址。P0用.tmp/p0-six-stage-20261104-01新证据，不覆盖旧目录。
 
 | 关口 | 准确前置与边界 |
 | --- | --- |
@@ -66,7 +66,7 @@ Memory全部功能入口继续禁用并延期：手动／自动、API／CLI、�
 | 私源App | 安装/密钥/签发token/读取私库均不由配置授权。installation与repo只读范围、安全receipt和最长5分钟proof另资格；freshmint是控制Call不是隐藏SDK自动操作。公开200不续私源权限。 |
 | Token/Gateway/付费 | 完整请求同bytes、thinkingdisabled/maxoutput、repair0/summary0、模型资格、旧账/unknown/在途/币种/价/余额/grant/全批覆盖先核。诊断只独立有限公开材料包，耗尽不自补。 |
 | ENV-M1-02/最低恢复 | 首个真实public pilot前也需独立物理介质、纸钥/纸卡真实隔离恢复；窗口后置的是完整故障覆盖，不是豁免最低安全前置。采购、age工具、介质写入/恢复各准确授权。 |
-| 单链pilot／完整M1 | 单链核心／03a离线链及原03b全部资格后另授首public full pilot，再动态重集成和私源；两者仍为完整M1必需。fake／real共用内核，不因提前反馈关闭动态父AC或增Case／费用。 |
+| 最小真实接入／工程M1 | 4.5公开完整链、5.4私源仅需求消耗原两pilot槽；全部准入/恢复/资金/Token资格仍前置。dynamic/private必需，受影响资格先重核，5.4前最低恢复覆盖当时基线；不增Case/额度。formal及效果纠错显式按需，未运行不冒pass。 |
 | 物理资源 | Case64MiB/项目业务1GiB/466.25MiB预留只计业务字节，不能推出Pg index/WAL/checkpoint/backup或CPU/RAM/swap够。遵守原cgroup资格，实际测量失败不脱组。 |
 | 正式材料 | public index pending，不制新题/gold。未来三个角色包/实际独审及Worker隔离另包；配置校验成功不代表材料就绪。 |
 | Browser/MCP | Browser真实接入延期并保持0，MCP研究；不得恢复旧DOM/240Browser调用或以其绕Fetch/费用边界。 |
@@ -77,7 +77,7 @@ sup启动无资格。监测Pg连续连接/身份，所有池新连接/重连核�
 
 ## 投入、费用与交付
 
-2026-11-02记录的10/29起七至八周／每周≤20h及92–136h、完整130–194h均保留为旧范围估计，不推定当前安排或承诺本次工期；已发生本人投入未知不填0。当前方向为Agent应用研发、中大厂，届别／资格／截止日不作推断。后续实耗校准；私源／正式／完整恢复未做不称首阶段或M1完成。产品价值仍需真实任务证据，Memory延期不算完成。
+2026-11-02记录的10/29起七至八周／每周≤20h及92–136h、完整130–194h均保留为旧范围估计，不推定当前安排或承诺本次工期；已发生本人投入未知不填0。当前方向为Agent应用研发、中大厂，届别／资格／截止日不作推断。后续实耗校准；私源/完整恢复未做不称M1工程能力验收通过；正式未运行另记未评测，第二阶段实耗后校准工期。产品价值仍需真实任务证据，Memory延期不算完成。
 
 主研究者和同Task专题Work共享正常调用池，程序选六purpose；compile≤4包含技术重试。只给尚未首次尝试的首工件保留首次尝试及保存／终态资源，已发送失败不补满；余量不足诚实partial。细值只由契约与唯一协议维护，[目标提示词契约](../contracts/PROMPT_CONTRACTS.md)不加载或替换旧业务prompt模块。
 
@@ -91,4 +91,4 @@ sup启动无资格。监测Pg连续连接/身份，所有池新连接/重连核�
 
 03b首次真实pilot前必须完成该路径的离线、restrictedPg竞争及paid-disabled进程验收；环境隔离／新库／工具和依赖操作仍分别另授。普通重启、pg_control／timeline或数据库OPEN不是恢复资格。本轮只修改配置与校验，不操作WSL／服务／数据库，不验证实际恢复。原Token／资金／最低独立介质纸钥及原费用epoch不豁免，已有环境／余额仅旧日期观察。
 
-原RESEARCH-BASELINE-20261103材料准备身份和固定research-20261103/materials路径保持，不制formal题／gold。2027春招目标和GPT Researcher固定案例B是当前计划输入，不是已证明资格／用户价值。旧333/1及R2的344/1检查不冒本轮结果。当前TEAM新审计仅追加.tmp/team-plan-20261103-01，R2及更早原索引不回绑；本机ignored证据不随Git发布，须另取原字节复核。formal仍同一真实参与者，可同一账户兼任角色；跨身份测试独立，不证真实团队价值。
+原RESEARCH-BASELINE-20261103材料准备身份和固定research-20261103/materials路径保持，不制formal题／gold。2027春招目标和GPT Researcher固定案例B是当前计划输入，不是已证明资格／用户价值。旧333/1及R2的344/1检查不冒本轮结果。本次DEV-STAGES新审计仅追加.tmp/p0-six-stage-20261104-01，原TEAM证据保持原身份，R2及更早原索引不回绑；本机ignored证据不随Git发布，须另取原字节复核。formal仍同一真实参与者，可同一账户兼任角色；跨身份测试独立，不证真实团队价值。

@@ -1230,3 +1230,122 @@ soleprotocol保持draft-m1-3原SHA `799178fb431656c00c785634ad53df06b62d660a6829
 本轮审计helper、原始独审转录、受影响复审、当前全量manifest及实际checks由同目录新`final.json`绑定；它记录实际结论，不由本段预填复审或commit成功。`.tmp`为ignored本地证据，不自动随Git发布；本页保留可随commit交付的范围、修复、验证及准入摘要。提交前核准确19路径暂存内容与审查快照一致，并运行默认validator及cached diff检查；提交后核HEAD和工作区状态。
 
 **准入边界**：这是开发前配置与本地交付基线，不是新产品已实现／环境已就绪。下一步按已确认路线准备ENV-M1-01准确操作包：先核旧自动启动／出站保护，再另授新cluster／角色／迁移等实际操作；证据不足不启动WSL。ENV资格及精确依赖／业务任务授权满足后进入DEC-M1-01真实登录／私人Draft／最小supervisor。真实Pg竞争、进程、Token／供应商、费用、恢复、正式材料、本人业务验收／掌握、团队价值、完整M1／Go／发布仍各自待证，不因本次commit关闭。回滚只反向经核对的本轮修复或该配置commit，不reset／clean，不覆盖进入前工作或恢复真实调用资格。
+
+
+## ENV-M1-01 / PREBOOT-PREP-20261103-01：停止状态下的环境准备
+
+负责人在上述全量配置本地提交后要求“继续”，本轮承接准备ENV-M1-01准确操作包。进入HEAD为`faa2edc9931c31330b5ac68417cf3d637a17de79`，Git区干净；445可读tracked指纹、任务原文和gitlink身份记录于`.tmp/env-m1-01-prep-20261103-01/entry.json`及tasks-entry.md。本轮只向本任务追加准备事实，其余权威配置与原18项保留，不创建业务实现。
+
+已实际完成：仓库旧启动器/ADR5/现行契约和历史环境材料阅读；Windows只读WSL状态及宿主进程/服务/过滤计划任务/Run项/目标端口/资源/注册VHDX元数据调查。普通沙箱WSL/CIM/计划任务曾拒绝，按工具级准确只读许可重查；没有借此取得环境修改授权。`host_inventory.ps1`只写本审计目录，原命令行参数不输出，记录字段null不能当无进程证明。完整宿主结果见host-inventory.json，非Linux内部检查或全机自启穷尽证明。
+
+当前Ubuntu为Stopped/WSL2，注册VHDX为`C:\Users\FFFFFF\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu_79rhkp1fndgsc\LocalState\ext4.vhdx`，长度4867489792 bytes。宿主Windows PostgreSQL18 Running/Auto的归属未核，保持不变；无目标端口监听仅是宿主时点快照。freeRAM989612KiB约0.94GiB，不证明4GiB资源组可承载。旧start-p01会boot/起旧库/自动迁移/起Worker，不用于新任务。
+
+下一准确候选为本地`OFFLINE-PREBOOT-01.md`：官方固定7-Zip26.05资产URL/原SHA、局部便携解包、只读锁下VHDX有界元数据/选定启动配置读取、秘密不落日志和完整停止条件。仅官方支持声明和公开资产SHA已核，未下载/安装/执行或读取Linux配置；兼容性不预填。该包须独立技术/安全审查，工具获取/本地新工具执行及准确离线读取另取明确授权；状态与报告/最终文件指纹由同目录新审计索引裁定，不在此预填审查通过。
+
+独立技术/安全初审确认P2：7-Zip在open阶段可能沿镜像parent locator读取额外相邻文件，不能等list后才以“缺父盘”拒绝。已核固定26.05源码后收紧设计：任何7-Zip触源前必须在原只读锁句柄做有界可信结构预检，拒HasParent/任何Parent Locator、非零LogGuid/需replay、坏头表/越界/歧义/不支持状态；没有通过独审与负例验证的准确runner不执行A3/A4。当前runner尚不存在，不声称可执行就绪，也不因本包批准自动授boot。修正的实际独立复核由新索引绑定。
+
+准备完成不等ENV资格通过。旧boot/systemd/cron、队列/unknown/费用、旧写凭据与连接尚未核清；新Linux绝对路径/UID、实际PG16.15 binary、新cluster/角色/ACL/迁移及资源资格均待其精确操作包，不造执行命令。继续不解释为下载/安装、boot、WSL/服务/DB/ACL/防火墙修改、实际模型/Tokenizer/Browser、付费或本轮新Git提交授权。本轮可审包和检查完成后只针对下一具体必要操作请求授权，不要求泛化“继续”。
+
+
+## DEV-STAGES-20261104-01 / P0：六阶段26切片计划与门禁同步
+
+### 原始授权、范围和进入
+
+负责人先要求“开发计划深入研究，讨论，最终确定”，明确阶段内逐切片开发/测试/验收/提交、效果评测按需。讨论中明确选择：逐片人工验收及准确commit/push/更新PR授权后自动同stage下一片；环境单列共六阶段；同stage一个PR，合并另批、合并后本人启动下一stage；保最小真实公开/私源接入测试；原两个pilot槽分别承担公开完整链与私源仅需求，不增额度。独立技术/安全计划审查及补充修正完成，无未关闭已确认P0–P3；这是设计审查，非实施通过。
+
+本次developer已明确Default；负责人原文“PLEASE IMPLEMENT THIS PLAN:”并粘贴完整《六阶段、26切片开发计划》，批准先实施P0。原始授权来自本聊天可见人类消息，本段是整理转录而非API导出。本次只执行计划与门禁配置同步、限定离线检查、独立实施审查/修复及人工验收包；未取得P0人工配置验收或本轮commit/push/PR/merge授权，不启动阶段一或任何业务/环境/真实调用。
+
+进入main@faa2edc9931c31330b5ac68417cf3d637a17de79，staged及非ignored untracked为空，唯一修改为本页15行PREBOOT准备追加。进入446个tracked条目指纹（含gitlink身份）、原任务bytes及Git状态/diff保于.tmp/p0-six-stage-20261104-01/entry。原全文/18项及进入PREBOOT追加按原bytes前缀保留；旧审计目录不回写。有效权限workspace-write；独审只读约束不声称权限隔离。
+
+本轮自有17个tracked路径：AGENTS.md、SPEC.md、PLANS.md；docs/contracts/CURRENT_CONTRACTS.md和PROMPT_CONTRACTS.md；docs/features/DECISION-001/spec.md及本页；docs/engineering/WORKFLOW.md、CONFIGURATION.md、TASK_TEMPLATE.md；docs/testing/STRATEGY.md；docs/design/adr/0007-interactive-evidence-decision-sessions.md和0008-m1-engineering-baseline.md；docs/evaluation/README.md和DECISION_M1_PROTOCOL.json；scripts/validate_project.py及backend/tests/unit/test_validate_project.py。本轮helper/检查/审查/最终索引仅在新.tmp/p0-six-stage-20261104-01，本机ignored证据不自动随Git交付。
+
+### 决定、实现与验收边界
+
+PLANS是六阶段26片路线唯一正文，tasks只存实际进度；不新增平行业务任务/Case。新capability为draft-m1-capabilities-6，新配置DEV-STAGES-20261104-01。sole draft-m1-3及公开index保持原bytes/hash；旧TEAM/R2及各历史批准只绑定原内容。工程六阶段必需测试/独审/关键人工验收及准确Git交付仍须完成，dynamic/private仍必需；正式质量/计时与真实纠错收益显式按需，未运行未评测不冒pass。实际发现缺陷仍处理；个人掌握/质量/价值/Go/发布分列。
+
+4.5 early_pilot_1公开requirements_to_solution，5.4 early_pilot_2私源requirements_only，仍占原额度及期限，效果试用无额外槽。资格变更先补验，5.4前最低恢复覆盖当时适用基线；诊断耗尽/unknown保持closed，不重领额度。首次读取暴露当片实现逐response/page/frame核权，后置集成不补作前片通过理由。Memory关闭/预留闲置，Browser0，MCP研究。
+
+每片验收包→本人验收与准确Git授权→核暂存/commit/push/同stagePR→必要CI通过后自动下一片；stage merge另批、实际合并后本人明确启动下一stage。CI新修复内容重新出受影响验收包与Git授权，改变已验行为须重验。本次批准不含工具/依赖获取安装、WSL/服务/DB/ACL/介质操作、真实Tokenizer/模型/私源/付费/采购/外部或Git写。
+
+### 当前分项进度（本轮检查与独审事实随后追加）
+
+本轮推进ACTIVE；P0配置实现已写入，当前技术验证/独审/人工验收/Git均PENDING。不预填通过，不沿用旧383/1；准确命令/输入hash/exit/失败/skip记录于本轮checks。下一位置为P0技术验证→独立实施审查→人工配置验收/准确Git授权；P0合并后才可由本人启动阶段一1.1。
+
+| 切片 | 实施 | 技术验证 | 独审 | 人工验收 | Git授权 | commit / push / PR / CI |
+| --- | --- | --- | --- | --- | --- | --- |
+| P0 | IMPLEMENTED | VERIFIED_WITH_STATED_LIMITS | DONE（完整正文；收尾追加见下文复核） | PENDING | PENDING | PENDING / PENDING / PENDING / PENDING |
+| 1.1 | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING / PENDING / PENDING / PENDING |
+| 1.2 | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING / PENDING / PENDING / PENDING |
+| 1.3 | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING / PENDING / PENDING / PENDING |
+| 2.1 | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING / PENDING / PENDING / PENDING |
+| 2.2 | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING / PENDING / PENDING / PENDING |
+| 2.3 | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING / PENDING / PENDING / PENDING |
+| 2.4 | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING / PENDING / PENDING / PENDING |
+| 3.1 | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING / PENDING / PENDING / PENDING |
+| 3.2 | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING / PENDING / PENDING / PENDING |
+| 3.3 | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING / PENDING / PENDING / PENDING |
+| 3.4 | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING / PENDING / PENDING / PENDING |
+| 3.5 | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING / PENDING / PENDING / PENDING |
+| 3.6 | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING / PENDING / PENDING / PENDING |
+| 3.7 | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING / PENDING / PENDING / PENDING |
+| 4.1 | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING / PENDING / PENDING / PENDING |
+| 4.2 | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING / PENDING / PENDING / PENDING |
+| 4.3 | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING / PENDING / PENDING / PENDING |
+| 4.4 | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING / PENDING / PENDING / PENDING |
+| 4.5 | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING / PENDING / PENDING / PENDING |
+| 5.1 | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING / PENDING / PENDING / PENDING |
+| 5.2 | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING / PENDING / PENDING / PENDING |
+| 5.3 | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING / PENDING / PENDING / PENDING |
+| 5.4 | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING / PENDING / PENDING / PENDING |
+| 6.1 | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING / PENDING / PENDING / PENDING |
+| 6.2 | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING / PENDING / PENDING / PENDING |
+| 6.3 | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING / PENDING / PENDING / PENDING |
+
+### 验收、回滚和未验项
+
+人工配置验收：核PLANS的六阶段26片及开始/继续/提交/合并口令；核SPEC/契约/能力引用/模板对效果按需与工程必需的一致性；核旧协议/index原hash及原任务前缀保护；审实际限定检查/独审与未验项。验收通过可一次明确授权P0本次commit/push/创建准备PR，merge仍另批。本轮不据计划批准自行Git写。
+
+回滚仅逆进入快照后的P0自有增量，先核后续工作，保进入PREBOOT追加、原18项、旧协议及历史证据；不reset/clean、不删旧数据、不做破坏性降级或恢复真实资格。环境可启动性/资源、真实Pg/进程/Tokenizer/供应商/费用/恢复、正式材料/质量、本人掌握及团队价值均未由P0验证。静态门禁不等运行实现。
+
+### P0实际限定检查（2026-11-04，实施独审前）
+
+- 七文件套件：根.venv Python，cwd=backend，按STRATEGY七文件命令加本轮独立basetemp；实际**416 passed / 1 skipped，75.60s，exit0**。skip为OS不允许创建真实symlink，模拟reparse另测；不称真实OS隔离通过。全部tracked输入在检查期间前后稳定。
+- 默认validator-01 exit0，准确为MATERIALS_NOT_VERIFIED；显式materials-01按预期exit1，原因not_ready pending independent preparation，不制题/gold。实际argv/cwd/输入hash/exit/输出hash均在本轮checks对应result.json。
+- 两修改Python的Ruff check、format-check exit0。首次diff-01发现PLANS末尾新空行，已修复，diff-02 exit0；不把首失败抹掉。Git的LF/CRLF提示不代表本轮写入Git或修改旧协议。
+- worker初稿聚焦300passed/1skipped，补阶段标签核对后受影响8passed/295deselected；统一416/1覆盖最终三文件，不把分批结果相加。worker自有检查仅核自有输入，统一检查另核全部tracked稳定。
+- protection.json核范围外tracked零变化、原任务进入bytes前缀完整、sole协议/index原hash一致、HEAD未变、staged及非ignored untracked为空。gitlink仅核身份，browser-use内部树/旧ignored审计/真实数据未重新穷尽，不称全介质保护。
+
+新检查进程继承宿主环境，只叠加禁bytecode/pytest自动插件/遥测等显式overrides，未完整记录或清洗继承环境，不称环境隔离或完整复现。未运行应用、前端构建、WSL、Pg、Tokenizer、供应商或费用；本P0未改这些运行实现。完整17正文、HEAD/进入/staged/unstaged差异、所有新helper及上述实际检查将冻结给fresh-context实施技术/安全审查；独审结果随后追加，不以旧设计审查代替。
+
+### P0独立实施审查、验收包与交付边界
+
+fresh-context技术/安全实施审查已实际完成，STATUS DONE，无已确认P0–P3；覆盖完整17路径、原始需求/批准计划、进入及HEAD完整差异、9个新helper及实际checks。审查核48工件、17当前正文与冻结一致、446个tracked条目无期间漂移；原始答复转录保存reviews/implementation-01.md。review-01/content-index.json SHA256为4cda31fa5ac7dc177dbe9e1b00c096b95ab4ea00441f7ee5336913f48faecdab，不回绑本段新bytes。独审另执行默认validator及diff检查exit0，核416/1原日志，未重跑pytest。只读要求不构成权限隔离，未验/skip限制继续保留。
+
+接受审查的交付精度建议：**P0 Git候选仅包含entry之后17路径的P0自有增量；进入前PREBOOT15行未经负责人明确纳入不得随P0提交。** 应以entry与task-owned.patch区分hunk，不能按路径git add误纳旧工作；本机.tmp不force-add。当前仍未暂存/commit/push/PR/CI或merge，本次“继续”只承接P0收尾，未替代准确Git授权。
+
+人工配置验收包为本轮acceptance-package.md：核六阶段路线、逐片口令、效果按需与工程必需、原额度/冻结bytes、26片实际状态；包内披露416passed/1skip及未验项。人工配置验收仍PENDING；下一步是本人核该实际包并明确本次Git范围，P0实际合并后再由本人启动阶段一1.1。本段与验收包将作受影响独立复核及最终validator/diff/保护核对；最终审计final.json仅在实际绑定当前字节、检查、原审查与受影响复核后生效，不由本段预填通过。
+
+
+## GIT-READINESS-20261104-01：全Git候选审查、验证及本地提交
+
+### 本轮人类授权与全量范围
+
+负责人在P0验收包交付后明确要求：“全面审查，修复，验证，提交 git区所有更改，确保之后能正式进入开发第一阶段”。这是本轮全部Git候选及必要核实修复、准确全量暂存和本地commit授权，包含现有17份tracked修改及tasks中进入前PREBOOT15行；取代旧P0对本次Git操作PENDING及PREBOOT排除要求。旧记录保持其当时事实/原bytes，不回写成已授权或已验收。该指令未明确P0人工配置验收通过，也未授push/PR/merge/release或阶段一环境/业务操作，不代填这些结论。
+
+进入main@faa2edc9931c31330b5ac68417cf3d637a17de79，17份tracked修改、staged/非ignored untracked为空。新审计.tmp/git-readiness-20261104-01/entry保446个tracked身份、全部17正文和完整committed/staged/unstaged/full差异；base→HEAD空不等未提交内容为空。prior-binding.json核原P0 final的129工件与17份进入正文无漂移；原PREBOOT/18项、sole协议/index及旧审计保持。审计仅本机ignored，不force-add，不修改依赖/锁/业务/WSL/Pg/供应商。后续获准确工具许可创建本地codex/p0-six-stage-readiness分支，HEAD未变。
+
+### 实际检查、审查与修复结论
+
+- 本轮seven-files-03用根.venv Python、STRATEGY原七文件命令和新basetemp，获准确工具级许可沙箱外执行：**416 passed / 1 skipped，84.45s，exit0**；所有tracked输入前后稳定。skip为OS不许创建真实symlink，模拟reparse另测，不称真实OS隔离合格。未运行应用/前端构建/WSL/Pg/Tokenizer/模型/Browser或费用。
+- 保留seven-files-01沙箱内180s外围timeout及原输出，不计通过；02延长外围期限后仍在首个async边界长等，由主代理中断工具session（exit1，未形成pytest结论），也不计通过。怀疑本地socketpair受沙箱影响；同套件外部运行成功仅说明执行环境差异，不声称已定位系统根因，测试/业务未改。collection-01按同overrides只收集417项exit0，不冒执行通过数。
+- 定位收集的两次手动命令分别因backend cwd误用解释器相对路径、未关闭自动插件导致重复async插件而失败；随后collection-01纠正。原失败仅可见工具输出与本转录，无完整原日志，不伪造。新audit helper只修snapshot打印变量遮蔽和外围timeout，不改tracked或测试语义，当前原bytes/hash另绑定，entry旧helper身份不回写。
+- 默认validator-01通过且准确MATERIALS_NOT_VERIFIED；显式materials-01预期exit1/not_ready pending independent preparation，未制题/gold。两修改Python的Ruff/format-check通过；完整diff whitespace检查通过。准确argv/cwd/exit/输出hash/输入指纹见本轮checks；环境是继承+显式overrides，未完整清洗或记录，不称权限隔离/完全复现。
+- 两路fresh-context独立审查分别覆盖规范与需求/安全，原始要求/范围见本轮requirements.md。已读全部17路径完整diff、冻结正文及相关规范/源码、新helper并核raw身份；未确认P0–P3缺陷，未据无发现添加无依据修复。大型历史文件未变部分按prior-binding复用旧审查，不称再次逐字穷尽。当前七文件03结果及本追加/新helper将交受影响复核，实际审查结论以本轮reports和最终索引为准，不预填后续通过。
+
+### 提交与第一阶段准入
+
+本轮本地候选为17路径的全部进入修改（含PREBOOT）加本追加和已确认必要修复；提交前核准确暂存清单及blob与最终审查正文一致，默认validator和cached diff-check通过后执行本地commit。commit成功身份/工作区与核验结果写本轮新final.json，不在本段预填。未授权push/PR/merge，不因本地提交记远端CI通过；P0人工配置验收仍PENDING。
+
+开发前配置/本地交付可以在本轮审查验证及提交完成后记技术就绪；按已确认路线，正式启动阶段一仍须P0人工配置验收、远端PR/CI及独立合并授权/实际合并、负责人明确阶段启动。不得为“确保可进入”静默豁免该门禁。下一开发切片为1.1本地有界取证runner/负例/独审准备；既有OFFLINE-PREBOOT-01包为设计已审但runner未实现及实际操作待授权，工具获取/VHDX读取/WSL启动/DB/ACL/费用各守准确操作包。ENV资格/资源/真实运行未验，不先boot后补隔离。
+
+原r12/P-02 No-Go、正式材料未就绪、本人掌握/效果/团队价值/工程M1/Go/发布均不因本次Git提交改判。回滚仅核对后反向本次配置候选，不reset/clean或恢复旧调用资格；保原数据、费用/来源/授权及全部失败记录。

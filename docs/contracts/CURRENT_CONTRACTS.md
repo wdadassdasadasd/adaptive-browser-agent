@@ -1,6 +1,6 @@
-# 现行目标契约 — TEAM-BASELINE-20261103-01
+# 现行目标契约 — DEV-STAGES-20261104-01
 
-本轮完整开发计划已确认，当前Default模式负责人以`PLEASE IMPLEMENT THIS PLAN`授权阶段0配置对齐，范围为16份既有配置、必要本地审计／限定离线检查和独立实施审查及修复，不实现业务／真实恢复。RESEARCH-BASELINE-20261103-R2及各旧批准继续绑定各自原内容／字节／范围，不回绑。实际检查与独审由[唯一任务](../features/DECISION-001/tasks.md)记录，原18项含义保留。[SPEC](../../SPEC.md)定义产品，[PLANS](../../PLANS.md)定义依赖；[draft-m1-3](../evaluation/CURRENT_EVAL_PROTOCOL.json)原字节继续独占正式质量／计时／六槽位／整批资金，能力引用升为draft-m1-capabilities-5，不另立Go规则。
+负责人在Default明确要求实施已确认六阶段26切片计划，本轮仅P0计划与门禁同步、限定离线检查、独立实施审查/修复和验收包。实际状态见[唯一任务](../features/DECISION-001/tasks.md)，原18项/进入PREBOOT追加保留。TEAM/R2等旧批准继续绑定原字节；[SPEC](../../SPEC.md)定义结果，[PLANS](../../PLANS.md)唯一维护阶段/切片及推进规则。draft-m1-3及公开材料索引原bytes保持，能力引用draft-m1-capabilities-6：六阶段工程验收与显式按需效果评测分离；原协议继续独占整批资金、调用上限及已启动效果包内部规则，不另立资金或Go权威。
 
 FOCUS-BASELINE-20261102按进入HEAD dc4498f36c0342eef5191f9f59feaf3b363169b6及原path/raw hash读取；DRAFT final-01、REVIEW final-02、PREP及RAWJSON仍绑定各自原字节，不重写索引。current-3原1ffade6de07ebe3d1e72afb4c44b8677466eca67及显式换行规则不变。[V1](V1_CONTRACTS.md)和[P-01](../tasks/P01_ACCEPTANCE_2026-10-21.md)仅解释原行为。配置不授业务、依赖、环境／DB／ACL、真实模型／Tokenizer／Browser、采购、外部或Git写；原SQLite、费用与来源证据及r12／P-02 No-Go保留。研究／独立设计审查证据及限制见[本轮研究](../research/PREDEV_CONFIGURATION_REVIEW_2026-11-03.md)。
 
@@ -283,7 +283,9 @@ Tracing用Pg canonical＋只读TraceView，无外部平台或遥测。当前Memo
 
 ### 评测与材料接口
 
-唯一draft-m1-3定义3pair/6formal：REQ-A/B想法到需求／本人确认／方案完整链；CON-A/B固定GitHub＋本地text/code/diff评审且均含无权威基准子问；EXP-A/B已确认既有需求的solution_only及必要探索。REQ保首次需求、本人改动（可空）与准确确认、首次方案及最终双稿包，原稿两者均须过关键项；CON无基准不能自立硬条件合规pass。三pair两变体材料组合／规模、目标与覆盖可比，澄清不能缩共同goal洗分，实质scope变化保原slot partial/不可比；合理备选架构不得强制唯一gold。requirements_only独立终结及编辑／对话修订只由聚焦回归和既有pilot观察；两个pilot优先本人真实待办，先固定目标、普通AI／人工基线、关键正确项、可接受unknown与后续行动，再分列原稿、人工补救及实际用途，无任务保持待证，不增加Case／费用；仅需求及编辑／对话修订不声称独立正式效果；三个异质pair的median只描述已登记样本，不外推各模式或总体。原始程序、原report核源、本人finalhash分别记。三个正式Agent原稿均过预冻结关键项才产品原始质量通过；人工修好仍保raw失败。六final共质＋完整非零计时后才描述3pairmedian，负值不截0、不设20%硬门槛、不外推真实团队价值。Control预注册日常人工／普通AI／搜索，DR按需计时费；Agent不外部AI代修／复制Control。关键语义人核，非关键逐条不合总分；notstarted／missing／cancel／partial／failed全保分母，指定诚实partial可过安全预期但非fullcompleted。真实价值、本人掌握、M1、Go发布独立。
+DEV-STAGES适用范围：普通工程测试、独审、恢复与真实接入资格始终必需；效果试用、匹配真实症状效果复测和正式六槽按负责人显式请求启动，不阻六阶段工程验收。未执行记录未评测，发现的真实缺陷仍须处理。下列formal质量/计时/材料及效果纠错规则在相应效果包启动后适用，未运行不称通过。两个原pilot槽分别绑定4.5公开requirements_to_solution及5.4私源requirements_only工程实测，仍计原Case/调用/资金/期限，不自动新增槽；工程实测冻结目标与预期业务/安全行为但不设对照效果评分，效果比较另须事前登记。
+
+唯一draft-m1-3定义3pair/6formal：REQ-A/B想法到需求／本人确认／方案完整链；CON-A/B固定GitHub＋本地text/code/diff评审且均含无权威基准子问；EXP-A/B已确认既有需求的solution_only及必要探索。REQ保首次需求、本人改动（可空）与准确确认、首次方案及最终双稿包，原稿两者均须过关键项；CON无基准不能自立硬条件合规pass。三pair两变体材料组合／规模、目标与覆盖可比，澄清不能缩共同goal洗分，实质scope变化保原slot partial/不可比；合理备选架构不得强制唯一gold。requirements_only独立终结及编辑／对话修订只由聚焦回归和既有pilot观察；两个pilot作为工程实测时固定实际目标、版本及预期业务/安全行为，保原稿/费用/未知；若按需做效果比较，须事前另登记普通AI/人工基线、关键正确项和后续行动，不能追溯补造；无目标保持待证，不增加Case/费用；仅需求及编辑／对话修订不声称独立正式效果；三个异质pair的median只描述已登记样本，不外推各模式或总体。原始程序、原report核源、本人finalhash分别记。三个正式Agent原稿均过预冻结关键项才产品原始质量通过；人工修好仍保raw失败。六final共质＋完整非零计时后才描述3pairmedian，负值不截0、不设20%硬门槛、不外推真实团队价值。Control预注册日常人工／普通AI／搜索，DR按需计时费；Agent不外部AI代修／复制Control。关键语义人核，非关键逐条不合总分；notstarted／missing／cancel／partial／failed全保分母，指定诚实partial可过安全预期但非fullcompleted。真实价值、本人掌握、M1、Go发布独立。
 
 公开DISCOVERY_M1_CASES.json改为draft-m1-material-index-1，仅公开pair/slot/rubric/status及role包身份，当前pending_independent_material_preparation，本批不制题／gold。未来精确inputs.json／controller.json／scorer.json仅本批既有审计子目录review-20261101/research-20261103/materials，Worker无目录／表权限且无localFS工具；gold不进source／Context／Memory。独立作者制备、另审正文；实现作者见gold即exposed不能继续声称holdout，原slot保留不暗换。索引／协议／M1单向hash绑定，无自引用循环。
 
@@ -360,6 +362,6 @@ Draft POST {text}+Idempotency-Key，owner从session，同key/initialbodyhash返�
 
 真实验收：两CLI账号/cookiejar、restrictedPg、独立连接barriers reset-login/disable-write/19draft双create/会话limit；新进程import前sentinel阻旧env/模型/网络；rawchunk/CL/JSONescape/UTF8±1；APIrestart保稿；sup/PG失连续旧password/cookie均拒，CLI新凭据仅草稿；DBdown不报注销/撤销成功。missingPg/skip不通过。本人Windows UI亲验、读入口→auth→application→store、预测失败/亲改回归；不代填掌握。文件/命令/ENV前置见[首工任务包](../features/DECISION-001/tasks.md)。
 
-真实pilot还须历史账/unknown/余额/grant/价格/Tokenizer/Gateway/独立介质纸钥恢复资格，Browser未资格0。M1仍需真实纠正症状、三个正式Agent原稿关键质量、六正式全保留、最终共同质量及本人实践；描述性省时无20%硬门槛，真实价值独立待证。公开纵切不等完整首阶段/M1；Go/发布各自授权。配置自检、实际文件独立审查、业务实现、本人验收分别记录。
+真实工程接入仍须历史账/unknown/余额/grant/价格/Tokenizer/Gateway/最低独立介质纸钥恢复及rearm资格，Browser0。六阶段全部必需检查、独审及人工关键业务验收完成才称M1工程能力验收通过；动态/私源和完整恢复仍必需。真实症状纠正收益、三个formal原稿关键质量、六final共质及省时属于显式按需效果包，未执行不冒pass；本人掌握/真实价值/Go/发布分别取证。阶段五schema/请求/模型/adapter/principal/权限变更先重核受影响资格，5.4前最低恢复须覆盖当前适用基线；不重领诊断，余量不足保持出口closed。P0配置检查不证明业务或任何真实资格。
 
 DRAFT-BASELINE-20261102的28配置按draft-20261102/snapshots/final-01的manifest/path/raw hash有效，FOCUS不重绑定旧索引。REVIEW-BASELINE-20261101的28配置与原交付按既有final-02 manifest/path/raw hash保留，不冒充HEAD对象；后续合法获批改动不会反向否定旧字节。新增业务API路径／DDL／transport部署资格在另授业务包冻结，本批不实施。

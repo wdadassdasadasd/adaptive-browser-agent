@@ -1,5 +1,14 @@
 # ADR-0007：需求与方案研究起草会话与数据流
 
+## 2026-11-04 DEV-STAGES现行覆盖
+
+当前配置DEV-STAGES-20261104-01、能力引用draft-m1-capabilities-6。本次Default明确实施六阶段26切片计划的P0，状态与实际检查/实施独审见唯一任务记录；原TEAM/R2及以下日期化决定保原字节/范围，只解释当时设计。路线唯一正文为PLANS，不由下文旧阶段顺序重建。
+
+六阶段工程验收与显式按需效果包分离；效果未运行不记pass。原full/reqonly两个pilot分别承担4.5公开及5.4私源最小真实工程链，原配额/安全资格不减；dynamic/private仍工程必需。stage5影响请求/Token/权限/恢复时先补验，5.4前最低恢复须覆盖当时基线，不重领诊断。逐片人验收及准确Git授权→必要CI→同stage下一片；merge另批，下stage合并后明确启动。工程M1、原稿质量、掌握、团队价值、Go/发布分别取证。
+
+
+## 2026-11-03 TEAM历史基线（以下原正文按当时范围解释）
+
 - 原日期2026-10-26；当前**TEAM-BASELINE-20261103-01**。完整团队研发计划已确认，本轮“PLEASE IMPLEMENT THIS PLAN”实施阶段0配置；RESEARCH-BASELINE-20261103-R2及更早批准保原字节／范围，不恢复业务或真实执行资格，状态见[唯一记录](../../features/DECISION-001/tasks.md)。
 - 权威：[规格](../../../SPEC.md)、[计划](../../../PLANS.md)、[契约](../../contracts/CURRENT_CONTRACTS.md)、[部署ADR5](0005-windows-worker-wsl-postgres.md)、[决定ADR8](0008-m1-engineering-baseline.md)。具体数值只在契约／唯一协议维护。
 

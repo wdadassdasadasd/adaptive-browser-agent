@@ -1,6 +1,6 @@
 # 按风险选择的配置检查与Agent验收策略
 
-TEAM-BASELINE-20261103-01对应已确认完整团队研发计划及当前“PLEASE IMPLEMENT THIS PLAN”阶段0配置对齐：限定现有配置、有界离线检查／新审计。R2及更早交付保持原字节和范围，旧344passed／1skipped不冒本轮结果。[契约](../contracts/CURRENT_CONTRACTS.md)定义运行约束，[唯一协议](../evaluation/CURRENT_EVAL_PROTOCOL.json)定义正式质量／计时／槽位与整批资金，[唯一任务](../features/DECISION-001/tasks.md)记录命令、失败、审查和原18项历史。配置、业务实现、真实运行、本人验收／掌握、实际价值、Go和发布分别取证。
+DEV-STAGES-20261104-01对应Default明确批准的六阶段26切片，本轮P0只做配置/有界离线检查/独立实施审查及新审计。原TEAM/R2证据保原字节，旧383passed/1skipped不冒当前结果。[契约](../contracts/CURRENT_CONTRACTS.md)定义安全运行，[唯一协议](../evaluation/CURRENT_EVAL_PROTOCOL.json)原bytes继续定义整批资金及已启动效果包规则，[唯一任务](../features/DECISION-001/tasks.md)记录实际命令/失败/审查与原18项。[PLANS](../../PLANS.md)定义逐片门禁：效果按需，工程必需测试/独审/人工关键验收不减。
 
 | 层 | 对象 | 不可替代的证据 |
 | --- | --- | --- |
@@ -30,7 +30,7 @@ TEAM-BASELINE-20261103-01对应已确认完整团队研发计划及当前“PLEA
 
 ## 当前配置回归与后续行为分开
 
-本批限定回归核原字节draft-m1-3／新能力引用draft-m1-capabilities-5与pending材料、本机双身份／指定确认角色／必要撤销预留／单链先pilot且动态私源仍必需的映射、四模式、六用途固定单次上限及共享有界池；固定用途次数残留、总量越界、purpose错配、隐藏调用、跨Turn或换ID重置必须拒绝。首工件只预留尚未尝试的首次尝试，失败不补满；optional不得侵占，compile第五次或retry绕四次物理上限必须拒绝。既有显式材料参数保留，不扩历史runner／ledger。
+P0限定回归核原字节draft-m1-3/index／新能力引用draft-m1-capabilities-6及DEV-STAGES-20261104-01与pending材料、本机双身份／指定确认角色／必要撤销预留／公开full/私源reqonly占原两个pilot槽、动态私源工程必需且效果显式按需的映射、四模式、六用途固定单次上限及共享有界池；固定用途次数残留、总量越界、purpose错配、隐藏调用、跨Turn或换ID重置必须拒绝。首工件只预留尚未尝试的首次尝试，失败不补满；optional不得侵占，compile第五次或retry绕四次物理上限必须拒绝。既有显式材料参数保留，不扩历史runner／ledger。
 
 本批保留严格Memory keyset／类型／值、误开拒绝、required／deferred冲突、Context错误依赖04、原容量挪用、旧材料／回执／索引及新旧入口拒绝回归。新材料预期根research-20261103/materials，仅更新pending引用、不制角色包。draft-m1-1、draft-m1-2和当前draft-m1-3都不得驱动旧运行器。
 
@@ -104,4 +104,13 @@ canonical审计与业务同tx，UI cap不删Call/证据/费用；没有审计或
 
 旧执行器三条静态风险作为ENV隔离及未来业务回归规格：runner.py:441–453缺price-book可走无预算首调，pg_store.py:456–472取消先提交仍可能completed，github_tool.py:48–53的传输RequestError被转technical failed后由agent_loop.py:390–402重试。准确固定HEAD、机制和未运行限制见[日期化补研](../research/PREDEV_CONFIGURATION_REVIEW_2026-11-03.md#12-2026-11-03-r2受控重启与首闭环补研)。本批不修业务、不启动旧服务；相应假供应商、MockTransport及restrictedPg双序以后另授。
 
-03b首次真实pilot前须完成A的离线、restrictedPg及paid-disabled进程验收；最低独立备份、Token／资金／来源资格不豁免。当前配置套件仅核能力映射、原协议／索引hash与越权声明负例，不证明A已实现。两个既有pilot中的完整链优先GPT Researcher案例B，登记预读／已知发现及普通AI／人工基线，不作formal gold，不增次数／费用。
+03b首次真实pilot前须完成A的离线、restrictedPg及paid-disabled进程验收；最低独立备份、Token／资金／来源资格不豁免。当前配置套件仅核能力映射、原协议／索引hash与越权声明负例，不证明A已实现。两个既有pilot中的完整链优先GPT Researcher案例B，登记预读/已知发现；若另做效果比较则事前登记普通AI/人工基线，不作formal gold，不增次数/费用。
+
+
+## DEV-STAGES P0与六阶段工程门禁
+
+P0检查六阶段26片身份（3/4/7/5/4/3）、无漏片/重片/错阶段；先人验收及准确Git授权、必要CI后同阶段自动下一片；单阶段单PR，合并另批/下阶段显式启动。效果硬绑工程、工程安全检查被可选化、自动提交/合并/跨阶段、额外pilot或诊断重领均须拒绝。机器策略与路线正文相互核对，raw独立锚定不自动重绑。显式材料仍预期not_ready，不新制题/gold。
+
+每片正常/边界/失败/回归，首次共享读取即核response/page/SSE；事务权限/并发用真实restrictedPg独立连接，进程语义用真实进程，缺必需证据不能DONE。4.5/5.4最小真实工程实测不要求效果评分，对照/质量收益另需事前登记及显式请求；使用原两个pilot，不额外加Case。stage5修改影响资格时先补验再真实调用，5.4前最低恢复基线当前有效，诊断/控制余量不足保持closed。
+
+原DEC-AC-16/20及19的formal/计时/效果部分只在显式效果包中判定；工程canonical/usage/费用/重建及发现缺陷修复始终必需。六阶段完成可记M1工程能力验收通过，效果未运行记未评测。旧正式失败/分母与全部历史检查保持，不能用新口径洗pass；Go/发布和本人掌握另取证。

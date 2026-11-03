@@ -1,13 +1,13 @@
 {
-  "protocol_version": "draft-m1-capabilities-5",
+  "protocol_version": "draft-m1-capabilities-6",
   "role": "capability_acceptance_reference",
-  "status": "prepared_pending_material_and_actual_file_review",
+  "status": "prepared_pending_actual_file_review_engineering_unimplemented",
   "current_protocol": {
     "path": "docs/evaluation/CURRENT_EVAL_PROTOCOL.json",
     "version": "draft-m1-3",
     "sha256": "799178fb431656c00c785634ad53df06b62d660a68291b7fab3719bcf8584eda"
   },
-  "authority": "All timing, formal samples, cost, quality, stopping and value gates are exclusively defined by current_protocol. This file defines no independent funding or Go rule.",
+  "authority": "PLANS.md defines the six-stage engineering route and this reference binds its acceptance policy. current_protocol retains sole funding, resource and stopping authority; its formal quality, timing and matched optimization rules apply when the corresponding on-demand effect package starts. This file grants no execution, funding, Go or release authority.",
   "authorization": {
     "business_implementation": false,
     "real_execution": false,
@@ -39,7 +39,7 @@
         "shared_14_normal_16_physical_pool_four_physical_compiles_including_retry_first_attempt_only_reservation",
         "full_flow_partial_human_edit_confirmation_linked_Turn_separate_seals_exact_double_draft_package",
         "project_designated_exact_confirmation_policy_account_member_revisions_and_no_approval_revival",
-        "single_chain_real_pilot_before_dynamic_reintegration_full_M1_dynamic_still_required"
+        "single_chain_real_engineering_acceptance_before_dynamic_reintegration_dynamic_still_required"
       ]
     },
     {
@@ -83,25 +83,20 @@
       ]
     },
     {
-      "id": "evaluation_tracing_optimization",
+      "id": "tracing_engineering_diagnostics",
       "requirements": [
-        "DEC-AC-16",
-        "DEC-AC-19",
-        "DEC-AC-20"
+        "DEC-AC-13",
+        "DEC-AC-19"
       ],
       "tasks": [
-        "DEC-M1-06",
-        "DEC-M1-07",
+        "DEC-M1-03b",
         "DEC-M1-08b"
       ],
       "evidence": [
-        "complete_six_attempts_and_manual_time_final_quality",
         "canonical_trace_and_offline_no_send_reconstruction",
-        "at_least_one_real_symptom_corrected_with_matched_evidence",
         "all_failed_experiments_and_confounding_retained",
-        "all_three_raw_Agent_reports_critical_quality_pass",
-        "six_final_human_reports_and_descriptive_time_comparison_no_20pct_gate",
-        "display_permission_and_actual_display_separate"
+        "confirmed_real_defects_addressed_without_requiring_a_manufactured_symptom",
+        "actual_request_usage_cost_and_output_version_bindings"
       ]
     },
     {
@@ -121,7 +116,7 @@
         "one_real_owner_second_test_identity_object_isolation",
         "continuous_supervisor_identity_qualification",
         "paper_key_independent_source_card_real_restore",
-        "owner_actual_read_explain_edit_debug_regress_and_business_acceptance",
+        "owner_actual_key_business_acceptance_and_success_failure_operation_demonstration",
         "controlled_unchanged_data_restart_trusted_operator_no_restore_attestation_not_independent_freshness",
         "all_nonterminal_tasks_and_unsent_reservations_closed_physical_quiescence_known_fees_final_shutdown_receipt",
         "new_CLI_then_explicit_CONTROL_ONLY_current_qualification_then_new_research_grant_idempotent_no_old_grant_revival",
@@ -140,10 +135,10 @@
     "old_9_8_12_independent_execution_batch_required": false,
     "no_additional_setup_or_judge_calls_without_budget_and_authorization": true,
     "browser_not_qualified": "zero_and_capability_pending_not_automatically_completed",
-    "formal_materials": "pending_independent_preparation_no_new_gold_this_configuration_batch",
+    "formal_materials": "on_demand_independent_preparation; pending_not_blocking_engineering",
     "drafting_modes": "three_pairs_full_review_solution; requirements_only_and_edit_revision_pilot_regression_not_independent_formal_effect",
     "memory": "disabled_all_entrypoints_no_store_snapshot_or_seed_required; deferred_not_completed",
-    "private_sources": "retained_scope_after_prioritized_public_vertical_slice_not_claimed_complete",
+    "private_sources": "required_for_engineering_M1_after_public_real_integration; real_test_uses_existing_requirements_only_pilot",
     "automatic_memory": "deferred_not_required_for_current_M1; reactivation_requires_real_reuse_need_separate_review_and_scope_approval"
   },
   "review": {
@@ -158,7 +153,8 @@
     "owner_time_value": false,
     "M1": false,
     "Go": false,
-    "release": false
+    "release": false,
+    "engineering_M1": false
   },
   "deferred_capabilities": [
     {
@@ -182,7 +178,7 @@
     }
   ],
   "team_delivery_contract": {
-    "configuration_revision": "TEAM-BASELINE-20261103-01",
+    "configuration_revision": "DEV-STAGES-20261104-01",
     "deployment": {
       "origin": "http://127.0.0.1:8766",
       "accounts_max": 2,
@@ -286,8 +282,8 @@
         "first_public_full_flow_pilot",
         "DEC-M1-02-C-dynamic-reintegration",
         "private_App_sources",
-        "second_original_requirements_only_pilot_and_real_symptom_correction",
-        "formal_six_slots_and_full_restore_practice"
+        "second_original_requirements_only_pilot_private_engineering_acceptance",
+        "full_restore_engineering_delivery_and_human_acceptance"
       ],
       "first_real_pilot_requires": [
         "single_chain_production_safety_kernel",
@@ -301,11 +297,11 @@
       "single_chain_preview_closes_dynamic_parent_AC": false,
       "fake_and_real_share_application_admission_path": true,
       "pilot_checks": [
-        "verified_current_state",
-        "requirements_boundary",
-        "change_design",
-        "first_development_tasks",
-        "start_blockers"
+        "exact_original_slot_and_mode",
+        "actual_request_usage_fee_trace",
+        "current_authority_and_immutable_output_bindings",
+        "key_business_operation_acceptance",
+        "no_effect_score_or_comparison_gate"
       ],
       "new_Case_call_funding_or_deadline_allocation": false
     },
@@ -316,5 +312,165 @@
       "real_team_and_task_evidence": "pending",
       "technical_verification_human_acceptance_mastery_value_M1_Go_release_separate": true
     }
+  },
+  "development_delivery_policy": {
+    "configuration_revision": "DEV-STAGES-20261104-01",
+    "route_authority": "PLANS.md",
+    "progress_authority": "docs/features/DECISION-001/tasks.md",
+    "preparation_slice": "P0",
+    "preparation_counts_as_development_stage": false,
+    "stage_count": 6,
+    "slice_count": 26,
+    "stage_slice_ids": {
+      "1": [
+        "1.1",
+        "1.2",
+        "1.3"
+      ],
+      "2": [
+        "2.1",
+        "2.2",
+        "2.3",
+        "2.4"
+      ],
+      "3": [
+        "3.1",
+        "3.2",
+        "3.3",
+        "3.4",
+        "3.5",
+        "3.6",
+        "3.7"
+      ],
+      "4": [
+        "4.1",
+        "4.2",
+        "4.3",
+        "4.4",
+        "4.5"
+      ],
+      "5": [
+        "5.1",
+        "5.2",
+        "5.3",
+        "5.4"
+      ],
+      "6": [
+        "6.1",
+        "6.2",
+        "6.3"
+      ]
+    },
+    "stage_start": "explicit_owner_instruction_after_previous_stage_merge; resume_first_unfinished_slice",
+    "slice_sequence": [
+      "verify_baseline_and_exact_authority",
+      "implement",
+      "risk_proportionate_tests",
+      "independent_review_and_applicable_security_review",
+      "validate_findings_fix_retest_and_affected_rereview",
+      "reviewable_owner_acceptance_package",
+      "actual_owner_acceptance_and_exact_commit_push_PR_authority",
+      "commit_push_create_or_update_same_stage_PR",
+      "required_CI_pass",
+      "automatically_start_next_slice_in_same_stage"
+    ],
+    "stage_branch_pattern": "codex/stage-N-*",
+    "PRs_per_stage": 1,
+    "first_slice_PR": "draft",
+    "normal_commits_per_slice": 1,
+    "CI_fix_commits": "same_slice; affected_review_acceptance_and_exact_Git_authority_before_changed_content_submission",
+    "stage_merge_requires_separate_owner_authority": true,
+    "next_stage_starts_automatically": false,
+    "stage_start_grants_environment_paid_or_external_operations": false,
+    "existing_exact_authority": "reuse_while_applicable; do_not_request_generic_continuation",
+    "required_engineering_checks": [
+      "normal_boundary_failure_and_relevant_regression",
+      "real_restricted_Pg_independent_connection_races_for_transaction_or_permission_changes",
+      "real_process_evidence_for_process_behavior",
+      "independent_review_and_applicable_security_review",
+      "mandatory_skipped_or_missing_checks_leave_slice_unaccepted",
+      "actual_owner_key_business_acceptance",
+      "first_exposure_response_page_SSE_current_read_authorization"
+    ],
+    "post_integration_slices_defer_earlier_core_safety_tests": false,
+    "qualification_after_affected_changes": "reverify_request_Token_permission_and_restore_before_real_calls; retain_original_diagnostic_allocation",
+    "minimum_restore_before_private_real_test": "latest_applicable_schema_and_capture; not_deferred_to_stage_6",
+    "insufficient_diagnostic_or_real_allocation": "outbound_closed_and_affected_AC_pending; no_automatic_regrant",
+    "engineering_completion_label": "M1工程能力验收通过",
+    "separate_conclusions": [
+      "implementation",
+      "technical_verification",
+      "independent_review",
+      "human_business_acceptance",
+      "engineering_M1",
+      "raw_quality",
+      "owner_mastery",
+      "real_value",
+      "Go",
+      "release"
+    ]
+  },
+  "on_demand_evaluation": {
+    "trigger": "explicit_owner_request_and_exact_operation_authority",
+    "blocks_engineering_acceptance": false,
+    "unexecuted_status": "not_evaluated_not_passed",
+    "packages": [
+      {
+        "id": "real_task_effect_observation",
+        "evidence": [
+          "original_quality",
+          "owner_verification_and_repair_burden",
+          "actual_use"
+        ]
+      },
+      {
+        "id": "matched_real_defect_retest",
+        "tasks": [
+          "DEC-M1-06"
+        ],
+        "requirements": [
+          "DEC-AC-20"
+        ],
+        "evidence": [
+          "at_least_one_real_symptom_corrected_with_matched_evidence"
+        ]
+      },
+      {
+        "id": "formal_six_slot_evaluation",
+        "tasks": [
+          "DEC-M1-07"
+        ],
+        "requirements": [
+          "DEC-AC-16",
+          "DEC-AC-19"
+        ],
+        "evidence": [
+          "complete_six_attempts_and_manual_time_final_quality",
+          "all_three_raw_Agent_reports_critical_quality_pass",
+          "six_final_human_reports_and_descriptive_time_comparison_no_20pct_gate",
+          "display_permission_and_actual_display_separate"
+        ]
+      }
+    ],
+    "when_started": "sole_protocol_quality_timing_failure_retention_and_correction_rules_apply",
+    "engineering_real_test_slots": [
+      {
+        "role": "early_pilot_1",
+        "slice": "4.5",
+        "sources": "public",
+        "mode": "requirements_to_solution"
+      },
+      {
+        "role": "early_pilot_2",
+        "slice": "5.4",
+        "sources": "private",
+        "mode": "requirements_only"
+      }
+    ],
+    "engineering_real_tests_require_effect_score_or_comparison": false,
+    "new_pilot_Case_call_funding_or_deadline_allocation": false,
+    "optional_effect_runs_automatically_receive_new_pilot_slots": false,
+    "all_existing_resource_and_funds_limits_remain_applicable": true,
+    "confirmed_real_defects": "must_address_within_approved_scope; do_not_manufacture_a_defect_or_require_one_for_engineering_completion"
   }
 }

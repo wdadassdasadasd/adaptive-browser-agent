@@ -1,6 +1,6 @@
-# 目标提示词契约 — TEAM-BASELINE-20261103-01
+# 目标提示词契约 — DEV-STAGES-20261104-01
 
-本文件由负责人确认的 CONTENT-20261103-01（含两项澄清）及配置执行计划 CONFIG-PLAN-20261103-01建立，本轮按已确认团队研发计划和“PLEASE IMPLEMENT THIS PLAN”同步阶段0配置；原批准继续绑定原字节。它定义后续程序应编译和验证的模型职责。**它是目标契约，当前业务程序尚未加载或实现。** 旧 `backend/src/adaptive_research/agent/prompts/` 仍属于旧 AgentLoop，本次不修改，不把新增文档当成运行时门禁。
+本文件由CONTENT-20261103-01及CONFIG-PLAN-20261103-01建立，原批准继续绑定原字节。当前DEV-STAGES-20261104-01只在P0同步计划适用身份；模型职责与运行参数保持。它定义后续程序应编译和验证的职责，**当前业务程序尚未加载或实现**；旧backend/src/adaptive_research/agent/prompts/仍属旧AgentLoop，本次不改。六阶段/按需效果口径见PLANS，不能由prompt代程序门禁。
 
 [CURRENT_CONTRACTS](CURRENT_CONTRACTS.md)拥有运行状态、权限、版本、配额、恢复和失败语义；[唯一评测协议](../evaluation/CURRENT_EVAL_PROTOCOL.json)拥有正式质量、计时、六槽位及整批资金规则。本页只维护模型输入、输出、自主边界和交接。调用资格与正确性必须由程序和测试落实，不能只依赖模型遵守文字。
 
