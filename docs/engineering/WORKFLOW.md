@@ -19,12 +19,14 @@
 
 **Agent 评测**：离线模拟、诊断 Pilot、正式批次分别标识；正式协议只由 `docs/evaluation/CURRENT_EVAL_PROTOCOL.json` 决定。每次记录版本、运行 ID、调用与事实、来源、人工核源、报告哈希、实际／未知 Token 和费用。失败按 Planner、工具、来源、Context、Memory、LLM、Worker、预算、评测核查层分类；改变一个可证伪假设后先离线回归，再请求真实复测。单次改善只作描述，不主张统计显著性。
 
-**FOCUS-BASELINE-20261102 的当前适配**：FOCUS-20261102-01的28现有文件及限定检查已由PLEASE IMPLEMENT THIS PLAN批准，进入G5/G6；保留原起草主体，将Memory从当前M1后置，不把接受研究或继续讨论当后续扩权。原REVIEW-BASELINE-20261101原字节交付有效，不重新列待修。原PREP40路径和JSON修复按原字节保留。draft-m1-2是唯一协议；M1仅引用。公开材料索引待独立制备，默认校验只说明配置有效；本批不制题或生成seed，不给正式就绪。三个raw Agent交付物关键项全过（REQ须首需求及首方案均过）与六个人工终稿包/描述省时分开；REQ完整闭环、CON含无基准子问的评审、EXP已确认需求的方案；仅需求终止/编辑修订无独立formal效果声明，DR按需，无20%硬门槛。旧current-3入口仍拒新协议；历史按精确Git/path/hash和必要显式换行读，不能扩账或执行。
+**RESEARCH-BASELINE-20261103当前适配**：负责人已完整确认CONTENT-20261103-01，并以PLEASE IMPLEMENT THIS PLAN明确授权CONFIG-PLAN-20261103-01，进入配置G5/G6。范围为30份现有文件、目标提示词契约与本轮研究报告、限定离线检查和新审计证据。FOCUS等旧批准继续绑定原内容／版本／范围，不重绑定索引。先研究与独立设计审查、完整内容确认，再对应配置计划和执行授权；本轮均已有对应授权，范围内连续完成修改、同步、检查、独立实施审查、核实修复及必要复审，不逐文件重问。重要设计或范围变化暂停受影响部分。
 
-当前M1关闭全部Memory功能入口，包括手动／自动、API／CLI、默认profile／框架Store预加载、旧checkpoint refs、导入／恢复／重建与后台路径；不提取候选、不读写、不检索、不注入，active Memory refs必须为空并与各模型阶段实际请求一致。Trace记disabled/not_applicable，hits／writes为null并附feature_disabled，不以测试零次冒充禁用证据，不要求空Store／seed／Memory快照。Case内条件、证据、文档和审计照常持久化；本人明确选定历史报告走SourceSet准确获许可版本，不解引用Memory refs，继续核当前权限和已知私有祖先。DEC-AC-17／DEC-M1-04保留延期、未实施／未验；完整Context属03a、Token资格属03b，当前M1不依赖04。真实复用需求、独立设计审查及准确范围另批后才可重开，原Memory预留容量保持闲置上界，不挪给其他功能。
+Memory全部功能入口继续禁用并延期：手动／自动、API／CLI、默认profile／框架、旧checkpoint、导入／恢复／重建和后台均不得产生候选、读写、检索或注入。active refs为空并与实际请求核对，Trace记disabled/not_applicable、null hits/writes及feature_disabled。Case资料正常持久化；显式选入历史报告走SourceSet权限及私有祖先核验，不解引用Memory。04／17未实施、未验且非当前M1前置，预留闲置；重开需真实需求、独立审查与另行批准。 具体禁用契约见[CURRENT_CONTRACTS](../contracts/CURRENT_CONTRACTS.md)，不在流程复制参数。
 
-**当前完成与后续任务**：本批28文件的唯一18项及实际文件/检查/指纹/独立审查结论由[连续记录](../features/DECISION-001/tasks.md)判定。配置批准不包含依赖、WSL/服务/数据库、真实模型/Tokenizer/Browser、购买、外部或Git写；首业务任务DEC-M1-01（真实登录/原始Draft/第二测试身份隔离＋最小supervisor）仍须另授。重要设计不因文档落地而算实现，环境资格缺口保留到准确操作包；WSL启动可能触发旧自动服务，缺隔离证据不先启动再补防护。新修订的技能/流程需按实际任务场景验证，静态validator不能证明所有客户端触发或自动门禁生效。
+**当前完成与后续任务**：唯一协议draft-m1-3，M1只引用；六槽位、三个raw Agent关键项与六final／描述省时分开。材料pending，本批不制题、gold或seed。唯一[连续记录](../features/DECISION-001/tasks.md)保留原18项并记录本轮真实检查和审查状态；不可预填通过。配置不包含依赖、环境／数据库、真实模型／Tokenizer／Browser、购买、外部或Git写。首业务任务DEC-M1-01（真实登录／私人Draft／第二身份隔离＋最小sup）仍另授；WSL启动前需旧自动服务隔离证据。静态validator不能证明新客户端触发、并发、计费或运行门禁已实现。
 
 Codex 仅读取适用规则、任务包和相关源码；三项现有 Skill 在其对应任务中按需提供方法，复用已有批准和记录。普通行为变化和重要设计的独立审查属于明确委派；其他子代理限有独立价值的范围。主 Agent 负责集成、发现核实与交付准备，用户保留业务验收；子代理指令不构成权限隔离，实际权限以运行时为准。PR 中列出 Requirement／Task／AC、契约影响、风险、实际测试、CI、未验证项、Agent 证据和回滚路径。
+
+本轮实现和配置审查必须追踪“已确认决定→修改路径→离线检查→未来行为验证”。父子分工、Context、工具、版本确认、Token和Tracing连接处使用两个研究案例静态走查；案例不是正式材料或实际需求证据。新审计目录research-20261103保持进入、检查、审查和最终正文指纹，旧目录不回写。
 
 **提交与放行是两个关口**：提交前按[任务模板](TASK_TEMPLATE.md)逐项列明已验证的范围、跳过的检查及原因，检查暂存 Diff、必要回归和 `git diff --cached --check`；代码可在明确标为“已实现／待验证”的状态下提交。任务范围内 AC 只有在所选风险层的证据齐备后才记完成。产品 Go 另须满足现行阶段和冻结评测协议，提交、CI 绿灯及离线测试均不改变 No-Go。

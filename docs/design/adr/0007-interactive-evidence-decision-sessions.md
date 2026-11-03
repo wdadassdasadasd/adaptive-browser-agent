@@ -1,6 +1,6 @@
 # ADR-0007：需求与方案研究起草会话与数据流
 
-- 原日期2026-10-26；当前**FOCUS-BASELINE-20261102**。P2/A1/R2及后继专项已确认，28文件配置同步获批，当前文件审查／业务／真实验收见[唯一记录](../../features/DECISION-001/tasks.md)。
+- 原日期2026-10-26；当前**RESEARCH-BASELINE-20261103**。CONTENT-20261103-01已确认，CONFIG-PLAN-20261103-01配置实施获批；旧FOCUS／DRAFT／REVIEW绑定原字节，状态见[唯一记录](../../features/DECISION-001/tasks.md)。
 - 权威：[规格](../../../SPEC.md)、[计划](../../../PLANS.md)、[契约](../../contracts/CURRENT_CONTRACTS.md)、[部署ADR5](0005-windows-worker-wsl-postgres.md)、[决定ADR8](0008-m1-engineering-baseline.md)。具体数值只在契约／唯一协议维护。
 
 ## 2026-11-02 FOCUS增量及保留理由
@@ -56,3 +56,13 @@ DocumentVersion只由显式人工保存／AI成功提交追加，当前head CAS�
 首工仍真实登录→私人原始Draft持久／重开→第二测试身份404，加最小sup，不建InputRevision／Task，不运行模型／工具／Tokenizer／Browser。团队、来源及接受研究在后继02／03包，不反向扩首工。实际WSL路径／角色／迁移／依赖分别另授；首次公开源真实pilot仍前置最低独立纸卡纸钥恢复、资金／unknown、Token与Gateway资格。
 
 2026-10-26原方案B／v3.1、10月28日D01–19／11文档、10月29日40路径及10月30日五文件修复按各自原字节审查，旧六API／双入口／五账户／候选池及9/8/12不是并行现行规则。历史记录与真实失败受保护，配置批准不授权业务开工。
+
+## 2026-11-03 按需专题与准确输入封存
+
+选择主研究者连续负责＋按需独立专题，保留单链；不固定角色配额或递归。相对单链可覆盖独立来源／机制并保主目标，代价是assignment版本、父子Context、共享消费者、取消和归并事务。子研究仅同Task Work，不是新增授权／调度Task；额外模型请求都消耗共享池。
+
+Pg拥有assignment head、依赖和Task frontier；子提交核局部相关版本，主归并CAS只本地重做，避免无关进展使有效证据作废。Task拥有共享取材而非首child拥有，各消费者逐次核权；取消只解除适用关系，全部失效后不将迟到审计提升为研究事实。
+
+正式编译前seal准确研究输入；关键义务必须满足已接受标准，可选失败／未读显式交付。seal后不偷偷合并迟到结果，需求head／确认变化继续阻旧方案。Shared Work和协调元数据沿既有根锁固定全序，不从Call反锁Work；具体事务、失败及上界见[契约](../../contracts/CURRENT_CONTRACTS.md)。配置未实现这些程序保证。
+
+首工件仅保护尚未首次尝试的一次资源，失败消耗不补满；四次compile统计全部物理尝试含技术retry，减少故障后的可修订余量。此收紧已随完整内容确认，不是成功产稿保证。Token本地格式、hosted-fit和actualusage分别证明；合法差异记录，费用unknown停全项目外发。Memory禁用与各输入来源许可不变。

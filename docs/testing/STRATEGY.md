@@ -1,6 +1,6 @@
 # 按风险选择的配置检查与Agent验收策略
 
-FOCUS-BASELINE-20261102只同步28文件及有界校验；[契约](../contracts/CURRENT_CONTRACTS.md)、[唯一协议](../evaluation/CURRENT_EVAL_PROTOCOL.json)定义参数，[唯一任务](../features/DECISION-001/tasks.md)记录命令/失败/审查/18项。配置、业务实现、真实运行、本人验收/掌握、价值、Go和发布分别取证。
+RESEARCH-BASELINE-20261103对应CONFIG-PLAN-20261103-01：30份现有配置文件、两份新增文档及有界离线检查。[契约](../contracts/CURRENT_CONTRACTS.md)定义运行约束，[唯一协议](../evaluation/CURRENT_EVAL_PROTOCOL.json)定义正式质量／计时／槽位与整批资金，[唯一任务](../features/DECISION-001/tasks.md)记录命令、失败、审查和原18项历史。配置、业务实现、真实运行、本人验收／掌握、实际价值、Go和发布分别取证。
 
 | 层 | 对象 | 不可替代的证据 |
 | --- | --- | --- |
@@ -17,7 +17,7 @@ FOCUS-BASELINE-20261102只同步28文件及有界校验；[契约](../contracts/
 只用已安装D盘根.venv。在backend目录的聚焦套件为：
 
 ```text
-..\.venv\Scripts\python.exe -B -m pytest -q -p no:cacheprovider tests/unit/test_validate_project.py tests/unit/test_current_evaluation.py tests/unit/test_pilot_runner.py tests/unit/test_pilot_capture.py tests/unit/test_project_ledger.py tests/unit/test_pilot_cost_reconciliation.py tests/unit/test_legacy_entry_guards.py
+..\.venv\Scripts\python.exe -B -m pytest -q -rs -p no:cacheprovider -p pytest_asyncio.plugin tests/unit/test_validate_project.py tests/unit/test_current_evaluation.py tests/unit/test_pilot_runner.py tests/unit/test_pilot_capture.py tests/unit/test_project_ledger.py tests/unit/test_pilot_cost_reconciliation.py tests/unit/test_legacy_entry_guards.py
 ```
 
 每次basetemp和日志选本轮audit下未存在的新目录，记录准确argv/cwd/env/exit/timeout及hash；缓存和遥测不写用户全局配置。测试中本地socketpair不算外部模型服务；权限阻止时保存失败，不修改测试掩盖、自动提权或安装。当前validator、显式材料未就绪拒绝、diff检查及三修改Python的Ruff/format-check并行口径一致。
@@ -26,19 +26,23 @@ FOCUS-BASELINE-20261102只同步28文件及有界校验；[契约](../contracts/
 
 严格JSON拒重复键(含转义等价)/NaN/Infinity/指数溢出非有限值，保有限int/float且bool不等int。保原字节微改拒绝、输入variant/output_requirements等严格语义；新材料入口等价覆盖而非删除旧修复。所有copy/hash/protocol/M1单向引用不自循环。旧current-3入口对新/坏/缺失协议必须先于Settings/client/engine/output/ledger写拒绝；历史固定Git/path/rawSHA/显式换行继续回归，不能借历史读取扩账。
 
-旧621、原49/七文件200检查属于各旧字节，不证明本次文件。新测试数量与失败/修复/复审按本次实际记录。本批不需前端构建、数据库或全后端重跑，除非新失败提供相关理由；不运行模型/Tokenizer/Browser、远端CI。
+旧621、原49/七文件200及FOCUS 297 passed／1 skipped检查属于各旧字节，不证明本次文件。新测试数量与失败/修复/复审按本次实际记录。本批不需前端构建、数据库或全后端重跑，除非新失败提供相关理由；不运行模型/Tokenizer/Browser、远端CI。
 
-## FOCUS-BASELINE-20261102覆盖（配置与后续业务分开）
+## 当前配置回归与后续行为分开
 
-本批限定配置回归应核draft-m1-2/材料角色版本、四模式义务、六阶段算术、4compile独占预留、三pair覆盖与pending身份；旧review协议不能混作current。既有--review-material-root与--review-material-index-sha256参数保留，不扩历史runner/ledger。历史review配置仅existing final-02 manifest/path/raw hash追溯，不冒充HEAD已有对象。
+本批限定回归核draft-m1-3／capabilities-3与pending材料、四模式、六用途固定单次上限及共享有界池；固定用途次数残留、总量越界、purpose错配、隐藏调用、跨Turn或换ID重置必须拒绝。首工件只预留尚未尝试的首次尝试，失败不补满；optional不得侵占，compile第五次或retry绕四次物理上限必须拒绝。既有显式材料参数保留，不扩历史runner／ledger。
 
-本批增加严格Memory policy keyset／类型／值与误开拒绝、M1 required／deferred冲突、Context错误依赖04、原Memory预算挪用、旧材料／回执／索引及新旧协议入口拒绝回归。新固定材料根为review-20261101/focus-20261102/materials，只更新预期引用，不制备角色包。显式旧draft-m1-1与实际draft-m1-2都应在Settings、价格、数据库、输出前拒绝。
+本批保留严格Memory keyset／类型／值、误开拒绝、required／deferred冲突、Context错误依赖04、原容量挪用、旧材料／回执／索引及新旧入口拒绝回归。新材料预期根research-20261103/materials，仅更新pending引用、不制角色包。draft-m1-1、draft-m1-2和当前draft-m1-3都不得驱动旧运行器。
 
-当前M1关闭全部Memory功能入口，包括手动／自动、API／CLI、默认profile／框架Store预加载、旧checkpoint refs、导入／恢复／重建与后台路径；不提取候选、不读写、不检索、不注入，active Memory refs必须为空并与各模型阶段实际请求一致。Trace记disabled/not_applicable，hits／writes为null并附feature_disabled，不以测试零次冒充禁用证据，不要求空Store／seed／Memory快照。Case内条件、证据、文档和审计照常持久化；本人明确选定历史报告走SourceSet准确获许可版本，不解引用Memory refs，继续核当前权限和已知私有祖先。DEC-AC-17／DEC-M1-04保留延期、未实施／未验；完整Context属03a、Token资格属03b，当前M1不依赖04。真实复用需求、独立设计审查及准确范围另批后才可重开，原Memory预留容量保持闲置上界，不挪给其他功能。
+Memory全部功能入口继续禁用并延期：手动／自动、API／CLI、默认profile／框架、旧checkpoint、导入／恢复／重建和后台均不得产生候选、读写、检索或注入。active refs为空并与实际请求核对，Trace记disabled/not_applicable、null hits/writes及feature_disabled。Case资料正常持久化；显式选入历史报告走SourceSet权限及私有祖先核验，不解引用Memory。04／17未实施、未验且非当前M1前置，预留闲置；重开需真实需求、独立审查与另行批准。 具体入口及参数以[契约](../contracts/CURRENT_CONTRACTS.md)为准；以下是未来程序验收规格，不是本轮实验结果。
+
+本轮校验器必须对批准修订及预期原始hash建立独立锚点；同一次有界raw读取同时用于hash、严格JSON解析、引用链及不变量，不能hash根文件却检查外传dict。纯结构helper fixture不等于当前bundle通过。原字节微改、未批准策略改动、错引用链及读取后替换的负例分别保留，禁止生产skip-hash或自动重绑定。
+
+Token负例区分本地公开格式／托管fit／实际usage：合法非零差异保留，越界或供应商协议异常撤资格、业务JSON不合格不误撤，unknown费用全停，重资格不自动重领诊断。静态字段和fixture只检查配置／算法，真实Tokenizer、API和费用资格未验。
 
 未来业务测试另授后必须覆盖：全部模型阶段放置canary旧Memory对象／refs／profile preload／checkpoint／import／restore／rebuild／后台路径，均不可读取、生成候选、写入或注入；active refs为空且对照实际请求验证，Trace为禁用/null而非实测零。仅文档和协议关闭不冒称运行实验通过。
 
-未来业务测试另授后必须覆盖：R1/C1生成S1期间R2保存、confirm与edit双序、start/send/commit三端检查及旧Call迟到仅audit/usage/cost；重复保存／双人保存CAS／409重载；显式保存才增版本，键入不耗16槽，logout换身份清内存。16版本、2MiB派生桶、首工件slot＋80KiB envelope＋Token＋canonical/terminal原子预留；无保存容量0send，模式变化同Case原目的接受并预留新增义务，跨Turn不重置，改需求不无限保首方案。
+未来业务测试另授后必须覆盖：首尝试失败转used不补预留、retry／四compile／总物理上限交叉、子任务和可选修订不侵首尝试资源；R1/C1生成S1期间R2保存、confirm与edit双序、start/send/commit三端检查及旧Call迟到仅audit/usage/cost；重复保存／双人保存CAS／409重载；显式保存才增版本，键入不耗16槽，logout换身份清内存。16版本、2MiB派生桶、首工件slot＋80KiB envelope＋Token＋canonical/terminal原子预留；无保存容量0send，模式变化同Case原目的接受并预留新增义务，跨Turn不重置，改需求不无限保首方案。
 
 本地上传测试须含：累计32项、metadata16KiB、raw1MiB/UTF8正文512KiB、实际chunk计数而非信任Content-Length、非identity编码拒绝、坏UTF8、30s绝对截止、body parser前拒绝、不使用multipart spool；先核权/预留与提交重核的撤权双序、断流不假capture、未seal不送模型、部分成功/未读清单。路径仅元数据，diff不执行、未知基点不伪commit，File API不自证原系统无symlink或整个worktree原子。known private lineage不能用local profile/新ID/编辑洗白，外部未知不声称全检测。真实头/请求行/缓冲/超时与restrictedPg事务资格不能由fixture代替。
 
@@ -59,7 +63,7 @@ FOCUS-BASELINE-20261102只同步28文件及有界校验；[契约](../contracts/
 | Task/AC | 正常与必须失败边界 |
 | --- | --- |
 | DEC-M1-01 / DEC-AC-15 | 两真实login/cookie、个人Draft保存重开与另一owner404；CAS/容量/CSRF/Host/Origin；最小sup及Pg失连续；不创建研究Task或调用。 |
-| 02 / 08/09/14 | 当前team/project/member/use grants；接受/幂等先CAS、双提交、队满无孤立；独立Taskgrant、取消/成功双序、真实LangGraph阶段/StageOutput/同步checkpoint切点。 |
+| 02 / 08/09/14 | 当前team/project/member/use grants；同Task Assignment版本／幂等／替换、共享消费者独立核权及取消、研究输入封存／迟到audit／关键义务未满足；接受/幂等先CAS、双提交、队满无孤立；独立Taskgrant、取消/成功双序、真实LangGraph阶段/StageOutput/同步checkpoint切点。 |
 | 03a / 10/11/12/18 | 完整Context保护集合、反证／限定超限0send；固定repoID/commit/path/blob，截断frontier、同名/同blob不合主体；原文/采集/摘要/结论分离；CRLF/中文Emoji UTF8locator；有关键词但不支持、未知版本反证、未读非不存在。 |
 | 03b / 13/14/15 | send+commit/current lease/fence/gen/source/Memory禁用及空refs/model资格；App fresh proof/控制预算、public200不能续权限、完整query/URL披露；known retry vsunknown；Token/usage/cache/钱分账，60秒绝对截止。 |
 | 04 / 17（延期，非当前M1必需） | 当前所有入口关闭，未实施／未验；未来另批后才检作者teamproject隔离、长期原文归属／否定／引用、TTL、更正／撤销／满额及tombstone／alias恢复；不作当前pass。 |
@@ -69,6 +73,8 @@ FOCUS-BASELINE-20261102只同步28文件及有界校验；[契约](../contracts/
 | 07 / 16/19 | Worker拒scorer/controller；实际显示和披露许可不同、ack丢失/时钟不明不洗计时；六slot全保，3rawAgent关键项gate与6final质量/描述省时分开，无20%或强制DR。 |
 | 08b / 15/19/20 | 当前read session/account/sup/sourceproof每response/page/frame重核；撤权双序/有界inflight，Trace跨team拒/私源撤权、离线不replay、完整恢复及本人成功/失败演示。 |
 
+两个案例仅作静态配置走查：养老助手区分用户困难、平台能力和风险候选，GPT Researcher固定版本区分既有编辑／聊天与新需求确认。它们不是正式题／gold或真实用户价值证据。
+
 canonical审计与业务同tx，UI cap不删Call/证据/费用；没有审计或terminal预留不新send。只安全元数据日志，不prompt/key/cookie/私有URLnonce/CoT。离线重建只读已有bytes/hash/关系/selector/计时/usage算术，缺坏not_reconstructible；Tokenizer执行另授。诊断区分未采集/未识别/未绑定/未选/裁剪/摘要失真/输出未体现，不推测模型内部。
 
-实现后提供全部28正文、完整committed/staged/unstaged/new审计内容及实际checks，冻结后交非作者技术/安全实现审查；核实发现再修、重测、受影响独立复审。设计审查、旧审查或CI不替当前实现审查。人核源/读码/预测/亲改/回归及掌握由本人确认。
+实现后提供本轮全部32文件相关正文、完整committed/staged/unstaged/new审计内容及实际checks，冻结后交非作者技术/安全实现审查；核实发现再修、重测、受影响独立复审。设计审查、旧审查或CI不替当前实现审查。人核源/读码/预测/亲改/回归及掌握由本人确认。

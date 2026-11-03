@@ -1,6 +1,6 @@
 # DECISION-001：需求与方案研究起草及证据评审
 
-**FOCUS-BASELINE-20261102：设计及28文件配置同步获批，业务实现和真实运行另授权。** [唯一任务／18项](tasks.md)分别记录原批准、新决定、实现、技术检查、本人验收和交付。依据[根规格](../../../SPEC.md)、[计划](../../../PLANS.md)、[契约](../../contracts/CURRENT_CONTRACTS.md)、[唯一协议](../../evaluation/CURRENT_EVAL_PROTOCOL.json)。原PREP基线及严格JSON修复保原身份，r12／P-02 No-Go不变。
+**RESEARCH-BASELINE-20261103：CONTENT-20261103-01完整确认，CONFIG-PLAN-20261103-01配置实施获批。** [唯一任务／原18项](tasks.md)分别记录批准、实施、检查、独审和交付。依据[根规格](../../../SPEC.md)、[计划](../../../PLANS.md)、[契约](../../contracts/CURRENT_CONTRACTS.md)、[唯一协议](../../evaluation/CURRENT_EVAL_PROTOCOL.json)。旧FOCUS／DRAFT／REVIEW及更早交付继续绑定原字节，业务、环境、真实运行及本人验收另取证，r12／P-02 No-Go不变。
 
 ## 用户问题与交付
 
@@ -24,9 +24,9 @@
 | DEC-AC-13 | 所有Call含签发／probe／retry逐次准入预留，精确请求与资格绑定，Token／usage／费用分账 | prepared／admitted非发送；unknown停全项目外调；schema／unknown不技术重试；未知不填0；03b |
 | DEC-AC-14 | send与commit核实时租约／fence／执行代次／权限／资格；终态／active／event原子；checkpoint只refs | cancel／success、lease／commit双序，late只原Callaudit／费用；completed不重发，资源确认才释放；02/03b，Memory禁用／空refs |
 | DEC-AC-15 | 真认证、私人Draft／项目共享分开；member／source／Taskgrant及读取claim可验；新cluster／sup | logout／expiry后SSE不续读；每response／page／frame重核，最后有界在途可送达；源撤权派生禁用，恢复保守；01/ENV/08 |
-| DEC-AC-16 | draft-m1-2的REQ双首稿／CON原评审／EXP原方案各过关键项；六final交付包共质且计时完整后才描述已登记三pair省时 | 无20%硬门槛，非关键逐条不合总分；缺／0baseline不挑pair；未启动／取消／缺失均保分母；07 |
+| DEC-AC-16 | draft-m1-3的REQ双首稿／CON原评审／EXP原方案各过关键项；六final交付包共质且计时完整后才描述已登记三pair省时 | 无20%硬门槛，非关键逐条不合总分；缺／0baseline不挑pair；未启动／取消／缺失均保分母；07 |
 | DEC-AC-17（延期，非当前M1必需） | 未来跨Case自动Memory候选，未实施／未验，不算pass | 当前所有Memory入口关闭且实际请求无注入；不建空Store／seed；真实复用需求、独立设计审查及准确范围另批才重开04；原容量不挪用 |
-| DEC-AC-18 | 完整条件／未知、必要证据／反证先保护；Manifest解释选排；完整官方本地Tokenprofile资格 | 缺许可／超限拒发partial；漂移root撤资格rev阻旧未发许可；不推测内部使用；03a/03b；当前不依赖04 |
+| DEC-AC-18 | 完整条件／未知、必要证据／反证先保护；Manifest解释选排；完整公开格式本地计数／hosted-fit／实际usage三层证据 | 缺许可／超限拒发partial；合法计数差异只记录，溢出／供应商协议错root撤affected资格，业务输出错不混同；不推测内部使用；03a/03b；当前不依赖04 |
 | DEC-AC-19 | 原程序、原report核源、本人finalhash三轴；canonical／usage／费用／active／wait可重算 | 六slot同版全保，gold受限；许可非实际显示，不明时点不算saving；audit不偷偷供研究；06/07/08 |
 | DEC-AC-20 | 至少一真实症状→trace→预设假设→本人亲改→回归／独审→另授同条件真实复测纠正 | 无真bug待证不植bug，最多两复测Case，改条件／source-model漂移为混杂；失败不替纠正；06 |
 
@@ -39,6 +39,19 @@ FR-001–015、NFR-001–011及原AC完整映射见SPEC；模块依赖见PLANS�
 REQ两变体完整链、CON两变体评审（均含无权威基准子问）、EXP两变体基于已确认需求仅方案，材料组合／规模及共同goal须可比。REQ保首次需求、实际本人改动（可空）／确认、首次方案及最终双稿包；人工修好不洗raw失败。仅需求独立终结、直接编辑／对话修订以聚焦回归和既有pilot观察，不声称各自独立正式质量／省时。澄清不缩共同goal，实质改scope保原slot partial／不可比，合理备选设计不强制唯一gold。三个类型、各两个可比变体的正式材料须独立制备并另审；当前公开索引待制备，本批不生成新题面／gold。inputs／controller／scorer分包，Worker不可读评分包；公开rubric非隐藏答案。先冻稿件和计时再揭依据；曝光／错误金标／评分修订保原slot及审查链，不换题洗分母。
 
 Agent侧产品＋本人读源改稿，无外部AI代修／复制Control。Control登记日常人工／普通AI／搜索，DR按需计时计费；同登记手工引擎。全部实质断言核支持，机器quote／AI评分不代人语义；本人修好不改原始质量失败。真实用户价值、读码／预测／操作／亲改／解释由本人确认，不由AI代填。
+
+## 本轮新增验收细化（仍待业务实现／验证）
+
+以下细化既有DEC-AC，不另建权威AC系统；完整状态／参数见契约。
+
+| 对应AC | 正常行为 | 必须覆盖的反例 |
+| --- | --- | --- |
+| 08／09／14 | 主链按需委派同Task Work，准确assignment head／依赖，原子创建替换与幂等回放；主链按当前frontier归并 | 旧目标／权限继续调用、相同规划重复创建、取消后迟到、无关子任务推进误拒有效结果；全部资源无重置 |
+| 10／11／15 | Task拥有共享取材，各消费者当前核权，保每源身份和private ancestry | 同URL不同权限误共享、取消首child误删其他消费者、零消费者仍推进、一次capture冒多证实 |
+| 12／13 | 六purpose按程序映射共享正常池，compile最多四次物理含retry，尚未首次尝试首工件多维预留 | 第五次compile、retry免计、失败自动补满、可选版本挤占首方案、无容量仍发送 |
+| 12／14／18 | 正式compile前seal研究输入；保护证据实际文本及反证／未知进入请求 | seal后结果偷偷归并、新requirements head沿旧确认编译、Manifest有ref但实际请求缺保护内容 |
+| 13／18／19 | 完整本地计数、工程hosted-fit、合法actualusage／缓存／费用分开 | 合法非零差异被误拒、溢出资格仍可用、业务输出坏误撤协议资格、缺usage／费unknown填零或自动开闸 |
+| 16／19／20 | 两案例静态走查、正式六槽位、真实用途和本人实践分别取证 | 配置测试通过冒充并发／真实质量、旧失败改判、未来安排写成本人已掌握 |
 
 ## 历史DEC-AC-01–07及实现证据
 

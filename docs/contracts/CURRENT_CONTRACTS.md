@@ -1,8 +1,8 @@
-# 现行目标契约 — FOCUS-BASELINE-20261102
+# 现行目标契约 — RESEARCH-BASELINE-20261103
 
-负责人保留已核实DRAFT／REVIEW交付及四模式、团队、真实阶段图，以“PLEASE IMPLEMENT THIS PLAN”批准FOCUS-20261102-01的28文件配置同步，将Memory从当前M1后置；系统实际Default。当前文件检查／实现独审／交付见[唯一任务及18项](../features/DECISION-001/tasks.md)。本页定义目标，业务尚未实现。[SPEC](../../SPEC.md)定义产品，[PLANS](../../PLANS.md)定义依赖；[draft-m1-2](../evaluation/CURRENT_EVAL_PROTOCOL.json)独占正式质量／计时／整批资金口径，M1补充只引用它。
+CONTENT-20261103-01（含两项补充澄清）已完整确认，负责人以“PLEASE IMPLEMENT THIS PLAN”批准CONFIG-PLAN-20261103-01。当前Default模式仅实施30份既有配置、两份新增文档及必要审计／离线检查。实际检查、完整diff独立审查和交付状态见[唯一任务](../features/DECISION-001/tasks.md)，保留原18项历史含义。本页定义运行目标，不证明旧业务程序已经实现。[SPEC](../../SPEC.md)定义产品，[PLANS](../../PLANS.md)定义依赖；[draft-m1-3](../evaluation/CURRENT_EVAL_PROTOCOL.json)独占正式质量／计时／六槽位／整批资金，M1能力补充只引用它。
 
-原PREP-BASELINE-20261029、2026-10-30原字节／JSON修复按各自被审字节保留；旧产品／discovery-m1-1可按d4b906fb6a441c13583f052377283ec0c28bf5a2原path／raw SHA读取，current-3原1ffade6de07ebe3d1e72afb4c44b8677466eca67及显式换行规则不改。[V1](V1_CONTRACTS.md)和[P-01](../tasks/P01_ACCEPTANCE_2026-10-21.md)仅解释原行为，不扩旧账。配置不授业务／依赖／环境／DB／ACL／真实模型TokenizerBrowser／购买／外部或Git写；原r12／P-02 No-Go不变。
+FOCUS-BASELINE-20261102按进入HEAD dc4498f36c0342eef5191f9f59feaf3b363169b6及原path/raw hash读取；DRAFT final-01、REVIEW final-02、PREP及RAWJSON仍绑定各自原字节，不重写索引。current-3原1ffade6de07ebe3d1e72afb4c44b8677466eca67及显式换行规则不变。[V1](V1_CONTRACTS.md)和[P-01](../tasks/P01_ACCEPTANCE_2026-10-21.md)仅解释原行为。配置不授业务、依赖、环境／DB／ACL、真实模型／Tokenizer／Browser、采购、外部或Git写；原SQLite、费用与来源证据及r12／P-02 No-Go保留。研究／独立设计审查证据及限制见[本轮研究](../research/PREDEV_CONFIGURATION_REVIEW_2026-11-03.md)。
 
 ## 1. 目标、对象与应用权限
 
@@ -20,7 +20,9 @@
 | Task/Turn | 研究／起草Task承载一Turn，唯一status；独立qualification Task为控制类型，不新建review Turn或研究Case／许可 |
 | TaskExecutionGrant | 独立于登录会话，绑定责任发起者／成员／Case目的／revision策略／阶段／期限与allocation；logout本身不取消 |
 | ExecutionAttempt | 持久UUID、fence、lease、actor generation及恢复次数，不是新Turn |
-| PlanRevision/Work | Work稳定逻辑义务，保前驱／替代及输入绑定；换plan序号／query／ID不绕失败或completed／unknown |
+| PlanRevision/Work | Task内主链／专题／共享取材的稳定逻辑义务，保前驱／替代及输入绑定；换plan／query／ID不绕失败或completed／unknown |
+| Assignment/Task frontier/consumers | 应用权威的准确委派head、义务／依赖、当前归并frontier及共享消费者；位于Work协调锁层，不要求另建持久化权威 |
+| ResearchInputSeal | 正式编译使用的准确研究输入集合及hash；不替代需求head／确认和当前权限 |
 | StageOutput/Call | stage保存已提交输出refs；每物理Call有请求version/安全bytes/hash、profile／凭据handle／许可／slot／usage／费用 |
 | SourceCapture/Claim/ReportSnapshot | 不可变采集表示、主体／版本／范围／精确片段与关系、不可变报告；当前可见性独立门禁 |
 | ContextManifest/ModelQualification | 实际请求选排／输入祖先、禁用Memory及空active refs；精确官方编码及模型字段资格revision；Memory对象仅未来候选、当前不建不读 |
@@ -63,7 +65,7 @@ Pg应用表是唯一业务权威。checkpoint独立schema／角色／连接／�
 
 running研究／起草Task资格刷新在其自身有界Work／Call内，不能在满2／4队列中等待另一控制Task；独立资格Task无模型／研究授权。关闭UI、断线、logout或自然auth expiry不自动取消已接受Task；账户／成员／Taskgrant明确失效才阻新claim。Task queued→running→recovering→running或completed/partial/failed/cancelled；等用户就是terminal partial释放调度槽，recovering留活动槽。Attempt active→fenced→resources_quiesced→closed，先seal旧代出口／连接并确认实际资源收拢，再新Attempt；不能确认保物理槽并停能力。
 
-全部应用写者含CLI／heartbeat／reaper／终结／迟到结算先锁deployment级ProjectControl，再account→auth_session（仅相关读／认证操作）→team→membership→project→source connection/grant→Session→Case→Task→Work→Call→DocumentHead/DocumentVersion/RequirementsConfirmation（同类ID排序）→ModelQualification→budget/capacity→slot，同类ID排序，最后append artifact/claim/event。Task执行不因锁序出现auth_session而依赖当前登录续存。FK RESTRICT、归属不变；checkpoint不回调该锁序；网络／Argon／Tokenizer／关系遍历锁外。提交不明按原operation核对，不猜成功。
+全部应用写者含CLI／heartbeat／reaper／终结／迟到结算先锁deployment级ProjectControl，再account→auth_session（仅相关读／认证操作）→team→membership→project→source connection/grant→Session→Case→Task→Work／assignment协调元数据（同一固定全序）→Call→DocumentHead/DocumentVersion/RequirementsConfirmation（同类ID排序）→ModelQualification→budget/capacity→slot，同类ID排序，最后append artifact/claim/event。Task执行不因锁序出现auth_session而依赖当前登录续存。FK RESTRICT、归属不变；checkpoint不回调该锁序；网络／Argon／Tokenizer／关系遍历锁外。提交不明按原operation核对，不猜成功。
 
 Call prepared→admitted（仅预留）→send_claimed→completed/known_failed/unknown。最终claim根事务重核gate OPEN/epoch、独立Task执行principal/member/grants、原目的／期限、DB实时lease/fence/Attempt generation、适用GitHub源proof（GitHub私有来源或其私有祖先）／精确版本、Memory功能禁用／active refs为空且实际请求无Memory注入、模型资格当前及绑定rev、request version/实际safe bytes/hash、credential handle、未撤未耗reservation及物理slot。unknown停线和claim同根串行化；source新rev或Memory禁用状态／请求空refs不符令旧未发送许可失效，须重编新request version，不能覆盖已发送请求。
 
@@ -83,6 +85,22 @@ Stage／Claim／Report／proof提交同样核根gate、DB实时lease、Task状�
 
 终态根锁事务：已终态返回原结论；cancel先提交为cancelled；权限／源／期限／额度／unknown／fence等阻断为partial；合格有效Attempt报告才completed，无可用结果failed。成功先提交后cancel返回completed。报告指针／唯一终态event／active释放／version同事务，DB失联不称已持久。Task调度槽不等物理在途槽。unknown部署全项目停新外调，含proof刷新；只读安全进度／cancel／revoke及安全确定性终结仍可，私源资格过期仍阻正文访问。迟到结算不开闸，本人对账后另授恢复。
 
+### 按需专题委派、共享取材与封存
+
+主研究者保持目标、全局判断、人类讨论及交付责任；阶段图内单链随时可用，只在问题确实独立且收益足够时委派专题，不设固定角色配额或递归委派。子研究仅同Task下Work分支，不新增Task、Case、Turn、Taskgrant或顶层排队槽；继承原截止、累计额度和执行代次。主链等子结果不占model在途槽或持DB锁。
+
+Assignment绑定服务端Task/Work/assignment身份、准确已接受InputRevision/hash、问题与义务／关键性、依赖／排除、来源和工具用途权限子集、ContextManifest、资源预留及原截止；solution路径另绑定requirements version/hash与confirmation。父子不得复制秘密、隐藏system、整个历史或Memory；实际请求必须含必要条件、证据文本、限定、反证、冲突、未知及其关系，不仅是ID。主链／子链所有规划、抽取、归并、讨论及提案所需模型调用均消耗§4六purpose和同Case资源。模型只提案，不能授予权限、选择更大purpose或自升关键条件。
+
+创建幂等键是Task＋不可变原始规划model Call／Stage身份＋command kind＋proposal index，正文hash另核相等，不能把body hash放进key使变体绕重放。同计划回放不增Work／预留。创建assignment、Work、依赖、consumer、frontier、event和资源预留同根事务，失败不留孤立记录；替换CAS expected assignment head/hash，同事务supersede旧head、建立新head、解除旧消费者及失效未发送许可，不释放在途槽。无关子任务推进不使有效结果作废：child提交核自己的当前assignment head、直接相关输入／依赖和当前门禁；主链基于当前frontier合并CAS冲突只重做本地归并，不重发模型。
+
+以上写入遵守既有ProjectControl根锁序，所有受影响Work／协调记录使用同一固定排序，在Call之前取得，禁止先child或Call后反锁共享Work。关系展开、正文构造、模型／工具网络在锁外，事务内重核有界版本和预留。每次创建／替换源于已计数的唯一规划输出；新可执行子研究至少预留一个剩余正常模型槽及实际元数据／结果空间。使用原Case64MiB、canonical metadata2MiB、stage-derived2MiB、Claim512／edge2048、Manifest64KiB等上界，不新增任意角色数／元数据池；超限保留frontier引用、未读与缺口并partial，不静默截权限／lineage／反证。
+
+Shared acquisition只限同Task且由Task拥有，不附着首个child。共享资格绑定准确source identity/version、实际request、adapter/compiler、purpose/principal及当前权限／credential版本，不能仅凭URL或内容hash。消费者逐个当前核权，同一次capture不算独立佐证。一个child取消只detach自身；仍有有效消费者时可按shared Work自身门禁提交capture。零消费者在claim前拒新发并仅释放确定未用reserve；claim后保原Call有许可审计、费用及物理槽，不再新增研究内容。父Task取消／相关来源撤权使全部适用消费者失效。新assignment可显式复用已合法提交且当前有权的capture，不将late audit提升为研究资料，不重发unknown。
+
+子提案必须保question/basis、Claim支持／反驳／限定／冲突、来源和Work/Call引用、未知／未读、失败及停止理由；结构准入为machine_admitted_pending_human，非语义真值。关键义务绑定原已接受目标及完成标准，失败后不能改称可选或缩scope。只有事先允许接受未知的探索标准可用有依据的未知满足该义务；否则关键缺口partial，可选失败也在交付中列明。
+
+document_compile前在同根事务seal准确当前研究输入集合：关键义务已答或满足已接受的unknown标准；仍未完成的可选研究停止新调用并列unread/failed。seal后不新建研究assignment、不将新研究结果纳入该集合；迟到只原Call审计／费用。编译send和commit重核seal refs/hash、准确需求head／确认、当前权限和模型资格。新需求head先提交则拒旧方案，终态后不能替换旧Task，以同Case linkedTurn继续且不重置资源。恢复复用稳定Work/Call／已提交输出；unknown全项目停线、终态不替代物理资源收拢。
+
 ### 文档版本、确认及首工件义务
 
 原始私人Draft不是生成文档。Case每版DocumentVersion绑定kind(requirements/solution/review)、author、parent、body hash及实际已知来源祖先；人工保存和AI修订只追加，不覆盖首稿／确认稿。当前requirements/solution/review head由Pg拥有。本人显式保存才建版本，键入仅有界UI内存草稿，不localStorage；logout／换身份清除。409或保存失败保编辑可见并明确重载，不静默覆盖／丢稿；重载不是自动合并。
@@ -93,7 +111,7 @@ RequirementsConfirmation由当前有权actor显式确认准确当前requirements
 
 跨模式仅Case原目的内显式接受条件变化，不重置Turn／Case额度／期限；接受事务先核新增尚缺首工件多维reserve，不足则拒扩或partial保已有产物。实质改目的须另行明确新Case与grant，不能新ID绕全项目unknown／总批次cap。需求改版后再次编译消耗剩余额度，不保证无限首方案。
 
-每Case累计DocumentVersion≤16，正文UTF8≤64KiB、metadata≤16KiB含必要lineage，不截祖先。全部实际envelope计stage-derived 2MiB及Case64MiB；16×80KiB=1.25MiB不是其他stage可无界的保证。首工件在可选人工保存／AI修订／其他stage写入前保留未完成义务的compile／Token、版本槽、每件80KiB envelope和canonical／terminal空间；full最多两件两槽160KiB，已交付则对应reserve转used一次，不双计，未来首方案reserve不被可选版本占用。已知无法存结果则零新模型发送，安全partial不借终结预留生成新正文。
+每Case累计DocumentVersion≤16，正文UTF8≤64KiB、metadata≤16KiB含必要lineage，不截祖先。全部实际envelope计stage-derived 2MiB及Case64MiB；16×80KiB=1.25MiB不是其他stage可无界的保证。首工件在可选人工保存／AI修订／其他stage写入前，仅为尚未进行首次尝试的义务各保留1个正常模型调用、32768输入／8192输出预留、版本槽、每件80KiB envelope及canonical／terminal空间；full保护首次需求和首次方案两件，其他模式一件。首次模型发送即对应调用／Tokenreserve转used一次，失败不返还、不因未产稿自动补满；交付义务未满足不得计成功。保存空间按实际提交／安全结算处理，不把未用字节误计已存正文；未来首方案资源不被可选版本占用。后续仅在合法retry、compile和全部剩余额度均满足时尝试，否则partial。已知无法存结果则零新模型发送，安全partial不借终结预留生成新正文。
 
 完整包ReportSnapshot≤64KiB只放文档版本/hash／需求确认及有界问题摘要，不内联2×64KiB正文；文档分别计版本桶，各Markdown与UI读取准确版本并逐响应核当前权限。不新增ZIP或无限复制大导出。
 
@@ -148,7 +166,7 @@ ClaimDraft strict包含question/basis refs、subject/assertion、适用版本／
 
 编译顺序：可信模板→完整接受条件／未知→阶段任务→必要证据关系／限定／反证→可选证据。当前没有Memory输入或候选提取阶段。先在有权元数据中展开关系再筛适用，未知版本反证保留；无权正文不进compiler，必要许可或保护内容不足则partial。原文段落保完整范围，不以clip假装完整条件／quote；小材料只有许可和预算允许才直接原文。结构关系＋path/title/keyword不默认vector；中英文同义漏检待开发集验证，零命中不拿开头冒支持。旧summary仅有源派生线索，不成为事实，额外summary0。
 
-Manifest≤64KiB保存Case/Task/Work/input/阶段、template/compiler/selector/schema版本、有界候选快照／查询、选排IDs/hash/范围/理由、实际输入与全部private祖先lineage、Memory disabled/not_applicable与空active refs、source/model用途许可。它不是授权；超manifest cap不静默丢祖先／反证，拒发。诊断分未采集／未识别／未绑定／未选／裁剪／摘要失真／输出未体现，不断言模型内部使用。
+Manifest≤64KiB保存Case/Task/Work/input/阶段、template/compiler/selector/schema版本、有界候选快照／查询、选排IDs/hash/范围/理由、实际输入与全部private祖先lineage、Memory disabled/not_applicable与空active refs、source/model用途许可。它不是授权；超manifest cap不静默丢祖先／反证，拒发。诊断区分未取得／未识别／未绑定／未选入／裁剪丢失／摘要失真／请求已含但输出未体现；模型未利用只能作为待证假设，不断言模型内部行为。
 
 当前M1关闭全部Memory功能入口，包括手动／自动、API／CLI、默认profile／框架Store预加载、旧checkpoint refs、导入／恢复／重建与后台路径；不提取候选、不读写、不检索、不注入，active Memory refs必须为空并与各模型阶段实际请求一致。Trace记disabled/not_applicable，hits／writes为null并附feature_disabled，不以测试零次冒充禁用证据，不要求空Store／seed／Memory快照。Case内条件、证据、文档和审计照常持久化；本人明确选定历史报告走SourceSet准确获许可版本，不解引用Memory refs，继续核当前权限和已知私有祖先。DEC-AC-17／DEC-M1-04保留延期、未实施／未验；完整Context属03a、Token资格属03b，当前M1不依赖04。真实复用需求、独立设计审查及准确范围另批后才可重开，原Memory预留容量保持闲置上界，不挪给其他功能。
 
@@ -169,26 +187,38 @@ Memory scope=author＋team＋project，自动跨Case只同人同teamproject且�
 
 两owner正文2MiB，元数据入非Case桶。满拒新改、不覆旧body；更正满先quarantine旧并显示新未保存。偏好lineage=author/team/project/raw_message/完整位置/category；cue lineage=author/team/project/canonical_public_locator_digest，仅规范scheme/IDNAhost/defaultport并去fragment，不改path/query，最多4已核alias保identity及report/capture/hash。新ID仍查tombstone，疑alias隔离，非全网等价检测；本人显式重启才同lineage新rev。逐次读/sendclaim/commit核DB实时时间expiry/state/rev及归属权限，不靠epoch／Store namespace／清扫。停Memory只阻未来自动用，不承诺删除原消息／报告／审计／备份；来源撤权仍阻相关历史访问。restore失连续全隔离，新ID不复活。
 
-### 当前模型、Token及费用资格
+### 六用途、共享调用池与首尝试保护
 
-| 模型阶段 | 正常义务数 | 单次input／output |
-| --- | ---: | ---: |
-| clarify | 2 | 8192/2048 |
-| research_plan | 2 | 16384/2048 |
-| extract | 3 | 32768/4096 |
-| evidence_review | 2 | 32768/3072 |
-| gap_plan | 1 | 16384/2048 |
-| document_compile | 4 | 32768/8192 |
+六purpose及提示词职责见[PROMPT_CONTRACTS](PROMPT_CONTRACTS.md)。程序以节点／Work绑定的已接受问题和输出schema决定purpose，模型不能自行选高额度。evidence_review仅有证据依据的问题回答、冲突比较／父子归并，不容纳无问题依据的免费历史压缩或隐藏judge；子提案另需模型时计extract／evidence_review。
 
-正常14次360448/61440，两最大技术retry425984/77824；Case物理≤16、本地完整请求累计input≤458752／output预留≤81920，四document_compile独占131072/32768不挪。仅已知瞬时技术retry每Work≤1／Case≤2；unknown/schema不合格不retry。review_only/requirements_only/solution_only各保首稿1compile，剩余最多3语义修订；full保首次需求＋首次方案2compile，余最多2语义修订；重出过期方案算修订。人工保存0模型但计版本／存储；schema失败不改称修订洗retry。linkedTurns／模式累计，不保证每轮完整稿，0repair/summary/hidden judge。usage不返本地调用／Token槽。
+| 用途 | 单次完整本地input／显式output上限 |
+| --- | ---: |
+| clarify | 8192/2048 |
+| research_plan | 16384/2048 |
+| extract | 32768/4096 |
+| evidence_review | 32768/3072 |
+| gap_plan | 16384/2048 |
+| document_compile | 32768/8192 |
 
-受资格请求仅text system/user＋prompt内strict JSON schema，stream=false、thinking.type=disabled、max_tokens显式、response_format=json_object、temperature=0；无native tools／图片／file／prefix续写／服务端自动工具或框架隐藏response_format调用。用户假special-token拼写按文本编码。provider user_id为服务端无真实身份含义team/project隔离值，非授权，不证明零留存／可撤回；cache非业务Memory，峰价miss预留。
+不设各用途固定正常次数；共享正常调用最多14，正常input累计≤360448／output预留≤61440。额外技术retry仅已知瞬时、同Work≤1／Case≤2；unknown、业务schema不合格、权限、语义、超限不技术retry。两最大retry算术上界425984/77824；所有物理调用≤16、累计本地input≤458752／output预留≤81920同时约束，不能把未用宽松cap转成新normal额度。
 
-唯一compiler安全持久业务JSONbytes/hash，Tokenizer转换完整语义请求／官方模板而非HTTP JSON字符数，Gateway同body发送；凭据服务端exact handle注入。资格绑定endpoint/API/公开model声明、compiler/schema/converter/options/template/tokenizer hash、全部字段和价目／来源观察rev。recipe候选935817c66f5d6e64838f419692545f06787e485f，V4.1 tokenizer来源Vision-Exp与当前Flash1017匹配仍待证；tag未核不称release。仅from_file已授权本地文件，无默认下载／模型初始化；依赖、获取、Tokenizer执行另授。
+document_compile最多4次**物理尝试，包含技术retry**；14 normal／16 physical不额外赠送compile次数。尚未首次尝试的首工件按§2保护，full两件、其余模式一件，不再独占四次编译Token。已发送失败仍消耗调用／Token且不补满first reserve；后续语义修订／重出过期方案使用共享剩余额度，不承诺三次／两次修订或成功首稿。人工保存0模型但计版本／存储；linkedTurns／模式／子Work累计，0repair／额外summary／hidden judge，actual usage不返本地槽。
 
-资格需官方适配依据、固定受限字段、离线边界fixture和另授有限公开样本线上对照，预冻结prompt_tokens零差映射；样本不证明全域相等或远端权重冻结。不能建立匹配依据、缺字段／不支持／过期／漂移则paid off，不自动offset／降级或无限补测。诊断总allocation跨profile／Turn／重启共享，绑定目的／次数／金额／截止／素材，不自动续授。
+### Token三层资格与供应商结果
 
-响应核合法非负整数usage，prompt_tokens=hit+miss且与本地count一致，total=prompt+completion，completion≤显式max；reasoning只completion明细，不重加，不以可见content重编码验证outputtoken。失配同root结果事务撤资格revision，最终send_claim拒旧未发许可；已claim按原Call结算，不把completed改unknown、不重发，Stagecommit拒失效profile。usage／金额未知沿billingunknown停全项目外调，保reserve；计数失配但账明只撤model资格。stop空白JSON、length、bad schema或未支持finish_reason不产usableStage，保物理Call／费用，repair0。
+受资格请求仅text system/user＋prompt内strict JSON schema，stream=false、thinking.type=disabled、max_tokens显式、response_format=json_object、temperature=0；无native tools／图片／file／prefix续写／自动工具／框架隐藏调用。用户假special-token拼写按普通文本编码。provider user_id为无真实身份含义的服务端team/project隔离值，非授权／零留存证明；cache非业务Memory，准入按miss峰价。
+
+唯一compiler产生安全持久业务JSON bytes/hash及完整公开格式编码输入，Gateway使用同body；凭据仅服务端注入exact handle。三个层次分别保存证据与revision：
+
+1. **local-format**：绑定endpoint/API与公开model映射、compiler/schema、官方converter/template/tokenizer的固定来源和hash、全部字段／options；计算system、所有消息、prompt schema、工具结果及模板控制标记的完整公开格式，非纯正文或HTTP JSON字符数。固定检查并关闭padding/truncation，literal special-token按普通文本处理；只加载获授权本地文件，不默认下载／初始化。官方HF1017固定发布1bae0e1088993b9b82de08f59de5be5a34e42170说明与recipe同prompt format，recipe935817c66f5d6e64838f419692545f06787e485f附带Vision-Exp来源tokenizer仍须按准确资产／版本核适配，不能以文件存在冒充已资格。
+2. **hosted-fit**：准确公开model/API映射和固定本地格式／受限字段／请求字节上限／各purpose输入与显式输出O构成工程估计适配，不宣称远端精确计数或零overflow。有限两次既有qualification诊断仅观察样本，不证明所有输入；首次估计fit仍可能溢出并已消耗物理额度／费用，不自动重发。公开context C和计费规则作为资格前提记录，不能从本地HF模型配置推定托管精确窗口。
+3. **usage／fees**：供应商usage须合法非负整数（不接受bool），prompt=cache_hit+cache_miss、total=prompt+completion、completion≤显式O，prompt+O≤资格C。reasoning仅completion明细，不重加；不以可见输出重编码证明收费。保持本地count、实际usage、缓存usage、价格／币种／账单／费用／余额分别记录，不将估计冒充实际账单。
+
+固定范围内合法非零actual-local差异只记录原值、版本、方法及解释，其余门禁满足即可Stage提交／后续调用，不学习offset、不设自动容差或扩大上限。explicit context_overflow、prompt+O>C、completion>O、不支持model或**供应商响应协议schema异常**在原root结果事务撤affected hosted-fit revision，阻旧依赖未发送许可及Stage；已claim的原Call照常结算、不变成新Call、不重发。模型**业务输出schema不合格**、stop空白JSON、length或不支持finish_reason不产生usable Stage，但不混同响应协议异常、不因此扩调用。
+
+本地模板／资产／options／字段变化使旧local及绑定fit资格失效；价格／币种／资金证据失效拒新付费准入。缺usage或费用不明沿billingunknown全项目停新外发并保留reserve；已知不可用结果可能收费，不能填零。迟到usage只结算，不恢复资格。重新资格需要准确证据、独立审查和相应操作授权，沿既有剩余诊断allocation，不换profile／Turn／重启领新次数。依赖、资产获取、Tokenizer和真实模型执行仍另授。
+
+费用预留依据公开完整context／输出上界和峰价，保留原2.20元物理槽及全批296.46元条件预算；供应商遵守公开规则／限制／价目是明示假设，不承诺任意供应商故障下绝对封顶。缺乏模型错误一律免费的声明不无限阻塞配置确认；发生不明结果仍按unknown停线，不把它当免费失败。
 
 ## 5. 工件、费用、Tracing及评测接口
 
@@ -220,9 +250,9 @@ Tracing用Pg canonical＋只读TraceView，无外部平台或遥测。当前Memo
 
 ### 评测与材料接口
 
-唯一draft-m1-2定义3pair/6formal：REQ-A/B想法到需求／本人确认／方案完整链；CON-A/B固定GitHub＋本地text/code/diff评审且均含无权威基准子问；EXP-A/B已确认既有需求的solution_only及必要探索。REQ保首次需求、本人改动（可空）与准确确认、首次方案及最终双稿包，原稿两者均须过关键项；CON无基准不能自立硬条件合规pass。三pair两变体材料组合／规模、目标与覆盖可比，澄清不能缩共同goal洗分，实质scope变化保原slot partial/不可比；合理备选架构不得强制唯一gold。requirements_only独立终结及编辑／对话修订只由聚焦回归和既有pilot观察；两个pilot优先本人真实待办，先固定目标、普通AI／人工基线、关键正确项、可接受unknown与后续行动，再分列原稿、人工补救及实际用途，无任务保持待证，不增加Case／费用；仅需求及编辑／对话修订不声称独立正式效果；三个异质pair的median只描述已登记样本，不外推各模式或总体。原始程序、原report核源、本人finalhash分别记。三个正式Agent原稿均过预冻结关键项才产品原始质量通过；人工修好仍保raw失败。六final共质＋完整非零计时后才描述3pairmedian，负值不截0、不设20%硬门槛、不外推真实团队价值。Control预注册日常人工／普通AI／搜索，DR按需计时费；Agent不外部AI代修／复制Control。关键语义人核，非关键逐条不合总分；notstarted／missing／cancel／partial／failed全保分母，指定诚实partial可过安全预期但非fullcompleted。真实价值、本人掌握、M1、Go发布独立。
+唯一draft-m1-3定义3pair/6formal：REQ-A/B想法到需求／本人确认／方案完整链；CON-A/B固定GitHub＋本地text/code/diff评审且均含无权威基准子问；EXP-A/B已确认既有需求的solution_only及必要探索。REQ保首次需求、本人改动（可空）与准确确认、首次方案及最终双稿包，原稿两者均须过关键项；CON无基准不能自立硬条件合规pass。三pair两变体材料组合／规模、目标与覆盖可比，澄清不能缩共同goal洗分，实质scope变化保原slot partial/不可比；合理备选架构不得强制唯一gold。requirements_only独立终结及编辑／对话修订只由聚焦回归和既有pilot观察；两个pilot优先本人真实待办，先固定目标、普通AI／人工基线、关键正确项、可接受unknown与后续行动，再分列原稿、人工补救及实际用途，无任务保持待证，不增加Case／费用；仅需求及编辑／对话修订不声称独立正式效果；三个异质pair的median只描述已登记样本，不外推各模式或总体。原始程序、原report核源、本人finalhash分别记。三个正式Agent原稿均过预冻结关键项才产品原始质量通过；人工修好仍保raw失败。六final共质＋完整非零计时后才描述3pairmedian，负值不截0、不设20%硬门槛、不外推真实团队价值。Control预注册日常人工／普通AI／搜索，DR按需计时费；Agent不外部AI代修／复制Control。关键语义人核，非关键逐条不合总分；notstarted／missing／cancel／partial／failed全保分母，指定诚实partial可过安全预期但非fullcompleted。真实价值、本人掌握、M1、Go发布独立。
 
-公开DISCOVERY_M1_CASES.json改为draft-m1-material-index-1，仅公开pair/slot/rubric/status及role包身份，当前pending_independent_material_preparation，本批不制题／gold。未来精确inputs.json／controller.json／scorer.json仅本批既有审计子目录review-20261101/focus-20261102/materials，Worker无目录／表权限且无localFS工具；gold不进source／Context／Memory。独立作者制备、另审正文；实现作者见gold即exposed不能继续声称holdout，原slot保留不暗换。索引／协议／M1单向hash绑定，无自引用循环。
+公开DISCOVERY_M1_CASES.json改为draft-m1-material-index-1，仅公开pair/slot/rubric/status及role包身份，当前pending_independent_material_preparation，本批不制题／gold。未来精确inputs.json／controller.json／scorer.json仅本批既有审计子目录review-20261101/research-20261103/materials，Worker无目录／表权限且无localFS工具；gold不进source／Context／Memory。独立作者制备、另审正文；实现作者见gold即exposed不能继续声称holdout，原slot保留不暗换。索引／协议／M1单向hash绑定，无自引用循环。
 
 默认validator只核公开配置／索引，明确materials未核不formalready。显式成对--review-material-root／--review-material-index-sha256才核三精确包：先原路径各组件lstat／Windows reparse拒链接，再resolve核固定root，不跟manifest任意relative_ref；读取身份／字节一致性不明拒绝。每包raw≤1MiB先限后strict JSON，重复键／非有限／错类型拒，错误仅role＋固定code不回显题文。receipt绑定独立原始审查报告hash／上下文身份／三包bytes/hash／结论限制及受影响复审，不以reviewed=true代审查。缺坏未审identity变化not_ready；结构检查非语义正确或运行授权。
 

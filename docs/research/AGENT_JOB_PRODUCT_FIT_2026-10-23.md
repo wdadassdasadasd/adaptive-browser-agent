@@ -190,3 +190,10 @@ B 的首要用户为开发团队技术负责人。产品价值假设是：带 fa
 - **PDF**是公开需求衍生。[Next.js issue29997](https://github.com/vercel/next.js/issues/29997)为2021历史动机，不能当2026当前故障；[Puppeteer PDF指南](https://pptr.dev/guides/pdf-generation)（观察版25.16.0）与[PDFKit入门](https://pdfkit.org/docs/getting_started.html)用于核对浏览器/绘制路径，正式材料仍需固定版本和实际部署条件。
 
 原语音/ORM/PDF材料只解释当时研究动机，不是当前六题。[M1能力材料](../evaluation/DECISION_M1_PROTOCOL.json)引用唯一协议，不另立分母/资金/Go。有限三对和一次纠错不证明通用Agent；本人理解、质量、价值、发布分开，约七至八周仍待校准。
+
+
+## 2026-11-03：本轮完整内容确认后的复核入口
+
+原正文逐字保留，继续只解释各原日期、版本和批准范围。CONTENT-20261103-01（含两项澄清）已由负责人完整确认，CONFIG-PLAN-20261103-01已获配置执行授权；本轮事实、固定源码/岗位证据、候选取舍、两个案例、五专项连接、独立设计审查范围与未验证项见[开发前研究与配置依据](PREDEV_CONFIGURATION_REVIEW_2026-11-03.md)。原文中的旧Memory启用、旧固定用途次数、Token恒等条件及旧工期/资格不能恢复为现行要求；本轮亦不把未来能力写成本人已掌握。
+
+当前目标以[运行契约](../contracts/CURRENT_CONTRACTS.md)和[唯一评测协议](../evaluation/CURRENT_EVAL_PROTOCOL.json)为准，实际配置检查/完整diff实施审查与交付见[唯一任务记录](../features/DECISION-001/tasks.md)。新研究不改写旧失败或重绑定旧批准；本次无业务开发、上游执行、真实模型/Tokenizer/Browser或Git写。

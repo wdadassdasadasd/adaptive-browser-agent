@@ -272,3 +272,10 @@ r11 B02已用24467、剩15533、报告预检界15576（差-43）；B03已用3187
 | [browser-use PR5401](https://github.com/browser-use/browser-use/pull/5401)，merged32601887cfbc9f4f1e3cad3e2b678e56aeaeaae4；[smolagents固定版](https://github.com/huggingface/smolagents/tree/96f33faaf028479119ec8d34507b47694cf14e34) | 0与None预算边界修复；ActionStep/计划步骤结构化记忆分别有代码，不自动拥有owner生命周期 | 空/零/未知不可混用；日志/ActionStep不等于产品来源记忆。 |
 
 这些项目按问题分批选择：OpenCode回答完整请求/压缩/DeepSeek，DeepSeek recipe回答token资格，GPT Researcher回答来源丢失，DeepAgents回答溢出/存储边界，Letta回答记忆变更编译，LangGraph回答恢复归属。不会继续无界收集项目。当前采用LangGraph真实阶段图、Pg应用权威、确定性关系投影和单供应商；旧AgentLoop只按历史保留，不另开新功能线。首版验证/对照见[补充协议](../evaluation/DECISION_M1_PROTOCOL.json)和[测试策略](../testing/STRATEGY.md)；本研究不授权安装、真实运行、费用或Git写。
+
+
+## 2026-11-03：本轮完整内容确认后的复核入口
+
+原正文逐字保留，继续只解释各原日期、版本和批准范围。CONTENT-20261103-01（含两项澄清）已由负责人完整确认，CONFIG-PLAN-20261103-01已获配置执行授权；本轮事实、固定源码/岗位证据、候选取舍、两个案例、五专项连接、独立设计审查范围与未验证项见[开发前研究与配置依据](PREDEV_CONFIGURATION_REVIEW_2026-11-03.md)。原文中的旧Memory启用、旧固定用途次数、Token恒等条件及旧工期/资格不能恢复为现行要求；本轮亦不把未来能力写成本人已掌握。
+
+当前目标以[运行契约](../contracts/CURRENT_CONTRACTS.md)和[唯一评测协议](../evaluation/CURRENT_EVAL_PROTOCOL.json)为准，实际配置检查/完整diff实施审查与交付见[唯一任务记录](../features/DECISION-001/tasks.md)。新研究不改写旧失败或重绑定旧批准；本次无业务开发、上游执行、真实模型/Tokenizer/Browser或Git写。

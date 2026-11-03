@@ -1,6 +1,6 @@
-# 工程配置与环境资格 — FOCUS-BASELINE-20261102
+# 工程配置与环境资格 — RESEARCH-BASELINE-20261103
 
-人已批准28现有文件配置同步，实际落地/检查/当前文件独审和唯一18项见[连续记录](../features/DECISION-001/tasks.md)。当前行为由[SPEC](../../SPEC.md)、[PLANS](../../PLANS.md)、[契约](../contracts/CURRENT_CONTRACTS.md)及[唯一协议](../evaluation/CURRENT_EVAL_PROTOCOL.json)定义。本页不是运行许可。
+负责人已完整确认CONTENT-20261103-01并授权CONFIG-PLAN-20261103-01，仅实施30份现有配置文件、两份新增文档、限定离线检查及新审计证据。实际落地／检查／独审见[唯一记录](../features/DECISION-001/tasks.md)，原18项历史含义保留。[SPEC](../../SPEC.md)定义目标，[PLANS](../../PLANS.md)定义依赖，[契约](../contracts/CURRENT_CONTRACTS.md)定义运行约束，[唯一协议](../evaluation/CURRENT_EVAL_PROTOCOL.json)定义正式质量／计时／槽位及整批资金。本页不是运行许可。
 
 ## 配置归属与流程
 
@@ -27,7 +27,11 @@ engineering-workflow只路由一次到[G0–G7](WORKFLOW.md)，项目技能提�
 
 ## 本轮身份与未验证项
 
-FOCUS进入基线是DRAFT-BASELINE-20261102 final-01的28份未暂存配置，HEAD仍main@d4b906fb6a441c13583f052377283ec0c28bf5a2；暂存／非忽略新增为空，未fetch。原DRAFT交付索引SHA256为a712397ed346cce615487810d4c14f87831444e5c02496723292c6a68813375b，final-01 manifest为6c9b4b59a8362033745be68239fe846cac79d4cdd62b392def922f7ef9952faf。新快照、日志和审查只追加focus-20261102，不改旧draft或review证据。下段为进入DRAFT时对更早REVIEW的历史核验，不冒充FOCUS进入身份。
+2026-11-03进入main@dc4498f36c0342eef5191f9f59feaf3b363169b6，工作区干净、相对本地origin/main ahead 1、未fetch；FOCUS索引28文件均匹配。子模块内部状态未重验。新进入快照、保护指纹、批准记录、检查及审查仅写review-20261101/research-20261103；本轮完成状态以唯一记录及新最终索引为准。
+
+### FOCUS进入身份（2026-11-02历史）
+
+FOCUS进入基线是DRAFT-BASELINE-20261102 final-01的28份未暂存配置，HEAD仍main@d4b906fb6a441c13583f052377283ec0c28bf5a2；暂存／非忽略新增为空，未fetch。原DRAFT交付索引SHA256为a712397ed346cce615487810d4c14f87831444e5c02496723292c6a68813375b，final-01 manifest为6c9b4b59a8362033745be68239fe846cac79d4cdd62b392def922f7ef9952faf。新快照、日志和审查只追加focus-20261102，不改旧draft或review证据。下段为进入DRAFT时对更早REVIEW的历史核验，不冒充本轮进入身份。
 
 ### 进入DRAFT的历史核验
 
@@ -35,13 +39,13 @@ FOCUS进入基线是DRAFT-BASELINE-20261102 final-01的28份未暂存配置，HE
 
 browser-use gitlink保持7be96ed8bafa8dfe1eef228b59cf5c884b8b2431。原11/01限定只读成功记录保留；本轮再次内部查询Permission denied，不能称本轮重验clean。未初始化、下载、启动WSL或服务。原partial_metadata、早期失败/超时、真实symlink跳过与本机ignored证据不可移植局限如实保留。
 
-模型配置仍须公开型号、协议字段、官方转换器/模板/Tokenizer来源许可及hash资格。固定recipe935817c66f5d6e64838f419692545f06787e485f提供完整模板，但V4.1附带Tokenizer源自Vision-Exp，不能据文件存在声称匹配托管1017。v0.2.0 tag读取404不当release证明。没有下载/安装/执行；无法建立资格时paid off。完整本地计数、provider usage/cache、费用及余额分账，有限诊断总allocation不得换profile重领。
+2026-11-02模型观察：固定recipe935817c66f5d6e64838f419692545f06787e485f提供完整模板，附带Tokenizer注明Vision-Exp来源；v0.2.0 tag读取404，不据此证明release或托管逐字节匹配。2026-11-03补充复核：官方1017固定发布README明确指向同格式recipe，故公开格式映射有一手依据；这仍不证明托管实际usage恒等。本地完整计数须固定转换器／模板／Tokenizer／选项和字段，关闭padding/truncation；托管fit单独资格，actual usage／cache／费用另记。合法非零差异不自动拒绝或调高限额；溢出和供应商协议异常撤受影响资格，业务输出schema不合格仅作不可用交付，费用unknown全项目停新外发。没有下载／安装／执行；真实资格待验，诊断总allocation不因换profile重领。来源和限制见[本轮研究](../research/PREDEV_CONFIGURATION_REVIEW_2026-11-03.md)。
 
-## FOCUS范围与后续授权及停线
+## 当前范围与后续授权及停线
 
-当前M1关闭全部Memory功能入口，包括手动／自动、API／CLI、默认profile／框架Store预加载、旧checkpoint refs、导入／恢复／重建与后台路径；不提取候选、不读写、不检索、不注入，active Memory refs必须为空并与各模型阶段实际请求一致。Trace记disabled/not_applicable，hits／writes为null并附feature_disabled，不以测试零次冒充禁用证据，不要求空Store／seed／Memory快照。Case内条件、证据、文档和审计照常持久化；本人明确选定历史报告走SourceSet准确获许可版本，不解引用Memory refs，继续核当前权限和已知私有祖先。DEC-AC-17／DEC-M1-04保留延期、未实施／未验；完整Context属03a、Token资格属03b，当前M1不依赖04。真实复用需求、独立设计审查及准确范围另批后才可重开，原Memory预留容量保持闲置上界，不挪给其他功能。
+Memory全部功能入口继续禁用并延期：手动／自动、API／CLI、默认profile／框架、旧checkpoint、导入／恢复／重建和后台均不得产生候选、读写、检索或注入。active refs为空并与实际请求核对，Trace记disabled/not_applicable、null hits/writes及feature_disabled。Case资料正常持久化；显式选入历史报告走SourceSet权限及私有祖先核验，不解引用Memory。04／17未实施、未验且非当前M1前置，预留闲置；重开需真实需求、独立审查与另行批准。 完整规则由[契约](../contracts/CURRENT_CONTRACTS.md)维护。
 
-唯一协议draft-m1-2，能力引用draft-m1-capabilities-2。公开材料索引仍pending；固定三个包预期根为D:\adaptive-browser-agent\.tmp\predev-reopen-20261028\config-20261029\review-20261101\focus-20261102\materials，仅更新引用，不创建或搬迁材料。
+唯一协议draft-m1-3，能力引用draft-m1-capabilities-3。公开材料索引仍pending；三个包新预期根为D:\adaptive-browser-agent\.tmp\predev-reopen-20261028\config-20261029\review-20261101\research-20261103\materials，只更新预期引用，不创建或搬迁材料。旧FOCUS材料及索引保持原义。
 
 | 关口 | 准确前置与边界 |
 | --- | --- |
@@ -61,7 +65,9 @@ sup启动无资格。监测Pg连续连接/身份，所有池新连接/重连核�
 
 ## 投入、费用与交付
 
-10/29起七至八周/每周≤20h窗口改为优先需求到方案闭环和本人解释。92–136h及完整130–194h仅为旧范围估计，不能承诺本次扩围工期；已经发生本人投入未知不得填0。先登记实耗再校准，私源/正式/完整恢复未做不称首阶段或M1完成；Memory当前后置不再作M1前置，亦不计完成。
+2026-11-02记录的10/29起七至八周／每周≤20h及92–136h、完整130–194h均保留为旧范围估计，不推定当前安排或承诺本次工期；已发生本人投入未知不填0。当前方向为Agent应用研发、中大厂，届别／资格／截止日不作推断。后续实耗校准；私源／正式／完整恢复未做不称首阶段或M1完成。产品价值仍需真实任务证据，Memory延期不算完成。
+
+主研究者和同Task专题Work共享正常调用池，程序选六purpose；compile≤4包含技术重试。只给尚未首次尝试的首工件保留首次尝试及保存／终态资源，已发送失败不补满；余量不足诚实partial。细值只由契约与唯一协议维护，[目标提示词契约](../contracts/PROMPT_CONTRACTS.md)不加载或替换旧业务prompt模块。
 
 费用epoch仍10/28，模型116/Search84/Fetch168/GitHub704/HTTP1072最高计数，条件总296.46元与分桶只由唯一协议/契约定义；不是余额或资金分配，所有已发生费、unknown及Control工具/纸耗/介质/审计新增费先归账，不桶外隐藏。30元其它桶及10元buffer不自动购买/分配。
 

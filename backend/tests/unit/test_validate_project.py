@@ -150,7 +150,7 @@ def test_previous_protocol_is_not_current_drafting_authority(tmp_path, version):
                 "case_model",
                 "mode_obligations",
                 "requirements_to_solution",
-                "semantic_revisions_max",
+                "first_artifacts",
             ),
             3,
         ),
@@ -255,7 +255,7 @@ def test_current_raw_json_cli_rejects_ambiguous_or_nonfinite_input(
         "DECISION_M1_PROTOCOL.json",
     ],
 )
-def test_current_raw_json_cli_accepts_finite_numbers_and_valid_nested_objects(
+def test_current_raw_json_parser_accepts_finite_values_but_freeze_rejects_new_fields(
     tmp_path, monkeypatch, filename
 ):
     folder = _current_cli_fixture(tmp_path, monkeypatch)
@@ -265,27 +265,12 @@ def test_current_raw_json_cli_accepts_finite_numbers_and_valid_nested_objects(
         + target.read_bytes()[1:]
     )
     _rebind_current_fixture(folder)
-    original = validator.check_current_protocol
-    observed = []
-
-    def capture(protocol, root):
-        if filename == "CURRENT_EVAL_PROTOCOL.json":
-            observed.append(protocol["finite_probe"])
-        return original(protocol, root)
-
-    monkeypatch.setattr(validator, "check_current_protocol", capture)
     decoded = validator._load_current_json(target.read_bytes())["finite_probe"]
     assert decoded == {"integer": 7, "decimal": 1.25, "exponent": -250.0}
     assert type(decoded["integer"]) is int and type(decoded["decimal"]) is float
-    assert validator.main(["--root", str(tmp_path)]) == (
-        1 if filename == "DISCOVERY_M1_CASES.json" else 0
-    )
-    if observed:
-        values = observed[0]
-        assert type(values["integer"]) is int
-        assert type(values["decimal"]) is float
-        assert type(values["exponent"]) is float
-        assert values == {"integer": 7, "decimal": 1.25, "exponent": -250.0}
+    assert type(decoded["exponent"]) is float
+    # Valid syntax cannot authorize a new current-policy field or raw byte change.
+    assert validator.main(["--root", str(tmp_path)]) == 1
 
 
 @pytest.mark.parametrize("case_index", range(6))
@@ -352,7 +337,15 @@ def test_current_raw_hash_paths_preserve_git_filtered_bytes(autocrlf, path):
         (("timing", "active_minutes_per_attempt"), True),
         (("methods", "agent", "external_ai_repair_allowed"), True),
         (("quotas", "case_model", "format_repair_extra_calls"), 1),
-        (("quotas", "case_model", "compile_reserved_input_tokens"), 65536),
+        (
+            (
+                "quotas",
+                "case_model",
+                "first_attempt_reservation",
+                "input_tokens_per_artifact",
+            ),
+            65536,
+        ),
         (("quotas", "case_model", "cumulative_output_reservation_tokens"), 65536),
         (("budget", "planned_total_cny"), "300.00"),
         (("authorization", "paid_execution"), True),
@@ -468,7 +461,7 @@ def _review_package(role: str) -> dict:
     ids = list(validator.REVIEW_CASE_IDS)
     base = {
         "schema_version": f"draft-m1-{role}-1",
-        "protocol_version": "draft-m1-2",
+        "protocol_version": "draft-m1-3",
         "role": role,
         "author_context": "synthetic-author",
     }
@@ -1790,7 +1783,9 @@ def test_focus_m1_cannot_complete_or_require_deferred_memory(tmp_path, drift):
         ].append("DEC-M1-04")
     else:
         del supplement["deferred_capabilities"]
-    errors = validator.check_current_supplement(supplement, tmp_path)
+    errors = validator.check_current_supplement(
+        supplement, (tmp_path / validator.PROTOCOL).read_bytes()
+    )
     assert any("capabilit" in error for error in errors)
 
 
@@ -1805,10 +1800,10 @@ def test_focus_materials_reject_old_protocol_index_packages_and_root(tmp_path):
         package = _review_package(role)
         package["protocol_version"] = "draft-m1-1"
         assert validator.check_review_material_package(package, role)
-    index["protocol_version"] = "draft-m1-2"
+    index["protocol_version"] = "draft-m1-3"
     for package in index["packages"]:
         package["relative_ref"] = package["relative_ref"].replace(
-            "focus-20261102", "draft-20261102"
+            "research-20261103", "focus-20261102"
         )
     assert any(
         "identity" in error or "canonical" in error or "fields" in error
@@ -1838,3 +1833,161 @@ def test_focus_old_material_review_receipt_cannot_certify_new_package(tmp_path):
         tmp_path, material_root, hashlib.sha256(index_path.read_bytes()).hexdigest()
     )
     assert errors == ["materials review: original report binding invalid"]
+
+
+@pytest.mark.parametrize("filename", list(validator.APPROVED_CURRENT_HASHES))
+def test_research_whitespace_change_cannot_rebind_current_approved_bytes(
+    tmp_path, filename
+):
+    protocol = _current_bundle(tmp_path)
+    target = tmp_path / filename
+    target.write_bytes(target.read_bytes() + b" ")
+    _rebind_current_fixture(tmp_path / "docs/evaluation")
+    errors = check_current_protocol(protocol, tmp_path)
+    assert any("approved raw SHA-256" in error for error in errors)
+
+
+def test_research_cli_hash_parse_and_chain_use_each_captured_file_once(
+    tmp_path, monkeypatch
+):
+    _current_cli_fixture(tmp_path, monkeypatch)
+    original = validator._read_material_bytes
+    reads = []
+
+    def capture(root, target):
+        reads.append(target.relative_to(root).as_posix())
+        return original(root, target)
+
+    monkeypatch.setattr(validator, "_read_material_bytes", capture)
+    assert validator.main(["--root", str(tmp_path)]) == 0
+    assert sorted(reads) == sorted(validator.APPROVED_CURRENT_HASHES)
+
+
+def test_research_later_disk_change_does_not_substitute_for_captured_protocol(
+    tmp_path, monkeypatch
+):
+    _current_cli_fixture(tmp_path, monkeypatch)
+    original = validator._read_material_bytes
+    changed = False
+
+    def capture(root, target):
+        nonlocal changed
+        raw = original(root, target)
+        if target == root / validator.PROTOCOL and not changed:
+            changed = True
+            target.write_bytes(raw + b" ")
+        return raw
+
+    monkeypatch.setattr(validator, "_read_material_bytes", capture)
+    # This invocation qualifies only its captured snapshot, not the later disk.
+    assert validator.main(["--root", str(tmp_path)]) == 0
+    assert validator.main(["--root", str(tmp_path)]) == 1
+
+
+def test_research_valid_supplied_object_is_not_a_substitute_for_root_bytes(tmp_path):
+    protocol = _current_bundle(tmp_path)
+    independent = deepcopy(protocol)
+    independent["authority"] = "CANARY_NEW_AUTHORITY"
+    errors = check_current_protocol(independent, tmp_path)
+    assert any("supplied object differs" in error for error in errors)
+    assert "CANARY_NEW_AUTHORITY" not in " ".join(errors)
+
+
+def test_research_unapproved_root_keys_are_not_echoed_as_diagnostic_paths(tmp_path):
+    protocol = _current_bundle(tmp_path)
+    altered = deepcopy(protocol)
+    altered["CANARY_PRIVATE_KEY_NAME"] = "CANARY_PRIVATE_VALUE"
+    (tmp_path / validator.PROTOCOL).write_bytes(json.dumps(altered).encode())
+    errors = check_current_protocol(protocol, tmp_path)
+    assert errors
+    assert "CANARY" not in " ".join(errors)
+
+
+@pytest.mark.parametrize(
+    "path,value",
+    [
+        (("normal_obligations",), 15),
+        (("normal_input_total",), 360449),
+        (("normal_output_total",), 61441),
+        (("physical_calls_max",), 17),
+        (("technical_retry_max",), 3),
+        (("technical_retry_per_work_max",), 2),
+        (("compile_physical_calls_max",), 5),
+        (("compile_limit_includes_technical_retries",), False),
+        (("summary_extra_calls",), 1),
+        (("hidden_judge_extra_calls",), 1),
+        (("first_attempt_reservation", "refund_or_regrant_after_sent_failure"), True),
+        (("first_attempt_reservation", "guarantees_success"), True),
+        (("first_attempt_reservation", "borrowable_by_optional_work"), True),
+        (("mode_obligations", "requirements_to_solution", "first_artifacts"), 1),
+        (("purpose_mapping", "clarify"), "document_compile"),
+        (("stages", 0, "normal_obligations"), 2),
+    ],
+)
+def test_research_structural_negative_fixture_checks_without_hash_short_circuit(
+    tmp_path, path, value
+):
+    protocol = _current_bundle(tmp_path)
+    target = protocol["quotas"]["case_model"]
+    for key in path[:-1]:
+        target = target[key]
+    target[path[-1]] = value
+    # Pure invariant result is not a current-bundle approval or runtime test.
+    assert validator.check_current_policy(protocol)
+
+
+def test_research_trusted_synthetic_hash_does_not_replace_arithmetic(
+    tmp_path, monkeypatch
+):
+    folder = _current_cli_fixture(tmp_path, monkeypatch)
+    path = folder / "CURRENT_EVAL_PROTOCOL.json"
+    protocol = json.loads(path.read_bytes())
+    protocol["quotas"]["case_model"]["physical_calls_max"] = 17
+    path.write_bytes(json.dumps(protocol).encode())
+    _rebind_current_fixture(folder)
+    # Unit-only alternate trusted fixture: no such override exists in the CLI.
+    monkeypatch.setattr(
+        validator,
+        "APPROVED_CURRENT_HASHES",
+        {
+            relative: hashlib.sha256((tmp_path / relative).read_bytes()).hexdigest()
+            for relative in validator.APPROVED_CURRENT_HASHES
+        },
+    )
+    assert validator.main(["--root", str(tmp_path)]) == 1
+
+
+@pytest.mark.parametrize(
+    "group,key,value",
+    [
+        ("local_format", "count_kind", "provider_actual_billable_tokens"),
+        ("hosted_fit", "meaning", "exact_remote_count_zero_overflow"),
+        ("hosted_fit", "legal_nonzero_local_delta", "reject_every_difference"),
+        ("hosted_fit", "business_output_schema_failure", "revoke_supplier_profile"),
+        ("hosted_fit", "revoke_on", []),
+        ("usage_and_fees", "unknown", "assume_zero_and_retry_new_id"),
+    ],
+)
+def test_research_token_layer_failure_policies_are_structurally_distinct(
+    tmp_path, group, key, value
+):
+    protocol = _current_bundle(tmp_path)
+    protocol["quotas"]["case_model"]["token_qualification"][group][key] = value
+    errors = validator.check_current_policy(protocol)
+    assert any("Token" in error for error in errors)
+
+
+def test_research_baseline_preserves_legal_delta_and_unattempted_first_reserve(
+    tmp_path,
+):
+    protocol = _current_bundle(tmp_path)
+    assert validator.check_current_policy(protocol) == []
+    model = protocol["quotas"]["case_model"]
+    assert "normal_obligations" not in model["stages"][0]
+    assert model["compile_physical_calls_max"] == 4
+    assert model["compile_limit_includes_technical_retries"] is True
+    assert (
+        model["first_attempt_reservation"]["refund_or_regrant_after_sent_failure"]
+        is False
+    )
+    assert "legal_nonzero_local_delta" in model["token_qualification"]["hosted_fit"]

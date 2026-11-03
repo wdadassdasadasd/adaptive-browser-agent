@@ -1,11 +1,11 @@
 {
-  "protocol_version": "draft-m1-capabilities-2",
+  "protocol_version": "draft-m1-capabilities-3",
   "role": "capability_acceptance_reference",
   "status": "prepared_pending_material_and_actual_file_review",
   "current_protocol": {
     "path": "docs/evaluation/CURRENT_EVAL_PROTOCOL.json",
-    "version": "draft-m1-2",
-    "sha256": "ccaf4708d857b979f4c86c610ce013c50c8decd4320158e6c015de2f4e72de3f"
+    "version": "draft-m1-3",
+    "sha256": "799178fb431656c00c785634ad53df06b62d660a68291b7fab3719bcf8584eda"
   },
   "authority": "All timing, formal samples, cost, quality, stopping and value gates are exclusively defined by current_protocol. This file defines no independent funding or Go rule.",
   "authorization": {
@@ -33,7 +33,10 @@
         "stable_obligations_no_completed_unknown_resend",
         "unique_terminal_and_generation_resource_release",
         "immutable_document_versions_current_head_exact_confirmation_dual_order_solution_gates",
-        "first_artifact_multidimensional_reservation_no_unsavable_send"
+        "first_artifact_multidimensional_reservation_no_unsavable_send",
+        "same_Task_bounded_nonrecursive_assignment_CAS_and_idempotent_creation",
+        "shared_acquisition_per_consumer_authorization_cancel_late_result_and_sealed_research_inputs",
+        "shared_14_normal_16_physical_pool_four_physical_compiles_including_retry_first_attempt_only_reservation"
       ]
     },
     {
@@ -70,7 +73,10 @@
         "protected_conditions_qualifiers_counterevidence",
         "bounded_manifest_selection_and_failure_diagnostics",
         "official_complete_request_tokenizer_qualification",
-        "fixed_source_offline_cases_and_natural_authorized_trace_not_extra_call_batch"
+        "fixed_source_offline_cases_and_natural_authorized_trace_not_extra_call_batch",
+        "actual_parent_child_request_preserves_conditions_counterevidence_qualifiers_unknown_and_manifest_match",
+        "separate_fixed_local_public_format_hosted_fit_and_original_usage_fee_qualification",
+        "legal_token_delta_overflow_protocol_error_business_schema_and_unknown_fee_negative_paths"
       ]
     },
     {

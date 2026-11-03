@@ -1,6 +1,6 @@
 # 需求／方案研究起草的评测入口
 
-当前配置为 **FOCUS-BASELINE-20261102**。唯一规则来自 [CURRENT_EVAL_PROTOCOL](CURRENT_EVAL_PROTOCOL.json)（`draft-m1-2`）；[M1引用](DECISION_M1_PROTOCOL.json)只关联能力，不另立资金或 Go。实际交付、原批准及18项准备使用[唯一任务记录](../features/DECISION-001/tasks.md)。配置通过不授权运行。
+当前配置为 **RESEARCH-BASELINE-20261103**，对应已完整确认CONTENT-20261103-01与已授权CONFIG-PLAN-20261103-01。唯一规则来自 [CURRENT_EVAL_PROTOCOL](CURRENT_EVAL_PROTOCOL.json)（`draft-m1-3`）；[M1引用](DECISION_M1_PROTOCOL.json)只关联能力，不另立资金或Go。实际配置交付、原批准及原18项使用[唯一任务记录](../features/DECISION-001/tasks.md)。配置通过不授权运行。
 
 ## 配置、材料与运行分开
 
@@ -12,7 +12,7 @@
 
 ## 当前Memory禁用与新流程覆盖
 
-当前M1关闭全部Memory功能入口，包括手动／自动、API／CLI、默认profile／框架Store预加载、旧checkpoint refs、导入／恢复／重建与后台路径；不提取候选、不读写、不检索、不注入，active Memory refs必须为空并与各模型阶段实际请求一致。Trace记disabled/not_applicable，hits／writes为null并附feature_disabled，不以测试零次冒充禁用证据，不要求空Store／seed／Memory快照。Case内条件、证据、文档和审计照常持久化；本人明确选定历史报告走SourceSet准确获许可版本，不解引用Memory refs，继续核当前权限和已知私有祖先。DEC-AC-17／DEC-M1-04保留延期、未实施／未验；完整Context属03a、Token资格属03b，当前M1不依赖04。真实复用需求、独立设计审查及准确范围另批后才可重开，原Memory预留容量保持闲置上界，不挪给其他功能。
+Memory全部功能入口继续禁用并延期：手动／自动、API／CLI、默认profile／框架、旧checkpoint、导入／恢复／重建和后台均不得产生候选、读写、检索或注入。active refs为空并与实际请求核对，Trace记disabled/not_applicable、null hits/writes及feature_disabled。Case资料正常持久化；显式选入历史报告走SourceSet权限及私有祖先核验，不解引用Memory。04／17未实施、未验且非当前M1前置，预留闲置；重开需真实需求、独立审查与另行批准。 权威范围见[契约](../contracts/CURRENT_CONTRACTS.md)，本页只定义核验方法。
 
 ### 新流程覆盖与结论边界
 
@@ -33,12 +33,18 @@ requirements-only独立终结由聚焦路由／终态回归及两个既有pilot�
 默认成功只表示配置结构有效，并明确 `MATERIALS_NOT_VERIFIED`；它不打开或验证受限包。必须另行显式指定一对参数才能检查材料：
 
 ```text
-.venv\Scripts\python.exe -B scripts\validate_project.py --review-material-root .tmp/predev-reopen-20261028/config-20261029/review-20261101/focus-20261102/materials --review-material-index-sha256 <实际公开索引原字节SHA256>
+.venv\Scripts\python.exe -B scripts\validate_project.py --review-material-root .tmp/predev-reopen-20261028/config-20261029/review-20261101/research-20261103/materials --review-material-index-sha256 <实际公开索引原字节SHA256>
 ```
 
 占位值不能执行。本批材料仍 pending，显式校验应返回 `not_ready` 非零。每个角色仅映射上述固定文件名；独审报告固定为父目录 `materials-review.json`，必要复审为 `materials-rereview.json`，不能跟随索引任意路径。先检查未解析路径所有组件的链接／Windows reparse，再核解析范围；文件身份／一致性不确定即拒。角色包和报告均限1 MiB原字节再严格 JSON，拒重复键、非有限数和错类型，错误不输出题面、键值或异常原文。
 
 `review_receipt`绑定独立原始报告的 thread/message/context/role 和准确三包字节，不接受 `reviewed=true` 自证；身份结构校验不证明审查真实性或语义正确。报告不能引用尚未形成的索引或协议 hash。
+
+## 调用及资格证据
+
+所有主子研究、规划、归并和讨论调用均进入同Case有界池；不得用角色／用途／Turn变化重置额度。四次document_compile统计全部物理尝试，含技术retry；首稿预留只保护尚未尝试文档的首次尝试，失败消耗不补满。程序选择用途，额外摘要／judge／修复继续为零。
+
+分别审查本地完整公开格式计数、托管fit资格、实际usage/cache及费用。合法差异只记录；overflow／供应商协议异常撤资格，业务生成JSON错误不混同。缺usage或费用不明保留unknown和预留，停新外发；有限诊断不证明所有输入零溢出。真实资格与费用尚未执行验证。
 
 ## 正式结果口径
 
@@ -51,5 +57,7 @@ Control采用预注册的日常人工仓库阅读、普通AI和搜索，DR按需
 `d4b906fb6a441c13583f052377283ec0c28bf5a2` 的原路径及原字节 hash解释 `discovery-m1-1` 和旧六题；`1ffade6de07ebe3d1e72afb4c44b8677466eca67` 的显式路径／hash／必要换行转换解释历史 `current-3`。不复制另一套现行材料，不删除真实来源、许可、费用、失败或授权。
 
 旧 `evaluation.current`、pilot runner、budget、ledger及reconciliation不是新运行器，对新／坏／缺失协议在加载Settings、客户端、目录或写账前拒绝。历史检查须明确 commit/path/raw SHA；不能借历史读取扩账、arm资金或执行新任务。r12／P-02 No-Go保留；首业务、真实pilot、M1、Go和发布分别待授权与证据。
+
+FOCUS-BASELINE-20261102／draft-m1-2由进入HEAD dc4498f36c0342eef5191f9f59feaf3b363169b6的准确path/raw hash及focus-20261102原最终索引解释，297 passed／1 skipped仅属其原文件检查，不替代本轮结果。
 
 DRAFT-BASELINE-20261102／draft-m1-1按draft-20261102/snapshots/final-01/manifest.json及path/raw hash保留；REVIEW-BASELINE-20261101／review-m1-1原字节由既有`review-20261101/snapshots/final-02/manifest.json`及其path/raw hash定位；该未提交配置不是HEAD中的Git对象。旧final-delivery／失败／审查不覆写，新修订的实际检查与独审另追加。

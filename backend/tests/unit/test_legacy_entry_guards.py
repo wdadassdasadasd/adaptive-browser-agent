@@ -77,6 +77,7 @@ def _forbidden(*_args, **_kwargs):
     params=[
         "draft",
         "previous_draft",
+        "previous_focus",
         "previous_review",
         "previous_discovery",
         "material_index",
@@ -106,6 +107,8 @@ def refused_root(tmp_path, request):
             if request.param == "draft"
             else json.dumps({"protocol_version": "draft-m1-1"})
             if request.param == "previous_draft"
+            else json.dumps({"protocol_version": "draft-m1-2"})
+            if request.param == "previous_focus"
             else json.dumps({"protocol_version": "review-m1-1"})
             if request.param == "previous_review"
             else json.dumps({"protocol_version": "discovery-m1-1"}),

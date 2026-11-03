@@ -1,8 +1,24 @@
 # ADR-0008：需求与方案起草工程基线与历史决定
 
-当前状态：**FOCUS-BASELINE-20261102，28文件配置同步已批准，当前实际检查／独审／交付待证**。[唯一任务／18项](../../features/DECISION-001/tasks.md)记录结果；[SPEC](../../../SPEC.md)、[PLANS](../../../PLANS.md)、[契约](../../contracts/CURRENT_CONTRACTS.md)、[唯一协议](../../evaluation/CURRENT_EVAL_PROTOCOL.json)定义当前行为。本ADR记录决定理由与替代范围，不另列参数权威。
+当前状态：**RESEARCH-BASELINE-20261103**，CONTENT-20261103-01及两项澄清完整确认，CONFIG-PLAN-20261103-01配置实施获批。[唯一任务](../../features/DECISION-001/tasks.md)保留原18项含义，记录新正文／检查／独审；本ADR说明取舍，不另立参数或批准系统。
 
-## 2026-11-02 FOCUS决定（当前）
+## 2026-11-03 已确认决定与取舍
+
+完整确认CONTENT-20261103-01，随后PLEASE IMPLEMENT THIS PLAN批准CONFIG-PLAN-20261103-01。此次授权仅配置、限定离线检查、新审计和独立实施审查；新修订不改写旧失败／批准，不授权业务开发或真实运行。
+
+| 决定 | 依据／收益与代价 | 边界／可能改变判断的证据 |
+| --- | --- | --- |
+| 保产品四模式、团队及原部署 | 一套目标到需求确认到方案链可服务真实待办；新增价值尚是负责人设想 | 无真实团队需求或效果证明；pilot前固定普通AI／人工基线、关键质量／unknown与用途 |
+| B：主研究者＋按需专题，单链可退化 | 独立机制问题可分工，主链保全局冲突和讨论；增加assignment／Context／取消／共享和归并事务 | 无固定角色／递归／新授权；与A的深度收益须真实任务／trace验证 |
+| 总量有界按需分配，六purpose单次上限保留 | 分工和补研不受固定用途次数机械约束；可能提前耗尽，依然须有界partial | 同Case主子全计数，原正常／物理／Token／工具／时间／存储／资金上限不增 |
+| 仅保护尚未首尝试首稿；compile≤4含retry | 保留最低首次产出机会，将其他资源用于真实缺口；比旧4normal可能另retry更严格 | 首次失败不补满、不能保证成功；后续修订只用剩余额度 |
+| Token本地格式／hosted-fit／actualusage费用三分 | 官方1017说明同公开promptformat，支持有来源的本地计数；不将其冒远端精确计费 | 合法差异只记录；首次overflow可能收费，费用unknown全停；真实资格仍未验 |
+| Memory／Browser延期，MCP研究 | 先验证真实问题与闭环，避免附加入口及错误传播 | 全Memory入口禁用，预留不挪；Case持久化与显式SourceSet保留 |
+| 权威集中与目标prompt独立文档 | 减少重复参数和提示词承担程序保证的错觉 | CURRENT负责运行；soleprotocol负责formal／整批资金；prompt目标尚未加载 |
+
+独立B-v3与Token-v2设计审查为DONE_WITH_CONCERNS，无新确定P级概念缺陷；配置增量设计复审未确认新P0–P3。所有结论限静态设计，非事务竞争／恢复／费用／真实质量已通过。审查来源摘要与访问限制见[本轮研究](../../research/PREDEV_CONFIGURATION_REVIEW_2026-11-03.md)，新实施字节仍需完整diff独立审查。
+
+## 2026-11-02 FOCUS决定（历史，原字节仍有效）
 
 本人选择保留四模式、团队目标及真实阶段图，将Memory移出当前M1必需范围；这不是确认旧配置缺陷，也不否定旧交付。PLEASE IMPLEMENT THIS PLAN准确批准FOCUS-20261102-01的28路径、限定离线检查及新focus审计，业务／环境／真实运行仍未授权。
 

@@ -1,12 +1,12 @@
 # Adaptive Research Agent — 需求到方案闭环交付计划
 
-**FOCUS-BASELINE-20261102：FOCUS-20261102-01的28文件配置同步获批，当前文件检查／独审／交付见唯一记录。** 依据[规格](SPEC.md)、[契约](docs/contracts/CURRENT_CONTRACTS.md)、[AC](docs/features/DECISION-001/spec.md)、[唯一协议](docs/evaluation/CURRENT_EVAL_PROTOCOL.json)、[任务／18项](docs/features/DECISION-001/tasks.md)。本计划不是业务、环境或真实运行授权。
+**RESEARCH-BASELINE-20261103：CONTENT-20261103-01完整确认，CONFIG-PLAN-20261103-01明确授权配置实施。** 依据[规格](SPEC.md)、[契约](docs/contracts/CURRENT_CONTRACTS.md)、[AC](docs/features/DECISION-001/spec.md)、[唯一协议](docs/evaluation/CURRENT_EVAL_PROTOCOL.json)、[唯一任务／原18项](docs/features/DECISION-001/tasks.md)。当前方案是配置目标，不是业务、环境或真实运行授权；实际落地／检查／独审状态只由唯一记录裁定。
 
 ## 配置与历史
 
-本批只修改28个现有配置文件及限定校验回归，保存研究／批准／审查／进入字节与检查，不新增删除tracked文件、不改业务依赖环境或Git。公开材料索引保持待独立制备，本批不出正式题面或金标。进入保护→规格／契约／ADR／AC→协议／索引／技能／导航→限定校验回归→完整diff／快照→当前文件独审→修复重测复审→最终索引，全部达标才配置交付。
+本批范围为原28文件加另外两项项目Skill，以及新增提示词契约与本轮研究报告，共32份配置／研究文件；校验器和对应离线测试属于本次配置工具。先进入快照与保护指纹，再更新权威契约／规格／协议、同步从属材料、限定离线回归、冻结完整正文／diff并交独立实施审查，核实修复后重测及必要复审，最后交付。公开材料保持pending，不制正式题／金标。新审计仅追加research-20261103，不覆盖旧目录，不改业务／依赖／环境／Git。
 
-DRAFT-BASELINE-20261102按final-01、REVIEW-BASELINE-20261101按final-02原字节继续有效；FOCUS不重绑定旧交付。PREP-BASELINE-20261029原40路径与2026-10-30五文件原字节／JSON修复按其被审字节有效，新审查不倒填旧内容。旧候选池／短名单、20%及强制DR属于旧产品规则，不作当前准入。r12／P-02 No-Go、原SQLite／授权／费用／失败／来源许可受保护。
+FOCUS-BASELINE-20261102原28文件与批准继续绑定其原字节；DRAFT-BASELINE-20261102按final-01、REVIEW-BASELINE-20261101按final-02继续有效，不以新研究重绑定旧交付。PREP-BASELINE-20261029原40路径与2026-10-30五文件原字节／JSON修复按原被审字节有效。旧候选池／短名单、20%及强制DR仅属旧产品规则。r12／P-02 No-Go、原SQLite／授权／费用／失败／来源许可受保护。
 
 ## 任务依赖与可观察交付
 
@@ -14,10 +14,10 @@ DRAFT-BASELINE-20261102按final-01、REVIEW-BASELINE-20261101按final-02原字�
 | --- | --- | --- | --- | --- |
 | ENV-M1-01 | 安全启动、冷切、独立新Pg与角色／路径资格 | 准确环境操作另授，boot前旧自动服务／出站保护 | NFR-003/006/008/009；DEC-AC-15 | 不能证明安全不先启WSL；新旧库／凭据／连接及误写阻断 |
 | DEC-M1-01 | 真登录→私人原始Draft保存／重开→第二测试身份404＋最小supervisor | ENV-M1-01、精确依赖与业务授权 | FR-009；NFR-008；DEC-AC-15 | 不建InputRevision／Task；无旧Settings／模型旁路；失连续旧身份失效 |
-| DEC-M1-02 | 最小team／project／成员与用途权限；接受四模式／条件→真实阶段图假供应商→文档head／确认CAS→唯一终态／linkedTurn | 01、精确框架锁与兼容资格；不将团队来源塞首工 | FR-001/006/014；DEC-AC-08、DEC-AC-09、DEC-AC-14、DEC-AC-15 | 幂等先CAS、原子对象、执行许可与读会话分开、取消／失租／checkpoint切点 |
+| DEC-M1-02 | 最小team／project／成员与用途权限；接受四模式／条件→真实阶段图假供应商→文档head／确认CAS→同Task专题Work／共享取材／研究输入封存→唯一终态／linkedTurn | 01、精确框架锁与兼容资格；不将团队来源塞首工 | FR-001/006/014；DEC-AC-08、DEC-AC-09、DEC-AC-14、DEC-AC-15 | 幂等先CAS、原子对象、执行许可与读会话分开；委派替换／取消／共享消费者／封存与迟到结果，失租／checkpoint切点 |
 | DEC-M1-03a | 想法／固定公开资料／选定本地text-code-diff→问题／来源／Claim→完整保护Context→需求／方案／评审版本及同快照UI／Markdown | 02、受限schema及public profile | FR-002/003/004/008/010/015；DEC-AC-10、DEC-AC-11、DEC-AC-12、DEC-AC-18 | 流式上传核权／封定；需求确认与方案start-send-commit双序；首稿多维预留；精确引用、未读非不存在；先离线后另授真实 |
 | ENV-M1-02（08a） | 最低独立介质／纸钥／来源纸卡与真实隔离恢复资格 | 环境、工具、介质、恢复分别准确授权 | NFR-009；DEC-AC-14、DEC-AC-15 | 首次公开源真实pilot也前置；旧库零写、失败目标隔离；不依赖07 |
-| DEC-M1-03b | Gateway／官方Token／资金与transport资格后公开pilot；后继再接私有App源 | 03a、08a、全账／unknown／余额／grant及精确真实授权 | FR-007/012；NFR-002/010/011；DEC-AC-13、DEC-AC-14、DEC-AC-15 | 原请求最终claim、双端核验；缺资格paid off；App安装签发另授 |
+| DEC-M1-03b | Gateway／完整公开格式本地Token、托管fit及实际usage／费用分层资格后公开pilot；后继再接私有App源 | 03a、08a、全账／unknown／余额／grant及精确真实授权 | FR-007/012；NFR-002/010/011；DEC-AC-13、DEC-AC-14、DEC-AC-15 | 原请求最终claim、双端核验；合法usage差异记录，overflow资格撤销／费用unknown全停；缺资格paid off；App安装签发另授 |
 | DEC-M1-04（延期，非当前M1必需） | 未来跨Case Memory候选；未实施、未验，不算pass | 真实复用需求→独立设计审查→准确范围另批；非03a／03b当前前置 | FR-011未来；DEC-AC-17延期 | 当前所有入口关闭，不建空Store／seed；候选TTL／更正／撤销／隔离规则仅未来参考 |
 | DEC-M1-05 | Browser连接层／bridge研究与真实资格 | 当前暂缓真实接入，未来另授及资源重评 | FR-012；NFR-003；DEC-AC-10、DEC-AC-13、DEC-AC-14、DEC-AC-15 | 保持Browser0；当前HTTP／存储无Browser额度，不从Search失败自动回退 |
 | DEC-M1-06 | 真实症状→本人最小修复→回归／独审→另授同条件真实复测 | 03b迹证；05仅按症状影响，04当前禁用且非前置 | NFR-004/005；DEC-AC-20 | 最多两复测Case，漂移／改条件非收益；无真缺陷待证不植bug |
@@ -28,9 +28,9 @@ DRAFT-BASELINE-20261102按final-01、REVIEW-BASELINE-20261101按final-02原字�
 
 ## 窗口优先级、本人实践与投入
 
-本人确认七至八周窗口优先需求到方案起草闭环及本人讲解，保留评审能力。窗口链为01→02（模式／版本／确认）→03a（选定材料与双稿离线链）→Token／资金／transport和最低恢复资格→03b公开pilot；前置不成立先交明确标注替身的离线链，不称真实Agent已运行。私源App、正式评测和完整恢复后续按依赖，未完成不宣称完整首阶段／M1；Memory延期不阻当前M1，也不算已验能力。
+当前优先需求到方案起草闭环、证据评审和本人能够解释／修改核心机制。顺序为01→02（模式／版本／确认及专题Work）→03a（选定材料、Context及双稿离线链）→最低恢复与Token／资金／transport资格→03b公开pilot。前置不成立时交明确标注替身的离线链，不称真实Agent已运行。私源App、正式评测和完整恢复后续按依赖；Memory延期不阻当前M1，也不算已验。以下七至八周、≤20h及小时估计保留为旧安排，不推定当前可投入条件或新期限。
 
-当前M1关闭全部Memory功能入口，包括手动／自动、API／CLI、默认profile／框架Store预加载、旧checkpoint refs、导入／恢复／重建与后台路径；不提取候选、不读写、不检索、不注入，active Memory refs必须为空并与各模型阶段实际请求一致。Trace记disabled/not_applicable，hits／writes为null并附feature_disabled，不以测试零次冒充禁用证据，不要求空Store／seed／Memory快照。Case内条件、证据、文档和审计照常持久化；本人明确选定历史报告走SourceSet准确获许可版本，不解引用Memory refs，继续核当前权限和已知私有祖先。DEC-AC-17／DEC-M1-04保留延期、未实施／未验；完整Context属03a、Token资格属03b，当前M1不依赖04。真实复用需求、独立设计审查及准确范围另批后才可重开，原Memory预留容量保持闲置上界，不挪给其他功能。
+Memory全部功能入口继续禁用并延期：手动／自动、API／CLI、默认profile／框架、旧checkpoint、导入／恢复／重建和后台均不得产生候选、读写、检索或注入。active refs为空并与实际请求核对，Trace记disabled/not_applicable、null hits/writes及feature_disabled。Case资料正常持久化；显式选入历史报告走SourceSet权限及私有祖先核验，不解引用Memory。04／17未实施、未验且非当前M1前置，预留闲置；重开需真实需求、独立审查与另行批准。 详细范围见[契约](docs/contracts/CURRENT_CONTRACTS.md)，Context归03a、Token归03b。
 
 从2026-10-29起每周≤20h，原140–160h窗口须扣除已发生本人投入；实际已耗未知不填0。下表仅保留2026-11-01旧评审范围的估计，不是新增起草范围的工期或容量承诺。新文档版本、上传与交互尚无本人实耗，不能沿用总数；后续记录实际投入校准，超窗提交具体取舍。
 
@@ -46,7 +46,7 @@ DRAFT-BASELINE-20261102按final-01、REVIEW-BASELINE-20261101按final-02原字�
 | 本人解释与演示 | 4–6 |
 | 合计 | **92–136** |
 
-旧评审完整范围估计130–194h，Browser另8–14h亦为旧估计且真实接入延期；原100–144h及AI260–420 agent-hours仅解释旧范围，不能证明新工期。AI辅助不代本人掌握：01追认证／store与404；02预测CAS／取消／失租；03沿quote核源并否决语义不支持；03a对照实际请求解释选排／裁剪与保护超限；04待另批后再做更正／撤销／满额；06亲改真bug回归；07解释原稿终稿／失败分母／计时；08解释恢复为何不复活权限。实际操作和业务接受由本人确认。
+旧评审完整范围估计130–194h，Browser另8–14h亦为旧估计且真实接入延期；原100–144h及AI260–420 agent-hours仅解释旧范围，不能证明新工期。本轮仅确认求职方向为Agent应用研发、中大厂，不推定春招年份、资格或投递期限。AI辅助不代本人掌握：01追认证／store与404；02预测CAS／取消／失租；03沿quote核源并否决语义不支持；03a对照实际请求解释选排／裁剪与保护超限；04待另批后再做更正／撤销／满额；06亲改真bug回归；07解释原稿终稿／失败分母／计时；08解释恢复为何不复活权限。实际操作和业务接受由本人确认。
 
 ## 资金、资源和正式准备
 
@@ -56,7 +56,7 @@ DRAFT-BASELINE-20261102按final-01、REVIEW-BASELINE-20261101按final-02原字�
 
 ## 交付、回滚与历史映射
 
-28文件自检→完整正文／diff／进入和当前指纹→非作者当前文件独审→核实修复／重测／复审→最终索引，才配置交付。18项、首工、pilot、M1、Go／发布分别报告。回滚仅本次进入字节（原28未暂存DRAFT配置/final-01，不是HEAD），后来合法修改只逆本次hunk，保留审计和无关工作，不reset／clean，不破坏性降级数据库。
+本轮完整配置自检→全部相关正文／committed、staged、unstaged和新增内容及diff／进入与当前指纹→新上下文独立技术和适用安全实施审查→核实修复／重测／必要复审→最终索引，才配置交付。原18项历史含义保持；首工、真实pilot、本人掌握、产品价值、M1、Go／发布分别报告。回滚以本轮进入快照main@dc4498f36c0342eef5191f9f59feaf3b363169b6为基线，仅逆本次修改并先核后续工作，保留审计；不reset／clean，不破坏性降级数据库，不自动恢复调用资格。
 
 | 历史阶段 | 原需求／验收与证据 | 当前适用性 |
 | --- | --- | --- |
@@ -69,4 +69,4 @@ DRAFT-BASELINE-20261102按final-01、REVIEW-BASELINE-20261101按final-02原字�
 
 PREP协议／旧材料按d4b906fb6a441c13583f052377283ec0c28bf5a2的原path／raw SHA解释；current-3原1ffade6de07ebe3d1e72afb4c44b8677466eca67身份及必要换行变换保持。原SQLite／r12／来源／授权／费用／上游受保护。配置交付后停在业务及准确环境授权前。
 
-本轮只同步既有28路径；原review有效交付保留。四模式首次工件均先预留编译／Token、版本槽、正文封装及canonical／终结空间；容量不足零新发送。仅需求的独立结束与编辑／对话修订由聚焦回归及两个既有pilot观察，不宣称独立正式质量／省时比较。首pilot优先本人两个真实待办，一仅需求、另一完整链；产出前固定真实目标、当前普通AI／人工方式、关键正确项、可接受unknown及后续行动，产出后分列原稿、人工补救和实际用途。不编造任务／收益，不增加Case或费用。原FIRST-r2不扩，具体后继API／DDL仍按另授业务包冻结。
+本轮首稿保护仅针对尚未首次尝试的工件：完整流程保护首需求与首方案各一次，其他模式一次；compile最多四次物理尝试，包含技术retry。首尝试失败转used不补满，修订仅用剩余额度；容量不足零发送，不能承诺成功。主子全部调用共享有界池，不借模式／Turn／新ID增额。两个既有pilot优先本人真实待办，一仅需求、另一完整链；产出前固定目标、当前普通AI／人工方式、关键正确项、可接受unknown及后续行动，之后分列原稿、人工补救和实际用途。暂无真实任务则保持待证；两个研究案例只作配置走查，不替代正式材料。具体后继API／DDL及真实操作仍由另授业务包冻结。

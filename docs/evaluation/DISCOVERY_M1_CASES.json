@@ -1,6 +1,6 @@
 {
   "schema_version": "draft-m1-material-index-1",
-  "protocol_version": "draft-m1-2",
+  "protocol_version": "draft-m1-3",
   "status": "pending_independent_material_preparation",
   "pairs": [
     {
@@ -72,21 +72,21 @@
   "packages": [
     {
       "role": "inputs",
-      "relative_ref": ".tmp/predev-reopen-20261028/config-20261029/review-20261101/focus-20261102/materials/inputs.json",
+      "relative_ref": ".tmp/predev-reopen-20261028/config-20261029/review-20261101/research-20261103/materials/inputs.json",
       "schema_version": "draft-m1-inputs-1",
       "sha256": null,
       "bytes": null
     },
     {
       "role": "controller",
-      "relative_ref": ".tmp/predev-reopen-20261028/config-20261029/review-20261101/focus-20261102/materials/controller.json",
+      "relative_ref": ".tmp/predev-reopen-20261028/config-20261029/review-20261101/research-20261103/materials/controller.json",
       "schema_version": "draft-m1-controller-1",
       "sha256": null,
       "bytes": null
     },
     {
       "role": "scorer",
-      "relative_ref": ".tmp/predev-reopen-20261028/config-20261029/review-20261101/focus-20261102/materials/scorer.json",
+      "relative_ref": ".tmp/predev-reopen-20261028/config-20261029/review-20261101/research-20261103/materials/scorer.json",
       "schema_version": "draft-m1-scorer-1",
       "sha256": null,
       "bytes": null

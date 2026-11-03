@@ -1,8 +1,8 @@
 {
-  "protocol_version": "draft-m1-2",
+  "protocol_version": "draft-m1-3",
   "status": "prepared_pending_material_and_actual_file_review",
-  "registered_at": "2026-11-02",
-  "preparation_revision": "FOCUS-BASELINE-20261102",
+  "registered_at": "2026-11-03",
+  "preparation_revision": "RESEARCH-BASELINE-20261103",
   "authority": "SPEC.md",
   "authorization": {
     "configuration_only": true,
@@ -17,7 +17,7 @@
   },
   "materials": {
     "path": "docs/evaluation/DISCOVERY_M1_CASES.json",
-    "sha256": "940a472cf44f6505dd569a391c78430f0fd587e99870b2ee5942f90b73263218",
+    "sha256": "6c37e4ed40d6592465fa64b87b50bc48ed56f2187d27ae4493687e961afff1c0",
     "review_status": "pending_independent_material_preparation",
     "meaning": "public_index_only_not_exact_prompts_or_gold; default_configuration_check_does_not_verify_local_packages"
   },
@@ -241,37 +241,31 @@
       "stages": [
         {
           "id": "clarify",
-          "normal_obligations": 2,
           "max_input_tokens": 8192,
           "max_output_tokens": 2048
         },
         {
           "id": "research_plan",
-          "normal_obligations": 2,
           "max_input_tokens": 16384,
           "max_output_tokens": 2048
         },
         {
           "id": "extract",
-          "normal_obligations": 3,
           "max_input_tokens": 32768,
           "max_output_tokens": 4096
         },
         {
           "id": "evidence_review",
-          "normal_obligations": 2,
           "max_input_tokens": 32768,
           "max_output_tokens": 3072
         },
         {
           "id": "gap_plan",
-          "normal_obligations": 1,
           "max_input_tokens": 16384,
           "max_output_tokens": 2048
         },
         {
           "id": "document_compile",
-          "normal_obligations": 4,
           "max_input_tokens": 32768,
           "max_output_tokens": 8192
         }
@@ -291,37 +285,97 @@
       "summary_extra_calls": 0,
       "thinking": "disabled_explicit",
       "output_limit": "explicit_per_stage",
-      "tokenizer": "official_complete_request_matching_template_is_formal_admission_gate",
+      "tokenizer": "fixed_official_complete_public_format_local_count_for_local_limits; hosted_fit_and_actual_usage_are_separate",
       "qualification_diagnostic": "separate_limited_authorized_path_not_circular_formal_prerequisite",
       "model_call_absolute_seconds": 60,
       "sdk_implicit_retries": 0,
-      "qualification_profile": "official_supported_full_request_converter_template_tokenizer_hashes_and_fields; no_character_ratio_substitute; matching_evidence_pending_paid_off",
-      "usage_mapping": "local_full_request_count_equals_prompt_tokens_under_frozen_qualification; hit_plus_miss_equals_prompt; total_equals_prompt_plus_completion; output_not_reencoded_to_prove_tokens",
-      "qualification_revocation": "root_result_transaction_revokes_profile_revision; final_send_checks_current_revision; in_flight_original_call_settlement_only",
-      "compile_reserved_input_tokens": 131072,
-      "compile_reserved_output_tokens": 32768,
+      "qualification_profile": "fixed_model_endpoint_API_fields_public_mapping_converter_template_tokenizer_hashes_and_options; padding_and_truncation_disabled; no_default_download_or_silent_profile_change; actual_qualification_pending",
+      "usage_mapping": "record_local_public_format_count_and_provider_original_prompt_completion_cache_hit_miss_separately; prompt_equals_hit_plus_miss_when_reported; total_equals_prompt_plus_completion; legal_nonzero_local_delta_not_a_failure_or_auto_offset; output_not_reencoded_to_prove_billing",
+      "qualification_revocation": "root_result_transaction_revokes_affected_revision_on_context_overflow_or_invalid_provider_protocol_or_model_mapping; current_revision_rechecked_before_send_and_stage_commit; business_output_schema_failure_is_unusable_output_not_provider_protocol_failure; original_call_settlement_only",
       "compile_reserve_borrowable": false,
       "hidden_judge_extra_calls": 0,
       "mode_obligations": {
         "review_only": {
-          "first_artifacts": 1,
-          "semantic_revisions_max": 3
+          "first_artifacts": 1
         },
         "requirements_only": {
-          "first_artifacts": 1,
-          "semantic_revisions_max": 3
+          "first_artifacts": 1
         },
         "solution_only": {
-          "first_artifacts": 1,
-          "semantic_revisions_max": 3
+          "first_artifacts": 1
         },
         "requirements_to_solution": {
-          "first_artifacts": 2,
-          "semantic_revisions_max": 2
+          "first_artifacts": 2
         }
       },
-      "first_artifact_reservation": "atomic_compile_token_version_slot_80KiB_envelope_and_canonical_terminal_before_optional_edit_or_stage_write; reserve_to_used_once; no_send_if_unsavable",
-      "revision_and_mode_changes": "same_case_caps_and_original_purpose; changed_requirements_need_new_confirmation_and_use_remaining_compiles; no_unlimited_first_solution_guarantee; accepted_mode_change_atomically_reserves_missing_first_obligations_or_rejects; no_auto_new_case"
+      "first_artifact_reservation": "atomic_reserve_only_unattempted_first_artifact_normal_call_compile_tokens_version_80KiB_envelope_and_canonical_terminal; sent_reserve_to_used_once_even_if_failure; no_send_if_unsavable; no_automatic_regrant",
+      "revision_and_mode_changes": "all_linked_turns_main_and_children_share_original_case_caps; changed_requirements_need_new_confirmation; only_remaining_compile_normal_retry_token_time_and_storage_resources; no_guaranteed_revisions_or_success; mode_change_reserves_only_still_unattempted_first_obligations_or_rejects; no_auto_new_case",
+      "normal_allocation": "shared_case_pool_no_fixed_per_purpose_counts",
+      "purpose_assignment": "program_stage_work_question_and_output_schema; model_cannot_select_larger_purpose; parent_child_planning_extraction_merge_and_discussion_all_counted",
+      "purpose_mapping": {
+        "clarify": "organize_human_conditions_and_propose_questions",
+        "research_plan": "decompose_questions_assign_work_dependencies_and_acquisition_plan",
+        "extract": "source_to_claim_evidence_counterevidence_proposals",
+        "evidence_review": "compare_evidence_conflicts_grounded_parent_child_merge_and_question_bound_discussion_or_child_proposal",
+        "gap_plan": "evidence_gap_driven_next_work_or_stop",
+        "document_compile": "create_or_revise_formal_requirements_solution_or_review_DocumentVersion"
+      },
+      "compile_physical_calls_max": 4,
+      "compile_limit_includes_technical_retries": true,
+      "first_attempt_reservation": {
+        "eligibility": "first_artifact_whose_first_attempt_has_not_been_sent",
+        "normal_calls_per_artifact": 1,
+        "input_tokens_per_artifact": 32768,
+        "output_tokens_per_artifact": 8192,
+        "version_slots_per_artifact": 1,
+        "document_envelope_bytes_per_artifact": 81920,
+        "canonical_terminal_capacity_required": true,
+        "borrowable_by_optional_work": false,
+        "refund_or_regrant_after_sent_failure": false,
+        "guarantees_success": false
+      },
+      "token_qualification": {
+        "local_format": {
+          "status": "pending_actual_evidence",
+          "count_kind": "exact_complete_public_format_not_remote_token_or_billing_identity",
+          "includes": [
+            "system",
+            "messages",
+            "prompt_tool_schema",
+            "tool_results",
+            "role_template_and_format_wrappers"
+          ],
+          "output_reservation": "explicit_requested_output_recorded_separately_not_added_to_prompt_input_count",
+          "options": "fixed_assets_fields_template_tokenizer_versions_hashes; padding_and_truncation_off; no_download_or_default_initialization",
+          "change_action": "invalidate_local_revision_and_bound_hosted_fit_before_new_send"
+        },
+        "hosted_fit": {
+          "status": "pending_actual_evidence",
+          "scope": "text_only_system_user_prompt_schema_non_thinking_non_streaming_json_object_fixed_model_endpoint_fields_assets_and_options",
+          "admission": "existing_request_bytes_purpose_input_and_explicit_output_caps; local_estimate_plus_output_within_official_context; current_bound_qualification_required",
+          "meaning": "engineering_estimated_fit_not_zero_overflow_or_all_inputs_proof",
+          "diagnostics": "existing_two_qualification_calls_shared_total_only; no_profile_turn_restart_retry_regrant",
+          "valid_response": "supported_model_valid_provider_protocol_completion_within_requested_output_and_provider_prompt_plus_requested_output_within_context",
+          "legal_nonzero_local_delta": "record_original_counts_methods_versions_and_delta_continue_only_if_all_other_gates_pass; no_offset_learning_or_limit_expansion",
+          "revoke_on": [
+            "explicit_context_overflow",
+            "provider_prompt_plus_requested_output_exceeds_context",
+            "completion_exceeds_requested_output",
+            "unsupported_model_mapping",
+            "invalid_provider_protocol_schema"
+          ],
+          "business_output_schema_failure": "unusable_output_no_extra_repair_call_not_provider_protocol_revocation",
+          "requalification": "new_fixed_evidence_review_and_exact_authority_within_remaining_existing_diagnostic_allocation; no_automatic_resume"
+        },
+        "usage_and_fees": {
+          "authority": "provider_original_usage_and_billable_result_under_qualified_published_rules; local_estimate_not_actual_fee",
+          "input_accounting": "prompt_equals_cache_hit_plus_miss_when_present; cache_does_not_reduce_pre_reserve; reasoning_not_double_counted",
+          "nonzero_delta": "record_not_a_remote_exactness_claim",
+          "unknown": "retain_original_call_reserve_stop_all_project_new_outbound; no_resend",
+          "known_unusable_result": "may_consume_call_tokens_and_fee; not_automatically_free_or_refunded",
+          "fee_envelope": "existing_full_published_context_peak_uncached_input_and_explicit_output_tariff_reserve_under_fixed_currency_and_price_evidence; assumes_supplier_published_limits_and_billing_rules_not_arbitrary_misconduct"
+        }
+      }
     },
     "tools": {
       "per_case": {
@@ -528,7 +582,9 @@
       "artifact_response": 1048576,
       "SSE_frame": 1024
     },
-    "revoke_delivery": "revoke_first_blocks_unclaimed_delivery; one_already_claimed_bounded_response_or_frame_may_arrive; no_instant_recall"
+    "revoke_delivery": "revoke_first_blocks_unclaimed_delivery; one_already_claimed_bounded_response_or_frame_may_arrive; no_instant_recall",
+    "delegation": "same_Task_Work_assignment_input_revision_and_hash_dependency_source_consumer_bindings_current_permissions_reservations_calls_proposals_and_sealed_input_set; no_private_raw_dump",
+    "token_layers": "complete_local_public_format_count_bound_local_and_hosted_fit_revisions_original_provider_usage_cache_delta_price_and_known_unknown_fees_separate"
   },
   "optimization": {
     "real_symptom_correction_required_at_least": 1,
@@ -596,6 +652,15 @@
       "protocol_raw_sha256": "2628db01d144cfefb7c8db55e62ac67243beb93c5d8b9a74273446ada34e33b6",
       "material_raw_sha256": "f1a93cef17832629cc0a14f906d6295a17561bfc5e458f945d18610e026f4fc1",
       "read_policy": "explicit_existing_snapshot_manifest_path_raw_hash; not_a_HEAD_Git_object; no_old_index_overwrite_or_runner_extension"
+    },
+    "previous_focus_configuration": {
+      "revision": "FOCUS-BASELINE-20261102",
+      "commit": "dc4498f36c0342eef5191f9f59feaf3b363169b6",
+      "protocol_path": "docs/evaluation/CURRENT_EVAL_PROTOCOL.json",
+      "protocol_raw_sha256": "ccaf4708d857b979f4c86c610ce013c50c8decd4320158e6c015de2f4e72de3f",
+      "material_path": "docs/evaluation/DISCOVERY_M1_CASES.json",
+      "material_raw_sha256": "940a472cf44f6505dd569a391c78430f0fd587e99870b2ee5942f90b73263218",
+      "read_policy": "explicit_fixed_Git_commit_path_and_raw_hash; original_FOCUS_DRAFT_REVIEW_indexes_not_rebound; no_runner_extension"
     }
   },
   "release": {

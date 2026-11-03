@@ -63,7 +63,7 @@ DOCS = (
 )
 SKILLS = ("research-implementation", "agent-failure-triage", "research-eval")
 PROTOCOL = "docs/evaluation/CURRENT_EVAL_PROTOCOL.json"
-CURRENT_PROTOCOL_VERSION = "draft-m1-2"
+CURRENT_PROTOCOL_VERSION = "draft-m1-3"
 ARCHIVED_TARGET_PROTOCOL = "docs/evaluation/G3_EVAL_PROTOCOL.json"
 HISTORICAL_PROTOCOL = "docs/evaluation/G2_EVAL_PROTOCOL.json"
 LINK = re.compile(r"(?<!!)\[[^\]]+\]\(([^)]+)\)")
@@ -744,12 +744,18 @@ FOCUS_MEMORY_OBSERVATION = {
 }
 
 
+# Independent approved-byte anchors for CONFIG-PLAN-20261103-01.
+# Change only with a separately approved configuration revision and file review.
+# No CLI override or self-rebinding from repository content is provided.
+APPROVED_CONFIGURATION_REVISION = "RESEARCH-BASELINE-20261103"
+APPROVED_CURRENT_HASHES = {
+    "docs/evaluation/CURRENT_EVAL_PROTOCOL.json": "799178fb431656c00c785634ad53df06b62d660a68291b7fab3719bcf8584eda",
+    "docs/evaluation/DISCOVERY_M1_CASES.json": "6c37e4ed40d6592465fa64b87b50bc48ed56f2187d27ae4493687e961afff1c0",
+    "docs/evaluation/DECISION_M1_PROTOCOL.json": "cb95d1b73e752c59a57a2de8bdad9844511c2decc2a81ab3e9afd70d8411b65a",
+}
+
+# Small, independently checked invariants; full prose is protected by raw hashes.
 REVIEW_POLICY = {
-    "protocol_version": "draft-m1-2",
-    "status": "prepared_pending_material_and_actual_file_review",
-    "registered_at": "2026-11-02",
-    "preparation_revision": "FOCUS-BASELINE-20261102",
-    "authority": "SPEC.md",
     "authorization.configuration_only": True,
     "authorization.business_implementation": False,
     "authorization.environment_or_database_write": False,
@@ -764,193 +770,45 @@ REVIEW_POLICY = {
     "formal.expected_attempts": 6,
     "formal.agent_attempts": 3,
     "formal.control_attempts": 3,
-    "formal.execution_order": "serial_two_rounds_per_assignment",
     "formal.all_attempts_retained": True,
     "formal.no_replacements": True,
     "formal.version_frozen": True,
     "formal.code_templates_tools_quotas_scoring_frozen": True,
     "formal.revealed_failure_kept_not_replaced_by_optimization_slots": True,
-    "formal.in_batch_fix": "retain_failed_slot; any replacement comparison requires separately "
-    "authorized complete new batch",
-    "formal.case_scope": "all linked Turns share original case time, tool/model/resource caps "
-    "and authorization; no reset on input revision or new work identity",
     "formal.independent_author_and_non_author_material_review_required": True,
-    "methods.agent.allowed": [
-        "this_product",
-        "registered_manual_search_engines",
-        "owner_reads_original_sources",
-        "owner_rewrites",
-    ],
     "methods.agent.external_ai_repair_allowed": False,
     "methods.agent.deliberate_control_output_or_note_copy_allowed": False,
-    "methods.control.ordinary_ai": "pre_registered_ordinary_AI_and_manual_repository_reading_search; "
-    "actual_products_modes_and_new_fees_recorded",
     "methods.control.independent_deep_research.required": False,
     "methods.control.independent_deep_research.sessions_per_task": 1,
-    "methods.control.independent_deep_research.preferred_product": "pre_registered_if_used; "
-    "no_automatic_purchase_or_product_swap",
-    "methods.control.independent_deep_research.actual_account_region_entry_mode_quota": "unverified",
     "methods.control.independent_deep_research.ordinary_browsing_or_thinking_is_not_DR": True,
     "methods.control.independent_deep_research.no_extra_DR_or_regeneration_replacing_failure": True,
     "methods.control.independent_deep_research.same_product_and_mode_all_three": True,
-    "methods.control.independent_deep_research.insufficient_quota": "pause_and_discuss_no_auto_purchase_or_product_swap",
     "methods.manual_search.same_pre_registered_engine_list_both_methods": True,
     "methods.manual_search.switching_allowed": True,
-    "methods.manual_search.arbitrary_query_count_cap": None,
     "methods.manual_search.all_owner_actions_count_active_time": True,
-    "methods.manual_search.actual_names_and_availability": "must_register_before_reveal_not_assumed",
     "methods.contamination.record_familiarity_sources_and_knowledge_transfer": True,
     "methods.contamination.no_true_blinding_claim": True,
     "methods.contamination.memory_disabled_frozen_no_memory_effect_claim": True,
-    "methods.contamination.formal_memory_initial_snapshot": "not_applicable_feature_disabled; no_store_snapshot_or_seed_required",
-    "methods.contamination.implementation_author_exposed_to_gold": "not_independent_holdout; "
-    "retain_exposed_slot_and_report_contamination",
     "timing.active_minutes_per_attempt": 120,
     "timing.wall_hours_per_attempt": 24,
     "timing.batch_days": 14,
-    "timing.active_start": "first_actual_display_of_exact_case_prompt",
-    "timing.active_components": [
-        "reading_prompt",
-        "clarification_and_acceptance",
-        "prompt_interaction",
-        "search",
-        "reading_outputs",
-        "original_source_review",
-        "reading_audit_defects",
-        "rechecking",
-        "rewriting",
-    ],
-    "timing.pure_wait": "separate_from_active_but_in_wall_clock_including_audit_wait",
-    "timing.end": "immutable_final_owner_submission_hash; "
-    "final_audit_must_finish_within_wall_deadline",
     "timing.max_extensions": 1,
     "timing.unrevealed_extension_days": 7,
-    "timing.extension_eligible": ["confirmed_service_outage", "free_quota_refresh"],
-    "timing.extension_request": "before_original_batch_deadline",
     "timing.revealed_attempt_extension_allowed": False,
-    "timing.project_admin_and_independent_audit_time": "separately_disclose; "
-    "do_not_move_actual_research_work_out_of_active_clock",
-    "timing.reveal": "disclosure_committed_is_permission_not_actual_display; "
-    "separate_display_ack_client_clock_basis_server_ack_and_owner_timing",
-    "timing.uncertain_first_display": "retain_earliest_possible_exposure_and_timing_uncertain; "
-    "no_valid_paired_saving; "
-    "no_slot_replacement_or_clock_reset",
-    "assignment.algorithm_version": "ARA-EVAL-1",
     "assignment.seed_bits": 128,
     "assignment.seed_hex_chars": 32,
-    "assignment.seed_encoding": "lowercase_hex_literal_UTF8_not_decoded_bytes",
-    "assignment.seed_creation": "once_via_CSPRNG_after_protocol_and_material_hashes_frozen; "
-    "no_redraw; not_generated_in_preparation",
-    "assignment.digest": 'SHA256(UTF8("ARA-EVAL-1\\n" + seed + "\\n" + domain_id + "\\n" + '
-    "label)) with actual LF characters",
-    "assignment.labels": ["order", "assignment", "first"],
-    "assignment.domain_order": "sort_by_hex_digest(label=order),then_domain_id",
-    "assignment.variant_assignment": "last_digest_byte(label=assignment)&1 == 0 means "
-    "A=agent/B=control; 1 means reverse",
-    "assignment.first_method": "sort_domains_by_digest(label=first),then_id; "
-    "first_two_agent_first,last_one_control_first",
-    "assignment.round_1": "domain_order; assigned_first_method_case",
-    "assignment.round_2": "domain_order_cyclic_left_shift_one; opposite_method_case",
-    "assignment.record": [
-        "seed",
-        "protocol_sha256",
-        "materials_sha256",
-        "all_digests",
-        "variant_assignment",
-        "six_slot_order",
-    ],
     "assignment.no_generation_or_reassignment_after_failure": True,
-    "common_quality.mandatory_dimensions": [
-        "accepted_scope_basis_unknowns_and_provenance_faithful",
-        "all_critical_claims_correct_and_supported",
-        "all_critical_conflicts_and_qualifiers_present",
-        "subject_version_capture_and_UTF8_locator_correct",
-        "unread_failure_partial_and_coverage_honest",
-        "recommendations_distinguish_observation_inference_and_suggestion",
-        "no_fabricated_execution_or_authority_and_actionable_next_verification",
-    ],
     "common_quality.all_six_final_reports_pass_before_value_computation": True,
-    "common_quality.median_saving_min": None,
-    "common_quality.pair_saving_formula": "(control_active_seconds-agent_active_seconds)/control_active_seconds",
-    "common_quality.aggregate": "descriptive_median_of_exactly_three_registered_heterogeneous_pairs; "
-    "negative_savings_not_clipped; "
-    "no_population_or_per_mode_effect_inference",
-    "common_quality.missing_or_zero_baseline": "comparison_inconclusive_no_imputation_no_denominator_change",
     "common_quality.owner_final_and_original_program_outcomes_separate": True,
     "common_quality.machine_structure_check_is_not_semantic_verification": True,
-    "common_quality.adequate_no_winner": "not_applicable_to_document_review; "
-    "missing_documents_do_not_prove_absence; "
-    "required_critical_gaps_are_partial",
     "common_quality.audits.max_defect_feedback_rounds": 2,
     "common_quality.audits.final_scoring_rounds": 1,
-    "common_quality.audits.allowed_feedback": "defect_type_and_original_report_locator_only",
-    "common_quality.audits.new_research_contribution": "must_disclose_actual_contribution_time_and_any_new_cost; "
-    "not_pure_audit",
     "common_quality.audits.owner_does_actual_research_and_rewrite": True,
     "common_quality.raw_agent_critical_passes_required": 3,
     "common_quality.raw_agent_gate_separate_from_human_repaired_final": True,
-    "common_quality.noncritical_results": "itemized_findings_and_omissions; "
-    "no_composite_score_or_unbounded_recall_denominator",
-    "common_quality.all_assigned_outcomes_retained": [
-        "not_started",
-        "started",
-        "completed",
-        "partial",
-        "failed",
-        "cancelled",
-        "missing",
-        "unscorable",
-    ],
-    "common_quality.three_result_axes": [
-        "original_program_outcome",
-        "original_immutable_report_source_review",
-        "owner_final_submission_quality",
-    ],
-    "common_quality.real_user_or_team_value": "pending_no_real_task_evidence; "
-    "controlled_materials_not_real_value_acceptance",
-    "quotas.case_model.stages": [
-        {
-            "id": "clarify",
-            "normal_obligations": 2,
-            "max_input_tokens": 8192,
-            "max_output_tokens": 2048,
-        },
-        {
-            "id": "research_plan",
-            "normal_obligations": 2,
-            "max_input_tokens": 16384,
-            "max_output_tokens": 2048,
-        },
-        {
-            "id": "extract",
-            "normal_obligations": 3,
-            "max_input_tokens": 32768,
-            "max_output_tokens": 4096,
-        },
-        {
-            "id": "evidence_review",
-            "normal_obligations": 2,
-            "max_input_tokens": 32768,
-            "max_output_tokens": 3072,
-        },
-        {
-            "id": "gap_plan",
-            "normal_obligations": 1,
-            "max_input_tokens": 16384,
-            "max_output_tokens": 2048,
-        },
-        {
-            "id": "document_compile",
-            "normal_obligations": 4,
-            "max_input_tokens": 32768,
-            "max_output_tokens": 8192,
-        },
-    ],
     "quotas.case_model.normal_obligations": 14,
     "quotas.case_model.technical_retry_max": 2,
     "quotas.case_model.technical_retry_per_work_max": 1,
-    "quotas.case_model.technical_retry_eligibility": "only_known_transient_and_explicit_same_work_request_phase_caps; "
-    "unknown/schema invalid not retryable",
     "quotas.case_model.physical_calls_max": 16,
     "quotas.case_model.normal_input_total": 360448,
     "quotas.case_model.normal_output_total": 61440,
@@ -960,22 +818,8 @@ REVIEW_POLICY = {
     "quotas.case_model.cumulative_output_reservation_tokens": 81920,
     "quotas.case_model.format_repair_extra_calls": 0,
     "quotas.case_model.summary_extra_calls": 0,
-    "quotas.case_model.thinking": "disabled_explicit",
-    "quotas.case_model.output_limit": "explicit_per_stage",
-    "quotas.case_model.tokenizer": "official_complete_request_matching_template_is_formal_admission_gate",
-    "quotas.case_model.qualification_diagnostic": "separate_limited_authorized_path_not_circular_formal_prerequisite",
     "quotas.case_model.model_call_absolute_seconds": 60,
     "quotas.case_model.sdk_implicit_retries": 0,
-    "quotas.case_model.qualification_profile": "official_supported_full_request_converter_template_tokenizer_hashes_and_fields; "
-    "no_character_ratio_substitute; "
-    "matching_evidence_pending_paid_off",
-    "quotas.case_model.usage_mapping": "local_full_request_count_equals_prompt_tokens_under_frozen_qualification; "
-    "hit_plus_miss_equals_prompt; "
-    "total_equals_prompt_plus_completion; "
-    "output_not_reencoded_to_prove_tokens",
-    "quotas.case_model.qualification_revocation": "root_result_transaction_revokes_profile_revision; "
-    "final_send_checks_current_revision; "
-    "in_flight_original_call_settlement_only",
     "quotas.tools.per_case.search": 12,
     "quotas.tools.per_case.fetch": 24,
     "quotas.tools.per_case.github_data": 32,
@@ -985,22 +829,12 @@ REVIEW_POLICY = {
     "quotas.tools.counts_include_failures_retries_redirects_and_all_attempts": True,
     "quotas.tools.search_result_count": 5,
     "quotas.tools.search_need_content": False,
-    "quotas.tools.unused_allocation": "no_automatic_expansion; "
-    "stable_case_limits_include_linked_turns",
     "quotas.tools.extra_curator_or_semantic_judge_calls": 0,
     "quotas.tools.browser_before_network_qualification": 0,
     "quotas.tools.standalone_control_tasks_max": 4,
     "quotas.tools.standalone_control_attempts_per_task_max": 8,
     "quotas.tools.standalone_control_task_seconds": 60,
     "quotas.tools.private_proof_max_seconds": 300,
-    "quotas.tools.private_proof": "fresh_restricted_App_installation_token_receipt_plus_stable_repo_identity_and_contents_probe; "
-    "public_200_is_not_proof",
-    "quotas.tools.outbound_disclosure": "whole_final_search_query_or_Fetch_URL_with_purpose_and_private_ancestor_lineage; "
-    "public_words_do_not_declassify_combinations",
-    "quotas.tools.browser_integration": "deferred_zero",
-    "quotas.tools.mcp": "research_only",
-    "quotas.tools.diagnostic_allocation": "all_profiles_turns_restarts_and_retries_share_one_exact_human_approved_total; "
-    "no_auto_reallocation",
     "quotas.runtime.global_active_tasks": 2,
     "quotas.runtime.global_queued_tasks": 4,
     "quotas.runtime.nonterminal_task_per_session": 1,
@@ -1022,448 +856,72 @@ REVIEW_POLICY = {
     "quotas.bytes.turn_max": 67108864,
     "quotas.bytes.case_max_shared_across_turns": 67108864,
     "quotas.bytes.project_new_business_max": 1073741824,
-    "quotas.bytes.case_worst_reservation_mib": "64",
-    "quotas.bytes.seven_cases_and_noncase_reservation_mib": "466.25",
     "quotas.bytes.count_actual_uncompressed_copies": True,
-    "quotas.bytes.wal_indexes_checkpoints_backups": "separate_physical_qualification_not_covered_by_business_cap",
-    "quotas.bytes.case_buckets_mib.model_requests_responses_manifests": "13",
-    "quotas.bytes.case_buckets_mib.search": "1.5",
-    "quotas.bytes.case_buckets_mib.github_fetch_capture_and_copies": "34.5",
-    "quotas.bytes.case_buckets_mib.claim_relations": "4",
-    "quotas.bytes.case_buckets_mib.stage_derived": "2",
-    "quotas.bytes.case_buckets_mib.accepted_input": "3",
-    "quotas.bytes.case_buckets_mib.tool_requests": "1",
-    "quotas.bytes.case_buckets_mib.transport_metadata": "2",
-    "quotas.bytes.case_buckets_mib.other_canonical_metadata": "2",
-    "quotas.bytes.case_buckets_mib.terminal_memory_suggestions_control_receipts": "1",
-    "quotas.bytes.project_metadata_max_mib": "32",
     "quotas.bytes.control_safe_receipt_max_bytes": 2048,
     "quotas.bytes.terminal_and_canonical_reserved_before_call": True,
-    "budget.currency": "CNY_only_after_actual_account_qualification",
-    "budget.cost_epoch": "2026-10-28_this_reopen_started",
-    "budget.owner_attestation": "no_project_new_spend_outside_repository_since_cost_epoch; "
-    "warehouse_and_historical_unknown_not_set_zero",
     "budget.model_physical_calls": 116,
     "budget.search_calls": 84,
     "budget.fetch_calls": 168,
     "budget.github_calls": 704,
-    "budget.reserve_per_model_call_cny": "2.20",
-    "budget.model_total_cny": "255.20",
-    "budget.search_fetch_per_success_cny": "0.005",
-    "budget.api_tools_cny": "1.26",
-    "budget.noncall_cny": "30.00",
-    "budget.unallocated_buffer_cny": "10.00",
-    "budget.planned_total_cny": "296.46",
-    "budget.new_spend_strictly_below_cny": "300.00",
-    "budget.batches": [
-        {
-            "id": "qualification_and_unrelated_health",
-            "case_count": 0,
-            "model_calls": 4,
-            "tool_calls": {
-                "search": 0,
-                "fetch": 0,
-                "github_data": 0,
-                "github_control": 32,
-            },
-            "worst_total_cny": "8.80",
-        },
-        {
-            "id": "early",
-            "case_count": 4,
-            "roles": [
-                "early_pilot_1",
-                "early_pilot_2",
-                "optimization_retest_1",
-                "optimization_retest_2",
-            ],
-            "model_calls": 64,
-            "tool_calls": {
-                "search": 48,
-                "fetch": 96,
-                "github_data": 128,
-                "github_control": 256,
-            },
-            "worst_total_cny": "141.52",
-        },
-        {
-            "id": "formal_agent",
-            "case_count": 3,
-            "model_calls": 48,
-            "tool_calls": {
-                "search": 36,
-                "fetch": 72,
-                "github_data": 96,
-                "github_control": 192,
-            },
-            "worst_total_cny": "106.14",
-        },
-    ],
-    "budget.price_basis.model_input_uncached_per_million_cny": "2.00",
-    "budget.price_basis.model_output_per_million_cny": "8.00",
     "budget.price_basis.conservative_input_tokens_per_physical_slot": 1048576,
     "budget.price_basis.output_tokens_per_physical_slot": 8192,
-    "budget.price_basis.calculated_worst_model_call_cny": "2.162688",
-    "budget.price_basis.qualification": "exact_model_template_fields_currency_tariff_and_complete_billable_basis_required; "
-    "snapshot_not_locked_quote",
     "budget.price_basis.price_evidence_max_age_hours": 24,
-    "budget.noncall_includes": [
-        "backup_media",
-        "paper_key_and_verification_cards",
-        "new_comparison_subscription_or_session_charges",
-        "any_other_new_project_fee",
-        (
-            "any_control_endpoint_fee_if_not_proven_free_requires_requalification; "
-            "no_hidden_fee"
-        ),
-    ],
-    "budget.existing_subscription_without_new_spend": "disclose_separately_not_fabricate_new_fee",
     "budget.buffer_not_automatic_grant": True,
-    "budget.funds_price_history_unknown_inflight_balance_grants_unclosed": "paid_disabled",
     "budget.github_data_calls": 224,
     "budget.github_case_control_calls": 448,
     "budget.github_standalone_control_calls": 32,
     "budget.http_calls_max": 1072,
     "budget.dns_attempts_max": 2144,
     "budget.dial_attempts_max": 1072,
-    "tracing.storage": "PostgreSQL_canonical_business_records_and_read_only_join_view_no_external_upload",
-    "tracing.chain": [
-        "input_revision_review_question_and_basis",
-        "plan_work_attempt",
-        "call",
-        "source_representation_and_private_ancestor_lineage",
-        "claim_relations",
-        "context_manifest",
-        "exact_safe_business_request_body",
-        "response_usage_cost_reservation",
-        "report_hash",
-    ],
     "tracing.run_manifest_max_bytes": 65536,
-    "tracing.manifest_counts_in": "stage_derived_2MiB_case_bucket",
-    "tracing.freeze": [
-        "code_and_dirty_tree",
-        "dependency_lock",
-        "schema",
-        "template",
-        "selector",
-        "tokenizer",
-        "public_model_identity",
-        "pricing",
-        "protocol",
-        "materials",
-    ],
-    "tracing.unknown_cloud_weights_or_backend": "null_not_claimed_frozen",
     "tracing.canonical_records_not_sampled": True,
     "tracing.ui_ordinary_event_cap": 255,
     "tracing.safe_body_not_full_HTTP_wire": True,
     "tracing.no_hidden_chain_of_thought_collection": True,
-    "tracing.reconstruction": "offline_read_only_artifact_integrity_relationship_selector_timing_usage_arithmetic; "
-    "no_network_framework_replay_or_tokenizer_execution",
-    "tracing.diagnostic_categories": [
-        "not_collected",
-        "unrecognized",
-        "unbound",
-        "not_selected",
-        "cropped",
-        "summary_distortion",
-        "output_not_reflected",
-    ],
     "tracing.model_internal_use_not_inferred_from_output": True,
-    "tracing.delivery": "current_account_credential_auth_session_sup_generation_membership_purpose_share_source_proof_lineage_checked_per_bounded_response_page_SSE_frame; "
-    "cursor_not_authority; logout_blocks_read_not_independent_Task",
     "tracing.delivery_limits_bytes.report": 65536,
     "tracing.delivery_limits_bytes.artifact_response": 1048576,
     "tracing.delivery_limits_bytes.SSE_frame": 1024,
-    "tracing.revoke_delivery": "revoke_first_blocks_unclaimed_delivery; "
-    "one_already_claimed_bounded_response_or_frame_may_arrive; "
-    "no_instant_recall",
     "optimization.real_symptom_correction_required_at_least": 1,
     "optimization.real_retest_slots_max": 2,
-    "optimization.sequence": [
-        "original_trace_evidence",
-        "preregister_falsifiable_observable_target",
-        "minimal_change",
-        "fixed_source_offline_regression_and_nonregression_AC",
-        "independent_review",
-        "separately_authorized_matched_real_retest",
-    ],
-    "optimization.changed_conditions_case": "same_case_A_report1_then_owner_accepted_B_linked_turn_report2_shared_caps_not_optimization_benefit",
     "optimization.keep_all_failed_experiments": True,
     "optimization.failed_rigorous_experiment_not_substitute_for_correction": True,
-    "optimization.source_model_drift": "record_versions_hashes_and_confounding; "
-    "no_direct_causal_claim_if_change_affects_symptom",
-    "qualification.statuses": "pending_actual_evidence_not_satisfied_by_this_JSON",
-    "qualification.before_first_pilot": [
-        "safe_WSL_cold_cutover_and_new_Pg_cluster_roles",
-        "official_tokenizer_and_gateway",
-        "all_history_unknown_inflight_cost_reconciliation",
-        "exact_service_side_grant_and_sufficient_balance",
-        "independent_backup_media_paper_key_source_card_and_real_restore",
-    ],
-    "qualification.before_formal_reveal": [
-        (
-            "three_local_material_packages_and_exact_independent_original_review_bound_to_index; "
-            "no_gold_in_worker_context"
-        ),
-        "all_method_eligibility_modes_and_engine_list",
-        "code_template_policy_scoring_hash_freeze",
-        "batch_and_slot_authorizations",
-        "unrelated_service_health_check",
-    ],
-    "qualification.browser_unqualified": "disabled_zero",
-    "qualification.global_unknown": "stop_all_project_new_outbound_keep_progress_and_reservations; "
-    "later_settlement_never_auto_reopens; "
-    "owner_separate_restore_approval_required",
-    "historical_evidence.base_commit": "1ffade6de07ebe3d1e72afb4c44b8677466eca67",
-    "historical_evidence.protocol_path": "docs/evaluation/CURRENT_EVAL_PROTOCOL.json",
-    "historical_evidence.preparation_path": "data/evaluation/decision-m1-1/preparation.json",
-    "historical_evidence.read_policy": "explicit_commit_path_raw_sha_and_explicit_newline_transform_only_no_auto_guess",
-    "historical_evidence.old_execution_rules": "B/G/O_15_and_M1_9_8_12_are_historical_only",
-    "historical_evidence.old_preparation": "materials_not_real_runs; "
-    "referenced_sources_licenses_authorizations_cost_and_run_evidence_preserved",
     "historical_evidence.no_new_archive_copy": True,
     "historical_evidence.new_runner_or_ledger_implemented": False,
-    "historical_evidence.previous_configuration.commit": "d4b906fb6a441c13583f052377283ec0c28bf5a2",
-    "historical_evidence.previous_configuration.protocol_path": "docs/evaluation/CURRENT_EVAL_PROTOCOL.json",
-    "historical_evidence.previous_configuration.protocol_raw_sha256": "98b832d33777c7aa045dd249ed005c1f915e55f3609d5872a5d62e58398111f0",
-    "historical_evidence.previous_configuration.material_path": "docs/evaluation/DISCOVERY_M1_CASES.json",
-    "historical_evidence.previous_configuration.material_raw_sha256": "5e448068f84dc491c0559b082b30e78886ed319e22112f11d6860aa529a51409",
-    "release.current_state": "No-Go",
     "release.technical_verification_human_acceptance_value_M1_Go_release_separate": True,
     "release.this_protocol_not_runtime_permission": True,
-    "attempt_record_contract.scope": "declarative_acceptance_contract_not_an_implemented_runner_or_ledger",
-    "attempt_record_contract.required_fields.identity": [
-        "slot_id",
-        "case_id",
-        "domain_id",
-        "method",
-        "owner_id",
-        "team_id",
-        "project_id",
-        "requester_accepted_by_and_actual_actor",
-        "batch_id",
-        "case_and_linked_turn_ids",
-        "protocol_sha256",
-        "materials_sha256",
-        "code_dirty_tree_and_lock_identity",
-        "template_tool_memory_policy_identity",
-        "visible_provider_model_mode_and_drift",
-    ],
-    "attempt_record_contract.required_fields.timing": [
-        "disclosure_committed_at",
-        "display_ack_and_clock_basis",
-        "earliest_possible_exposure_and_timing_uncertain",
-        "first_display_at",
-        "wall_deadline",
-        "active_intervals_with_start_end_kind_and_actor",
-        "computed_active_seconds",
-        "separate_wait_audit_admin_seconds",
-        "final_submission_at",
-        "stop_at_and_reason",
-    ],
-    "attempt_record_contract.required_fields.artifacts": [
-        "original_program_or_DR_output_ref_sha256_or_missing_reason",
-        "ordered_human_revisions_with_parent_ref_sha256_edit_time_and_active_interval_refs",
-        "final_submission_ref_sha256",
-        "mode_and_all_required_first_raw_document_refs_hashes_or_missing_reasons",
-        "exact_requirements_confirmation_and_version_head_changes",
-        "final_delivery_package_document_refs_hashes_and_confirmation",
-    ],
-    "attempt_record_contract.required_fields.audit": [
-        "reviewer_identity_and_role",
-        "round_and_feedback_time",
-        "reviewed_report_sha256",
-        "defect_locators",
-        "actual_research_contribution_time_cost_and_disclosure",
-        "final_dimension_scores_and_pass",
-    ],
-    "attempt_record_contract.required_fields.outcomes": [
-        "raw_program_status_and_errors",
-        "safety_authority_unknown_stop_state",
-        "final_human_quality_status",
-        "cancel_failure_missing_unexecuted_reason",
-        "familiarity_and_source_knowledge_transfer",
-        "memory_disabled_not_applicable_null_hits_writes_feature_disabled_and_empty_active_refs",
-        "raw_agent_critical_quality_status",
-        "assigned_slot_denominator_including_unstarted_and_missing",
-    ],
-    "attempt_record_contract.required_fields.cost": [
-        "call_and_transport_identity_refs",
-        "local_tokens_provider_usage_cache_and_unknowns",
-        "pricing_currency_and_cost_evidence",
-        "known_unknown_inflight_reservations",
-        "grant_allocation_and_incremental_spend_epoch",
-        "comparison_existing_subscription_and_new_purchase_disclosure",
-    ],
-    "attempt_record_contract.active_intervals": "owner intervals ordered and nonoverlapping; "
-    "every research action belongs to one interval; "
-    "active_seconds equals sum, pure waits "
-    "separately in wall time; no cap imputation",
-    "attempt_record_contract.revision_chain": "immutable original plus every submitted human "
-    "revision; parent hashes link in order; "
-    "edit/research/recheck time included; no "
-    "replacement after final scoring or revealed "
-    "failure",
-    "attempt_record_contract.audit_binding": "feedback and final scoring bind exact reviewed "
-    "report hash; new research contribution is "
-    "disclosed and cannot masquerade as pure defect "
-    "audit",
-    "attempt_record_contract.unavailable": "explicit null or missing_reason; never fabricate "
-    "zero, successful output or a report hash",
-    "attempt_record_contract.integrity": "independent_audit_recomputes_artifact_hashes_timing_sums_all_six_slots_and_three_pair_descriptive_median; "
-    "raw_agent_quality_is_separate",
-    "attempt_record_contract.private_content": "current_team_project_and_source_purpose_permissions_on_derived_artifacts; "
-    "private_Draft_and_Memory_author_isolation; "
-    "no_secrets_or_hidden_reasoning",
-    "memory": FOCUS_MEMORY_POLICY,
-    "attempt_record_contract.memory_observation": FOCUS_MEMORY_OBSERVATION,
-    "documents": {
-        "versions_per_case": 16,
-        "body_bytes": 65536,
-        "metadata_bytes": 16384,
-        "bucket": "stage_derived_2MiB_actual_copies",
-        "first_full_chain_reserve_slots": 2,
-        "first_full_chain_reserve_bytes": 163840,
-        "snapshot": "bounded_refs_only_report_64KiB_no_inline_two_documents",
-        "versions": "immutable_author_parent_hash_known_lineage; "
-        "raw_private_Draft_separate",
-        "confirmation": "exact_current_requirements_version_hash_actor_CAS; "
-        "every_new_requirement_head_clears_current_confirmation_in_same_root_transaction; "
-        "history_immutable",
-        "solution_gates": "start_send_commit_current_requirement_head_and_confirmation_and_target_solution_parent_head_CAS; "
-        "stale_derived_from_refs; "
-        "late_original_Call_audit_usage_cost_only",
-        "editing": "explicit_save_or_AI_commit_not_keystrokes; "
-        "bounded_UI_memory_no_localStorage; logout_identity_switch_clears; "
-        "conflict_visible_no_silent_overwrite",
-    },
-    "local_materials": {
-        "items_per_case_cumulative": 32,
-        "metadata_request_bytes": 16384,
-        "raw_item_bytes": 1048576,
-        "decoded_utf8_bytes": 524288,
-        "absolute_receive_seconds": 30,
-        "transport": "raw_application_octet_stream_not_multipart; "
-        "application_stream_actual_bytes_limit_before_default_body_parser; "
-        "reject_nonidentity_ContentEncoding; "
-        "headers_request_line_buffers_pending_real_qualification",
-        "admission": "current_session_sup_case_project_retain_use_and_reserve_before_body; "
-        "no_DB_lock_while_receiving; "
-        "commit_rechecks_current_gates_set_version_actual_bytes; "
-        "atomic_body_hash_capture",
-        "source_set": "seal_successes_failures_unread_before_model_use; "
-        "no_fake_capture; safe_errors; "
-        "only_determinate_unused_reserve_released",
-        "capture_bucket": "shared_github_fetch_capture_and_copies_34.5MiB; "
-        "case64MiB_project1GiB; no_all_maxima_guarantee",
-        "identity": "explicit_File_API_selection_not_filesystem_bridge; "
-        "no_path_open_execution_diff_apply_zip_binary_parser; "
-        "unknown_diff_base_not_verified_commit; "
-        "no_atomic_worktree_or_symlink_proof",
-        "privacy": "current_author_project_retention_use_model_share_public_disclosure; "
-        "known_private_ancestry_survives_edits_imports_exports_new_ID; "
-        "local_unknown_origin_not_GitHub_App_proof_or_global_copy_detector; "
-        "known_private_GitHub_ancestors_still_require_App_proof",
-    },
-    "formal.workflow_coverage": {
-        "requirements": {
-            "mode": "requirements_to_solution",
-            "artifacts": [
-                "first_raw_requirements",
-                "exact_human_confirmation_and_edits",
-                "first_raw_solution",
-                "final_requirements_solution_package",
-            ],
-            "coverage": [
-                "ideas_without_repository_allowed",
-                "same_preregistered_goal_no_scope_shrink",
-            ],
-        },
-        "consistency": {
-            "mode": "review_only",
-            "artifacts": ["first_raw_review", "final_review_package"],
-            "coverage": [
-                "fixed_commit_and_local_text_code_diff",
-                "both_variants_include_bounded_question_without_authoritative_baseline",
-                "observations_hypotheses_not_invented_conformance",
-            ],
-        },
-        "exploration": {
-            "mode": "solution_only",
-            "artifacts": [
-                "confirmed_existing_requirements",
-                "first_raw_solution",
-                "final_solution_package",
-            ],
-            "coverage": ["bounded_evidence_and_implementation_assumption_exploration"],
-        },
-    },
-    "formal.coverage_limits": {
-        "requirements_only": "focused_route_terminal_regression_and_one_existing_pilot; "
-        "no_independent_formal_quality_or_time_claim",
-        "editing_and_revision": "regression_and_pilot_only_no_independent_formal_effect_claim",
-        "pair_equivalence": "same_preregistered_goal_scale_material_format_mix; "
-        "clarify_cannot_shrink_goal; "
-        "substantive_scope_change_retains_slot_partial_noncomparable",
-        "alternative_designs": "reasonable_supported_alternatives_allowed_no_single_hidden_design_answer",
-        "pilot_allocation": "one_existing_pilot_requirements_only_and_other_full_chain; "
-        "no_extra_cases_or_funding",
-    },
-    "common_quality.raw_full_chain": "both_first_raw_requirements_and_first_raw_solution_must_pass; "
-    "human_edits_do_not_rewrite_raw_failure",
-    "common_quality.final_package": "each_slot_final_snapshot_binds_all_required_document_versions_hashes_and_confirmation; "
-    "full_chain_scores_both_documents",
-    "quotas.case_model.compile_reserved_input_tokens": 131072,
-    "quotas.case_model.compile_reserved_output_tokens": 32768,
     "quotas.case_model.compile_reserve_borrowable": False,
-    "quotas.case_model.mode_obligations": {
-        "review_only": {"first_artifacts": 1, "semantic_revisions_max": 3},
-        "requirements_only": {"first_artifacts": 1, "semantic_revisions_max": 3},
-        "solution_only": {"first_artifacts": 1, "semantic_revisions_max": 3},
-        "requirements_to_solution": {"first_artifacts": 2, "semantic_revisions_max": 2},
-    },
-    "quotas.case_model.first_artifact_reservation": "atomic_compile_token_version_slot_80KiB_envelope_and_canonical_terminal_before_optional_edit_or_stage_write; "
-    "reserve_to_used_once; no_send_if_unsavable",
-    "quotas.case_model.revision_and_mode_changes": "same_case_caps_and_original_purpose; "
-    "changed_requirements_need_new_confirmation_and_use_remaining_compiles; "
-    "no_unlimited_first_solution_guarantee; "
-    "accepted_mode_change_atomically_reserves_missing_first_obligations_or_rejects; "
-    "no_auto_new_case",
     "quotas.case_model.hidden_judge_extra_calls": 0,
-    "historical_evidence.previous_review_configuration": {
-        "revision": "REVIEW-BASELINE-20261101",
-        "manifest_path": ".tmp/predev-reopen-20261028/config-20261029/review-20261101/snapshots/final-02/manifest.json",
-        "manifest_raw_sha256": "582636a65e3dc0b0405f1fd0ce232935d649c49b6202660eccbdbf50f0ee9768",
-        "protocol_raw_sha256": "234fbaa98a8e889103f0537582cedba71575519d7a342685e559bafac75be557",
-        "material_raw_sha256": "763129484b2bfbc6c0eedda13b680a1ae00a2b649319da2d3aac79227b2563e5",
-        "read_policy": "explicit_existing_snapshot_manifest_path_raw_hash; "
-        "not_a_HEAD_Git_object; "
-        "no_old_index_overwrite_or_runner_extension",
-    },
-    "historical_evidence.previous_draft_configuration": {
-        "revision": "DRAFT-BASELINE-20261102",
-        "manifest_path": ".tmp/predev-reopen-20261028/config-20261029/review-20261101/draft-20261102/snapshots/final-01/manifest.json",
-        "manifest_raw_sha256": "6c9b4b59a8362033745be68239fe846cac79d4cdd62b392def922f7ef9952faf",
-        "protocol_raw_sha256": "2628db01d144cfefb7c8db55e62ac67243beb93c5d8b9a74273446ada34e33b6",
-        "material_raw_sha256": "f1a93cef17832629cc0a14f906d6295a17561bfc5e458f945d18610e026f4fc1",
-        "read_policy": "explicit_existing_snapshot_manifest_path_raw_hash; not_a_HEAD_Git_object; no_old_index_overwrite_or_runner_extension",
-    },
+    "protocol_version": "draft-m1-3",
+    "preparation_revision": "RESEARCH-BASELINE-20261103",
+    "registered_at": "2026-11-03",
+    "quotas.case_model.compile_physical_calls_max": 4,
+    "quotas.case_model.compile_limit_includes_technical_retries": True,
 }
 
+PURPOSE_LIMITS = {
+    "clarify": (8192, 2048),
+    "research_plan": (16384, 2048),
+    "extract": (32768, 4096),
+    "evidence_review": (32768, 3072),
+    "gap_plan": (16384, 2048),
+    "document_compile": (32768, 8192),
+}
+
+PURPOSE_MAPPING = {
+    "clarify": "organize_human_conditions_and_propose_questions",
+    "research_plan": "decompose_questions_assign_work_dependencies_and_acquisition_plan",
+    "extract": "source_to_claim_evidence_counterevidence_proposals",
+    "evidence_review": "compare_evidence_conflicts_grounded_parent_child_merge_and_question_bound_discussion_or_child_proposal",
+    "gap_plan": "evidence_gap_driven_next_work_or_stop",
+    "document_compile": "create_or_revise_formal_requirements_solution_or_review_DocumentVersion",
+}
 
 REVIEW_CAPABILITIES = [
     {
         "id": "runtime_harness",
-        "requirements": [
-            "DEC-AC-08",
-            "DEC-AC-09",
-            "DEC-AC-13",
-            "DEC-AC-14",
-        ],
-        "tasks": [
-            "DEC-M1-02",
-            "DEC-M1-03b",
-        ],
+        "requirements": ["DEC-AC-08", "DEC-AC-09", "DEC-AC-13", "DEC-AC-14"],
+        "tasks": ["DEC-M1-02", "DEC-M1-03b"],
         "evidence": [
             "real_LangGraph_stage_nodes",
             "restricted_Pg_atomicity_and_dual_order_races",
@@ -1471,21 +929,15 @@ REVIEW_CAPABILITIES = [
             "unique_terminal_and_generation_resource_release",
             "immutable_document_versions_current_head_exact_confirmation_dual_order_solution_gates",
             "first_artifact_multidimensional_reservation_no_unsavable_send",
+            "same_Task_bounded_nonrecursive_assignment_CAS_and_idempotent_creation",
+            "shared_acquisition_per_consumer_authorization_cancel_late_result_and_sealed_research_inputs",
+            "shared_14_normal_16_physical_pool_four_physical_compiles_including_retry_first_attempt_only_reservation",
         ],
     },
     {
         "id": "tools_search_evidence",
-        "requirements": [
-            "DEC-AC-10",
-            "DEC-AC-11",
-            "DEC-AC-12",
-            "DEC-AC-15",
-        ],
-        "tasks": [
-            "DEC-M1-03a",
-            "DEC-M1-03b",
-            "DEC-M1-05",
-        ],
+        "requirements": ["DEC-AC-10", "DEC-AC-11", "DEC-AC-12", "DEC-AC-15"],
+        "tasks": ["DEC-M1-03a", "DEC-M1-03b", "DEC-M1-05"],
         "evidence": [
             "question_basis_source_claim_report_chain",
             "repo_ID_commit_path_blob_UTF8_capture_and_counterevidence",
@@ -1496,32 +948,22 @@ REVIEW_CAPABILITIES = [
     },
     {
         "id": "context",
-        "requirements": [
-            "DEC-AC-18",
-        ],
-        "tasks": [
-            "DEC-M1-03a",
-            "DEC-M1-03b",
-        ],
+        "requirements": ["DEC-AC-18"],
+        "tasks": ["DEC-M1-03a", "DEC-M1-03b"],
         "evidence": [
             "protected_conditions_qualifiers_counterevidence",
             "bounded_manifest_selection_and_failure_diagnostics",
             "official_complete_request_tokenizer_qualification",
             "fixed_source_offline_cases_and_natural_authorized_trace_not_extra_call_batch",
+            "actual_parent_child_request_preserves_conditions_counterevidence_qualifiers_unknown_and_manifest_match",
+            "separate_fixed_local_public_format_hosted_fit_and_original_usage_fee_qualification",
+            "legal_token_delta_overflow_protocol_error_business_schema_and_unknown_fee_negative_paths",
         ],
     },
     {
         "id": "evaluation_tracing_optimization",
-        "requirements": [
-            "DEC-AC-16",
-            "DEC-AC-19",
-            "DEC-AC-20",
-        ],
-        "tasks": [
-            "DEC-M1-06",
-            "DEC-M1-07",
-            "DEC-M1-08b",
-        ],
+        "requirements": ["DEC-AC-16", "DEC-AC-19", "DEC-AC-20"],
+        "tasks": ["DEC-M1-06", "DEC-M1-07", "DEC-M1-08b"],
         "evidence": [
             "complete_six_attempts_and_manual_time_final_quality",
             "canonical_trace_and_offline_no_send_reconstruction",
@@ -1534,16 +976,8 @@ REVIEW_CAPABILITIES = [
     },
     {
         "id": "identity_recovery_practice",
-        "requirements": [
-            "DEC-AC-15",
-            "DEC-AC-14",
-        ],
-        "tasks": [
-            "DEC-M1-01",
-            "ENV-M1-01",
-            "ENV-M1-02",
-            "DEC-M1-08b",
-        ],
+        "requirements": ["DEC-AC-15", "DEC-AC-14"],
+        "tasks": ["DEC-M1-01", "ENV-M1-01", "ENV-M1-02", "DEC-M1-08b"],
         "evidence": [
             "one_real_owner_second_test_identity_object_isolation",
             "continuous_supervisor_identity_qualification",
@@ -1588,7 +1022,7 @@ REVIEW_COVERAGE_POLICY = {
 
 
 MATERIAL_INDEX_PATH = "docs/evaluation/DISCOVERY_M1_CASES.json"
-MATERIAL_ROOT = ".tmp/predev-reopen-20261028/config-20261029/review-20261101/focus-20261102/materials"
+MATERIAL_ROOT = ".tmp/predev-reopen-20261028/config-20261029/review-20261101/research-20261103/materials"
 MATERIAL_ROLES = ("inputs", "controller", "scorer")
 REVIEW_CASE_PAIRS = {
     "requirements": ["REQ-A", "REQ-B"],
@@ -1667,52 +1101,91 @@ def _text_list(value: object, *, empty: bool = False) -> bool:
 
 
 def _check_draft_reservations(protocol: dict) -> list[str]:
-    """Recompute the approved arithmetic; never qualifies runtime or funds."""
+    """Structural arithmetic only; no runtime execution or real fee qualification."""
     try:
         model = protocol["quotas"]["case_model"]
         stages = model["stages"]
-        inputs = sum(s["normal_obligations"] * s["max_input_tokens"] for s in stages)
-        outputs = sum(s["normal_obligations"] * s["max_output_tokens"] for s in stages)
-        calls = sum(s["normal_obligations"] for s in stages)
-        compile_stage = next(s for s in stages if s["id"] == "document_compile")
-        retries = model["technical_retry_max"]
-        worst_in = inputs + retries * max(s["max_input_tokens"] for s in stages)
-        worst_out = outputs + retries * max(s["max_output_tokens"] for s in stages)
+        if (
+            not isinstance(stages, list)
+            or len(stages) != len(PURPOSE_LIMITS)
+            or any(
+                not isinstance(s, dict)
+                or set(s) != {"id", "max_input_tokens", "max_output_tokens"}
+                for s in stages
+            )
+            or [s["id"] for s in stages] != list(PURPOSE_LIMITS)
+            or any(
+                not _json_equal(
+                    [s["max_input_tokens"], s["max_output_tokens"]],
+                    list(PURPOSE_LIMITS[s["id"]]),
+                )
+                for s in stages
+            )
+        ):
+            return ["draft purpose limits must not restore fixed per-purpose counts"]
+        reserve = model["first_attempt_reservation"]
+        expected = {
+            "eligibility": "first_artifact_whose_first_attempt_has_not_been_sent",
+            "normal_calls_per_artifact": 1,
+            "input_tokens_per_artifact": 32768,
+            "output_tokens_per_artifact": 8192,
+            "version_slots_per_artifact": 1,
+            "document_envelope_bytes_per_artifact": 81920,
+            "canonical_terminal_capacity_required": True,
+            "borrowable_by_optional_work": False,
+            "refund_or_regrant_after_sent_failure": False,
+            "guarantees_success": False,
+        }
+        mode_counts = {
+            "review_only": 1,
+            "requirements_only": 1,
+            "solution_only": 1,
+            "requirements_to_solution": 2,
+        }
         documents = protocol["documents"]
         valid = (
-            (calls, inputs, outputs)
-            == (
-                model["normal_obligations"],
-                model["normal_input_total"],
-                model["normal_output_total"],
+            _json_equal(reserve, expected)
+            and _json_equal(
+                model["mode_obligations"],
+                {k: {"first_artifacts": v} for k, v in mode_counts.items()},
             )
-            and calls + retries == model["physical_calls_max"]
-            and worst_in
+            and model["normal_allocation"]
+            == "shared_case_pool_no_fixed_per_purpose_counts"
+            and _json_equal(model["purpose_mapping"], PURPOSE_MAPPING)
+            and not any(
+                k in model
+                for k in (
+                    "compile_reserved_input_tokens",
+                    "compile_reserved_output_tokens",
+                )
+            )
+            and model["normal_obligations"] + model["technical_retry_max"]
+            == model["physical_calls_max"]
+            and model["normal_input_total"]
+            + model["technical_retry_max"] * max(s["max_input_tokens"] for s in stages)
             == model["with_two_max_retries_input_total"]
             <= model["cumulative_input_tokens"]
-            and worst_out
+            and model["normal_output_total"]
+            + model["technical_retry_max"] * max(s["max_output_tokens"] for s in stages)
             == model["with_two_max_retries_output_total"]
             <= model["cumulative_output_reservation_tokens"]
-            and compile_stage["normal_obligations"] * compile_stage["max_input_tokens"]
-            == model["compile_reserved_input_tokens"]
-            and compile_stage["normal_obligations"] * compile_stage["max_output_tokens"]
-            == model["compile_reserved_output_tokens"]
             and documents["first_full_chain_reserve_slots"]
             * (documents["body_bytes"] + documents["metadata_bytes"])
             == documents["first_full_chain_reserve_bytes"]
-            and all(
-                m["first_artifacts"] + m["semantic_revisions_max"]
-                == compile_stage["normal_obligations"]
-                for m in model["mode_obligations"].values()
-            )
+            and documents["body_bytes"] + documents["metadata_bytes"]
+            == reserve["document_envelope_bytes_per_artifact"]
         )
-        return [] if valid else ["draft reservation arithmetic mismatch"]
+        return (
+            []
+            if valid
+            else ["draft reservation arithmetic or first-attempt policy mismatch"]
+        )
     except (KeyError, TypeError, ValueError, StopIteration, AttributeError):
         return ["draft reservation arithmetic malformed"]
 
 
-def check_current_protocol(protocol: object, root: Path) -> list[str]:
-    """Validate configuration policy, never real readiness, execution or funding."""
+def check_current_policy(protocol: object) -> list[str]:
+    """Pure structural/invariant checks for synthetic fixtures, not bundle approval."""
     if not isinstance(protocol, dict):
         return ["current protocol must be an object"]
     errors: list[str] = []
@@ -1730,66 +1203,201 @@ def check_current_protocol(protocol: object, root: Path) -> list[str]:
         errors.append(
             "current Memory policy must disable all entrypoints with exact fields"
         )
-    contamination = (
-        protocol.get("methods", {}).get("contamination")
-        if isinstance(protocol.get("methods"), dict)
-        else None
-    )
-    if (
-        isinstance(contamination, dict)
-        and "memory_policy_frozen_data_changes_and_hits_disclosed" in contamination
+    observation = protocol.get("attempt_record_contract", {})
+    if not isinstance(observation, dict) or not _json_equal(
+        observation.get("memory_observation"), FOCUS_MEMORY_OBSERVATION
     ):
         errors.append(
-            "current Memory cannot restore active snapshot or hit obligations"
+            "current memory_observation must record disabled, not fake zeroes"
         )
     errors.extend(_check_draft_reservations(protocol))
-    tools = (
-        protocol.get("quotas", {}).get("tools")
-        if isinstance(protocol.get("quotas"), dict)
-        else None
-    )
-    if isinstance(tools, dict) and any(
-        key in tools
-        for key in (
-            "routes_max",
-            "candidate_identity_pool_max",
-            "shortlist_max",
-            "stage_allocations",
-        )
-    ):
-        errors.append(
-            "current document review cannot restore candidate selection quotas"
-        )
-    material_ref = protocol.get("materials")
-    if (
-        not isinstance(material_ref, dict)
-        or material_ref.get("path") != MATERIAL_INDEX_PATH
-    ):
-        return errors + ["current materials reference is missing or noncanonical"]
+    errors.extend(_check_resource_arithmetic(protocol))
     try:
-        raw = _read_material_bytes(root, root / MATERIAL_INDEX_PATH)
-        if len(raw) > MATERIAL_BYTES_MAX:
-            raise ValueError("oversized index")
-        if hashlib.sha256(raw).hexdigest() != material_ref.get("sha256"):
-            errors.append("current material SHA-256 mismatch")
-        index = _load_current_json(raw)
-        errors.extend(check_current_materials(index))
-        if isinstance(index, dict) and material_ref.get("review_status") != index.get(
-            "status"
+        model = protocol["quotas"]["case_model"]
+        token = model["token_qualification"]
+        fit = token["hosted_fit"]
+        local = token["local_format"]
+        fee = token["usage_and_fees"]
+        if (
+            local["count_kind"]
+            != "exact_complete_public_format_not_remote_token_or_billing_identity"
+            or fit["meaning"]
+            != "engineering_estimated_fit_not_zero_overflow_or_all_inputs_proof"
+            or fit["legal_nonzero_local_delta"]
+            != "record_original_counts_methods_versions_and_delta_continue_only_if_all_other_gates_pass; no_offset_learning_or_limit_expansion"
+            or fit["business_output_schema_failure"]
+            != "unusable_output_no_extra_repair_call_not_provider_protocol_revocation"
+            or not _json_equal(
+                fit["revoke_on"],
+                [
+                    "explicit_context_overflow",
+                    "provider_prompt_plus_requested_output_exceeds_context",
+                    "completion_exceeds_requested_output",
+                    "unsupported_model_mapping",
+                    "invalid_provider_protocol_schema",
+                ],
+            )
+            or fee["unknown"]
+            != "retain_original_call_reserve_stop_all_project_new_outbound; no_resend"
         ):
-            errors.append("current material readiness reference mismatch")
-    except (OSError, ValueError, TypeError):
-        errors.append("current materials unreadable")
-    try:
-        raw = _read_material_bytes(
-            root, root / "docs/evaluation/DECISION_M1_PROTOCOL.json"
-        )
-        if len(raw) > MATERIAL_BYTES_MAX:
-            raise ValueError("oversized supplement")
-        errors.extend(check_current_supplement(_load_current_json(raw), root))
-    except (OSError, ValueError, TypeError):
-        errors.append("current supplement unreadable")
+            errors.append(
+                "Token layers, drift, revocation or unknown-fee policy differs"
+            )
+        tools = protocol["quotas"]["tools"]
+        if any(
+            k in tools
+            for k in (
+                "routes_max",
+                "candidate_identity_pool_max",
+                "shortlist_max",
+                "stage_allocations",
+            )
+        ):
+            errors.append(
+                "current document review cannot restore candidate selection quotas"
+            )
+    except (KeyError, TypeError, AttributeError):
+        errors.append("Token or tool policy malformed")
     return errors
+
+
+def _check_resource_arithmetic(protocol: dict) -> list[str]:
+    """Independent declared-cap arithmetic; not observed usage or a funds grant."""
+    try:
+        budget = protocol["budget"]
+        model = protocol["quotas"]["case_model"]
+        price = budget["price_basis"]
+        worst = (
+            Decimal(price["conservative_input_tokens_per_physical_slot"])
+            * Decimal(price["model_input_uncached_per_million_cny"])
+            + Decimal(price["output_tokens_per_physical_slot"])
+            * Decimal(price["model_output_per_million_cny"])
+        ) / Decimal(1000000)
+        valid = (
+            sum(b["model_calls"] for b in budget["batches"])
+            == budget["model_physical_calls"]
+            and budget["model_physical_calls"] == 7 * model["physical_calls_max"] + 4
+            and budget["github_calls"]
+            == budget["github_data_calls"]
+            + budget["github_case_control_calls"]
+            + budget["github_standalone_control_calls"]
+            and budget["http_calls_max"]
+            == sum(
+                budget[k]
+                for k in (
+                    "model_physical_calls",
+                    "search_calls",
+                    "fetch_calls",
+                    "github_calls",
+                )
+            )
+            and sum(
+                Decimal(v)
+                for v in protocol["quotas"]["bytes"]["case_buckets_mib"].values()
+            )
+            == Decimal(64)
+            and worst
+            == Decimal(price["calculated_worst_model_call_cny"])
+            <= Decimal(budget["reserve_per_model_call_cny"])
+            and Decimal(budget["model_total_cny"])
+            == budget["model_physical_calls"]
+            * Decimal(budget["reserve_per_model_call_cny"])
+            and Decimal(budget["api_tools_cny"])
+            == (budget["search_calls"] + budget["fetch_calls"])
+            * Decimal(budget["search_fetch_per_success_cny"])
+            and sum(
+                Decimal(budget[k])
+                for k in (
+                    "model_total_cny",
+                    "api_tools_cny",
+                    "noncall_cny",
+                    "unallocated_buffer_cny",
+                )
+            )
+            == Decimal(budget["planned_total_cny"])
+            < Decimal(budget["new_spend_strictly_below_cny"])
+        )
+        return [] if valid else ["current resource or budget arithmetic mismatch"]
+    except (KeyError, TypeError, ValueError, AttributeError, InvalidOperation):
+        return ["current resource or budget arithmetic malformed"]
+
+
+def _read_current_bundle(
+    root: Path,
+) -> tuple[dict[str, bytes], dict[str, object], list[str]]:
+    """Capture each bounded file once; hash, parse and chain use these exact bytes."""
+    raw: dict[str, bytes] = {}
+    parsed: dict[str, object] = {}
+    errors: list[str] = []
+    for relative, expected in APPROVED_CURRENT_HASHES.items():
+        try:
+            data = _read_material_bytes(root, root / relative)
+            raw[relative] = data
+            if hashlib.sha256(data).hexdigest() != expected:
+                errors.append(f"current approved raw SHA-256 mismatch: {relative}")
+            parsed[relative] = _load_current_json(data)
+        except (OSError, ValueError, TypeError, KeyError):
+            errors.append(f"current bundle unreadable: {relative}")
+    return raw, parsed, errors
+
+
+def _check_current_bundle(
+    raw: dict[str, bytes], parsed: dict[str, object]
+) -> list[str]:
+    """Validate the captured snapshot; never reread a file for chain comparison."""
+    try:
+        protocol = parsed[PROTOCOL]
+        index = parsed[MATERIAL_INDEX_PATH]
+        supplement = parsed["docs/evaluation/DECISION_M1_PROTOCOL.json"]
+    except KeyError:
+        return ["current bundle incomplete"]
+    errors = check_current_policy(protocol)
+    errors.extend(check_current_materials(index))
+    errors.extend(check_current_supplement(supplement, raw[PROTOCOL]))
+    if not isinstance(protocol, dict) or not isinstance(index, dict):
+        return errors + ["current bundle chain malformed"]
+    ref = protocol.get("materials")
+    if (
+        not isinstance(ref, dict)
+        or ref.get("path") != MATERIAL_INDEX_PATH
+        or ref.get("sha256") != hashlib.sha256(raw[MATERIAL_INDEX_PATH]).hexdigest()
+        or ref.get("review_status") != index.get("status")
+    ):
+        errors.append("current material SHA-256 or status reference mismatch")
+    return errors
+
+
+def check_current_protocol(protocol: object, root: Path) -> list[str]:
+    """Approved bundle check. A supplied dict must match its captured raw bytes."""
+    raw, parsed, errors = _read_current_bundle(root)
+    diagnostic_fields_trusted = not errors
+    errors.extend(_check_current_bundle(raw, parsed))
+    if protocol is not None and not _json_equal(protocol, parsed.get(PROTOCOL)):
+        errors.append("current supplied object differs from captured raw bytes")
+        if diagnostic_fields_trusted:
+            errors.extend(_changed_policy_paths(protocol, parsed.get(PROTOCOL)))
+        # Structural diagnostics are useful, but cannot replace raw approval.
+        errors.extend(check_current_policy(protocol))
+    return errors
+
+
+def _changed_policy_paths(
+    actual: object, approved: object, prefix: str = ""
+) -> list[str]:
+    """Report approved field names only; never echo changed values or new keys."""
+    if _json_equal(actual, approved):
+        return []
+    if isinstance(approved, dict) and isinstance(actual, dict):
+        paths: list[str] = []
+        for key, value in approved.items():
+            location = f"{prefix}.{key}" if prefix else key
+            paths.extend(_changed_policy_paths(actual.get(key), value, location))
+        if set(actual) - set(approved):
+            paths.append(
+                f"current policy differs: {prefix or 'protocol'}.unsupported_fields"
+            )
+        return paths
+    return [f"current policy differs: {prefix or 'protocol'}"]
 
 
 def check_current_materials(materials: object) -> list[str]:
@@ -1820,7 +1428,7 @@ def _check_current_materials(materials: object) -> list[str]:
         errors.append("current material index unsupported fields or scorer leakage")
     for key, expected in {
         "schema_version": "draft-m1-material-index-1",
-        "protocol_version": "draft-m1-2",
+        "protocol_version": "draft-m1-3",
         "pairs": [
             {"id": k, "case_ids": v, "workflow": FORMAL_WORKFLOWS[k]}
             for k, v in REVIEW_CASE_PAIRS.items()
@@ -1949,7 +1557,7 @@ def _check_review_material_package(package: object, role: str) -> list[str]:
     if (
         set(package) != allowed
         or package.get("schema_version") != f"draft-m1-{role}-1"
-        or package.get("protocol_version") != "draft-m1-2"
+        or package.get("protocol_version") != "draft-m1-3"
         or package.get("role") != role
         or not _nonempty_text(package.get("author_context"))
     ):
@@ -2162,12 +1770,17 @@ def _read_material_bytes(root: Path, target: Path) -> bytes:
 
 
 def check_review_material_files(
-    root: Path, material_root: Path, index_sha256: str
+    root: Path,
+    material_root: Path,
+    index_sha256: str,
+    *,
+    index_raw: bytes | None = None,
 ) -> list[str]:
     """Explicit local qualification only; never follows arbitrary manifest paths."""
     errors: list[str] = []
     try:
-        index_raw = _read_material_bytes(root, root / MATERIAL_INDEX_PATH)
+        if index_raw is None:
+            index_raw = _read_material_bytes(root, root / MATERIAL_INDEX_PATH)
         if (
             not _is_sha256(index_sha256)
             or hashlib.sha256(index_raw).hexdigest() != index_sha256
@@ -2255,19 +1868,20 @@ def check_review_material_files(
     return errors
 
 
-def check_current_supplement(supplement: object, root: Path) -> list[str]:
+def check_current_supplement(supplement: object, protocol_raw: bytes) -> list[str]:
+    """Pure supplement structure and captured-byte chain checks; not bundle approval."""
     if not isinstance(supplement, dict):
         return ["M1 supplement must be an object"]
     errors: list[str] = []
     if (
-        supplement.get("protocol_version") != "draft-m1-capabilities-2"
+        supplement.get("protocol_version") != "draft-m1-capabilities-3"
         or supplement.get("role") != "capability_acceptance_reference"
     ):
         errors.append("M1 supplement must reference sole current authority")
     expected = {
         "path": PROTOCOL,
-        "version": "draft-m1-2",
-        "sha256": hashlib.sha256((root / PROTOCOL).read_bytes()).hexdigest(),
+        "version": "draft-m1-3",
+        "sha256": hashlib.sha256(protocol_raw).hexdigest(),
     }
     if not _json_equal(supplement.get("current_protocol"), expected):
         errors.append("M1 current protocol raw SHA-256 mismatch")
@@ -3505,23 +3119,31 @@ def main(argv: list[str] | None = None) -> int:
         errors.append(
             "materials: paired arguments required and incompatible with historical-only"
         )
-    elif material_requested:
-        errors.extend(
-            check_review_material_files(
-                root, args.review_material_root, args.review_material_index_sha256
-            )
-        )
+    raw: dict[str, bytes] = {}
     if not args.historical_only:
         errors.extend(check_links(root, project_document_files(root)))
         errors.extend(check_versions_and_traceability(root))
         errors.extend(check_skills(root))
         errors.extend(check_archive_manifest(root))
         errors.extend(check_archive_git_index(root))
-        try:
-            protocol = _load_current_json(_read_material_bytes(root, root / PROTOCOL))
-            errors.extend(check_current_protocol(protocol, root))
-        except (OSError, ValueError, TypeError, KeyError) as exc:
-            errors.append(f"current protocol unreadable: {type(exc).__name__}")
+        raw, parsed, bundle_errors = _read_current_bundle(root)
+        errors.extend(bundle_errors)
+        errors.extend(_check_current_bundle(raw, parsed))
+    if (
+        material_requested
+        and not args.historical_only
+        and args.review_material_root is not None
+        and args.review_material_index_sha256 is not None
+        and MATERIAL_INDEX_PATH in raw
+    ):
+        errors.extend(
+            check_review_material_files(
+                root,
+                args.review_material_root,
+                args.review_material_index_sha256,
+                index_raw=raw[MATERIAL_INDEX_PATH],
+            )
+        )
     if args.results or args.ledger or history_requested:
         if not (
             args.historical_commit

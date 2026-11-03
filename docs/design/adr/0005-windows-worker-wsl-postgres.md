@@ -1,6 +1,6 @@
 # ADR-0005：WSL独立API／Worker／Pg与连续运行资格
 
-- 原决定：2026-10-19；当前配置：**FOCUS-BASELINE-20261102**，28文件同步获批；原PREP基线按原字节保留，当前文件独审、业务实现和运行资格分别待证。
+- 原决定：2026-10-19；当前配置：**RESEARCH-BASELINE-20261103**，CONFIG-PLAN-20261103-01配置实施获批。FOCUS及更早交付按原字节保留；当前实施独审、业务实现与运行资格分别取证。
 - 权威：[SPEC](../../../SPEC.md)、[PLANS](../../../PLANS.md)、[契约](../../contracts/CURRENT_CONTRACTS.md)、[唯一任务记录](../../features/DECISION-001/tasks.md)。本ADR记录取舍，不复制契约参数表。
 
 ## 采用T2与独立新cluster
@@ -48,3 +48,9 @@ DRAFT-BASELINE-20261102按final-01原字节继续有效；以下新增起草范�
 ### 同日起草增量的保留理由
 
 本轮保留API/Worker/Pg/supervisor/checkpoint架构，新增起草及本地材料不引入文件系统桥、协同编辑框架或第二持久化权威。File API仅选定上传，API有界流式计数和用途核权，业务Pg同事务持久化，源码不执行；真实头/缓冲/截止资格仍待业务任务。文档版本及精确需求确认属于应用权威，不进入checkpoint作授权。原认证/私人raw Draft/最小sup首工不扩。窗口优先闭环不豁免真实pilot最低独立恢复；旧92–136h/130–194h非新范围承诺。原review交付按现有final-02原字节有效。
+
+## 2026-11-03 配置复核：保留部署，新增Work协调职责
+
+本轮保留独立API／Worker／Pg和supervisor，不新增基础设施或执行部署。专题assignment、Task frontier／消费者和研究输入seal属于现有应用状态权威及Work协调锁层，checkpoint仍仅refs，不以框架状态或第二Store替代。共享取材、取消和恢复不释放未收拢的物理槽；并发及恢复资格需未来restrictedPg／真实进程证明。
+
+首次public pilot最低独立介质与纸钥真实隔离恢复仍前置；完整恢复覆盖可后继。原日期窗口及资源估计只解释历史，不构成本轮工期承诺。Memory所有入口继续禁用、原预留闲置，详见[契约§4](../../contracts/CURRENT_CONTRACTS.md)。配置检查与新独审不授ENV操作或真实调用。
