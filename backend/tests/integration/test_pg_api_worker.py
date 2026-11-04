@@ -2,7 +2,9 @@
 
 import asyncio
 import os
+from datetime import datetime, timedelta
 from pathlib import Path
+from types import SimpleNamespace
 
 import httpx
 import pytest
@@ -14,11 +16,13 @@ from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
 from adaptive_research.agent.decision import DecisionService
 from adaptive_research.agent.events import AgentEvent
+from adaptive_research.agent.llm.base import ProviderUsage
 from adaptive_research.agent.state import DecisionContext
 from adaptive_research.api.pg_main import create_app
 from adaptive_research.infrastructure.config import Settings
 from adaptive_research.infrastructure.pg_models import PgFact
 from adaptive_research.infrastructure.pg_store import PgStore
+from adaptive_research.infrastructure.pricing import load_price_book
 from adaptive_research.worker.runner import WorkerRunner
 from tests.integration.test_agent_loop import (
     FakeBrowser,
@@ -27,6 +31,50 @@ from tests.integration.test_agent_loop import (
     make_loop,
 )
 from tests.unit.test_decision import JudgmentLLM, row
+
+
+class AccountedFakeProvider(FakeProvider):
+    """Synthetic response accounting for the real PostgreSQL call observer."""
+
+    def __init__(self, at: datetime) -> None:
+        super().__init__()
+        self.at = at
+
+    async def complete_structured(self, prompt, schema):
+        response = await super().complete_structured(prompt, schema)
+        return SimpleNamespace(
+            value=response.value,
+            prompt_tokens=response.prompt_tokens,
+            completion_tokens=response.completion_tokens,
+            provider_usage=ProviderUsage(
+                prompt_cache_hit_tokens=0,
+                prompt_cache_miss_tokens=response.prompt_tokens,
+                provider_created_at=int(self.at.timestamp()),
+                reported_model="DeepSeek-V4.1-Flash-1017",
+                system_fingerprint="offline-fixture",
+            ),
+        )
+
+
+class FrozenPricingStore(PgStore):
+    """Freeze only this disposable fixture's pricing and call timestamps."""
+
+    def __init__(self, sessions, book) -> None:
+        super().__init__(sessions, price_book=book)
+        self.at = datetime.fromisoformat(book["verified_at"]) + timedelta(minutes=10)
+
+    async def _now(self, session):
+        return self.at
+
+    async def start_call(self, *args, **kwargs):
+        call = await super().start_call(*args, **kwargs)
+        # The column normally uses PostgreSQL now(), outside the fixture clock.
+        async with self.sessions.begin() as session:
+            await session.execute(
+                text("UPDATE app_call_attempt SET started_at = :at WHERE id = :id"),
+                {"at": self.at, "id": call.id},
+            )
+        return call
 
 
 class FakeAgent:
@@ -192,17 +240,37 @@ async def test_postgres_api_worker_replay_and_capacity(monkeypatch) -> None:
                 "/api/research", json={"goal": "Research FastAPI"}
             )
             fact_id = factual.json()["id"]
+            # Keep real unknown-cost refusal enabled. This fake model chain must
+            # provide complete usage and a fixed, explicitly synthetic price basis.
+            book = load_price_book(
+                Path(__file__).resolve().parents[3]
+                / "docs/evaluation/DEEPSEEK_CNY_PRICING_2026-10-21.json"
+            )
+            priced_store = FrozenPricingStore(store.sessions, book)
             fact_runner = WorkerRunner(
-                store,
+                priced_store,
                 settings,
                 agent_factory=lambda: make_loop(
-                    FakeProvider(), FakeGithub(), FakeBrowser()
+                    AccountedFakeProvider(priced_store.at), FakeGithub(), FakeBrowser()
                 ),
             )
             assert await fact_runner.tick() == 1
             await asyncio.gather(*fact_runner.active.values())
             factual_detail = await client.get(f"/api/research/{fact_id}")
             assert factual_detail.json()["status"] == "completed"
+            model_calls = [
+                call
+                for call in await store.list_calls("p01-local-owner", fact_id)
+                if call.kind == "model"
+            ]
+            assert len(model_calls) == 4
+            assert all(
+                call.known_cost_cny is not None
+                and call.known_cost_cny > 0
+                and call.pricing_error is None
+                and call.price_revision == book["price_revision"]
+                for call in model_calls
+            )
             async with engine.connect() as connection:
                 fact_count = await connection.scalar(
                     select(func.count(PgFact.id)).where(PgFact.task_id == fact_id)

@@ -1,6 +1,6 @@
 # ADR-0005：WSL独立API／Worker／Pg与连续运行资格
 
-- 原决定：2026-10-19；当前配置：**RESEARCH-BASELINE-20261103**，CONFIG-PLAN-20261103-01配置实施获批。FOCUS及更早交付按原字节保留；当前实施独审、业务实现与运行资格分别取证。
+- 原决定：2026-10-19；当前配置：**RESEARCH-BASELINE-20261103-R2**，CONTENT-20261103-02已确认，“执行计划”批准CONFIG-PLAN-20261103-02。原RESEARCH-BASELINE-20261103／CONFIG-PLAN-20261103-01保原交付身份。FOCUS及更早交付按原字节保留；当前实施独审、业务实现与运行资格分别取证。
 - 权威：[SPEC](../../../SPEC.md)、[PLANS](../../../PLANS.md)、[契约](../../contracts/CURRENT_CONTRACTS.md)、[唯一任务记录](../../features/DECISION-001/tasks.md)。本ADR记录取舍，不复制契约参数表。
 
 ## 采用T2与独立新cluster
@@ -15,7 +15,7 @@ Pg应用表拥有team/project/member/source用途、条件与ReviewQuestion、So
 
 首次启动WSL前核旧systemd/bootcommand/launcher自动服务及出站/原件保护。不能证明安全时停止，先提出离线取证或启动前隔离的具体权限/路径/影响方案；不能先启动再补关旧Worker。冷切按旧准入关闭→队列/在途/unknown核对→停止旧API/Worker→失效旧写凭据和存活连接→确认不能误写→另授权新迁移/版本核对。新程序握手不能替代旧进程隔离；无法证明时保留必要数据库护栏。
 
-## supervisor连续许可与保守恢复
+## supervisor连续许可与保守恢复（原基线；R2受控例外见下节）
 
 本人比较后选择连续运行许可，并在首个无模型任务建立最小supervisor。它持独立本机IPC和持续Pg监测连接，绑定本次boot、实际Pg进程启动时间及库/schema/部署身份。所有池新连接/重连同步核对；监测断线、Pg重启/还原、supervisor失联使本generation封闭，恢复出的数据库OPEN不能自激活。
 
@@ -24,6 +24,16 @@ Pg应用表拥有team/project/member/source用途、条件与ReviewQuestion、So
 身份资格同样来自本生命周期明确的CLI新凭据操作；丢失连续性后恢复账号隔离、旧cookie/密码不能换新session复活。新CLI凭据只开放限定草稿读写/历史读取，研究和自动记忆仍关闭。精确单次claim先于seal的操作已经在途，可能随后提交；seal不能保证瞬时撤回。数据库当前enabled/revision/epoch/owner仍是另一收紧边界，不能被supervisor缓存覆盖。2秒是本地执行截止，非COMMIT物理完成保证；不明提交保留unknown，不换操作重做。
 
 没有独立最新性证明时，不恢复付费研究或从恢复消息/报告重生记忆。UUID、hash chain或两个序号相等不证明最新；本期不另造第二业务权威/持久分布式见证。管理员同Pg进程在线回灌/改表必须先seal停写并另授权，连续连接不承诺检测任意superuser篡改。
+
+## 2026-11-03 R2：受控重启A与信任边界
+
+本人确认CONTROLLED-REARM-v1采用A人工核对后重新授权，只服务同一未替换数据目录、未restore／copy／PITR的受控日常重启。它依赖可信操作者真实陈述，程序不能识别漏报的旧库还原，是原“无独立最新性不恢复研究”边界的明确受控例外，不是机器最新性证明。异常断电、WSL崩溃、PG意外重启、证据缺坏／不一致或疑似／实际还原仍适用原隔离路径，不靠新凭据洗旧账。原持续sup／Pg中的API／Worker独立重启规则保持。
+
+A要求当前合格generation中本人受控停机：全部非终态业务／控制Task和未发许可安全收尾，物理调用与旧出口收拢、费用核清且无未解决unknown停线事件后保存最终有界ShutdownReceipt。新boot研究closed，只读核证／本人未还原陈述→新CLI→准确CONTROL_ONLY operation／allocation→必要资格当前→新research许可。旧grant／Attempt／cookie／proof不复活，completed／unknown不重发，Casecap和绝对deadline不重置，Memory全部关闭。窄最终写者、回执失效、幂等和容量拒绝只在[契约B5.2](../../contracts/CURRENT_CONTRACTS.md#b52-supervisor)维护。
+
+候选B为Pg恢复单元之外的持久停机锚点，可在可信OS及独立回滚单元前提下机器拒绝仅Pg回退，但增加双写、锁、原子写／持久性资格成本，共同回滚仍不保证。本人选A，不新增外置持久组件或第二业务账。PostgreSQL同步commit正常崩溃持久性不等于未还原证明；cluster ID、timeline、启动时间、UUID和hash链不单独证最新。固定来源与审查限制见[日期化补研](../../research/PREDEV_CONFIGURATION_REVIEW_2026-11-03.md#12-2026-11-03-r2受控重启与首闭环补研)。
+
+首工01不承载完整研究恢复；03b首次真实pilot前须通过A的离线、restrictedPg和paid-disabled进程验收。原最低独立备份、Token／资金／来源资格不豁免，本轮未测试真实Pg、进程或费用。
 
 ## 网络、资源与备份
 

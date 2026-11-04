@@ -1,7 +1,26 @@
 # ADR-0007：需求与方案研究起草会话与数据流
 
-- 原日期2026-10-26；当前**RESEARCH-BASELINE-20261103**。CONTENT-20261103-01已确认，CONFIG-PLAN-20261103-01配置实施获批；旧FOCUS／DRAFT／REVIEW绑定原字节，状态见[唯一记录](../../features/DECISION-001/tasks.md)。
+## 2026-11-04 DEV-STAGES现行覆盖
+
+当前配置DEV-STAGES-20261104-01、能力引用draft-m1-capabilities-6。本次Default明确实施六阶段26切片计划的P0，状态与实际检查/实施独审见唯一任务记录；原TEAM/R2及以下日期化决定保原字节/范围，只解释当时设计。路线唯一正文为PLANS，不由下文旧阶段顺序重建。
+
+六阶段工程验收与显式按需效果包分离；效果未运行不记pass。原full/reqonly两个pilot分别承担4.5公开及5.4私源最小真实工程链，原配额/安全资格不减；dynamic/private仍工程必需。stage5影响请求/Token/权限/恢复时先补验，5.4前最低恢复须覆盖当时基线，不重领诊断。逐片人验收及准确Git授权→必要CI→同stage下一片；merge另批，下stage合并后明确启动。工程M1、原稿质量、掌握、团队价值、Go/发布分别取证。
+
+
+## 2026-11-03 TEAM历史基线（以下原正文按当时范围解释）
+
+- 原日期2026-10-26；当前**TEAM-BASELINE-20261103-01**。完整团队研发计划已确认，本轮“PLEASE IMPLEMENT THIS PLAN”实施阶段0配置；RESEARCH-BASELINE-20261103-R2及更早批准保原字节／范围，不恢复业务或真实执行资格，状态见[唯一记录](../../features/DECISION-001/tasks.md)。
 - 权威：[规格](../../../SPEC.md)、[计划](../../../PLANS.md)、[契约](../../contracts/CURRENT_CONTRACTS.md)、[部署ADR5](0005-windows-worker-wsl-postgres.md)、[决定ADR8](0008-m1-engineering-baseline.md)。具体数值只在契约／唯一协议维护。
+
+## TEAM本机共享项目与确认职责
+
+首版限定本机最多两个身份，共享项目与人工交接，无实时共同编辑或管理后台。独立产品入口保留Vue／API／Worker／新Pg／supervisor与真实LangGraph阶段，应用表拥有业务事实，checkpoint仅有界已提交引用，不接旧AgentLoop。
+
+本机有权操作者以受控CLI管理项目、成员和唯一确认人；发起者负责接受目标、编辑、取消和显式linkedTurn，确认人只确认／撤销准确需求版本，可与发起者同一身份。项目策略及账户／成员资格revision随确认记录绑定；换人、离队、禁用后旧确认失效，重新加入不复活，普通logout／凭据轮换不自行撤销内容确认。方案start/send/commit重核有效确认；权限变更先提交则阻新send／commit，先前合法claim可在途，迟到只原Call审计／费用。无确认人可需求／评审，不能方案。
+
+每个当前确认及适用资格独立拥有下一次必要撤销预留；新增前原子取得，满额不能挤占已有撤销能力。确认撤销不借账户／成员／项目策略预留；永久失效才可在根事务有界释放，临时来源不可用不作永久失效。精确字节、桶、幂等和锁序由契约唯一维护。所有新CLI写者同样受sup／根锁／ShutdownReceipt及pending RearmOperation作废规则约束，角色设置不授研究许可。
+
+当前顺序为02-A/B→02-C单链安全核心→03a离线四模式→原最低恢复及03b全部真实资格→公开源完整单链pilot→动态重集成→私源，再按原两pilot／真实纠错／正式六槽／完整恢复验收。动态和私源仍为完整M1必需，早期单链不关闭其父任务；fake／real共用准入及提交内核。formal仍同一真实参与者，可同一账户兼任两角色；跨身份集成测试不证明真实团队价值。以下日期化原决定保持历史身份，涉及“本人确认”的当前角色按本节及契约解释。
 
 ## 2026-11-02 FOCUS增量及保留理由
 
@@ -15,11 +34,11 @@
 
 ## 组件与对象流转
 
-私人raw Draft→本人明确加入team/project的目标及选定材料→Case／有界澄清／接受模式InputRevision→Worker阶段研究→SourceSet/SourceCapture/Claim/ContextManifest→需求DocumentVersion→本人精确RequirementsConfirmation→方案DocumentVersion→有界ReportSnapshot引用双稿及确认→当前权限下UI／各Markdown→核源修订／linkedTurn。仅需求独立结束，仅方案先导入追溯需求并明确确认；review保留原证据路径。
+私人raw Draft→发起者明确加入team/project的目标及选定材料→Case／有界澄清／接受模式InputRevision→Worker阶段研究→SourceSet/SourceCapture/Claim/ContextManifest→需求DocumentVersion→项目确认人精确RequirementsConfirmation→发起者显式接续→方案DocumentVersion→有界ReportSnapshot引用双稿及确认→当前权限下UI／各Markdown→核源修订／linkedTurn。仅需求独立结束，仅方案先导入追溯需求并由当前确认人明确确认；review保留原证据路径。
 
 API负责真实身份、确认、对象访问及交付claim；Worker负责规划／取源／抽取／缺口／停止／报告，Gateway统一物理调用及许可；Pg拥有事实、SourceSet、本地capture、不可变DocumentVersion及current heads、RequirementsConfirmation、Task执行许可、Work／Call、source用途／分享、费用与证据。TraceView只是只读canonical关系视图。checkpoint采用sync目标，仅有界已提交refs，不与应用事务假定原子、不决定授权；缓存／Context／framework Store都不是业务权威。
 
-业务Session与登录session分开。creator/requester/accepted_by/actor保原身份，Task有独立执行许可；logout／断UI／auth自然expiry不自动取消已接受Task。本地成员离队／disable／撤Task许可阻新claim并partial；管理员接管必须新接受／linkedTurn，不能替换原owner或重置Case原目的、期限、累计预算和Work。资格控制Task不是review Turn，不带研究许可；运行中资格刷新在当前Task内有界执行，不等待同一满队列另一Task。
+业务Session与登录session分开。creator/requester/accepted_by/actor保原身份，Task有独立执行许可；logout／断UI／auth自然expiry不自动取消已接受Task。本地成员离队／disable／撤Task许可阻新claim并partial；同Case仅原发起者可接受／编辑／取消／显式linkedTurn，有权本机操作者的撤权等收紧权限不授予接管权。其他成员只能读取获许可材料或另建关联Case，不替换原owner，不转移原Case或重置其目的、期限、累计预算和Work；关联Case不自动取得grant或新配额。资格控制Task不是review Turn，不带研究许可；运行中资格刷新在当前Task内有界执行，不等待同一满队列另一Task。
 
 ## 接受、状态与故障
 
@@ -32,6 +51,14 @@ DocumentVersion只由显式人工保存／AI成功提交追加，当前head CAS�
 等用户终结partial释放调度槽，回复linkedTurn同Case累计。稳定Work不是plan序号，物理Call每次独立；发送前claim精确bytes、当前权限／proof／模型资格、DB实时lease/fence和generation；输出提交再核，不能等reaper才判断失租。cancel先提交拒，claim先在途；unknown停部署全项目新外调，completed／unknown不凭新ID重发。
 
 已完成响应在当前hash／权限／profile合格时可本地重处理；checkpoint落后复用stage，引用坏拒伪恢复。迟到不新增Document／Claim／Stage／proof／报告，只原Call受限审计及幂等费用。终态唯一event／report指针／active同事务；reaper仅安全已有refs，不能伪旧Attempt重编失效私源正文。物理槽由sup seal旧代出口／连接并确认资源收拢后释放，不等Task调度槽。
+
+## 2026-11-03 R2：跨Turn双稿与受控重启
+
+需求首稿后terminal partial等人，不保持占槽“等待中”Task；本人编辑／准确确认后原Case接受linkedTurn。前后Task分别seal研究输入，后轮显式引用前轮仍有权已提交需求／证据及当前准确确认；前轮late audit不晋升研究输入。方案start／send／commit再核head／confirmation／actor／来源，最终包绑定准确双文档及确认。Case资源、Turn数和绝对deadline不因等待／重启暂停或重领。
+
+A受控重启按[契约B5.2](../../contracts/CURRENT_CONTRACTS.md#b52-supervisor)处理，不复活旧Task：全部queued／running／recovering业务与控制Task确定终结，同事务清active及唯一终态；未发许可作废，Attempt依次fenced→resources_quiesced→closed。新boot先只读核clean证据与本人未还原陈述，再新CLI→精确CONTROL_ONLY→新研究许可。原文档与准确内容确认保留但当前head／actor／来源重核；旧grant／Attempt／proof／checkpoint执行资格不复活，Call completed／unknown不重发，未解决unknown停线不能由rearm解除。
+
+A限定同一未替换目录、未restore／copy／PITR；程序不能发现漏报旧库还原，异常／疑似还原仍隔离。Memory全入口关闭，不新增外置见证。此配置不证明真实事务竞争／恢复已通过。
 
 ## 来源、派生与读取
 

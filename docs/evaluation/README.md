@@ -1,6 +1,6 @@
 # 需求／方案研究起草的评测入口
 
-当前配置为 **RESEARCH-BASELINE-20261103**，对应已完整确认CONTENT-20261103-01与已授权CONFIG-PLAN-20261103-01。唯一规则来自 [CURRENT_EVAL_PROTOCOL](CURRENT_EVAL_PROTOCOL.json)（`draft-m1-3`）；[M1引用](DECISION_M1_PROTOCOL.json)只关联能力，不另立资金或Go。实际配置交付、原批准及原18项使用[唯一任务记录](../features/DECISION-001/tasks.md)。配置通过不授权运行。
+当前配置为**DEV-STAGES-20261104-01**，当前只实施P0。工程路线与逐片验收见[PLANS](../../PLANS.md)；[CURRENT_EVAL_PROTOCOL](CURRENT_EVAL_PROTOCOL.json)仍为原字节draft-m1-3，独占整批资金及已启动效果包内部规则；[M1引用](DECISION_M1_PROTOCOL.json)升级capabilities-6，分离六阶段工程验收与显式按需效果，不另立资金或Go。[唯一记录](../features/DECISION-001/tasks.md)保实际结果及原18项。配置通过不授权运行。
 
 ## 配置、材料与运行分开
 
@@ -20,7 +20,7 @@ Memory全部功能入口继续禁用并延期：手动／自动、API／CLI、�
 
 REQ同时保首次需求原稿、本人实际编辑（允许无改）及准确确认、首次方案原稿和最终双稿交付包。两份首稿均须过冻结关键项，人工改好不能清除raw失败。六final指六份完整交付包，full链包绑定需求／方案各版本hash及确认；有界ReportSnapshot只存refs和摘要，不内联两份64KiB正文。对照侧采用同样目标和计时，人工确认／改稿计入主动时间。
 
-requirements-only独立终结由聚焦路由／终态回归及两个既有pilot之一观察，另一个pilot观察完整闭环；优先本人真实待办，产出前固定目标、当前普通AI／人工方式、关键正确项、可接受unknown和后续行动，产出后分别核原稿、人工补救与实际用途。无任务保持待证，不编造需求；不增加pilot或费用。仅需求起草、直接编辑和对话修订没有各自独立正式效果对照，不能声称四模式均获正式质量或省时验证。三个异质pair的median只描述这三个登记配对，不能外推全部模式或真实团队价值。
+两个既有pilot槽固定承担4.5公开requirements_to_solution与5.4私源requirements_only最小真实工程验收；原调用/Case/费用/deadline不增，无新pilot自动补赠。先冻结目标/预期行为/许可并保原稿和实际费，工程实测不设对照效果通过门槛。效果试用/同条件纠错收益复测/正式六槽由人显式按需启动，不阻工程验收；比较时事前按原协议登记基线/关键项/计时，不追溯补造。仅需求/编辑不另获独立formal效果口径，正式三pair结论不外推真实团队。
 
 ## 限定校验
 

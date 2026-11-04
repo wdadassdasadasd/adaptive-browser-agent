@@ -1,6 +1,6 @@
-# 现行目标契约 — RESEARCH-BASELINE-20261103
+# 现行目标契约 — DEV-STAGES-20261104-01
 
-CONTENT-20261103-01（含两项补充澄清）已完整确认，负责人以“PLEASE IMPLEMENT THIS PLAN”批准CONFIG-PLAN-20261103-01。当前Default模式仅实施30份既有配置、两份新增文档及必要审计／离线检查。实际检查、完整diff独立审查和交付状态见[唯一任务](../features/DECISION-001/tasks.md)，保留原18项历史含义。本页定义运行目标，不证明旧业务程序已经实现。[SPEC](../../SPEC.md)定义产品，[PLANS](../../PLANS.md)定义依赖；[draft-m1-3](../evaluation/CURRENT_EVAL_PROTOCOL.json)独占正式质量／计时／六槽位／整批资金，M1能力补充只引用它。
+负责人在Default明确要求实施已确认六阶段26切片计划，本轮仅P0计划与门禁同步、限定离线检查、独立实施审查/修复和验收包。实际状态见[唯一任务](../features/DECISION-001/tasks.md)，原18项/进入PREBOOT追加保留。TEAM/R2等旧批准继续绑定原字节；[SPEC](../../SPEC.md)定义结果，[PLANS](../../PLANS.md)唯一维护阶段/切片及推进规则。draft-m1-3及公开材料索引原bytes保持，能力引用draft-m1-capabilities-6：六阶段工程验收与显式按需效果评测分离；原协议继续独占整批资金、调用上限及已启动效果包内部规则，不另立资金或Go权威。
 
 FOCUS-BASELINE-20261102按进入HEAD dc4498f36c0342eef5191f9f59feaf3b363169b6及原path/raw hash读取；DRAFT final-01、REVIEW final-02、PREP及RAWJSON仍绑定各自原字节，不重写索引。current-3原1ffade6de07ebe3d1e72afb4c44b8677466eca67及显式换行规则不变。[V1](V1_CONTRACTS.md)和[P-01](../tasks/P01_ACCEPTANCE_2026-10-21.md)仅解释原行为。配置不授业务、依赖、环境／DB／ACL、真实模型／Tokenizer／Browser、采购、外部或Git写；原SQLite、费用与来源证据及r12／P-02 No-Go保留。研究／独立设计审查证据及限制见[本轮研究](../research/PREDEV_CONFIGURATION_REVIEW_2026-11-03.md)。
 
@@ -28,12 +28,35 @@ FOCUS-BASELINE-20261102按进入HEAD dc4498f36c0342eef5191f9f59feaf3b363169b6及
 | ContextManifest/ModelQualification | 实际请求选排／输入祖先、禁用Memory及空active refs；精确官方编码及模型字段资格revision；Memory对象仅未来候选、当前不建不读 |
 | SourceSet/LocalCapture | 选定来源集合版本及封定；本地实际上传bytes/hash与解码表示独立身份，未知diff基点不伪commit |
 | DocumentVersion/DocumentHead | Case内不可变requirements/solution/review正文、author/parent/hash/known lineage；当前head仅应用表权威，非私人raw Draft |
-| RequirementsConfirmation | 当前确认精确绑定requirements version/hash/actor；历史确认不可变；非Task执行grant或资金许可 |
+| ProjectApprovalPolicy | 本机CLI指定唯一项目确认人及不可复用revision；不授研究或资金许可 |
+| RequirementsConfirmation | 精确requirements version/hash/actor及policy／account eligibility／membership revisions；当前有效性按引用派生，历史不可变；非Task执行grant |
 | Checkpoint | 有界serializable已提交ID／refs，仅引用；不决定事实、授权、资金或终态 |
 
 Pg应用表是唯一业务权威。checkpoint独立schema／角色／连接／事务，采用durability=sync目标，不能假定与SQLAlchemy／asyncpg应用事务原子。启动只验环境／schema／代码／部署身份，setup及迁移另授，无DDL运行角色。
 
-首工仍按§7私人Draft和真实认证；后继02才加入team/project/member/use权限。服务器取得actor及归属，不接受模型或body伪造。发起者控制接受／修订／cancel，管理员可cancel／revoke；其他成员查看或另建关联评审。发起者离队／disable／撤执行许可阻新claim并partial，保进度；管理员接管须新接受／linkedTurn，不改旧creator/requester/accepted_by/actor，不重置Case目的／期限／额度／Work。
+首工仍按§7私人Draft和真实认证；后继02才加入team/project/member/use权限。服务器取得actor及归属，不接受模型或body伪造。同Case的接受／修订／cancel／显式linkedTurn仅归原发起者，具体按TEAM-01；有权本机操作者可按准确管理许可撤执行许可、禁用账户或移除成员，不能借管理身份接管同Case的编辑、取消或接续。发起者离队／disable／撤执行许可阻新claim并partial，保进度；其他成员只读获许可材料或另建关联Case，不替换原creator/requester/accepted_by/actor，不转移原Case或重置其目的／期限／额度／Work，新Case也不自动取得grant或新配额。
+
+### 项目需求确认权限（TEAM-01）
+
+首版限定同源本机127.0.0.1:8766、最多两个身份，团队共享与人工交接，无管理后台或实时共同编辑。发起者独占同Case的接受／编辑／cancel／显式linkedTurn；项目其他成员只读获许可材料或另建关联Case。本机操作者经当前明确管理权限的CLI创建项目／调整成员／指定唯一确认人。ProjectApprovalPolicy包含project_id、approver_account_id或null、revision；配置确认人不是签发Taskgrant、来源／模型用途或资金许可。指定确认人只能确认／撤销需求，不接管编辑、发起或取消Task；允许发起者与确认人为同一账户。私人Draft不自动入项目。
+
+RequirementsConfirmation另绑定policy_revision、approver_account_id、account_approval_eligibility_revision及membership_revision。实际换人、成员移除／重入、账户disable各在ProjectControl根事务更新不可复用revision，使旧确认永久失效；A→B→A、离队再入、disable→enable都不能复活。账户enabled及成员状态仍逐次核验。当前策略无变的幂等设置不推进revision；普通logout／会话expiry／password轮换或受控新CLI凭据本身不撤内容确认。未配置／无合格确认人不阻仅需求或评审，但拒新确认及方案。
+
+确认必须由当前已认证、具有项目确认权和全部适用来源读取／用途资格的指定人，显式绑定准确当前requirements version/hash、expected_head及策略／资格revision；服务器取得actor。同operation同body返回原回执、异body409；同一有效版本／actor／资格的确认复用既有确认，不产生重复确认行，新operation回执仍需普通容量。有效当前确认由head、policy／eligibility引用和当前门禁派生，不存另一权威valid标志。新requirements head仍在同根事务清current_confirmation；角色失效无需逐Case扇出写，读取指针的业务路径必须求有效值。改回旧head也不能复活被清除或撤销的确认。
+
+方案start／send_claim／commit同时核准确head与有效确认、其actor当前账户／成员／项目权限、适用来源权限及策略／资格revision；失效先提交拒新发送／提交，已claim在途按原边界仅可保合规audit／usage／cost，不能保证物理撤回。已发布方案留历史，stale由绑定引用／revision差异派生。重新确认后仅原发起者显式接受同Case linkedTurn；旧Task／Attempt／grant不复活，资源与deadline不重置，也不暂停等待负责人时间。
+
+显式撤销是仅收紧的metadata操作：核当前认证、当前合格指定人及Case/project确认权限、expected confirmation/head和幂等operation，不读来源正文、不要求私源proof刷新、research grant或剩余研究时间；不新外发。策略改变后旧确认已无效，旧actor无权撤销新确认。实际账户disable／成员撤销等既有管理收紧权限继续有效。本地CLI只持DB凭据不等管理授权，全部新写者依旧经过sup/generation、根锁及B5.2 ShutdownReceipt／pending RearmOperation作废规则，不能自行开研究。
+
+以上在后继02-A/B与单链核心落地；首工01不反扩为项目、确认或研究实现。正式六槽继续同一个实际人／同账户作为发起者和指定确认人，跨身份确认权由单独restrictedPg／UI测试证明，不增加formal slot或团队效果声明。
+
+### TEAM-01 确认撤销预留
+
+每个有效Account确认资格、Membership确认资格、ProjectApprovalPolicy及每个current RequirementsConfirmation分别拥有一次下次必要失效／显式撤销的**3072字节实际持久UTF-8预留**：安全receipt envelope≤2048、canonical event envelope≤1024（包含全部封装，超界拒新增资格）。资格预留计既有非Case安全metadata桶及项目总量；确认预留计其既有Case canonical metadata桶及Case总量。当前行／列和启用receipt/event另按实际bytes计普通对应桶，不把预留当已存正文，也不扩池或借Memory闲置容量。
+
+创建／启用／重新启用资格、成员或策略，以及创建新current确认前，在同根事务同时核普通创建bytes及该对象下次撤销预留；不足原子拒绝，保旧状态不变。普通分配不得耗用安全预留。mandatory disable／成员移除／清确认人只更新自身标量revision并消耗自身已reserve的receipt/event空间；显式撤销current确认只消耗该确认自己的预留并同事务清指针，不借账户／成员／策略预留，确保随后独立disable／remove仍可执行。重新激活必须补足新的预留；同operation同body重放原回执不再收费或占字节，异body409。新operation设置未变化策略不推进revision，其回执要普通容量，不得消耗必要撤销预留。
+
+换head、角色失效或新确认替换后，旧确认保不可变历史；仅对显式指定的永久非current确认，在有界Case根事务核永不能恢复有效后，才可按既有capacity记账释放尚未消耗的预留一次。临时来源无权／proof过期、断线或logout不是永久性依据。不得全项目无界扫Case释放，不能删除lineage／审计凑容量。容量满时多current确认撤销→独立disable／remove／clear-policy及重放／换回均须真实Pg验收；此配置不证明运行已通过。
 
 ## 2. API、读取claim与Runtime
 
@@ -45,6 +68,9 @@ Pg应用表是唯一业务权威。checkpoint独立schema／角色／连接／�
 | POST /api/cases/{id}/discussions | 受限Case澄清，返回proposal/hash/问题，未接受revision为空 |
 | POST /api/sessions/{id}/accept-runs | case_id、parent Turn或null、proposal id/hash、expected version、Idempotency-Key；服务器固定principal |
 | GET Task/report/event/source/claim/artifact；POST cancel | 项目成员／用途／lineage及当前读授权；不可见与不存在统一404，cancel有在途边界 |
+| GET /api/projects/{id}/approval-policy | 当前项目获权成员读取有界确认人／策略revision；不返回私人资料或管理凭据 |
+| POST /api/cases/{id}/requirements-confirmations | 指定人提交准确version/hash、expected_head及policy／eligibility revisions、Idempotency-Key；服务器绑定actor |
+| POST /api/cases/{id}/requirements-confirmations/{confirmation_id}/revoke | 指定人仅收紧操作，expected_head及exact confirmation、Idempotency-Key；按TEAM-01无需来源正文／proof刷新或研究许可 |
 | POST受限source qualification | 显式控制Task，仅source/operation/allocation及当前控制权限；GET／打开报告无隐藏刷新 |
 
 同发起者/session/key＋规范body先幂等重放再CAS，异body409；接受时核Case/parent/proposal，InputRevision＋Task＋active＋event＋Session version同事务，满队列／DB失败无孤立对象。一般研究条件需活动Turn先结束再改；文档显式编辑及确认按下述根事务CAS可与方案在途竞争，不能改写原Task输入；新revision不扩grant，ID相同不证明语义未扩，重要范围冲突问本人。
@@ -65,7 +91,7 @@ Pg应用表是唯一业务权威。checkpoint独立schema／角色／连接／�
 
 running研究／起草Task资格刷新在其自身有界Work／Call内，不能在满2／4队列中等待另一控制Task；独立资格Task无模型／研究授权。关闭UI、断线、logout或自然auth expiry不自动取消已接受Task；账户／成员／Taskgrant明确失效才阻新claim。Task queued→running→recovering→running或completed/partial/failed/cancelled；等用户就是terminal partial释放调度槽，recovering留活动槽。Attempt active→fenced→resources_quiesced→closed，先seal旧代出口／连接并确认实际资源收拢，再新Attempt；不能确认保物理槽并停能力。
 
-全部应用写者含CLI／heartbeat／reaper／终结／迟到结算先锁deployment级ProjectControl，再account→auth_session（仅相关读／认证操作）→team→membership→project→source connection/grant→Session→Case→Task→Work／assignment协调元数据（同一固定全序）→Call→DocumentHead/DocumentVersion/RequirementsConfirmation（同类ID排序）→ModelQualification→budget/capacity→slot，同类ID排序，最后append artifact/claim/event。Task执行不因锁序出现auth_session而依赖当前登录续存。FK RESTRICT、归属不变；checkpoint不回调该锁序；网络／Argon／Tokenizer／关系遍历锁外。提交不明按原operation核对，不猜成功。
+全部应用写者含CLI／heartbeat／reaper／终结／迟到结算先锁deployment级ProjectControl，再account→auth_session（仅相关读／认证操作）→team→membership→project（含ProjectApprovalPolicy）→source connection/grant→Session→Case→Task→Work／assignment协调元数据（同一固定全序）→Call→DocumentHead/DocumentVersion/RequirementsConfirmation（同类ID排序）→ModelQualification→budget/capacity→slot，同类ID排序，最后append artifact/claim/event。Task执行不因锁序出现auth_session而依赖当前登录续存。FK RESTRICT、归属不变；checkpoint不回调该锁序；网络／Argon／Tokenizer／关系遍历锁外。提交不明按原operation核对，不猜成功。
 
 Call prepared→admitted（仅预留）→send_claimed→completed/known_failed/unknown。最终claim根事务重核gate OPEN/epoch、独立Task执行principal/member/grants、原目的／期限、DB实时lease/fence/Attempt generation、适用GitHub源proof（GitHub私有来源或其私有祖先）／精确版本、Memory功能禁用／active refs为空且实际请求无Memory注入、模型资格当前及绑定rev、request version/实际safe bytes/hash、credential handle、未撤未耗reservation及物理slot。unknown停线和claim同根串行化；source新rev或Memory禁用状态／请求空refs不符令旧未发送许可失效，须重编新request version，不能覆盖已发送请求。
 
@@ -87,6 +113,8 @@ Stage／Claim／Report／proof提交同样核根gate、DB实时lease、Task状�
 
 ### 按需专题委派、共享取材与封存
 
+TEAM-01顺序为02-C完整单链安全核心→03a四模式离线链→最低独立恢复及03b完整Gateway／Token／资金／来源／rearm资格→另授首次公开源full pilot→动态委派／共享和受影响重集成→私源。首次pilot前spawn关闭，fake与real同应用准入／Call／seal／提交路径，无require_budget=False旁路。动态／私源仍属完整M1必需；单链检查点不关闭动态父任务或受影响03a最终AC。
+
 主研究者保持目标、全局判断、人类讨论及交付责任；阶段图内单链随时可用，只在问题确实独立且收益足够时委派专题，不设固定角色配额或递归委派。子研究仅同Task下Work分支，不新增Task、Case、Turn、Taskgrant或顶层排队槽；继承原截止、累计额度和执行代次。主链等子结果不占model在途槽或持DB锁。
 
 Assignment绑定服务端Task/Work/assignment身份、准确已接受InputRevision/hash、问题与义务／关键性、依赖／排除、来源和工具用途权限子集、ContextManifest、资源预留及原截止；solution路径另绑定requirements version/hash与confirmation。父子不得复制秘密、隐藏system、整个历史或Memory；实际请求必须含必要条件、证据文本、限定、反证、冲突、未知及其关系，不仅是ID。主链／子链所有规划、抽取、归并、讨论及提案所需模型调用均消耗§4六purpose和同Case资源。模型只提案，不能授予权限、选择更大purpose或自升关键条件。
@@ -105,15 +133,20 @@ document_compile前在同根事务seal准确当前研究输入集合：关键义
 
 原始私人Draft不是生成文档。Case每版DocumentVersion绑定kind(requirements/solution/review)、author、parent、body hash及实际已知来源祖先；人工保存和AI修订只追加，不覆盖首稿／确认稿。当前requirements/solution/review head由Pg拥有。本人显式保存才建版本，键入仅有界UI内存草稿，不localStorage；logout／换身份清除。409或保存失败保编辑可见并明确重载，不静默覆盖／丢稿；重载不是自动合并。
 
-RequirementsConfirmation由当前有权actor显式确认准确当前requirements version/hash，CAS expected_head；保存不等于确认，预选／沉默／超时／模型建议不确认。新requirements head与清除current_confirmation在同一root事务提交，旧确认保历史。确认不扩grant／model用途许可。solution_only可导入既有需求形成受追溯版本并由本人明确确认；full先需求首稿→本人编辑／确认→方案首稿；requirements_only可独立终结。
+RequirementsConfirmation由TEAM-01当前合格指定确认人显式确认准确当前requirements version/hash及policy／eligibility revisions，CAS expected_head；保存不等于确认，预选／沉默／超时／模型建议不确认。新requirements head与清除current_confirmation在同一root事务提交，旧确认保历史。确认不扩grant／model用途许可。solution_only可导入既有需求形成受追溯版本并由指定确认人明确确认；full先需求首稿→发起者编辑／指定人确认→方案首稿；requirements_only可独立终结。
 
-方案start、最终send_claim、Stage／文档commit均核current_req_head==bound_req_version、current_confirmation==bound_confirmation及其version/hash一致，同时核目标solution parent/head CAS，且继续核Task/lease/fence/generation/权限／profile等原门禁。R1/C1→R2后旧C1不再当前；旧方案stale由引用比较派生，非第二权威flag。R2先提交则旧S1不新发或发布；S1先提交成为历史后R2使其过期。旧在途结果只原Call有许可audit/usage/cost，不新Document/Claim/Stage；不重发completed或unknown。
+方案start、最终send_claim、Stage／文档commit均核current_req_head==bound_req_version、effective_current_confirmation==bound_confirmation及其version/hash／policy／eligibility revisions一致，同时核目标solution parent/head CAS，且继续核Task/lease/fence/generation/权限／profile等原门禁。R1/C1→R2后旧C1不再当前；旧方案stale由引用比较派生，非第二权威flag。R2先提交则旧S1不新发或发布；S1先提交成为历史后R2使其过期。旧在途结果只原Call有许可audit/usage/cost，不新Document/Claim/Stage；不重发completed或unknown。
 
 跨模式仅Case原目的内显式接受条件变化，不重置Turn／Case额度／期限；接受事务先核新增尚缺首工件多维reserve，不足则拒扩或partial保已有产物。实质改目的须另行明确新Case与grant，不能新ID绕全项目unknown／总批次cap。需求改版后再次编译消耗剩余额度，不保证无限首方案。
 
 每Case累计DocumentVersion≤16，正文UTF8≤64KiB、metadata≤16KiB含必要lineage，不截祖先。全部实际envelope计stage-derived 2MiB及Case64MiB；16×80KiB=1.25MiB不是其他stage可无界的保证。首工件在可选人工保存／AI修订／其他stage写入前，仅为尚未进行首次尝试的义务各保留1个正常模型调用、32768输入／8192输出预留、版本槽、每件80KiB envelope及canonical／terminal空间；full保护首次需求和首次方案两件，其他模式一件。首次模型发送即对应调用／Tokenreserve转used一次，失败不返还、不因未产稿自动补满；交付义务未满足不得计成功。保存空间按实际提交／安全结算处理，不把未用字节误计已存正文；未来首方案资源不被可选版本占用。后续仅在合法retry、compile和全部剩余额度均满足时尝试，否则partial。已知无法存结果则零新模型发送，安全partial不借终结预留生成新正文。
 
 完整包ReportSnapshot≤64KiB只放文档版本/hash／需求确认及有界问题摘要，不内联2×64KiB正文；文档分别计版本桶，各Markdown与UI读取准确版本并逐响应核当前权限。不新增ZIP或无限复制大导出。
+
+
+### R2 完整流程的跨Turn交付
+
+需求首稿提交后，等待发起者编辑／指定确认人确认必须以terminal partial结束当前Turn并释放Session.active_task；不能让运行Task持锁等人。指定人确认准确当前需求后，发起者通过同Case的显式接受建立linkedTurn／新Task，不复活旧Task／Attempt／grant。前后Task分别seal其准确研究输入；后轮显式选入前轮已合法提交、当前有权的capture／Claim／需求版本及确认，并复核原引用与private ancestry，前轮late audit不得晋升研究资料。方案仍在start／send／commit核当前head及确认；原Case调用／compile／Token／费用／Turn数／累计Worker时间与绝对deadline不重置。最终ReportSnapshot只绑定准确双文档版本／hash及确认refs，不内联双稿或把首轮partial计为完整成功。跨Turn事务、权限与双稿输出由02／03a及后续真实验收证明，本段不是现有程序能力。
 
 ## 3. Tool Calling、Search与证据
 
@@ -250,7 +283,9 @@ Tracing用Pg canonical＋只读TraceView，无外部平台或遥测。当前Memo
 
 ### 评测与材料接口
 
-唯一draft-m1-3定义3pair/6formal：REQ-A/B想法到需求／本人确认／方案完整链；CON-A/B固定GitHub＋本地text/code/diff评审且均含无权威基准子问；EXP-A/B已确认既有需求的solution_only及必要探索。REQ保首次需求、本人改动（可空）与准确确认、首次方案及最终双稿包，原稿两者均须过关键项；CON无基准不能自立硬条件合规pass。三pair两变体材料组合／规模、目标与覆盖可比，澄清不能缩共同goal洗分，实质scope变化保原slot partial/不可比；合理备选架构不得强制唯一gold。requirements_only独立终结及编辑／对话修订只由聚焦回归和既有pilot观察；两个pilot优先本人真实待办，先固定目标、普通AI／人工基线、关键正确项、可接受unknown与后续行动，再分列原稿、人工补救及实际用途，无任务保持待证，不增加Case／费用；仅需求及编辑／对话修订不声称独立正式效果；三个异质pair的median只描述已登记样本，不外推各模式或总体。原始程序、原report核源、本人finalhash分别记。三个正式Agent原稿均过预冻结关键项才产品原始质量通过；人工修好仍保raw失败。六final共质＋完整非零计时后才描述3pairmedian，负值不截0、不设20%硬门槛、不外推真实团队价值。Control预注册日常人工／普通AI／搜索，DR按需计时费；Agent不外部AI代修／复制Control。关键语义人核，非关键逐条不合总分；notstarted／missing／cancel／partial／failed全保分母，指定诚实partial可过安全预期但非fullcompleted。真实价值、本人掌握、M1、Go发布独立。
+DEV-STAGES适用范围：普通工程测试、独审、恢复与真实接入资格始终必需；效果试用、匹配真实症状效果复测和正式六槽按负责人显式请求启动，不阻六阶段工程验收。未执行记录未评测，发现的真实缺陷仍须处理。下列formal质量/计时/材料及效果纠错规则在相应效果包启动后适用，未运行不称通过。两个原pilot槽分别绑定4.5公开requirements_to_solution及5.4私源requirements_only工程实测，仍计原Case/调用/资金/期限，不自动新增槽；工程实测冻结目标与预期业务/安全行为但不设对照效果评分，效果比较另须事前登记。
+
+唯一draft-m1-3定义3pair/6formal：REQ-A/B想法到需求／本人确认／方案完整链；CON-A/B固定GitHub＋本地text/code/diff评审且均含无权威基准子问；EXP-A/B已确认既有需求的solution_only及必要探索。REQ保首次需求、本人改动（可空）与准确确认、首次方案及最终双稿包，原稿两者均须过关键项；CON无基准不能自立硬条件合规pass。三pair两变体材料组合／规模、目标与覆盖可比，澄清不能缩共同goal洗分，实质scope变化保原slot partial/不可比；合理备选架构不得强制唯一gold。requirements_only独立终结及编辑／对话修订只由聚焦回归和既有pilot观察；两个pilot作为工程实测时固定实际目标、版本及预期业务/安全行为，保原稿/费用/未知；若按需做效果比较，须事前另登记普通AI/人工基线、关键正确项和后续行动，不能追溯补造；无目标保持待证，不增加Case/费用；仅需求及编辑／对话修订不声称独立正式效果；三个异质pair的median只描述已登记样本，不外推各模式或总体。原始程序、原report核源、本人finalhash分别记。三个正式Agent原稿均过预冻结关键项才产品原始质量通过；人工修好仍保raw失败。六final共质＋完整非零计时后才描述3pairmedian，负值不截0、不设20%硬门槛、不外推真实团队价值。Control预注册日常人工／普通AI／搜索，DR按需计时费；Agent不外部AI代修／复制Control。关键语义人核，非关键逐条不合总分；notstarted／missing／cancel／partial／failed全保分母，指定诚实partial可过安全预期但非fullcompleted。真实价值、本人掌握、M1、Go发布独立。
 
 公开DISCOVERY_M1_CASES.json改为draft-m1-material-index-1，仅公开pair/slot/rubric/status及role包身份，当前pending_independent_material_preparation，本批不制题／gold。未来精确inputs.json／controller.json／scorer.json仅本批既有审计子目录review-20261101/research-20261103/materials，Worker无目录／表权限且无localFS工具；gold不进source／Context／Memory。独立作者制备、另审正文；实现作者见gold即exposed不能继续声称holdout，原slot保留不暗换。索引／协议／M1单向hash绑定，无自引用循环。
 
@@ -278,7 +313,32 @@ qualified(owner,credential_rev)只来自本boot明确CLI新凭据operation，不
 
 认证每请求精确单次claim相对seal线性化，最多4在途；seal先拒，claim先可在途随后DBcommit，不能瞬时撤回。DB根锁仍核账户/owner/revision/容量；IPC/Argon锁外。2s是本地执行截止不是物理COMMIT保证；超时cancel/disconnect，commit不明保operation unknown不成功回报/不换operation重做，同liveboot只读核原receipt不续期。sealed新session不能用于下一请求。
 
-失连续恢复账号全隔离，旧password/cookie/grant无资格；本人另授权CLI轮换新凭据仅草稿读写/历史只读，研究Memory及恢复资料新ID衍生仍关。无独立最新性证明不恢复付费，不建第二业务权威。UUID/相同序号/hashchain/fsync非最新性证明；不自动检测任意superuser同PG在线回灌，运维先seal停写另授。
+失连续默认隔离全部旧账号／password／cookie／grant；本人另授CLI新凭据仅恢复草稿读写／有限历史，不能单凭新凭据恢复研究。原无独立最新性证明不恢复付费的保守规则继续适用于异常／还原／证据不齐；仅下述R2方案A为本人接受的受控未还原重启提供独立显式重授权路径。Memory及恢复资料新ID衍生仍关闭，不建第二业务账。UUID／相同序号／hashchain／fsync不是最新性证明；恶意superuser同PG在线回灌不在自动检测保证，运维先seal停写另授。
+
+### R2 受控重启与人工重新授权（CONTROLLED-REARM-v1，方案A）
+
+本轮明确选择受信运维的A，不引入PG之外的停机锚点或第二业务账。仅支持同一未替换数据目录、本人确认未restore／copy／PITR的受控停机后重新开研；程序不能发现操作者漏报旧库还原，可能沿用过时账目／撤权事实。这是对原“无独立最新性证明不恢复付费”的限定调整，不称独立最新性证明。数据库一致、system_identifier／timeline／启动时间、相同hash或停机回执都不能自行证明未还原。可信本人及本机运维陈述是此路径的前提，不承诺检测恶意superuser在线改写或共同回滚。
+
+**受控停机**由当前合格连续sup／PG generation中的本人显式操作发起，以稳定operation及准确范围幂等执行，不能在已失连续的boot补造clean证据：
+
+1. 根事务关闭所有新研究准入及普通调度／新执行许可，保留明确窄权安全收尾。收尾控制请求如需外发，仍逐次按既有当前许可／原allocation准入；unknown期间不得新外发。不把停机操作本身当新research／control配额。
+2. 覆盖全部queued／running／recovering业务及控制Task：有已提交进度保partial，未开始／无进度按本人停机取消；原根事务提交唯一终态event并清Session.active_task。旧Attempt先fenced，实际资源收拢后才resources_quiesced→closed；Task终态不提前释放物理槽。prepared／admitted确定未发送许可作废，只释放确定未用reserve；send_claimed不能证未发即unknown，不退已发送调用／Token／首尝试used，不补首稿预留。
+3. 旧actor实际出口／连接、在途物理调用及所有适用资源已收拢，费用已核清，且无未解决unknown停线事件，才可产生clean回执。结果unknown与费用unknown分别保存；rearm不得解除停线，对账不把历史unknown改为completed或重发。曾有incident只接受按原规则另授、实际完成且可核验的closure，迟到结算本身不自动开闸。
+4. 普通应用写者已fenced后，只保留唯一窄shutdown coordinator，按ProjectControl根锁及原连续generation提交最终ShutdownReceipt；无正常业务、研究发送或签发grant权。回执绑定operation／project／deployment／schema／原boot及generation、数据目录身份、任务／Call／incident／费用与资源核对结果及相关权威版本，不包含秘密。回执状态final／consumed／invalid由Pg裁定；其摘要与相关明细必须可核验，不以saved hash代实际核对。回执后任何允许的撤权／结算更正／CLI等状态变更，必须先在同根事务作废final回执并保持研究closed，防止旧回执再用；普通写者不能绕此要求。管理员强制seal另授，不保留clean宣称。
+5. 无法完成收尾可停止程序，但不能出具clean ShutdownReceipt；普通crash／WSL崩溃／PG意外重启不因启动成功自动升级为受控停机。
+
+**新boot重新取得资格**始终从closed开始：
+
+1. 只读核对final ShutdownReceipt、实际同一未替换目录、代码／部署／schema身份、全部非终态Task／active指针、Attempt／Call／incident／费用／reservation／物理收拢与当前原Case上限／截止，核对期间不新发研究或控制请求。本人明确陈述未restore／copy／PITR；陈述是受信运维事实，不是新研究授权，也不证明系统能识别漏报。证据缺坏／不一致、疑似或实际还原、异常中断立即走原隔离路径，不得借新operation／receipt清缺口。
+2. 本人另授本boot新CLI凭据，仍按B5.2认证operation／随机化verifier／当前rev及sup连续性规则，仅建立草稿／有限历史资格。首个新凭据写事务先按原根锁核且消费final ShutdownReceipt，同时建立绑定原receipt／本boot及generation／actor／准确恢复范围的pending RearmOperation，再提交凭据修改；无有效final回执仍可另授有限草稿凭据，但不得创建研究rearm路径。这样普通“回执后写先作废”不与预期凭据轮换自阻塞：原回执不再可重放，本boot只允许同一pending operation中已明确授权的后续凭据／资格写，逐次记录并核相关当前revision；撤权／异常／非范围内变化使该pending operation失效并closed。旧cookie／密码资格、CLI回执、Taskgrant／Attempt／checkpoint执行状态及私源proof不得复活；这一步不允许研究。
+3. 需要刷新资格时，本人先授准确CONTROL_ONLY operation／purpose／allocation／deadline，只开放相应必要source qualification／价格等控制调用，研究发送仍关闭。控制Call按当前执行principal、根gate的control-only能力、原budget／slot及确切请求逐次准入，不授研究Task或模型诊断额度；需模型诊断仍另授并计原诊断池。新unknown立刻停全部新外发。仍有效的local-format／hosted-fit等资格重核版本即可，不强制每次重跑；过期proof不得复用，控制额度耗尽则停，不重领配额。
+4. 价格／币种／完整账／余额／grant覆盖、Token资格、来源及用途权限、物理资源及其它原前置当前有效后，本人再明确新research执行许可；在同根事务核本boot已消费回执对应的唯一pending RearmOperation及当前相关revisions，绑定actor及credential_rev／准确研究范围／allocation／原Case余量与deadline，原子记录新执行许可并将operation置activated一次；sup仅对本boot明确提交且连续性有效的同一operation确认后升研究能力。CONTROL_ONLY不是开放研究的旁路，Pg OPEN也不自激活sup。提交不明只查原operation／receipt，不换ID重做；并发或重复请求返回原结果，不重复发grant；消耗后失连续即原隔离，不重放回执或新造clean证据。
+
+内容与执行资格分开：原不可变DocumentVersion及准确RequirementsConfirmation可保留，但新Task、send／commit及当前读取仍核head／actor／member／来源和known private ancestry。后续接续只用合法linkedTurn／新Task，不自动续旧Task；Case目的、8Turn上限、调用／compile／Token／费用／累计Worker时间与绝对deadline保留，停机不暂停期限、不产生新grant或资金epoch。
+
+ShutdownReceipt／RearmOperation／event在既有非Case安全／控制metadata可用预算内先reserve、按原相应envelope限实际bytes，容量满拒操作并closed；不增池、不借Memory闲置容量、不自动删历史。Memory仍全入口禁用，新凭据／受控重启也不开放Memory。原受限Pg／进程／网络与最低独立介质纸钥恢复资格均保留；03b首次真实pilot前须完成本路径离线／restrictedPg竞争／paid-disabled进程验收，首工只实现认证／私人Draft／最小sup，不提前实现本研究恢复链。
+
+异常断电、WSL崩溃、PG意外重启、数据还原或无法证明上述A运维前提时，保留旧身份隔离、研究停用与另授对账／设计边界；不能把受控A推广为任意恢复。API／Worker在同一持续sup／Pg下独立重启仍遵守原加入与fence规则。
 
 ### BK-r3.2 备份
 
@@ -302,6 +362,6 @@ Draft POST {text}+Idempotency-Key，owner从session，同key/initialbodyhash返�
 
 真实验收：两CLI账号/cookiejar、restrictedPg、独立连接barriers reset-login/disable-write/19draft双create/会话limit；新进程import前sentinel阻旧env/模型/网络；rawchunk/CL/JSONescape/UTF8±1；APIrestart保稿；sup/PG失连续旧password/cookie均拒，CLI新凭据仅草稿；DBdown不报注销/撤销成功。missingPg/skip不通过。本人Windows UI亲验、读入口→auth→application→store、预测失败/亲改回归；不代填掌握。文件/命令/ENV前置见[首工任务包](../features/DECISION-001/tasks.md)。
 
-真实pilot还须历史账/unknown/余额/grant/价格/Tokenizer/Gateway/独立介质纸钥恢复资格，Browser未资格0。M1仍需真实纠正症状、三个正式Agent原稿关键质量、六正式全保留、最终共同质量及本人实践；描述性省时无20%硬门槛，真实价值独立待证。公开纵切不等完整首阶段/M1；Go/发布各自授权。配置自检、实际文件独立审查、业务实现、本人验收分别记录。
+真实工程接入仍须历史账/unknown/余额/grant/价格/Tokenizer/Gateway/最低独立介质纸钥恢复及rearm资格，Browser0。六阶段全部必需检查、独审及人工关键业务验收完成才称M1工程能力验收通过；动态/私源和完整恢复仍必需。真实症状纠正收益、三个formal原稿关键质量、六final共质及省时属于显式按需效果包，未执行不冒pass；本人掌握/真实价值/Go/发布分别取证。阶段五schema/请求/模型/adapter/principal/权限变更先重核受影响资格，5.4前最低恢复须覆盖当前适用基线；不重领诊断，余量不足保持出口closed。P0配置检查不证明业务或任何真实资格。
 
 DRAFT-BASELINE-20261102的28配置按draft-20261102/snapshots/final-01的manifest/path/raw hash有效，FOCUS不重绑定旧索引。REVIEW-BASELINE-20261101的28配置与原交付按既有final-02 manifest/path/raw hash保留，不冒充HEAD对象；后续合法获批改动不会反向否定旧字节。新增业务API路径／DDL／transport部署资格在另授业务包冻结，本批不实施。
