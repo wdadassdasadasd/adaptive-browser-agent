@@ -1364,3 +1364,15 @@ fresh-context技术/安全实施审查已实际完成，STATUS DONE，无已确�
 推送不force；重复创建先查准确head/base PR，写结果不明先查原状态、不盲重发。合并绑定准确PR head sha，核当前CI成功/审查反馈/可合并状态，不能跳过失败或保护规则。必要修复须核实、测试及受影响独审，不用修改门禁掩盖失败。CI/PR/merge成功仅由本轮真实回执裁定，本段不预填。
 
 P0合并后核远端main包含原交付、干净本地main与origin/main一致，再报告阶段一计划准入就绪；负责人明确“进行第一阶段”后才从1.1开始，工具获取/VHDX读取/WSL/数据库仍逐包准确授权。Memory关闭/Browser0/正式材料pending、原Case/费用/调用/诊断/期限和历史No-Go均保留。
+
+### PR #4首轮真实CI与离线夹具修复
+
+已实际提交验收记录c4d87c1a00d81cce714f7fe6fbc1a5c4da7f1b06、普通推送准确分支，并创建PR https://github.com/wdadassdasadasd/adaptive-browser-agent/pull/4（先draft再ready）。PR已附本聊天。首轮PR workflow41680931381的Python3.12/3.13和frontend成功，postgres job126074052962失败；日志准确1failed/3passed，失败为test_postgres_api_worker_replay_and_capacity的假模型任务completed断言实际failed。未跳过job或合并。
+
+定位：原PgStore夹具无pricebook，FakeProvider响应无usage/cache/model费用依据，现有PgCallObserver正确在首个模型结果费用未知后停线。无DB最小复现经过真实observer，原假provider仅InitialSubgoals后failed/execution_error；单改替身known-cost对照后四schema/completed。原两个工具输出为可见命令结果，本地repro脚本保留，未伪造原输出log。真实Pg仍由CI验证，不启动本机WSL/数据库。
+
+准确修复仅backend/tests/integration/test_pg_api_worker.py：为该成功路径提供合成usage/cache/model、原冻结pricebook有效时点和仅fixture的时钟/准确call ID started_at校准；保真实observer/价格前检/计算，并断言四model调用已知正费用、无pricing_error及准确price_revision。生产代码、pricebook、CI workflow与拒非空/业务库前置不变；固定lease时钟不能作真实时间推进证据。
+
+本地相关test_pg_transport.py与test_agent_loop.py实际46passed/8.79s，Ruff/format-check通过；新假响应经过真实calculate_call_cost得已知正费用，未开DB或外调。fresh-context安全实施复核DONE，无已确认P0–P3，绑定测试文件SHA256 e7cd5ef0105d18ccc80308873a346d26facf72066cb3efa30296942a2af370c9；原始审查转录及命令/loghash见本轮新审计。新增本记录和PR正文另作受影响复核。首轮CI失败保留；修复后CI/merge状态只由真实回执裁定，不在此预填。
+
+本地交付helper发现并关闭三项静态P2：PR普通评论遗漏、反馈分页漏读、日志脱敏遗漏Bearer/签名URL/PEM；均在真实执行前修复并独立复核。离线merge/凭据/分页守卫6tests、日志canary2tests通过；真实失败日志仅保脱敏上下文和rawhash，凭据及签名URL不落盘。此helper资格不冒业务Gateway或真实供应商资格。
