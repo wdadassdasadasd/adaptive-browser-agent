@@ -3196,5 +3196,5 @@ review09完整集成154原件审查为DONE_WITH_CONCERNS，2P2/1P3：设置名�
 - 最后09:59:37Z host-after-drift-01.json：两服务Stopped/Disabled、guest0、WLAN Up，真实配置probe根与debs根均不存在。本次没有真实配置替换/WSL/GET/新重启；仅新D/C合成与临时WLAN状态变化，旧ACL/C06/C07不动。
 - 交接根DELIVERY-PARTIAL.md含逐AC/入口/完整差异/检查/独审/skip/风险/回滚。C修正run02实际16pass，生产取包20/native8/text8/atomic12等本地证据复用；不冒真实资格或CI。
 - 待人决定entry/binding-drift-decision.md（0fcf7a23…），独立设计审查原文binding-drift-design-review-original.md：A隔离partial；B拟额外一次只读完整性资格重建及验收替代，需人方向选择后实现/失败验证/准确卡/明确新一次读授权；当前不能执行，不恢复旧机会或研究资格。
-- HEAD9c3482f69381ce87a9a9b301f1bc110b0725f672，codex/stage-1-environment、暂存空；未commit/push/PR/CI。当前29任务代码候选、49退役原件、混合tasks精确选段和18无关保留；不reset/clean。最终人验/合并/发布/后片另批。
+- HEAD基线9c3482f6…；本片已commit 22c292d5+ea93526+20e6650+5bbe0b0。本人四项授权后受控窗口已执行B方向唯一真实读（real-read-01）：双文件各4867489792字节完整读入，回执结构全真，last-access设3读后恢复2，本读未改动原对象（原件field5仍134385080318390256）。结果：ORIGINAL_MATCHES_COPY=False，原件与副本内容不相等，G6验收替代不成立，§B.5停线触发，授权用尽，无第二真实读；B资格重建负性关闭。1.1在现有权威下以隔离partial存续，硬停继续有效，不进1.2/1.3；进一步调查（副本出处/新基线/新读）需新决定稿+R2+本人新授权。操作卡docs/tasks/STAGE_1_1_INTEGRITY_CARD_2026-11-07.md。本push/PR/CI；不reset/clean。
 <!-- dev-current:end -->
