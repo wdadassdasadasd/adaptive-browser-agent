@@ -1,4 +1,4 @@
-# Synthetic qualification for the B-direction integrity read primitive.
+﻿# Synthetic qualification for the B-direction integrity read primitive.
 # Small public synthetic fixtures only; never touches real originals, VMs, services or network.
 [CmdletBinding()]
 param([ValidatePattern('^[a-z][a-z0-9-]{0,15}$')][string]$Run = 'run01')
@@ -119,6 +119,8 @@ if ($held) {
     if ($r.PrivilegeEnabledAfter) { throw 'T05_after_still_enabled' }
     if (-not $r.PrivilegeRestoreVerified) { throw 'T05_restore_unverified' }
     if ($r.Before.FileIndex -ne $r.After.FileIndex -or $r.Before.Size -ne $r.After.Size -or
+        $r.Before.VolumeSerial -ne $r.After.VolumeSerial -or
+        $r.Before.CreationFileTime -ne $r.After.CreationFileTime -or
         $r.Before.LastWriteFileTime -ne $r.After.LastWriteFileTime) { throw 'T05_binding_drift_after_read' }
     Pass 'T05_privilege_lifecycle_and_bypass' ("calls=$($r.ReadCalls) ms=$($r.ElapsedMs)")
     $re = [AraIntegrityReadNative]::ReadBound($empty, 4867489792, 0, 0, -1, 60000)
@@ -161,7 +163,7 @@ $json = $raw | ConvertFrom-Json
 if ($json.body_stored -ne $false) { throw 'T09_body_stored_true' }
 if ($json.identity_before.size -ne 3145728) { throw 'T09_identity_missing' }
 if (-not $json.privilege.restore_verified) { throw 'T09_privilege_block_missing' }
-if ($raw.Length -gt 16384) { throw 'T09_receipt_over_cap' }
+if ([Text.Encoding]::UTF8.GetByteCount($raw) -gt 16384) { throw 'T09_receipt_over_cap' }
 Pass 'T09_receipt_shape_no_body'
 
 # T10: read does not modify ctime/mtime/size/SDDL of the synthetic (LastAccess excluded by design).
@@ -174,6 +176,21 @@ $item2 = Get-Item -LiteralPath $normal -Force
 if ($item2.CreationTimeUtc.Ticks -ne $beforeC -or $item2.LastWriteTimeUtc.Ticks -ne $beforeW -or
     $item2.Length -ne $beforeZ -or (Get-Acl -LiteralPath $normal).Sddl -ne $beforeS) { throw 'T10_metadata_modified' }
 Pass 'T10_read_preserves_metadata'
+
+# T11: locale-robust last-access fence - must accept only provably-disabled policy, fail closed otherwise.
+$fsOut = (& fsutil behavior query disablelastaccess 2>&1) -join ' '
+$fsDisabled = $false
+foreach ($tok in @('已禁用', '已停用', 'disabled')) { if ($fsOut -match [regex]::Escape($tok)) { $fsDisabled = $true; break } }
+$fsEnabled = $false
+foreach ($tok in @('已启用', 'enabled')) { if ($fsOut -match [regex]::Escape($tok)) { $fsEnabled = $true; break } }
+if ($fsDisabled -and -not $fsEnabled) {
+    Assert-IntegrityLastAccessDisabled
+    Pass 'T11_lastaccess_fence_accepts_disabled_policy'
+} else {
+    try { Assert-IntegrityLastAccessDisabled; throw 'T11_expected_refusal_missing' }
+    catch { if ($_.Exception.Message -notmatch 'integrity_fence_lastaccess') { throw } }
+    Pass 'T11_lastaccess_fence_fails_closed_current_policy'
+}
 
 Write-Output "FIXTURE_ROOT=$case"
 if ($skips -gt 0) {

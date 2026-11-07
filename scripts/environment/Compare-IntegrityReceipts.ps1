@@ -20,7 +20,7 @@ function Load-Receipt([string]$Path) {
 $orig = Load-Receipt $OriginalReceipt
 $copy = Load-Receipt $CopyReceipt
 if (-not $orig.sha256 -or $orig.sha256.Length -ne 64) { throw 'integrity_receipt_digest_missing' }
-$originalMatchesCopy = ($orig.sha256 -eq $copy.sha256) -and ([long]$orig.bytes_read -eq [long]$copy.bytes_read)
+$originalMatchesCopy = ($orig.sha256 -ceq $copy.sha256) -and ([long]$orig.bytes_read -eq [long]$copy.bytes_read)
 Write-Output ('ORIGINAL_MATCHES_COPY=' + $originalMatchesCopy)
 
 if ($HistoricalOriginalReceipt) {
@@ -37,8 +37,8 @@ if ($HistoricalOriginalReceipt) {
     if (-not $histDigest -or $histDigest.Length -ne 64) { throw 'integrity_historical_receipt_digest_unverifiable' }
     if ($null -eq $histSize) { throw 'integrity_historical_receipt_size_unverifiable' }
     $d = $histDigest.ToLowerInvariant()
-    Write-Output ('ORIGINAL_MATCHES_HISTORICAL_RECEIPT=' + (($orig.sha256 -eq $d) -and ([long]$orig.bytes_read -eq $histSize)))
-    Write-Output ('COPY_MATCHES_HISTORICAL_RECEIPT=' + (($copy.sha256 -eq $d) -and ([long]$copy.bytes_read -eq $histSize)))
+    Write-Output ('ORIGINAL_MATCHES_HISTORICAL_RECEIPT=' + (($orig.sha256 -ceq $d) -and ([long]$orig.bytes_read -eq $histSize)))
+    Write-Output ('COPY_MATCHES_HISTORICAL_RECEIPT=' + (($copy.sha256 -ceq $d) -and ([long]$copy.bytes_read -eq $histSize)))
 } else {
     Write-Output 'ORIGINAL_MATCHES_HISTORICAL_RECEIPT=NOT_EVALUATED_NO_HISTORICAL_RECEIPT'
     Write-Output 'COPY_MATCHES_HISTORICAL_RECEIPT=NOT_EVALUATED_NO_HISTORICAL_RECEIPT'

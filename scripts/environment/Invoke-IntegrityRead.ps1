@@ -29,31 +29,55 @@ if ($Mode -eq 'Real') {
         throw 'integrity_real_authorization_decision_hash_missing'
     }
     if ($auth -notmatch 'GRANT_REAL_INTEGRITY_READ') { throw 'integrity_real_authorization_marker_missing' }
+    # I-2: binding pins are mandatory in Real mode; sentinel defaults refuse.
+    foreach ($pin in @(@('original', $OriginalVolumeSerial, $OriginalFileIndex),
+                        @('copy', $CopyVolumeSerial, $CopyFileIndex))) {
+        if ([uint32]$pin[1] -eq 0 -or [long]$pin[2] -lt 0) {
+            throw ('integrity_real_binding_pin_required:' + $pin[0])
+        }
+    }
     Assert-IntegrityFence
+} else {
+    # I-1: Synthetic mode is hard-pinned to the synthetic fixture root; real objects cannot enter.
+    $fixtureRoot = [IO.Path]::GetFullPath('D:\adaptive-browser-agent\.tmp\integrity-fixtures-20261107')
+    foreach ($pp in @($OriginalPath, $CopyPath)) {
+        $full = [IO.Path]::GetFullPath((Resolve-Path -LiteralPath $pp -ErrorAction Stop).Path)
+        if (-not $full.StartsWith($fixtureRoot + '\', [StringComparison]::OrdinalIgnoreCase)) {
+            throw 'integrity_synthetic_path_outside_fixture_root'
+        }
+    }
 }
 
 $batchStart = [DateTime]::UtcNow
 $receipts = @()
-foreach ($pair in @(
-    @{ name = 'original'; path = $OriginalPath; vol = $OriginalVolumeSerial; idx = $OriginalFileIndex },
-    @{ name = 'copy'; path = $CopyPath; vol = $CopyVolumeSerial; idx = $CopyFileIndex })) {
-    $elapsed = [int]([DateTime]::UtcNow - $batchStart).TotalMilliseconds
-    $remaining = $BatchDeadlineMs - $elapsed
-    if ($remaining -le 0) {
-        Write-Output 'INTEGRITY_BATCH_RESULT=STOP reason=batch_deadline_exhausted'
-        exit 2
+try {
+    foreach ($pair in @(
+        @{ name = 'original'; path = $OriginalPath; vol = $OriginalVolumeSerial; idx = $OriginalFileIndex },
+        @{ name = 'copy'; path = $CopyPath; vol = $CopyVolumeSerial; idx = $CopyFileIndex })) {
+        $elapsed = [int]([DateTime]::UtcNow - $batchStart).TotalMilliseconds
+        $remaining = $BatchDeadlineMs - $elapsed
+        if ($remaining -le 0) {
+            Write-Output 'INTEGRITY_BATCH_RESULT=STOP reason=batch_deadline_exhausted'
+            Write-Output 'STOP_LINE_NO_SECOND_REAL_READ'
+            exit 2
+        }
+        $receiptPath = Join-Path $ReceiptDir ($pair.name + '-integrity-receipt.json')
+        $r = Invoke-BoundIntegrityRead -Path $pair.path -MaxBytes $ExpectedSizeEach -ExpectedSize $ExpectedSizeEach `
+            -ExpectedVolumeSerial $pair.vol -ExpectedFileIndex $pair.idx -DeadlineMs $remaining -ReceiptPath $receiptPath
+        if (-not $r.Ok) {
+            Write-Output ('INTEGRITY_BATCH_RESULT=STOP file=' + $pair.name + ' error=' + $r.ErrorKind +
+                ' win32=' + $r.Win32Error)
+            Write-Output 'STOP_LINE_NO_SECOND_REAL_READ'
+            exit 2
+        }
+        $receipts += $receiptPath
+        Write-Output ('PASS=integrity_' + $pair.name + ' bytes=' + $r.BytesRead + ' ms=' + $r.ElapsedMs)
     }
-    $receiptPath = Join-Path $ReceiptDir ($pair.name + '-integrity-receipt.json')
-    $r = Invoke-BoundIntegrityRead -Path $pair.path -MaxBytes $ExpectedSizeEach -ExpectedSize $ExpectedSizeEach `
-        -ExpectedVolumeSerial $pair.vol -ExpectedFileIndex $pair.idx -DeadlineMs $remaining -ReceiptPath $receiptPath
-    if (-not $r.Ok) {
-        Write-Output ('INTEGRITY_BATCH_RESULT=STOP file=' + $pair.name + ' error=' + $r.ErrorKind +
-            ' win32=' + $r.Win32Error)
-        Write-Output 'STOP_LINE_NO_SECOND_REAL_READ'
-        exit 2
-    }
-    $receipts += $receiptPath
-    Write-Output ('PASS=integrity_' + $pair.name + ' bytes=' + $r.BytesRead + ' ms=' + $r.ElapsedMs)
+} catch {
+    # I-4: every stop path carries the canonical stop-line marker.
+    Write-Output ('INTEGRITY_BATCH_RESULT=STOP error=' + $_.Exception.Message)
+    Write-Output 'STOP_LINE_NO_SECOND_REAL_READ'
+    exit 2
 }
 Write-Output ('RECEIPTS=' + ($receipts -join ','))
 Write-Output 'INTEGRITY_BATCH_RESULT=OK'

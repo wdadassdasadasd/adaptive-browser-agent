@@ -1,4 +1,4 @@
-# B-direction read-only integrity qualification module (ENV-M1-01 binding-drift decision option B).
+﻿# B-direction read-only integrity qualification module (ENV-M1-01 binding-drift decision option B).
 # Synthetic-safe by default; real objects are only touched through Invoke-IntegrityRead.ps1 Real mode.
 Set-StrictMode -Version Latest
 
@@ -12,8 +12,29 @@ function Initialize-IntegrityNative {
     $script:IntegrityNativeLoaded = $true
 }
 
+# Last-access updates must be provably disabled or a read would modify the original's metadata
+# (access-time change can emit a USN BASIC_INFO_CHANGE record -> new field6 drift).
+# Locale-robust: require the numeric value AND a disabled-state token; fail closed otherwise.
+function Assert-IntegrityLastAccessDisabled {
+    [CmdletBinding()]
+    param()
+    $out = (& fsutil behavior query disablelastaccess 2>&1) -join ' '
+    $code = $null
+    if ($out -match 'DisableLastAccess\s*=\s*([0-3])') { $code = $Matches[1] }
+    $disabled = $false
+    foreach ($tok in @('已禁用', '已停用', 'disabled')) {
+        if ($out -match [regex]::Escape($tok)) { $disabled = $true; break }
+    }
+    $enabledTok = $false
+    foreach ($tok in @('已启用', 'enabled')) {
+        if ($out -match [regex]::Escape($tok)) { $enabledTok = $true; break }
+    }
+    if ($null -eq $code -or -not $disabled -or $enabledTok) {
+        throw "integrity_fence_lastaccess_not_provably_disabled:code=$code"
+    }
+}
+
 # Machine constraints before any real-object read: services fenced, no guest VM processes.
-# Last-access updates must be disabled so a read cannot modify the original's metadata.
 function Assert-IntegrityFence {
     [CmdletBinding()]
     param()
@@ -25,8 +46,7 @@ function Assert-IntegrityFence {
     foreach ($proc in @('vmmemWSL', 'wslhost')) {
         if (Get-Process -Name $proc -ErrorAction SilentlyContinue) { throw "integrity_fence_guest_process:$proc" }
     }
-    $out = (& fsutil behavior query disablelastaccess 2>&1) -join ' '
-    if ($out -notmatch 'updates disabled') { throw "integrity_fence_lastaccess_not_disabled:$out" }
+    Assert-IntegrityLastAccessDisabled
 }
 
 # No-privilege metadata-only binding pre-check on the exact path (attributes access only).
@@ -109,5 +129,5 @@ function Write-IntegrityReceipt {
     try { $fs.Write($bytes, 0, $bytes.Length); $fs.Flush($true) } finally { $fs.Dispose() }
 }
 
-Export-ModuleMember -Function Initialize-IntegrityNative, Assert-IntegrityFence, Get-IntegrityIdentity,
-    Invoke-BoundIntegrityRead, Write-IntegrityReceipt
+Export-ModuleMember -Function Initialize-IntegrityNative, Assert-IntegrityFence, Assert-IntegrityLastAccessDisabled,
+    Get-IntegrityIdentity, Invoke-BoundIntegrityRead, Write-IntegrityReceipt

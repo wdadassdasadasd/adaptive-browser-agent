@@ -202,13 +202,10 @@ public static class AraIntegrityReadNative {
                 r.Win32Error = w.NativeErrorCode.ToString();
                 return r;
             } finally {
-                SetPrivilege(BackupPrivilegeName, false);
-                bool[] after = PrivilegeState(BackupPrivilegeName);
-                r.PrivilegeEnabledAfter = after[1];
-                r.PrivilegeRestoreVerified = after[0] && !after[1];
+                RestorePrivilegeStrict(r);
             }
             if (!r.PrivilegeRestoreVerified) {
-                r.ErrorKind = "integrity_privilege_restore_unverified";
+                if (r.ErrorKind == null) r.ErrorKind = "integrity_privilege_restore_unverified";
                 return r;
             }
             r.Before = ReadIdentity(h);
@@ -238,11 +235,39 @@ public static class AraIntegrityReadNative {
             return r;
         } catch (Exception ex) {
             r.Ok = false;
+            r.Sha256 = null;
             if (r.ErrorKind == null)
                 r.ErrorKind = "integrity_failed:" + ex.GetType().Name + ":" + ex.Message;
             return r;
         } finally {
             if (h != null) h.Dispose();
         }
+    }
+
+    // Strict privilege restore: two attempts; any failure forces Ok=false, drops the digest,
+    // and records restore_verified=false. Never leaves a success result behind a failed restore.
+    private static void RestorePrivilegeStrict(AraBoundReadResult r) {
+        bool restored = false;
+        string restoreError = null;
+        for (int attempt = 0; attempt < 2 && !restored; attempt++) {
+            try {
+                SetPrivilege(BackupPrivilegeName, false);
+                bool[] after = PrivilegeState(BackupPrivilegeName);
+                r.PrivilegeEnabledAfter = after[1];
+                restored = after[0] && !after[1];
+            } catch (Exception ex) {
+                restoreError = ex.GetType().Name + ":" + ex.Message;
+            }
+        }
+        if (restored) {
+            r.PrivilegeRestoreVerified = true;
+            return;
+        }
+        r.PrivilegeRestoreVerified = false;
+        r.Ok = false;
+        r.Sha256 = null;
+        if (r.ErrorKind == null || r.Ok)
+            r.ErrorKind = "integrity_privilege_restore_failed" +
+                (restoreError == null ? "" : ":" + restoreError);
     }
 }
