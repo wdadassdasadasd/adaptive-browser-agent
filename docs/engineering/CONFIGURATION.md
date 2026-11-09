@@ -1,10 +1,10 @@
 # 工程配置与环境资格 — DEV-STAGES-20261104-01
 
-负责人明确实施六阶段26切片，本轮仅P0配置同步、限定离线检查、独立实施审查/修复及验收包。原TEAM/R2等批准与检查保持原字节/范围。[唯一记录](../features/DECISION-001/tasks.md)保18项及进入PREBOOT追加；[PLANS](../../PLANS.md)唯一维护路线及逐片推进。[契约](../contracts/CURRENT_CONTRACTS.md)维护安全/权限/费用，draft-m1-3/index原bytes保持，能力引用draft-m1-capabilities-6。本页不授业务、环境或运行资格。
+六阶段26切片配置最初通过P0同步、限定离线检查、独审及验收包落地；后续阶段的原始启动授权与实际状态只在[唯一记录](../features/DECISION-001/tasks.md)及原始证据中核对，不用旧P0范围覆盖后续明确指令。原TEAM/R2等批准与检查保持原字节/范围，原18项及进入PREBOOT追加保留；[PLANS](../../PLANS.md)唯一维护路线及适用推进规则。[契约](../contracts/CURRENT_CONTRACTS.md)维护安全/权限/费用，draft-m1-3/index原bytes保持，能力引用draft-m1-capabilities-6。本页不授业务、环境或运行资格。
 
 ## 配置归属与流程
 
-engineering-workflow只路由一次到[G0–G7](WORKFLOW.md)，项目技能提供专项方法；不新建编排、全局Skill或模型/权限配置。根AGENTS保持入口，契约维护参数，唯一任务记录维护批准/状态。research-eval按新起草／评审协议同步；普通测试不触发付费评测。声明、加载、实际触发和强制门禁分别验证。
+engineering-workflow只路由一次到[G0–G7](WORKFLOW.md)，项目技能提供专项方法；不新建编排。已批准的共享工作流/模型配置优化按各自原始授权实施，工程配置本身不授运行或权限。根AGENTS保持入口，契约维护参数，唯一任务记录维护批准/状态。research-eval按新起草／评审协议同步；普通测试不触发付费评测。声明、加载、实际触发和强制门禁分别验证。
 
 原PREP-BASELINE-20261029及CONFIG-RAWJSON-20261030仍是原被审版本的有效交付，不重列待修。范围外Git、原SQLite/r12、费用/授权/真实来源、许可、历史归档与browser-use均保护。本批不改.gitattributes及其精确-text规则。
 

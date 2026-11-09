@@ -1,6 +1,6 @@
 # 现行目标契约 — DEV-STAGES-20261104-01
 
-负责人在Default明确要求实施已确认六阶段26切片计划，本轮仅P0计划与门禁同步、限定离线检查、独立实施审查/修复和验收包。实际状态见[唯一任务](../features/DECISION-001/tasks.md)，原18项/进入PREBOOT追加保留。TEAM/R2等旧批准继续绑定原字节；[SPEC](../../SPEC.md)定义结果，[PLANS](../../PLANS.md)唯一维护阶段/切片及推进规则。draft-m1-3及公开材料索引原bytes保持，能力引用draft-m1-capabilities-6：六阶段工程验收与显式按需效果评测分离；原协议继续独占整批资金、调用上限及已启动效果包内部规则，不另立资金或Go权威。
+负责人在Default明确要求实施已确认六阶段26切片计划，配置最初通过P0计划与门禁同步、限定离线检查及独审落地。后续阶段的原始启动授权与实际状态见[唯一任务](../features/DECISION-001/tasks.md)及原始证据，原18项/进入PREBOOT追加保留；本契约不固定当前活动切片，也不自行授予执行权限。TEAM/R2等旧批准继续绑定原字节；[SPEC](../../SPEC.md)定义结果，[PLANS](../../PLANS.md)唯一维护阶段/切片及推进规则。draft-m1-3及公开材料索引原bytes保持，能力引用draft-m1-capabilities-6：六阶段工程验收与显式按需效果评测分离；原协议继续独占整批资金、调用上限及已启动效果包内部规则，不另立资金或Go权威。
 
 FOCUS-BASELINE-20261102按进入HEAD dc4498f36c0342eef5191f9f59feaf3b363169b6及原path/raw hash读取；DRAFT final-01、REVIEW final-02、PREP及RAWJSON仍绑定各自原字节，不重写索引。current-3原1ffade6de07ebe3d1e72afb4c44b8677466eca67及显式换行规则不变。[V1](V1_CONTRACTS.md)和[P-01](../tasks/P01_ACCEPTANCE_2026-10-21.md)仅解释原行为。配置不授业务、依赖、环境／DB／ACL、真实模型／Tokenizer／Browser、采购、外部或Git写；原SQLite、费用与来源证据及r12／P-02 No-Go保留。研究／独立设计审查证据及限制见[本轮研究](../research/PREDEV_CONFIGURATION_REVIEW_2026-11-03.md)。
 
@@ -296,6 +296,8 @@ DEV-STAGES适用范围：普通工程测试、独审、恢复与真实接入资�
 ## 6. 出站、环境与连续资格
 
 新独立PG16 cluster目标16.15，实际binary须另验，独立data/凭据/55432/ara_m1+ara_m1_test；旧5433/SQLite只读取证。应用/checkpoint角色无DDL，schema setup另授migration；准确Linux路径/role/同步/服务/凭据属ENV-M1-01操作包。Ubuntu当前Stopped；启动可能运行旧systemd/bootcommand/Worker，无安全隔离证据不能先boot再补防护。冷切关旧准入→核队列/在途/unknown→停止旧API/Worker→旧写凭据失效/处理存活连接→验证不能误写；不默认停旧DB/删原件。回滚停写保留新数据费用权限，回理解当前schema版本，不destructive downgrade。
+
+**2026-11-08 ENV-M1-01准确退役重建差额（本人全文批准实施）**：旧Ubuntu注册启动隔离已实测失败且原盘增长3MiB，原验收仍FAIL。仅本人固定SID下Ubuntu固定GUID/Canonical LocalState关联文件系统允许永久销毁，无新增旧盘读取/备份；外部既有保管副本、回执、UNKNOWN/费用、stage1-bootstrap和Windows Pg保持。新ara-m1-stage1从签验Base独立导入、签验官方包新装Pg16.15，不复用旧binary或授权；新验收为授权退役销毁＋新来源/身份/角色/资源/重启证据，不冒称旧连续性。准确对象/操作/原始授权及本次自动断网恢复范围见docs/tasks/STAGE_1_REBUILD_2026-11-08.md及唯一记录；不授权合并/阶段二/研究/Memory/Browser，旧未知不清零或重发。此差额不把上段默认禁删除规则扩展为其他数据的删除许可。
 
 本机技术验证先本人＋测试身份，不证明真实团队价值；可信本机HTTP origin=http://127.0.0.1:8766；cookie不隔离同host端口，本机恶意服务/OS不在保证，不自动TLS/LAN。Browser真实接入暂缓并保持0。以下Browser连接方案仅保留后续资格研究，不属于当前调用／存储额度；未来开启须另授权和重评资源，仅navigate/wait/scroll/DOM extract，无任意click/input/download/login/个人profile。
 

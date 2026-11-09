@@ -13,6 +13,11 @@ from adaptive_research.agent.adapters.browser_use_adapter import (
 )
 
 
+def fixture_addresses(host: str) -> set[ipaddress.IPv4Address]:
+    assert host == "example.com"
+    return {ipaddress.IPv4Address("93.184.216.34")}
+
+
 class FakeTab(BaseModel):
     target_id: str
     url: str
@@ -54,7 +59,9 @@ class FakeBrowserSession:
 @pytest.mark.asyncio
 async def test_adapter_owns_lifecycle_and_disables_screenshots() -> None:
     session = FakeBrowserSession()
-    adapter = BrowserUseAdapter(session_factory=lambda: session)  # type: ignore[arg-type]
+    adapter = BrowserUseAdapter(
+        session_factory=lambda: session, address_resolver=fixture_addresses
+    )  # type: ignore[arg-type]
 
     await adapter.start_session()
     observation = await adapter.observe("deep")
@@ -77,7 +84,9 @@ async def test_adapter_validates_action_names_before_execution() -> None:
         BrowserAction(action="screenshot")
 
     with pytest.raises(ValueError, match="Unsupported observation level"):
-        await BrowserUseAdapter(session_factory=FakeBrowserSession).observe("full")  # type: ignore[arg-type]
+        await BrowserUseAdapter(
+            session_factory=FakeBrowserSession, address_resolver=fixture_addresses
+        ).observe("full")  # type: ignore[arg-type]
 
     session = FakeBrowserSession()
     adapter = BrowserUseAdapter(
@@ -110,7 +119,9 @@ async def test_adapter_cleans_up_failed_start() -> None:
             raise RuntimeError("launch failed")
 
     session = FailedSession()
-    adapter = BrowserUseAdapter(session_factory=lambda: session)  # type: ignore[arg-type]
+    adapter = BrowserUseAdapter(
+        session_factory=lambda: session, address_resolver=fixture_addresses
+    )  # type: ignore[arg-type]
 
     with pytest.raises(RuntimeError, match="launch failed"):
         await adapter.start_session()
@@ -231,6 +242,7 @@ async def test_adapter_rejects_stale_index_without_clicking() -> None:
     adapter = BrowserUseAdapter(
         session_factory=lambda: session,  # type: ignore[arg-type]
         tools_factory=FakeTools,  # type: ignore[arg-type]
+        address_resolver=fixture_addresses,
     )
     await adapter.start_session()
     try:
@@ -264,6 +276,7 @@ async def test_adapter_rejects_reused_node_id_from_new_document() -> None:
     adapter = BrowserUseAdapter(
         session_factory=lambda: session,  # type: ignore[arg-type]
         tools_factory=FakeTools,  # type: ignore[arg-type]
+        address_resolver=fixture_addresses,
     )
     await adapter.start_session()
     try:
@@ -308,6 +321,7 @@ async def test_adapter_classifies_upstream_disappeared_element_as_semantic(
     adapter = BrowserUseAdapter(
         session_factory=lambda: session,  # type: ignore[arg-type]
         tools_factory=DisappearingTools,  # type: ignore[arg-type]
+        address_resolver=fixture_addresses,
     )
     await adapter.start_session()
     try:
@@ -339,6 +353,7 @@ async def test_adapter_rejects_stale_scroll_element_without_scrolling() -> None:
     adapter = BrowserUseAdapter(
         session_factory=lambda: session,  # type: ignore[arg-type]
         tools_factory=FakeTools,  # type: ignore[arg-type]
+        address_resolver=fixture_addresses,
     )
     await adapter.start_session()
     try:
@@ -377,6 +392,7 @@ async def test_adapter_requires_fresh_observation_after_page_may_change(
     adapter = BrowserUseAdapter(
         session_factory=lambda: session,  # type: ignore[arg-type]
         tools_factory=FakeTools,  # type: ignore[arg-type]
+        address_resolver=fixture_addresses,
     )
     await adapter.start_session()
     try:
@@ -413,6 +429,7 @@ async def test_failed_navigation_action_invalidates_observed_indices() -> None:
     adapter = BrowserUseAdapter(
         session_factory=lambda: session,  # type: ignore[arg-type]
         tools_factory=FakeTools,  # type: ignore[arg-type]
+        address_resolver=fixture_addresses,
     )
     await adapter.start_session()
     try:
@@ -498,6 +515,7 @@ async def test_adapter_does_not_interact_with_unsafe_current_page() -> None:
     adapter = BrowserUseAdapter(
         session_factory=lambda: session,  # type: ignore[arg-type]
         tools_factory=FakeTools,  # type: ignore[arg-type]
+        address_resolver=fixture_addresses,
     )
     await adapter.start_session()
     try:
@@ -525,7 +543,9 @@ async def test_adapter_does_not_observe_unsafe_current_page() -> None:
             return await super().get_browser_state_summary(**kwargs)
 
     session = UnsafeSession()
-    adapter = BrowserUseAdapter(session_factory=lambda: session)  # type: ignore[arg-type]
+    adapter = BrowserUseAdapter(
+        session_factory=lambda: session, address_resolver=fixture_addresses
+    )  # type: ignore[arg-type]
     await adapter.start_session()
     try:
         with pytest.raises(ValueError, match="Unsafe network target"):
