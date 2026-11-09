@@ -3323,3 +3323,37 @@ r24经准确独审通过后一次ResumePg06真实success。resumeinstall-06/rece
 - r12 Bootstrap03/网络通过，Fetch02 97包/99传输通过。真实部分安装、APT恢复、启动与认证失败原件保留。r24 ResumePg06完整Pg实机资格/Verify/网络恢复通过；同候选PostRestart于2026-11-09 13:44真实通过，旧入口无复活，身份与围栏一致。
 - 阶段Git及CI待闭合，阶段末人验待提交。23:30目标未达历史保留。研究closed、Memory disabled、Browser0；合并/下一阶段各自门禁。
 <!-- dev-current:end -->
+
+
+### 2026-11-09 阶段一准确交付
+
+独立交付复核 `/root/rebuild_final_delta` DONE_WITH_CONCERNS。冻结交付 manifest SHA256 `46a902c43496f41815a53257cde652d178da3ad81ce8503e2cdd556a56000032`，23路径的暂存与提交 blob 均逐字节核验。原 HEAD 任务历史 raw 前缀完整。唯一已知 diff-check 例外为实机 r24 的 resume_pg.sh 第47行行尾空格，为证据绑定保留。受跟踪 Python 131文件 Ruff check/format通过，本地新13项与原获取20项通过，配置校验通过。
+
+阶段提交 `83669a8dac696e9775e0142d68704809d50ade32` 推送至唯一 `codex/stage-1-environment`，远端哈希相等，草稿 [PR #5](https://github.com/wdadassdasadasd/adaptive-browser-agent/pull/5)。push CI 42569395271，PR CI 42569436640，均绑定此提交，待实际结果。阶段末人验仍待。其他本地变更继续保留。
+
+### 2026-11-09 阶段一技术闭环与阶段末人验包
+
+首版 `83669a8d` 的 push/PR CI 均因历史任务行链接到本机 `.tmp` 卡而失败，原始运行 42569395271/42569436640 及日志保留。准确修复 `de4f754a8123a8bb6e16c78f8acdcccf78a16a08` 仅变更校验器及其回归，锁定任务路径、目标路径、原行 SHA 与仓库根边界。历史字节和运行源码保持原样。干净检出完整配置校验 exit 0，校验器 303 通过、1 跳过，最终定向回归、Ruff 及格式检查通过，独立复核 DONE。最终头的 12 个运行文件逐字节匹配 r24。
+
+[草稿 PR #5](https://github.com/wdadassdasadasd/adaptive-browser-agent/pull/5) 的准确头 `de4f754a` 已完成全部必要 CI。[PR CI](https://github.com/wdadassdasadasd/adaptive-browser-agent/actions/runs/42571121676) 与 [push CI](https://github.com/wdadassdasadasd/adaptive-browser-agent/actions/runs/42571116737) 均 success。以下供阶段末人验，人工验收、合并、阶段二及研究准入各有独立门禁。
+
+- 1.1 核 `.tmp/stage1-rebuild-20261108/retire/receipt.json`、`bootstrap-03/receipt.json`、`postrestart/receipt.json`。预期旧 Ubuntu 精确对象已销毁，签验新实例 GUID/VHD 身份一致，实际 Windows 重启后旧入口缺席，围栏与宿主配置通过。旧隔离路线的启动及磁盘增长 3 MiB 仍 FAIL。
+- 1.2 核原启动清查、退役和重启回执。预期旧注册及关联磁盘缺席，历史 UNKNOWN 与费用仍未结清，研究出口关闭。启动清查只覆盖记录的直接可读项，未读取 COM 动作内部。Windows Pg 与保管副本保留。
+- 1.3 核 `.tmp/stage1-rebuild-20261108/fetch-02/debs/fetch-summary.json`、`install/transfers.json`、`resumeinstall-06/guest.txt` 及同目录回执。预期 97 包及 99 传输核验，三角色各 15 项探针，错误凭据和越权拒绝，独立连接、1 GiB/1 CPU/swap 0、Pg cgroup 全部 PID、崩溃恢复 count=2、内存事件无 OOM 和最终收拢通过。实际资源证据只覆盖本次负载。网络恢复终态见 `network-resumepg06`。
+
+操作与证据定位见 `docs/tasks/STAGE_1_REBUILD_2026-11-08.md`。回执用于人验，历史退役入口禁止重复执行。技术闭环跨日完成，原 23:30 目标未达。r24 实机脚本原字节含一处行尾空格，为证据绑定保留。当前本地追加交付状态，避免为记录 CI 结果再改变已核准的远端提交。
+
+### 2026-11-09 全工作区审查与合并授权
+
+负责人原文“全面审查git区所有更改，测试验证通过后提交合并，保持本地和远端一致”。审查范围为当前阶段工作区、已有阶段提交及唯一 PR #5。现有运行资格、失败记录和合并授权独立；阶段二仍需明确启动。
+
+进入时 84 个工作区文件与两组 Git 差异已冻结于 `.tmp/git-all-review-20261109`，完整可读原件和 SHA256 见 manifest。两份误落盘命令输出、退役前 PREBOOT/Window B 工具和测试、旧操作卡及旧入口的未提交扩展共 67 个文件，按原字节转入本机 `retired-local`，清单 `local-retirement.json`。独立安全审查发现旧入口仍能挂载或启动旧盘，且部分包装依赖旧签验或权限假设。保留其本机证据，现役说明指向实际通过的重建路线。三份已有旧脚本的交付基线恢复为已审 HEAD 字节。
+
+唯一任务记录以 HEAD 原始字节为完整前缀。进入时含历史改写的工作稿整份保留在冻结目录。本次仅追加后续阶段交付与全区审查记录。工程流程、索引和聚合工具纳入验证；旧现场失败与 UNKNOWN 不变。
+
+<!-- dev-current:start -->
+当前索引 2026-11-09。仅定位，另核原始授权、Git和证据。
+- ENV-M1-01 阶段 1.1–1.3 已通过真实技术资格，最终提交 de4f754a 的 PR/push CI 均通过。
+- 当前用户明确要求全面审查工作区并在验证通过后提交合并。冻结原件/分类见 `.tmp/git-all-review-20261109`。已审退役原件本机保全，现役候选待最终验证与 CI。
+- 阶段二仍待明确启动。研究 closed、Memory disabled、Browser 0。旧隔离 FAIL 和 UNKNOWN/费用保留。
+<!-- dev-current:end -->

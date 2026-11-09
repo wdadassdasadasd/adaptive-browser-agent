@@ -1,6 +1,6 @@
 # Adaptive Research Agent — 需求与方案研究起草产品与技术规格
 
-**DEV-STAGES-20261104-01：负责人明确批准六阶段、26切片计划，并在Default模式要求PLEASE IMPLEMENT THIS PLAN；本次实施准备切片P0。** 本规格定义目标，实际实施/检查/独审/人工验收由唯一任务记录裁定。TEAM、R2及各更早批准继续绑定原字节与范围，不回绑历史；r12/P-02 No-Go保留。P0只同步配置并限定离线验证，业务、环境及真实执行各守准确操作关口。
+**DEV-STAGES-20261104-01：负责人明确批准六阶段、26切片计划，配置最初通过准备切片P0落地。** 本规格定义目标，后续阶段的原始启动授权、实际实施/检查/独审/人工验收由[唯一任务记录](docs/features/DECISION-001/tasks.md)及原始证据裁定，不以本规格旧P0范围覆盖后续明确指令。TEAM、R2及各更早批准继续绑定原字节与范围，不回绑历史；r12/P-02 No-Go保留。配置不授业务、环境或真实执行许可，各操作仍守准确授权关口。
 
 权威配套：[计划](PLANS.md)、[现行契约](docs/contracts/CURRENT_CONTRACTS.md)、[功能AC](docs/features/DECISION-001/spec.md)、[唯一评测协议](docs/evaluation/CURRENT_EVAL_PROTOCOL.json)、[唯一任务及18项记录](docs/features/DECISION-001/tasks.md)。M1补充只引用唯一协议，不另立资金或Go规则。具体API、参数、资源与失败规则集中在契约，本页定义产品结果。
 

@@ -1,6 +1,6 @@
 # 现行目标契约 — DEV-STAGES-20261104-01
 
-负责人在Default明确要求实施已确认六阶段26切片计划，本轮仅P0计划与门禁同步、限定离线检查、独立实施审查/修复和验收包。实际状态见[唯一任务](../features/DECISION-001/tasks.md)，原18项/进入PREBOOT追加保留。TEAM/R2等旧批准继续绑定原字节；[SPEC](../../SPEC.md)定义结果，[PLANS](../../PLANS.md)唯一维护阶段/切片及推进规则。draft-m1-3及公开材料索引原bytes保持，能力引用draft-m1-capabilities-6：六阶段工程验收与显式按需效果评测分离；原协议继续独占整批资金、调用上限及已启动效果包内部规则，不另立资金或Go权威。
+负责人在Default明确要求实施已确认六阶段26切片计划，配置最初通过P0计划与门禁同步、限定离线检查及独审落地。后续阶段的原始启动授权与实际状态见[唯一任务](../features/DECISION-001/tasks.md)及原始证据，原18项/进入PREBOOT追加保留；本契约不固定当前活动切片，也不自行授予执行权限。TEAM/R2等旧批准继续绑定原字节；[SPEC](../../SPEC.md)定义结果，[PLANS](../../PLANS.md)唯一维护阶段/切片及推进规则。draft-m1-3及公开材料索引原bytes保持，能力引用draft-m1-capabilities-6：六阶段工程验收与显式按需效果评测分离；原协议继续独占整批资金、调用上限及已启动效果包内部规则，不另立资金或Go权威。
 
 FOCUS-BASELINE-20261102按进入HEAD dc4498f36c0342eef5191f9f59feaf3b363169b6及原path/raw hash读取；DRAFT final-01、REVIEW final-02、PREP及RAWJSON仍绑定各自原字节，不重写索引。current-3原1ffade6de07ebe3d1e72afb4c44b8677466eca67及显式换行规则不变。[V1](V1_CONTRACTS.md)和[P-01](../tasks/P01_ACCEPTANCE_2026-10-21.md)仅解释原行为。配置不授业务、依赖、环境／DB／ACL、真实模型／Tokenizer／Browser、采购、外部或Git写；原SQLite、费用与来源证据及r12／P-02 No-Go保留。研究／独立设计审查证据及限制见[本轮研究](../research/PREDEV_CONFIGURATION_REVIEW_2026-11-03.md)。
 
