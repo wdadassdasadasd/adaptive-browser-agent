@@ -9,6 +9,8 @@
 
 新目标复用**资格通过的已安装Pg16.15 binary**，独立data/config/凭据/端口55432，业务库ara_m1与隔离ara_m1_test。旧5433 cluster及SQLite只读取证，不因新库选择自动关闭旧数据库服务、重置旧费用/unknown或删除原件。实际Linux绝对路径、二进制/权限/端口和构建同步身份由ENV-M1-01核实后提交准确操作包，当前不伪造可执行命令。新实例与旧服务不能混入同一资源组。
 
+2026-11-08准确退役重建差额：本人批准仅销毁固定旧Ubuntu关联文件系统，外部证据/旧未知账保留，新ara-m1-stage1独立导入；旧binary随退役不可复用，采用此前已批签验Canonical官方包新装Pg16.15。原隔离/连续性失败保持FAIL，新的退役/来源/身份/认证/资源/重启资格以实际证据裁定。部署仍采用WSL独立API/Worker/Pg，不更换承载架构；准确范围由CURRENT_CONTRACTS §6与本次操作包定位，不替代操作回执。
+
 ## 应用权威与启动
 
 Pg应用表拥有team/project/member/source用途、条件与ReviewQuestion、SourceSet及LocalCapture、DocumentVersion/head和RequirementsConfirmation、Task执行许可、Attempt/fence、稳定Work、物理Call、grant/费用、工件、证据、报告与事件。checkpoint采用sync目标但仅保存有界已提交引用，应用与checkpoint分schema/角色/连接，不假定跨写入原子。普通启动只验证代码、依赖、schema和部署身份；建库、迁移和checkpointer setup分别授权，运行角色无DDL。

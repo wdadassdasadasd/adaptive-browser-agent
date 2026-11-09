@@ -297,6 +297,8 @@ DEV-STAGES适用范围：普通工程测试、独审、恢复与真实接入资�
 
 新独立PG16 cluster目标16.15，实际binary须另验，独立data/凭据/55432/ara_m1+ara_m1_test；旧5433/SQLite只读取证。应用/checkpoint角色无DDL，schema setup另授migration；准确Linux路径/role/同步/服务/凭据属ENV-M1-01操作包。Ubuntu当前Stopped；启动可能运行旧systemd/bootcommand/Worker，无安全隔离证据不能先boot再补防护。冷切关旧准入→核队列/在途/unknown→停止旧API/Worker→旧写凭据失效/处理存活连接→验证不能误写；不默认停旧DB/删原件。回滚停写保留新数据费用权限，回理解当前schema版本，不destructive downgrade。
 
+**2026-11-08 ENV-M1-01准确退役重建差额（本人全文批准实施）**：旧Ubuntu注册启动隔离已实测失败且原盘增长3MiB，原验收仍FAIL。仅本人固定SID下Ubuntu固定GUID/Canonical LocalState关联文件系统允许永久销毁，无新增旧盘读取/备份；外部既有保管副本、回执、UNKNOWN/费用、stage1-bootstrap和Windows Pg保持。新ara-m1-stage1从签验Base独立导入、签验官方包新装Pg16.15，不复用旧binary或授权；新验收为授权退役销毁＋新来源/身份/角色/资源/重启证据，不冒称旧连续性。准确对象/操作/原始授权及本次自动断网恢复范围见docs/tasks/STAGE_1_REBUILD_2026-11-08.md及唯一记录；不授权合并/阶段二/研究/Memory/Browser，旧未知不清零或重发。此差额不把上段默认禁删除规则扩展为其他数据的删除许可。
+
 本机技术验证先本人＋测试身份，不证明真实团队价值；可信本机HTTP origin=http://127.0.0.1:8766；cookie不隔离同host端口，本机恶意服务/OS不在保证，不自动TLS/LAN。Browser真实接入暂缓并保持0。以下Browser连接方案仅保留后续资格研究，不属于当前调用／存储额度；未来开启须另授权和重评资源，仅navigate/wait/scroll/DOM extract，无任意click/input/download/login/个人profile。
 
 Browser namespace全IPv4/6默认DROP仅固定proxy TCP，UDP禁；proxy独立UID/namespace、受控DNS+public80/443。验证全部A/AAAA并numeric IP pin，Host/SNI/上游cert/实际peer核对，无重新DNS旁路。研究mitmproxy12.3.1固定commit51c1d6b2d8d3367a773411eb7a3eeccec82b3ea7，源码/测试/serializer实证未有则Browser0。临时CA仅临时Browser信任，私钥proxy私有，不装系统；lazy/upstream_cert=false，上游验证，HTTP1.1，HTTP2/3/QUIC/WebRTC/UDP/WebSocket/rawtcp/透传及额外addon关。CONNECT不先探上游，GETbody0，拒非0CL/TE/Upgrade/嵌套CONNECT，req头16KiB；剥Cookie/Auth/ProxyAuth/SetCookie。安全URL/Host/header固定hash后claim，不可证明实际序列化一致则关能力。

@@ -188,9 +188,20 @@ def run_worker(target, args, deadline=120):
 
 def download_with_opener(item, destination, opener):
     with opener.open(item["uri"], timeout=120) as response:
-        data = response.read(item["size"] + 1)
+        chunks = []
+        received = 0
+        while received <= item["size"]:
+            chunk = response.read(min(65536, item["size"] + 1 - received))
+            if not chunk:
+                break
+            chunks.append(chunk)
+            received += len(chunk)
+        data = b"".join(chunks)
     if len(data) != item["size"] or hashlib.sha256(data).hexdigest() != item["sha256"]:
-        raise ValueError("package_size_or_sha256_mismatch")
+        raise ValueError(
+            f"package_size_or_sha256_mismatch:received={len(data)}:"
+            f"expected={item['size']}:sha256={hashlib.sha256(data).hexdigest()}"
+        )
     with destination.open("xb") as stream:
         stream.write(data)
         stream.flush()
@@ -257,6 +268,10 @@ if __name__ == "__main__":
     if len(sys.argv) != 2:
         raise SystemExit(__doc__)
     window = Path(sys.argv[1]).resolve(strict=True)
-    if window != ROOT / "bootstrap/window-01":
+    # Window pin re-pinned to window-11 (2026-11-08): window-01 closed unattempted, window-02
+    # burned by the wsl argv-join corruption before any fetch (sole-record cont-3). The
+    # reviewed plan/caps/retry semantics are unchanged. Whole-plan validation still happens
+    # before any GET.
+    if window != ROOT / "bootstrap/window-11":
         raise SystemExit("window_not_the_reviewed_one")
     fetch(window)

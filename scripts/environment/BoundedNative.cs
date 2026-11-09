@@ -11,6 +11,17 @@ public sealed class AraNativeResult {
     public string[] Lines;
 }
 
+// Additive 2026-11-08 for the window B-3 bounded offline package transfer (restricted stdin
+// stream). Same transport discipline as Run: no shell, no retries, bounded raw pipes, deadline;
+// plus a bounded stdin pump whose input cap kills the child and whose early child exit is
+// reported as a broken stream instead of being mistaken for success.
+public sealed class AraNativeStdinResult {
+    public int Exit;
+    public string[] Lines;
+    public long BytesWritten;
+    public bool InputComplete;
+}
+
 public static class AraBoundedNative {
     private sealed class Capture {
         public int Total;
@@ -34,6 +45,26 @@ public static class AraBoundedNative {
         }
     }
 
+    // Conditional quoting (2026-11-08). MEASURED fact that forced this addition: wsl.exe in this
+    // environment FAILS to parse an option that arrives quoted. The same meta command gave a
+    // garbled failure with Arguments = "\"--version\"" (exit -1) and a clean 354-byte version
+    // table with Arguments = "--version" (exit 0). Because Quote() wrapped EVERY argument, every
+    // `-d`/`-u`/`--exec` call had its options quoted, wsl.exe did not recognise them, and it fell
+    // back to executing the remainder as a command line -- which is exactly the recorded
+    // `/bin/bash: line 1: -d: command not found` of window-02/07/09.
+    // So: quote only when the argument actually needs it; otherwise pass it bare.
+    public static string QuoteArg(string arg) {
+        if (arg == null) return "\"\"";
+        if (arg.Length == 0) return "\"\"";
+        foreach (char c in arg) {
+            if (c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '"' ||
+                c == '&' || c == '|' || c == '<' || c == '>' || c == '^') {
+                return Quote(arg);
+            }
+        }
+        return arg;
+    }
+
     // CommandLineToArgvW / CRT quoting: backslashes before quotes and the final quote double.
     public static string Quote(string arg) {
         var result = new StringBuilder("\"");
@@ -51,6 +82,93 @@ public static class AraBoundedNative {
         }
         result.Append('\\', slashes * 2);
         return result.Append('"').ToString();
+    }
+
+    // Additive 2026-11-08 for the window B-3 bounded offline package transfer (restricted stdin
+    // stream). Same transport discipline as Run: no shell, no retries, bounded raw pipes, and a
+    // deadline that now covers the WHOLE call including the stdin write phase (the pump runs on
+    // a task; a wedged child is killed by the deadline instead of blocking it forever). Input
+    // cap kills the child; early child exit is reported as a broken stream, not success.
+    public static AraNativeStdinResult RunWithStdin(string file, string[] args, Stream stdinSource,
+        long inputCap, int timeoutMs, int cap) {
+        var quoted = new string[args.Length];
+        for (int i = 0; i < args.Length; i++) quoted[i] = QuoteArg(args[i]);
+        using (var process = new Process()) {
+            process.StartInfo = new ProcessStartInfo {
+                FileName = file, Arguments = String.Join(" ", quoted), UseShellExecute = false,
+                CreateNoWindow = true, RedirectStandardInput = true,
+                RedirectStandardOutput = true, RedirectStandardError = true
+            };
+            // Windows PowerShell/.NET Framework can flush a UTF-8 preamble into stdin.
+            // Reflection keeps the other PS5 callers compilable; binary transfer requires
+            // the explicitly selected modern runtime and never silently falls back.
+            var inputEncoding = typeof(ProcessStartInfo).GetProperty("StandardInputEncoding");
+            if (inputEncoding == null || !inputEncoding.CanWrite)
+                throw new PlatformNotSupportedException("binary_stdin_requires_powershell7");
+            inputEncoding.SetValue(process.StartInfo, new UTF8Encoding(false), null);
+            if (!process.Start()) throw new InvalidOperationException("native_start_failed");
+            var capture = new Capture { Process = process, Cap = cap };
+            var stdout = Task.Factory.StartNew(() => capture.Read(process.StandardOutput.BaseStream));
+            var stderr = Task.Factory.StartNew(() => capture.Read(process.StandardError.BaseStream));
+            long written = 0;
+            bool inputComplete = false;
+            Exception pumpError = null;
+            var pump = Task.Factory.StartNew(() => {
+                try {
+                    byte[] buffer = new byte[8192];
+                    while (true) {
+                        int count = stdinSource.Read(buffer, 0, buffer.Length);
+                        if (count == 0) { inputComplete = true; break; }
+                        written += count;
+                        if (written > inputCap) {
+                            try { process.Kill(); } catch (InvalidOperationException) { }
+                            pumpError = new IOException("native_input_over_cap");
+                            return;
+                        }
+                        try {
+                            process.StandardInput.BaseStream.Write(buffer, 0, count);
+                            process.StandardInput.BaseStream.Flush();
+                        } catch (IOException) {
+                            if (process.HasExited)
+                                pumpError = new IOException("native_input_broken_stream_child_exited");
+                            else
+                                pumpError = new IOException("native_input_write_failed");
+                            return;
+                        }
+                    }
+                } catch (Exception error) {
+                    if (pumpError == null) pumpError = error;
+                } finally {
+                    try { process.StandardInput.Close(); } catch (InvalidOperationException) { }
+                }
+            });
+            bool exited = process.WaitForExit(timeoutMs);
+            if (!exited) {
+                try { process.Kill(); } catch (InvalidOperationException) { }
+                if (!process.WaitForExit(5000)) throw new TimeoutException("native_kill_unconfirmed");
+            }
+            // The kill above (deadline or cap) unblocks a wedged pump; wait briefly. Outcome
+            // order (review N4): a deadline kill is reported as native_deadline_exceeded even
+            // though killing the child also breaks the pump's pending write; the over-cap kill
+            // keeps its own error because the child exit makes `exited` true.
+            try { pump.Wait(5000); } catch (AggregateException) { }
+            if (!exited) {
+                throw new TimeoutException(pumpError == null
+                    ? "native_deadline_exceeded"
+                    : "native_deadline_exceeded:" + pumpError.Message);
+            }
+            if (pumpError != null) throw pumpError;
+            if (!Task.WaitAll(new Task[] { stdout, stderr }, 5000))
+                throw new TimeoutException("native_pipe_close_unconfirmed");
+            if (capture.Overflow != 0) throw new IOException("native_output_over_cap");
+            return new AraNativeStdinResult {
+                Exit = process.ExitCode,
+                Lines = (Decode(stderr.Result) + "\n" + Decode(stdout.Result)).Split(
+                    new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries),
+                BytesWritten = written,
+                InputComplete = inputComplete
+            };
+        }
     }
 
     private static string Decode(byte[] bytes) {
@@ -74,7 +192,7 @@ public static class AraBoundedNative {
 
     public static AraNativeResult Run(string file, string[] args, int timeoutMs, int cap) {
         var quoted = new string[args.Length];
-        for (int i = 0; i < args.Length; i++) quoted[i] = Quote(args[i]);
+        for (int i = 0; i < args.Length; i++) quoted[i] = QuoteArg(args[i]);
         using (var process = new Process()) {
             process.StartInfo = new ProcessStartInfo {
                 FileName = file, Arguments = String.Join(" ", quoted), UseShellExecute = false,

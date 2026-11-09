@@ -3198,3 +3198,128 @@ review09完整集成154原件审查为DONE_WITH_CONCERNS，2P2/1P3：设置名�
 - 待人决定entry/binding-drift-decision.md（0fcf7a23…），独立设计审查原文binding-drift-design-review-original.md：A隔离partial；B拟额外一次只读完整性资格重建及验收替代，需人方向选择后实现/失败验证/准确卡/明确新一次读授权；当前不能执行，不恢复旧机会或研究资格。
 - HEAD基线9c3482f6…；本片已commit 22c292d5+ea93526+20e6650+5bbe0b0。本人四项授权后受控窗口已执行B方向唯一真实读（real-read-01）：双文件各4867489792字节完整读入，回执结构全真，last-access设3读后恢复2，本读未改动原对象（原件field5仍134385080318390256）。结果：ORIGINAL_MATCHES_COPY=False，原件与副本内容不相等，G6验收替代不成立，§B.5停线触发，授权用尽，无第二真实读；B资格重建负性关闭。1.1在现有权威下以隔离partial存续，硬停继续有效，不进1.2/1.3；进一步调查（副本出处/新基线/新读）需新决定稿+R2+本人新授权。操作卡docs/tasks/STAGE_1_1_INTEGRITY_CARD_2026-11-07.md。本push/PR/CI；不reset/clean。
 <!-- dev-current:end -->
+
+
+### 2026-11-08：本人批准直接销毁旧Ubuntu、干净重建并完成整个阶段一
+
+本聊天原话“当前第一阶段还没完成，到底卡在哪里了，实在不行把原来环境全删了，装新的，不要浪费时间了，深入研究解决，第一阶段必须今天内解决”；本人在列明永久数据损失后选择“直接销毁旧环境”，随后全文重贴《第一阶段收尾：退役旧 Ubuntu，重建干净环境》并明确“PLEASE IMPLEMENT THIS PLAN”。原问题/所有选项/答案/完整批准计划冻结 `.tmp/stage1-rebuild-20261108/entry/authority.md`，原聊天仍是权威。此授权明确覆盖1.1–1.3，替代前1.1交付后停点；允许准确旧Ubuntu销毁、新实例/包安装/独立Pg/角色/资源/重启资格以及已有阶段Git交付；不含合并/发布/阶段二/模型/研究调用/采购。
+
+仅旧Ubuntu `{5bd0012b-1a62-445a-ad9e-da37f21ba704}`、固定Canonical LocalState关联文件系统可销毁；stage1-bootstrap、外部archive/回执/失败、仓库及Windows Pg保持。新 `ara-m1-stage1` / `D:\WSL-Stage1\ara-m1-stage1`，已签验派生tar6513c1e9…重导入。准确包 `docs/tasks/STAGE_1_REBUILD_2026-11-08.md`。旧窗口11启动/增长3MiB仍FAIL，不修复历史或冒称连续性；新AC为授权退役销毁＋独立新来源/身份。旧账/在途/费用UNKNOWN不清零/不重发，研究closed/Memory disabled/Browser0。
+
+前轮独立R2设计审查/root/environment_design_review DONE_WITH_CONCERNS；本轮按批准设计新增独立入口/模块、Bootstrap/PG脚本、签验包获取wrapper；共享BoundedNative仅RunWithStdin通过受检反射要求现代runtime并显式UTF8无BOM，PS5其余接口兼容；新接收命令保留stdin。新Pg采用peer管理员、独立SCRAM受限角色、migration NOLOGIN；WSL1GiB/1CPU/swap0与Pg真实cgroup、权限、独立连接/崩溃/停止资格尚待实机。
+
+实际针对检查：旧链回归已从14PASS+1XFAIL变为16PASS（`.tmp/rebuild-transport-tests-02`；包括0/1/4/全字节/64MiB、超限/断流/超时/输出限额、PS5明确拒绝）；PS解析0错误；两shell经Git Bash `-n`解析PASS（最初沙箱拒绝后仅解析以工具许可执行）。未运行shell主体。可读原件/指纹快照entry，独立实施/安全审查/root/rebuild_implementation_review进行中。已发起仅Audit的UAC只读宿主清查，本节时尚无真实销毁/WSL启动/安装。HEAD452a4749，未commit/push/PR/CI，混合既有工作区完整保留。
+
+<!-- dev-current:start -->
+当前索引：2026-11-08；仅定位，另核原始人工授权/Git/实际证据。
+- 新原始授权：本聊天本人全文批准实施阶段一退役重建，覆盖1.1–1.3，撤销前1.1交付后停点。原文`.tmp/stage1-rebuild-20261108/entry/authority.md`；准确包docs/tasks/STAGE_1_REBUILD_2026-11-08.md。
+- 仅销毁旧Ubuntu固定GUID/LocalState关联文件系统；不新增旧盘读/备份。保留stage1-bootstrap/外部archive/历史失败/仓库/Windows Pg。新ara-m1-stage1位于D:\WSL-Stage1\ara-m1-stage1。
+- 旧window11启动成功/增长3MiB仍FAIL；STOP-LINE原件不改。新AC为授权退役销毁＋新实例独立来源/身份，不能声称原路线通过。
+- 新传包回归16PASS；完整Bindings正反例通过；PS/Bash解析通过。Audit04真实通过但旧候选；r6须Audit05同候选重核。r3/r4实施独审DONE，网络r6复审中。
+- 本人追加授权自动断网/执行/恢复；新入口Invoke-RebuildOfflineWindow.ps1，物理网卡Name+GUID限定，独立600秒watchdog精确撤销主执行/唯一收尾/先围栏再联网。真实夹具进程+mock恢复测试PASS，未真实断网。
+- r8完整候选candidate-originals-r8，manifest6c12c59e3d03b7a928d72bfdb03ba80f40f48199b416338d2edac4b1e1c97a31，实施独审DONE所有发现闭合。发起RetireBootstrap自动离线窗口；本节时尚无真实销毁/WSL启动/安装；HEAD452a4749，未commit/push/PR/CI。
+- 旧UNKNOWN/费用不清零、不重发；Memory禁用/Browser0/研究closed。阶段末人验/合并/发布/研究准入/阶段二各守门禁。
+<!-- dev-current:end -->
+
+### 2026-11-08 20:49：旧Ubuntu准确退役；Bootstrap实测失败、实际恢复与修复资格
+
+- r8真实Audit05/Retire成功；旧Ubuntu GUID/注册/关联ext4消失，新ara-m1-stage1 GUID {e26d9688-7b5b-470a-bae3-c4a0dbf07eb3}、固定D路径及VHD对象身份记入retire/receipt.json。未重新注册/触碰旧guest；旧window11失败仍FAIL。
+- Bootstrap首次真实exit1，发生安装前；失败原件bootstrap/receipt.json保留。原回执仅代理警告不足以确认失败行。diagnostic-01只读实测：interop配置false、环境空、无cmd PATH/用户盘、lo/route0/swap0/nproc1；WSL自带0字节WSLInterop占位及唯一只读drivers 9p，导致原存在性/全9p拒绝谓词误拒。该警告非已证根因。
+- 首窗口network-retirebootstrap/result.json恢复超时，旧watchdog未落终态，原失败不覆盖。diagnostic-01先准确恢复WLANUp、WslService/vmcompute Stopped/Disabled，再隔离只读诊断并finally收拢。恢复证据diagnostic-01/restored.json。
+- r9限定只读引擎drivers（source/target/ro/nosuid/nodev/aname/fmask/dmask）；拒任何drvfs/其他9p/可写挂载；新增实际PE direct-exec必须126 Exec format error，保留零字节占位允许、非空注册拒绝。Bootstrap-02仅允许此前空准备目录；增加失败行/APT尾日志。旧Bootstrap不覆盖。
+- 守护改用同当前提升用户token的WMI脱离tool作业进程（不建任务/服务/新凭据），保留PID/创建时刻/Transcript/终态；detached-fixture-02/03/04证明父正常退出及被杀后仍同SID/admin存活并落done，01的CREATE_NO_WINDOW标志被WMI21拒绝保留。主收尾失败保持外层存活等待守护。
+- 新候选显式采用r8成功Audit05/Retire；固定前候选、两原回执准确SHA和全部可读冻结源码/证据文件SHA，新GUID/VHD身份继续核。Test-RebuildRetirementEvidence正例及改回执/原件反例PASS；Bindings PASS；恢复次序/精确进程PASS；传输+挂载23PASS，PS解析0；沙箱CIM拒绝的fixtures04保留，工具提升fixtures05成功。
+- 旧候选retired-candidate-r8.json与candidate-originals-r8保留。r9可读原件candidate-originals-r9，独立实施复审进行中。未Pg安装/宿主重启/commit/push/CI，阶段未完成。
+
+### 2026-11-08 20:55：r9独立实施/安全复审完成，进入一次ResumeBootstrap
+
+/root/rebuild_r9_delta_review独立结论DONE_WITH_CONCERNS：11 live/frozen字节与manifest01180be6...一致，完整r8->r9 delta及采用/恢复/严格drivers/PE负例无已确认P0–P3缺陷；独立23PASS及新transport+mount9PASS、Bindings/RetirementEvidence/PS解析0、Ruff通过；其沙箱CIM拒绝如实保留并只复用checks-r9-network.txt实际EXIT0。允许同不变候选一次ResumeBootstrap，不得重做Retire。真实恢复/PE/Bootstrap/APT、Pg及重启仍NOT_TESTED。只读preflight-r9-host.json确认WLANUp、双服务Stopped/Disabled、无guest、原配置43ed...及两准确注册。按原始授权执行下一窗口，失败不覆盖。
+
+### 2026-11-08 21:41：r9正常恢复真实PASS，第二同链失败完整分析与r10修复
+
+- ResumeBootstrap r9真实bootstrap-02失败于PE状态必须126（line22），尚未APT；98304B PE传输/guest SHA一致，无64MiB容量/120s超时/12MiB输出限额不足证据。network-resumebootstrap实际无恢复错误、restored=true、watchdog正常恢复终态errors=[]，该正常路径PASS，超时路径未触发。
+- diagnostic-02只读获取因脚本CRLF被bash拒绝，原失败/最终Close无报错保留。diagnostic-03经LF规范化后只读成功，取得原PE日志62B UtilAcceptVsock accept4 failed110及WSLInterop真实正文enabled/interpreter /init。先前把proc stat大小0当空占位是错误判定，明确撤回；非正常interop禁用证明，旧负例不能PASS。未重复PE或Bootstrap猜结果。
+- 全链复核：容量充分/传输正确；实际失败在支持组合（WSL VM级binfmt注册仍enabled）与文本/混合编码诊断边界；当前partial未安装。准确收拢与网络正常恢复独立有原回执；未销毁新数据、未重跑Retire，旧费用UNKNOWN/研究closed保留。
+- 官方原理核验：Microsoft WSL technical interop文档说明WSL2 mini_init在VM层注册WSLInterop；Linux6.6 admin-guide/binfmt-misc说明向具体条目写0禁用并读正文核状态。原机器配置/guest interop=false均保留，r10只在新guest每次脚本/二进制接收前临时禁这一个VM条目并核首行disabled，不放宽为非零exit；保留实际PE必须126/Exec format error及前后状态验证。该窗口先无guest，仅启动新实例；保留bootstrap不启动、不改其盘。
+- r10仅脚本文本CRLF->LF，裸CR拒绝，guest stderr合并到guest stdout后再过host分流，保留退出码/cap/deadline；二进制pump字节不变，共享C#不改。初版GitBash/MSYS可能消解CRLF且混流奇数字节绕过启发式，不能冒称已捕获二缺陷；修正夹具明确核payload无CR及偶数字节混流后，分别在冻结r9复现两RED，r10同用例GREEN，原始checks-r10-channel-old-{Newlines,Encoding}-red.txt及green-03.txt。
+- 新ResumeBootstrap03/Bootstrap03/新PE文件及拒绝日志独立命名，原失败2个文件保留。PG脚本安装前后/最终读真实proc状态拒任何重新enable。针对9PASS、两shell语法PASS、PS解析0；r10冻结candidate-originals-r10、review-extras-r10，待独立复审后一次实际Bootstrap03，禁止同质盲试。
+
+### 2026-11-08 21:44：r10增量独审两P2已修，r11待准确复核
+
+独审发现fence自身stderr仍处bash2>&1外，及准确操作卡旧入口/写集未更新。r11将整个guest围栏+payload/二进制接收group统一2>&1，保持末命令退出码；新增实际围栏失败夹具在冻结r10 RED、r11 GREEN（checks-r11-fence-old-red.txt/channel-green.txt），CRLF/混流既有回归同过。准确卡现ResumeBootstrap03/bootstrap03及单条目VM临时写集/原失败指针、官方依据齐。r10未真实执行；r11完整冻结candidate-originals-r11和review-extras-r11，待同一独审准确delta复核。旧r8/r9真失败原件不动。
+
+### 2026-11-08 21:51：依赖组合前置核验及唯一EOF索引修正
+
+本轮此前更新误用了首个历史dev-current标记，将20:49–21:44新记录插入历史位置而EOF仍旧；现将该新记录块移到EOF，历史内容/字节保留，最后索引准确更新。r12仅增六pin版本组合修正：已签验snapshot security systemd/sysv255.4-1ubuntu8.18、updates pg-common/clientcommon257build1.1，Pg仍16.15；原tar libsystemd0已8.17，原systemd8精确依赖libsystemd0=8与现有库不兼容。签验索引版本/依赖完整原件signed-dependency-version-evidence.json。尚未APT运行，预防下个已知依赖失败；r11从未真实执行。最终候选r12 fd277bbf3ae0523b9ecee50255c14dc347994be3319719c899d1b795ca4263a3，candidate-originals-r12。独审/root/rebuild_final_delta接替复核r9->r12完整增量及上述组合，暂无新增真实操作。
+
+### 2026-11-08 22:04：Bootstrap03真实通过；首次Fetch失败诊断与r13修复
+
+r12实施独审/root/rebuild_final_delta DONE_WITH_CONCERNS，无新增P0–P3，同候选一次ResumeBootstrap03真实成功。guest.txt有WINDOWS_PE_EXEC_REJECTED、1CPU/swap0、签验三索引/安装状态前后hash、BOOTSTRAP_CHECKS_OK；97包完整URI。network-resumebootstrap03 success/restored/guard正常终态errors=[]，收拢无失败。首次fetch首包size/hash拒绝，bootstrap03/debs failed summary/worker原件保留，未安装。原错误未记录实际收到数量/哈希，不能确认原因。HEAD诊断类型/长度正确；之后一次有界分块GET诊断首包1825574B/50e1b2...与签验索引完全一致，first-package-diagnostic.json/deb保留。
+
+r13 readloop正确处理短read并在失败记录actual size/hash；新fetch02目录，准确采用r12成功bootstrap回执SHA/候选/完整原件/证据，既有r8退役采用不变。首包仅再次验证诊断字节后复用，禁止第三次GET；其他包仍一次物理GET/120s父deadline/原总帽/无redirect/retry。安装入口指向fetch02，Verify准确允许r12bootstrap；不重做Bootstrap/Retire、不覆盖失败。四新短读/截断/超长/哈希反例与合成共20PASS；两旧fake响应无游标不符合流语义，改BytesIO后通过，首次红记录保留。r13完整冻结candidate-originals-r13，manifest1e84c1c661c91ad187a2f298df32df0b088393809579d97602d0562e021b6fd6，独立复核/root/rebuild_final_delta进行中，安装未开始。
+
+### 2026-11-08 23:16：97包获取/传输通过，安装中断为partial，恢复差额待复核
+
+r13 Fetch02 planned97/complete=true，全部receipt和哈希通过；独审/root/rebuild_final_delta DONE_WITH_CONCERNS后执行Install。install/transfers.json已有99项guest哈希一致；原install无最终receipt、network-install无终态，协调器/守护已消失，双服务曾RunningManual，最终丢失原因UNKNOWN，不能认定timeout/工具更新即根因。工具Get-Command的PS路径变缓存路径，原固定exe仍存在且SHA完全相等；首次diag04因路径守卫在开目录前拒绝，改原固定path后收拢/只读诊断成功。diagnostic04恢复WLANUp/服务Disabled，最后Close无报错，guest日志取回；不补伪原成功回执。
+
+独审原dpkg日志确认Pre-Depends缺陷：python3/systemd-sysv未安装，另13未配置/py3.12半配置，cluster不存在、无Pg进程。tzdata确有交互提示但随后继续，先前“停在交互提示”非已证根因，明确更正。不能仅configurepending。r14新resume_pg继承原全部Pg资格，精确核本次守卫/无人值守和stdin空、一次pending配置允许partial、已传97签验包本地重装闭合predeps、最终pending必须0、逐包exact版本+installok+audit空后才建cluster。无新GET/传包/清锁/删数据/放宽依赖；原失败留存，新ResumeInstall回执/ResumePg窗口，顶层也脱tooljob并用原钉定路径。r14完整冻结candidate-originals-r14（12源码），manifest17685d17cbddce57d652807ae0d7e771953d577a89fd1dafba36b52b1fa7c75c，准确增量独审中；尚无r14真实操作。
+
+### 2026-11-08 23:17：r14两P1修复为r15，恢复尚未执行
+
+/root/rebuild_final_delta对r14确认两P1：重复glob dpkg-i不保证PreDepends拓扑闭合；恢复缺少原99文件/签验来源重验。r15改APT --no-download --no-remove --fix-broken只消费已传97localdebs、无人值守/stdin空、不得force-depends；固定fetch02 summary SHA261f601...及原99transfer SHA796be3...，每签验包唯一size/hash与transfer匹配，包操作前一条guest命令重验99文件和精确97deb数量，包含role_probe。原installattempt必须存在，新resumeattempt必须缺席，单次新marker。完整Pg资格正文保持原已审内容。新顶层launcher entry/launch-resume-pg.ps1固定candidate/原runtime、身份/fenced/retire原件后WMI创建顶层driver，记录pid/start/父pid；不宣称原失活根因已定位。12源码完整candidate-originals-r15，manifest ea24af2b25999f88c51c435db8ec2b1f4651d43f2a8ad6e7167e88fd4b6fec79，Bash/PS/launcher解析0。原独审准确delta复核中，未执行r14/r15，旧失败保留，阶段未完成。
+
+### 2026-11-08 23:22：r15真实容量失败/收拢成功，r16固定分批待复核
+
+r15独审关闭2P1后，用户点击UAC，顶层WMI协调器创建PID13032/父24536，父正常退场后新resumeinstall/receipt及network-resumepg/result/guard终态完整落地。失败为旧99文件重验命令超Windows32767字符，原Base6433652；发生在传新resume脚本/执行包操作前（resume-transfer缺席），新attempt未落。旧包状态保持partial、无Pg资格，不覆盖失败。双服务围栏/config/net正常恢复、guard观察errors=[]。
+
+第二恢复链失败整体分析：容量边界已准确量化；支持仍原固定WSL/PS7+本地APT排序，不扩容/不改限制；partial无包新操作；错误/收拢均有完整证据，未盲重试。r16每8条固定校验一批共13批，全部100检查（99文件+数量）完整覆盖、每批set-eu/失败拒绝，成功全部批次后才包操作。checks-r16-capacity.json实测最大4912含2048外层余量，PS解析0；新ResumePg02/resumeinstall-02及PID回执，旧失败留存。r16 candidate-originals-r16 manifestbf5682a3af2144be99b395f62d9d8f1bebaf0f9ed227b868d0db0a6c42a6dd1e，entry/launch-resume-pg02.ps1；独立准确delta复核中，未执行。
+
+### 2026-11-08 23:25：r16容量/来源校验真实通过；离线APT恢复失败、阶段仍未完成
+
+r16准确独审通过后一次ResumePg02，顶层/守护完整终态。原99文件全部重新size/hash通过（original-guest-reverified.txt），13批无32k失败；新resume脚本传入且哈希通过。FIRST_PENDING_CONFIGURATION_PARTIAL，随后APT --no-download --no-remove --fix-broken对localdebs退出100 Unable to fetch some archives，原完整失败写resumeinstall-02/receipt/transcript，未Pg资格。network-resumepg02恢复errors=[]，guard终态正常，旧失败不覆盖。不能声称97包已全部安装配置、Pg角色或资源通过；本次cleanup按脚本移除守卫，恢复marker已落，后续若修必须新marker/准确现态。
+
+同链第二真实恢复失败整体核：容量/来源和新顶层存活/真实收拢已PASS；支持组合仍缺APT no-download与本地包缓存衔接证据，错误/partial完整保留。正在独立核官方语义和实际失败，拟只用已验证97本地包缓存修复，不放宽联网/依赖/资源限额、不清锁/删数据，不同质盲试。23:30完整阶段验收目标无法承诺：Pg全部资格/宿主重启/准确stageGit/CI未完成，标准不改。
+
+### 2026-11-08 23:29：APT缓存支持组合调查与r17准确修复准备
+
+独立调查APT源码证据支持：--no-download只接受已在archives的规范归档，原local绝对路径并不意味着Local=true；原输出唯python3-minimal/python3/systemd-sysv未alreadynewest。准确APT版本2.8.3证据仍由独审核对，近版不冒精确。r17只在99原签验guest重验通过后，为这3个无epoch包核唯一/Package/cache canonical leaf，复制0644到archives并cmp；APT全部原no-download/no-remove/local97排序不变，不放宽联网/依赖。新03marker/原前两个marker及guard缺席/cluster空严格前置，创建本次guard。其余资格/资源/失败清理不变。完整candidate-originals-r17 manifestf2627daf59487038b1b0162a8a91934ab6d99e0c2412a5c6d30d04c61bf004e3、entry/launch-resume-pg03.ps1，shell/PS解析0；独审中，未真实执行。
+
+23:30完整阶段验收包无法形成：Pg资格/宿主重启/准确Git/CI仍缺，不改标准宣布通过。仍在已授权阶段范围持续修复，旧UNKNOWN/研究门禁不动。
+
+### 2026-11-08 23:30：准确APT2.8.3缓存机制核验，r18保留旧日志，目标验收包未完成
+
+独立调查将Launchpad Ubuntu apt2.8.3官方发布完整2.8.2->2.8.3 diff与2.8.2官方tag正文对照：cache/Local及--no-download逻辑未变化，准确解释本机2.8.3机制，不再只引用近版。r17缓存修复仅未安装3包，旧97哈希重验/依赖禁止联网/移除/全部Pg资格不变。独审追加P2：新重定向会覆盖r16原guest dpkg日志；r18仅给两新日志独立03后缀且cleanup tail同步。r17未执行。完整candidate-originals-r18/currentSHA91bd934b2a2cd187e4ab362820899e1d1d46eced6a9e1e5d3a1d0c8e47129794，launcher03固定同候选；待同轮准确独审结论，真实未执行。
+
+截至23:30计划目标，第一阶段未完成：旧Ubuntu已准确退役、新身份/Bootstrap/97签验包/99传输/真实网络收拢有证据；部分状态APT修复和全部Pg资格、宿主重启、准确Git/CI、人验均未闭合。不能以截止时间为由降低标准。继续原授权范围修复，研究/旧UNKNOWN仍closed/保留，不进入阶段二。
+
+### 2026-11-08 23:39：97包配置/cluster建立通过，启动证书及临时socket目录问题准确分离
+
+r18真实ResumePg03完成97包installed/version/audit空并建立16/ara_m1/55432；首次启动FATAL ssl-cert-snakeoil.pem no start line，证书坏根因UNKNOWN。r22经独审核无角色credentials、精确HBA peer/SCRAM/reject及实际listen空，只对本地socket关闭ssl，保留原证书/data/旧start日志，Pg残留显式拒绝；真实ResumePg04越过证书错误，PG16.15开始启动后因/var/run/postgresql锁目录不存在而停，尚未角色provision，所有回执/网络恢复终态完整errors=[]。
+
+无systemd环境/run每次新WSLsession临时目录消失是新准确支持组合问题。r23只在每次start_pg（首次及崩溃恢复）root核/var/run仅指/run或../run、/run/postgresql非symlink后install-d postgres:postgres2775，再原cgroupstart。包/身份/容量/认证前置全部保留，原数据不重建/不重装，旧日志不覆盖，新05marker/start-stage05窗口。完整candidate-originals-r23/currentSHAce2eda9cdf4790e163cd4bb323a2d038a7da4cdfcc7d79b0c11e6a031ef1f537、entry/launch-resume-pg05.ps1，shell语法PASS，准确独审中；未真实执行r23。第一阶段仍未完成，截止目标未达标事实保留。
+
+### 2026-11-08 23:47：Pg真实启动/cgroup通过，首认证探针无匹配密码，r24最小秘密修复待复核
+
+r23真实ResumePg05首次成功启动Pg16.15，cgroup资格样本current69267456/peak73515008，cpu100000/100000，memory.events所有项0；完整PID归属/limits检查已越过，尚非正常及崩溃前后完整资源资格。角色provision已完成，但首app探针exit2，未后续权限/并发/崩溃。安全diag05只读固定probe错误与secret路径stat，未读密码或provision日志：fe_sendauth no password supplied，三个pgpass0600及父目录0700全部ara_qualify所有。实际网络/服务收拢完整errors=[]。
+
+独立研究PG16官方密码文件规则+REL_16_15源码，并从已签验libpq5实际包只读解出库字符串证明默认socket目录/var/run/postgresql，调用该目录时passwordfile匹配hostname转换localhost，解释原文件host字段路径不匹配。r24只在guest受限备份.before06及以原ara_qualify改host->localhost，核单行64hex结构/权限、cmp字段2..5字节完全相等，不输出密码/不重置角色；连接-h socket原样不走TCP。保留已有roles/db/witness，peeradmin先核witnesscount1，跳过已完成provision但完整15x3探针/真实权限/auth/并发/witness2/崩溃/停止全部保留，新06日志避免覆盖。完整candidate-originals-r24/currentSHA7d3ac6f74f036da39e536c2423df08308554503d86984e8f7ea0413e543acd4e，launcher06，shell/PS0，独立准确复核中，未真实执行。阶段仍未完成。
+
+### 2026-11-08 23:50：Pg完整真实资格及终态Verify通过，用户确认重启
+
+r24经准确独审通过后一次ResumePg06真实success。resumeinstall-06/receipt.json success=true/cleanup=null，guest.txt完整三运行角色15项探针/错误凭据/peer冒充/DDL、TEMP、schema、跨库负例/独立连接、cgroup全部PID/limits/memory.current/peak/events、正常写入witness2/真实SIGKILL恢复count2/事件前后一致/正常停止与进程拒绝、data与guest私密凭据保留，PG_RESUMED_QUALIFICATION_OK。network-resumepg06 success=true/network_restore_errors=[]；verify/receipt.json success=true，旧注册缺席/新身份/准确历史采用/当前候选/原配置/围栏校验通过。旧失败与UNKNOWN完全保留，不冒称旧连续性路线通过。
+
+本聊天用户答“已保存，可以现在重启”，计划内Windows重启准备执行。重启后须原固定PS7 Invoke-StageOneRebuild -Phase PostRestart，核不同boot及相同身份/围栏/旧入口不复活。尚缺该真实核验、完整交付版本复核/准确暂存提交推送/必要CI及阶段末人验；截至当前阶段仍未完成，不改23:30未达标历史。
+
+### 2026-11-09 13:44 阶段一技术现场核验完成
+
+经本人已授权普通重启，真实PostRestart成功，boot从2026-11-08T14:53:59.9877950Z变为2026-11-09T05:38:18.5000000Z。当前r24候选7d3ac6f74f036da39e536c2423df08308554503d86984e8f7ea0413e543acd4e不变；旧注册/磁盘入口缺席，新GUID及VHD对象身份一致，宿主配置和服务围栏核验通过。原件`.tmp/stage1-rebuild-20261108/postrestart/receipt.json`，SHA256 `e989df5751f812866f4353f3679aeaa092eebea10634ea8bfa177b0ec8ddab1c`。
+
+1.1授权退役/新身份及重启持续性、1.2旧入口关闭与历史UNKNOWN保留、1.3签验传输及Pg完整实机资格已有原件。23:30原目标未达成的历史保留。2026-11-09交付范围新13项与旧获取20项本地回归通过，Ruff及离线配置校验通过。精确暂存复用r24运行字节，包含已审shell原有非语义行尾空格。新提交/推送/草稿PR/必要CI及人验仍待；合并/阶段二/研究各自门禁。
+
+<!-- dev-current:start -->
+当前索引 2026-11-09 13:44。仅定位，另核原始授权、Git和实际证据。
+- 本人批准ENV-M1-01阶段1.1–1.3准确退役重建及自动断网恢复，原文`.tmp/stage1-rebuild-20261108/entry/authority.md`。已有阶段连续Git授权见PLANS及原聊天。
+- r8旧Ubuntu准确退役，旧window11失败原样。新ara-m1-stage1来源、GUID与VHD绑定。保留stage1-bootstrap、外部archive、Windows Pg及历史UNKNOWN/费用。
+- r12 Bootstrap03/网络通过，Fetch02 97包/99传输通过。真实部分安装、APT恢复、启动与认证失败原件保留。r24 ResumePg06完整Pg实机资格/Verify/网络恢复通过；同候选PostRestart于2026-11-09 13:44真实通过，旧入口无复活，身份与围栏一致。
+- 阶段Git及CI待闭合，阶段末人验待提交。23:30目标未达历史保留。研究closed、Memory disabled、Browser0；合并/下一阶段各自门禁。
+<!-- dev-current:end -->
