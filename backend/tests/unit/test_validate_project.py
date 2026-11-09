@@ -26,6 +26,27 @@ from scripts.validate_project import (
 from tests.unit.test_legacy_entry_guards import historical_protocol_bytes
 
 
+def test_only_frozen_local_evidence_reference_may_be_missing(tmp_path) -> None:
+    relative = "docs/features/DECISION-001/tasks.md"
+    target = "../../../.tmp/stage-1-current-archive-card-20261106.md"
+    lines = (validator.ROOT / relative).read_text(encoding="utf-8").splitlines()
+    frozen = next(line for line in lines if f"]({target})" in line)
+    record = tmp_path / relative
+    record.parent.mkdir(parents=True)
+
+    record.write_text(frozen + "\n", encoding="utf-8")
+    assert check_links(tmp_path, (relative,)) == []
+    assert check_links(tmp_path, (str(Path(relative)),)) == []
+
+    record.write_text(frozen + " changed\n", encoding="utf-8")
+    assert len(check_links(tmp_path, (relative,))) == 1
+
+    record.write_text(
+        frozen + "\n[evidence](../../../.tmp/another.md)\n", encoding="utf-8"
+    )
+    assert len(check_links(tmp_path, (relative,))) == 1
+
+
 def test_archive_manifest_keeps_history_frozen_but_current_tasks_editable(
     tmp_path,
 ) -> None:
